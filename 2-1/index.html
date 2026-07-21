@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>해수의 운동 — 관측 스테이션</title>
+<link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body>
+
+<div class="app">
+  <nav class="rail" id="rail">
+    <div class="brand">
+      <a class="home" href="../">← 지구시스템과학2</a>
+      <div class="eyebrow" style="margin-top:8px">Ⅱ-1 · 해수의 운동</div>
+      <h1 class="display">해수를 움직이는<br>힘과 파동</h1>
+    </div>
+    <button class="tab-btn active" data-tab="0"><span class="num">01</span> 해수를 움직이는 힘</button>
+    <button class="tab-btn" data-tab="1"><span class="num">02</span> 해파</button>
+    <button class="tab-btn" data-tab="2"><span class="num">03</span> 해일과 조석</button>
+  </nav>
+
+  <main>
+    <section class="tab-panel" data-panel="0">
+      <div class="stage-head">
+        <div class="eyebrow">01 · 지형류를 만드는 힘의 평형</div>
+        <h2 class="display">해수를 움직이는 힘</h2>
+        <p>해수에 작용하는 힘을 하나씩 켜고 꺼 보면서, 압력 경도력과 전향력이 평형을 이룰 때 만들어지는 지형류를 확인해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="canvas-wrap"><canvas id="c0" width="900" height="380"></canvas></div>
+        <div class="controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">작용하는 힘</div>
+            <div class="toggle-row">
+              <button class="chip on" data-f="pgf">압력 경도력</button>
+              <button class="chip on" data-f="cor">전향력</button>
+              <button class="chip" data-f="fric">마찰력</button>
+            </div>
+          </div>
+        </div>
+        <div class="info-card" id="c0-info"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="1" hidden>
+      <div class="stage-head">
+        <div class="eyebrow">02 · 바람이 만드는 물결</div>
+        <h2 class="display">해파의 종류</h2>
+        <p>수심에 따라 심해파와 천해파로 나뉩니다. 수심 슬라이더를 조절해 물 입자의 운동 궤적이 어떻게 달라지는지 확인해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="canvas-wrap"><canvas id="c1" width="900" height="380"></canvas></div>
+        <div class="controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">수심/파장 비율<span class="val" id="c1-r-val">1.0</span></div>
+            <input type="range" id="c1-r" min="0.02" max="1" step="0.02" value="1">
+          </div>
+        </div>
+        <div class="info-card" id="c1-info"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="2" hidden>
+      <div class="stage-head">
+        <div class="eyebrow">03 · 거대한 물결과 주기적인 해수면 변화</div>
+        <h2 class="display">해일과 조석</h2>
+        <p>해일의 종류를 비교하고, 달과 태양의 배치에 따라 사리·조금이 어떻게 나타나는지 확인해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="canvas-wrap"><canvas id="c2" width="900" height="380"></canvas></div>
+        <div class="controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">달의 위상(공전각)<span class="val" id="c2-a-val">0°</span></div>
+            <input type="range" id="c2-a" min="0" max="359" step="1" value="0">
+          </div>
+        </div>
+        <div class="info-card" id="c2-info"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<button class="theme-toggle" id="themeToggle">라이트 모드</button>
+<script src="../assets/theme.js"></script>
+<script>
+(function () {
+"use strict";
+
+/* TAB0 해수를 움직이는 힘 */
+(function () {
+  var canvas = document.getElementById("c0");
+  var ctx = setupCanvas(canvas);
+  var W = canvas._w, H = canvas._h;
+  var forces = { pgf: true, cor: true, fric: false };
+  var info = document.getElementById("c0-info");
+  document.querySelectorAll("[data-f]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var k = b.getAttribute("data-f");
+      forces[k] = !forces[k];
+      b.classList.toggle("on", forces[k]);
+      render();
+    });
+  });
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
+    var cx = W / 2, cy = H / 2;
+    if (forces.pgf) {
+      ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 4;
+      drawArrow(ctx, cx - 120, cy, cx, cy, 10);
+      ctx.font = "700 12px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("압력 경도력(PGF)", cx - 60, cy - 16);
+      ctx.restore();
+    }
+    if (forces.cor) {
+      ctx.save(); ctx.strokeStyle = cssVar("--cold"); ctx.fillStyle = cssVar("--cold"); ctx.lineWidth = 4;
+      drawArrow(ctx, cx, cy + 100, cx, cy, 10);
+      ctx.font = "700 12px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("전향력(Coriolis)", cx + 60, cy + 60);
+      ctx.restore();
+    }
+    if (forces.fric) {
+      ctx.save(); ctx.strokeStyle = cssVar("--violet"); ctx.fillStyle = cssVar("--violet"); ctx.lineWidth = 3;
+      drawArrow(ctx, cx + 30, cy - 90, cx, cy - 40, 8);
+      ctx.font = "11px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("마찰력", cx + 60, cy - 96);
+      ctx.restore();
+    }
+    if (forces.pgf && forces.cor) {
+      ctx.save(); ctx.strokeStyle = cssVar("--teal"); ctx.fillStyle = cssVar("--teal"); ctx.lineWidth = 5;
+      drawArrow(ctx, cx - 20, cy + 130, cx - 20, cy - 130, 12);
+      ctx.font = "700 13px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("지형류", cx - 100, cy - 130);
+      ctx.restore();
+    }
+    if (forces.pgf && forces.cor && !forces.fric) {
+      info.innerHTML = "압력 경도력과 전향력이 <b>평형</b>을 이루어, 등압선(등수압선)과 나란한 방향으로 흐르는 <b>지형류</b>가 형성됩니다.";
+    } else if (forces.fric) {
+      info.innerHTML = "마찰력이 함께 작용하면 힘의 평형이 깨져, 해수는 등압선과 정확히 나란하지 않고 저압 쪽으로 비스듬히 흐르는 <b>에크만 나선</b>에 가까운 운동을 합니다.";
+    } else {
+      info.innerHTML = "압력 경도력과 전향력이 모두 작용해야 안정된 지형류가 만들어집니다. 힘을 더 켜 보세요.";
+    }
+  }
+  render();
+})();
+
+/* TAB1 해파 */
+(function () {
+  var canvas = document.getElementById("c1");
+  var ctx = setupCanvas(canvas);
+  var W = canvas._w, H = canvas._h;
+  var ratio = 1;
+  var info = document.getElementById("c1-info");
+  document.getElementById("c1-r").addEventListener("input", function (e) { ratio = +e.target.value; document.getElementById("c1-r-val").textContent = ratio.toFixed(2); render(); });
+
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
+    var waterTop = 60, waterBot = H - 40;
+    var seaFloorY = waterTop + ratio * (waterBot - waterTop);
+    ctx.fillStyle = cssVar("--panel-2"); ctx.fillRect(0, waterTop, W, waterBot - waterTop);
+    ctx.fillStyle = cssVar("--line"); ctx.fillRect(0, seaFloorY, W, waterBot - seaFloorY);
+
+    var n = 8;
+    for (var i = 0; i < n; i++) {
+      var cx = 100 + i * (W - 200) / (n - 1);
+      var maxDepthFromSurface = seaFloorY - waterTop;
+      var particleY = waterTop + 30;
+      var r0 = Math.min(24, maxDepthFromSurface * 0.35);
+      var isDeep = ratio > 0.5;
+      var rx = r0, ry = isDeep ? r0 : r0 * Math.max(0.15, ratio);
+      ctx.save();
+      ctx.strokeStyle = cssVar("--teal"); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.ellipse(cx, particleY, rx, ry, 0, 0, 7); ctx.stroke();
+      ctx.fillStyle = cssVar("--teal"); ctx.beginPath(); ctx.arc(cx, particleY - ry, 3, 0, 7); ctx.fill();
+      ctx.restore();
+    }
+    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
+    ctx.fillText("해수면", 10, waterTop - 8);
+    ctx.fillText("해저", 10, seaFloorY + 16);
+
+    var isDeepWave = ratio > 0.5;
+    info.innerHTML = isDeepWave
+      ? "수심이 파장의 1/2보다 깊은 <b>심해파</b>입니다. 물 입자는 원 궤도를 그리며, 파동이 해저의 영향을 받지 않습니다."
+      : "수심이 파장의 1/20보다 얕은 <b>천해파</b>에 가깝습니다. 물 입자는 납작한 타원 궤도를 그리며, 해저 마찰의 영향을 받아 파고가 커지고 파속이 느려집니다(해안가에서 파도가 부서지는 이유).";
+  }
+  render();
+})();
+
+/* TAB2 해일과 조석 */
+(function () {
+  var canvas = document.getElementById("c2");
+  var ctx = setupCanvas(canvas);
+  var W = canvas._w, H = canvas._h;
+  var a = 0;
+  var info = document.getElementById("c2-info");
+  document.getElementById("c2-a").addEventListener("input", function (e) { a = +e.target.value; document.getElementById("c2-a-val").textContent = a + "°"; render(); });
+
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
+    var cx = W / 2, cy = H / 2, rEarth = 40, rMoon = 160;
+    ctx.fillStyle = cssVar("--teal"); ctx.beginPath(); ctx.arc(cx, cy, rEarth, 0, 7); ctx.fill();
+    ctx.strokeStyle = cssVar("--line"); ctx.beginPath(); ctx.arc(cx, cy, rMoon, 0, 7); ctx.stroke();
+
+    var rad = a * Math.PI / 180;
+    var mx = cx + rMoon * Math.cos(rad), my = cy + rMoon * Math.sin(rad);
+    ctx.fillStyle = cssVar("--mist"); ctx.beginPath(); ctx.arc(mx, my, 12, 0, 7); ctx.fill();
+    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "center"; ctx.fillText("달", mx, my - 20);
+
+    // sun direction fixed to the right (far away)
+    ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 3;
+    drawArrow(ctx, W - 40, cy, cx + rEarth + 20, cy, 8);
+    ctx.font = "11px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("태양 방향", W - 60, cy - 14);
+    ctx.restore();
+
+    // tidal bulge ellipse aligned with moon-earth axis
+    ctx.save();
+    ctx.translate(cx, cy); ctx.rotate(rad);
+    ctx.strokeStyle = cssVar("--violet"); ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.ellipse(0, 0, rEarth * 1.35, rEarth * 0.85, 0, 0, 7); ctx.stroke();
+    ctx.restore();
+
+    var aNorm = ((a % 180) + 180) % 180;
+    var isSpring = aNorm < 15 || aNorm > 165;
+    var isNeap = Math.abs(aNorm - 90) < 15;
+
+    info.innerHTML = isSpring
+      ? "태양-지구-달이 <b>일직선(삭 또는 망)</b>에 가까워 태양과 달의 기조력이 더해져 밀물과 썰물의 차이가 가장 큰 <b>사리(대조)</b>가 나타납니다."
+      : isNeap
+      ? "태양-지구-달이 <b>직각(상현 또는 하현)</b>에 가까워 태양과 달의 기조력이 서로 상쇄되어 밀물과 썰물의 차이가 가장 작은 <b>조금(소조)</b>이 나타납니다."
+      : "달의 위치에 따라 밀물과 썰물의 차이가 사리와 조금 사이에서 변화하고 있습니다.";
+  }
+  render();
+})();
+
+})();
+</script>
+</body>
+</html>

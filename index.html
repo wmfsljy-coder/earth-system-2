@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지구시스템과학2 — 관측 스테이션</title>
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  body { display: block; }
+  .hero { padding: 64px 30px 30px; max-width: 1080px; margin: 0 auto; }
+  .hero .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); font-weight: 700; }
+  .hero h1 { font-size: clamp(30px, 5vw, 46px); margin: 10px 0 14px; text-wrap: balance; }
+  .hero p { color: var(--mist); font-size: 15.5px; line-height: 1.7; max-width: 640px; margin: 0; }
+  .hero a.back { color: var(--mist); font-size: 12.5px; text-decoration: none; }
+  .hero a.back:hover { color: var(--teal); }
+  .grid { max-width: 1080px; margin: 30px auto 80px; padding: 0 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .unit-card { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; position: relative; overflow: hidden; }
+  .unit-card:hover { border-color: var(--teal-dim); transform: translateY(-2px); }
+  .unit-card .chapter { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); font-weight: 700; margin-bottom: 6px; }
+  .unit-card h3 { font-size: 19px; margin: 0 0 8px; }
+  .unit-card p { color: var(--mist); font-size: 13px; line-height: 1.6; margin: 0 0 14px; min-height: 60px; }
+  .unit-card .topics { display: flex; flex-wrap: wrap; gap: 6px; }
+  .unit-card .topics span { font-size: 10.5px; padding: 3px 8px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line); color: var(--mist); }
+  .unit-card .go { position: absolute; top: 22px; right: 22px; color: var(--mist); font-size: 18px; }
+  .part-label { max-width: 1080px; margin: 0 auto; padding: 30px 30px 0; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--mist); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <a class="back" href="https://wmfsljy-coder.github.io/earth-system/">← 지구시스템과학</a>
+  <div class="eyebrow" style="margin-top:14px">고등학교 지구시스템과학2 · 인터랙티브 학습 도구</div>
+  <h1 class="display">지구시스템과학2<br>관측 스테이션</h1>
+  <p>해수의 운동과, 강수 과정 및 대기의 운동을 직접 조작하며 배웁니다.</p>
+</div>
+
+<div class="part-label">Ⅱ. 유체 지구의 운동</div>
+<div class="grid">
+  <a class="unit-card" href="2-1/">
+    <div class="chapter">Ⅱ-1</div>
+    <h3 class="display">해수를 움직이는 힘과 파동</h3>
+    <p>지형류를 만드는 힘, 해파의 종류, 해일과 조석 현상을 다룹니다.</p>
+    <div class="topics"><span>지형류</span><span>해파</span><span>조석</span></div>
+    <div class="go">→</div>
+  </a>
+  <a class="unit-card" href="2-2/">
+    <div class="chapter">Ⅱ-2</div>
+    <h3 class="display">대기의 안정도와 바람</h3>
+    <p>지구의 열수지, 대기 안정도와 강수 과정, 지균풍·지상풍, 행성파를 다룹니다.</p>
+    <div class="topics"><span>복사 평형</span><span>대기 안정도</span><span>지균풍</span><span>행성파</span></div>
+    <div class="go">→</div>
+  </a>
+</div>
+
+<button class="theme-toggle" id="themeToggle">라이트 모드</button>
+<script src="assets/theme.js"></script>
+</body>
+</html>

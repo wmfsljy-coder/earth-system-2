@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>강수 과정과 대기의 운동 — 관측 스테이션</title>
+<link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body>
+
+<div class="app">
+  <nav class="rail" id="rail">
+    <div class="brand">
+      <a class="home" href="../">← 지구시스템과학2</a>
+      <div class="eyebrow" style="margin-top:8px">Ⅱ-2 · 강수 과정과 대기의 운동</div>
+      <h1 class="display">대기의 안정도와<br>바람</h1>
+    </div>
+    <button class="tab-btn active" data-tab="0"><span class="num">01</span> 지구의 열수지</button>
+    <button class="tab-btn" data-tab="1"><span class="num">02</span> 대기 안정도와 강수</button>
+    <button class="tab-btn" data-tab="2"><span class="num">03</span> 대기를 움직이는 힘</button>
+    <button class="tab-btn" data-tab="3"><span class="num">04</span> 행성파</button>
+  </nav>
+
+  <main>
+    <section class="tab-panel" data-panel="0">
+      <div class="stage-head">
+        <div class="eyebrow">01 · 들어오고 나가는 에너지의 균형</div>
+        <h2 class="display">지구의 열수지</h2>
+        <p>지구가 흡수하는 태양 복사 에너지와 방출하는 지구 복사 에너지가 장기적으로 균형을 이루는 <b>복사 평형</b>을 확인해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="canvas-wrap"><canvas id="c0" width="900" height="380"></canvas></div>
+        <div class="info-card">지구 전체로 보면, 흡수하는 태양 복사 에너지의 양과 방출하는 지구 복사 에너지의 양이 <b>평형(100:100)</b>을 이루어 지구의 평균 기온이 대체로 일정하게 유지됩니다. 하지만 위도별로는 저위도가 에너지 <b>과잉</b>, 고위도가 에너지 <b>부족</b> 상태이며, 이 불균형을 대기와 해양의 순환이 열을 수송하며 해소합니다.</div>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="1" hidden>
+      <div class="stage-head">
+        <div class="eyebrow">02 · 공기 덩어리가 위로 계속 올라갈까?</div>
+        <h2 class="display">대기 안정도와 강수 과정</h2>
+        <p>기온 감률(높이에 따라 기온이 낮아지는 정도) 슬라이더를 조절해, 상승한 공기 덩어리가 계속 상승하는지(불안정) 가라앉는지(안정) 확인해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="canvas-wrap"><canvas id="c1" width="900" height="420"></canvas></div>
+        <div class="controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">주변 대기의 기온 감률(°C/100m)<span class="val" id="c1-lapse-val">0.6</span></div>
+            <input type="range" id="c1-lapse" min="0.2" max="1.2" step="0.05" value="0.6">
+          </div>
+        </div>
+        <div class="info-card" id="c1-info"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="2" hidden>
+      <div class="stage-head">
+        <div class="eyebrow">03 · 상공과 지상에서 바람이 다르게 부는 까닭</div>
+        <h2 class="display">지균풍과 지상풍</h2>
+        <p>마찰력이 있을 때와 없을 때, 바람이 등압선에 대해 어떤 각도로 부는지 비교해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="canvas-wrap"><canvas id="c2" width="900" height="380"></canvas></div>
+        <div class="controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">고도</div>
+            <div class="seg" id="c2-alt">
+              <button class="on" data-a="upper">상공(마찰 없음) — 지균풍</button>
+              <button data-a="surface">지상(마찰 있음) — 지상풍</button>
+            </div>
+          </div>
+        </div>
+        <div class="info-card" id="c2-info"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="3" hidden>
+      <div class="stage-head">
+        <div class="eyebrow">04 · 지구 규모로 일렁이는 편서풍</div>
+        <h2 class="display">행성파(로스비파)</h2>
+        <p>파수 슬라이더를 조절해, 상층 편서풍이 남북으로 크게 굽이치는 행성파(로스비파)의 모습을 관찰해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="canvas-wrap"><canvas id="c3" width="900" height="360"></canvas></div>
+        <div class="controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">파수(지구를 도는 물결의 수)<span class="val" id="c3-k-val">3</span></div>
+            <input type="range" id="c3-k" min="1" max="8" step="1" value="3">
+          </div>
+        </div>
+        <div class="info-card">행성파(로스비파)는 지구 자전에 의한 <b>전향력이 위도에 따라 달라지기 때문(코리올리 인자 변화)</b>에 발생하는 대규모 파동입니다. 상층 일기도에서 편서풍이 남북으로 크게 사행하는 모습으로 나타나며, 파수가 적을수록 사행의 규모가 커집니다.</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<button class="theme-toggle" id="themeToggle">라이트 모드</button>
+<script src="../assets/theme.js"></script>
+<script>
+(function () {
+"use strict";
+
+/* TAB0 지구 열수지 */
+(function () {
+  var canvas = document.getElementById("c0");
+  var ctx = setupCanvas(canvas);
+  var W = canvas._w, H = canvas._h;
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
+    var groundY = H - 80, skyY = 60;
+    ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 3;
+    for (var i = 0; i < 4; i++) {
+      var x = 150 + i * 80;
+      drawArrow(ctx, x, skyY, x, groundY - 10, 8);
+    }
+    ctx.font = "700 12px Segoe UI"; ctx.textAlign = "center";
+    ctx.fillText("태양 복사 에너지 흡수(100)", 310, skyY - 10);
+    ctx.restore();
+
+    ctx.fillStyle = cssVar("--panel-2"); ctx.fillRect(0, groundY, W, H - groundY);
+    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left"; ctx.fillText("지표면", 12, groundY + 20);
+
+    ctx.save(); ctx.strokeStyle = cssVar("--violet"); ctx.fillStyle = cssVar("--violet"); ctx.lineWidth = 3;
+    for (var j = 0; j < 4; j++) {
+      var xx = 600 + j * 80;
+      drawArrow(ctx, xx, groundY - 10, xx, skyY, 8);
+    }
+    ctx.font = "700 12px Segoe UI"; ctx.fillStyle = cssVar("--foam"); ctx.textAlign = "center";
+    ctx.fillText("지구 복사 에너지 방출(100)", 760, skyY - 10);
+    ctx.restore();
+
+    ctx.font = "700 14px Segoe UI"; ctx.fillStyle = cssVar("--teal"); ctx.textAlign = "center";
+    ctx.fillText("흡수(100) = 방출(100) → 복사 평형", W / 2, H - 20);
+  }
+  render();
+})();
+
+/* TAB1 대기안정도 */
+(function () {
+  var canvas = document.getElementById("c1");
+  var ctx = setupCanvas(canvas);
+  var W = canvas._w, H = canvas._h;
+  var lapse = 0.6;
+  var info = document.getElementById("c1-info");
+  document.getElementById("c1-lapse").addEventListener("input", function (e) { lapse = +e.target.value; document.getElementById("c1-lapse-val").textContent = lapse.toFixed(2); render(); });
+
+  var dryAdiabatic = 1.0; // °C per 100m
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
+    var x0 = 400, x1 = 750, y0 = 40, y1 = H - 50;
+    ctx.strokeStyle = cssVar("--line"); ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x0, y1); ctx.lineTo(x1, y1); ctx.stroke();
+    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "center";
+    ctx.fillText("기온 →", (x0 + x1) / 2, y1 + 26);
+    ctx.save(); ctx.translate(24, (y0 + y1) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("높이 ↑", 0, 0); ctx.restore();
+
+    // environment line (surrounding air), starts hot at bottom
+    var baseTemp = 20;
+    ctx.beginPath();
+    ctx.moveTo(x0 + 200, y1);
+    ctx.lineTo(x0 + 200 - lapse * 15 * 10, y0);
+    ctx.strokeStyle = cssVar("--mist"); ctx.lineWidth = 2; ctx.stroke();
+    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
+    ctx.fillText("주변 대기", x0 + 205, y1 - 10);
+
+    // parcel line (dry adiabatic)
+    ctx.beginPath();
+    ctx.moveTo(x0 + 200, y1);
+    ctx.lineTo(x0 + 200 - dryAdiabatic * 15 * 10, y0);
+    ctx.strokeStyle = cssVar("--coral"); ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.fillStyle = cssVar("--coral"); ctx.fillText("상승하는 공기 덩어리", x0 - 60, y0 + 20);
+
+    var unstable = lapse > dryAdiabatic;
+    info.innerHTML = unstable
+      ? "주변 대기의 기온 감률(" + lapse.toFixed(2) + "°C/100m)이 상승 공기 덩어리의 냉각률보다 <b>커서</b>, 상승한 공기가 주변보다 계속 따뜻하고 가벼워 <b>계속 상승</b>합니다 — <b>불안정</b>한 대기. 적운형 구름과 소나기성 강수가 잘 나타납니다."
+      : "주변 대기의 기온 감률이 상승 공기 덩어리의 냉각률보다 <b>작아서</b>, 상승한 공기가 곧 주변보다 차가워져 <b>다시 가라앉습니다</b> — <b>안정</b>한 대기. 층운형 구름이 나타나기 쉽습니다.";
+  }
+  render();
+})();
+
+/* TAB2 지균풍/지상풍 */
+(function () {
+  var canvas = document.getElementById("c2");
+  var ctx = setupCanvas(canvas);
+  var W = canvas._w, H = canvas._h;
+  var alt = "upper";
+  var info = document.getElementById("c2-alt") ? null : null;
+  var infoEl = document.getElementById("c2-info");
+  document.querySelectorAll("#c2-alt button").forEach(function (b) {
+    b.addEventListener("click", function () { alt = b.getAttribute("data-a"); document.querySelectorAll("#c2-alt button").forEach(function (x) { x.classList.toggle("on", x === b); }); render(); });
+  });
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
+    // isobars (horizontal lines)
+    for (var i = 0; i < 5; i++) {
+      var y = 60 + i * 65;
+      ctx.strokeStyle = cssVar("--line"); ctx.beginPath(); ctx.moveTo(80, y); ctx.lineTo(W - 80, y); ctx.stroke();
+    }
+    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
+    ctx.fillText("저기압", 40, 55); ctx.fillText("고기압", 40, 60 + 4 * 65 + 15);
+
+    var cx = W / 2, cy = H / 2;
+    ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 4;
+    drawArrow(ctx, cx, cy + 80, cx, cy - 80, 10);
+    ctx.font = "700 11px Segoe UI"; ctx.textAlign = "left"; ctx.fillText("PGF(저기압 방향)", cx + 10, cy - 60);
+    ctx.restore();
+
+    var windAngle = alt === "upper" ? 0 : 35;
+    var rad = (-90 + windAngle) * Math.PI / 180;
+    ctx.save(); ctx.strokeStyle = cssVar("--teal"); ctx.fillStyle = cssVar("--teal"); ctx.lineWidth = 5;
+    drawArrow(ctx, cx - 140 * Math.cos(rad), cy - 140 * Math.sin(rad), cx + 140 * Math.cos(rad), cy + 140 * Math.sin(rad), 12);
+    ctx.font = "700 13px Segoe UI"; ctx.textAlign = "center";
+    ctx.fillText(alt === "upper" ? "지균풍" : "지상풍", cx + 160 * Math.cos(rad), cy + 160 * Math.sin(rad) - 10);
+    ctx.restore();
+
+    infoEl.innerHTML = alt === "upper"
+      ? "<b>지균풍</b>: 마찰력이 거의 없는 상공에서는 압력 경도력과 전향력이 평형을 이루어, 바람이 등압선과 <b>나란하게</b> 붑니다."
+      : "<b>지상풍</b>: 지표면 마찰력이 추가로 작용하면 힘의 평형이 깨져, 바람이 등압선을 <b>비스듬히 가로질러</b> 저기압 쪽으로 붑니다.";
+  }
+  render();
+})();
+
+/* TAB3 행성파 */
+(function () {
+  var canvas = document.getElementById("c3");
+  var ctx = setupCanvas(canvas);
+  var W = canvas._w, H = canvas._h;
+  var k = 3;
+  document.getElementById("c3-k").addEventListener("input", function (e) { k = +e.target.value; document.getElementById("c3-k-val").textContent = k; render(); });
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
+    var y0 = 60, y1 = H - 60, midY = (y0 + y1) / 2;
+    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
+    ctx.fillText("북극", 20, y0 + 10); ctx.fillText("적도", 20, y1);
+
+    ctx.beginPath();
+    for (var px = 0; px <= 400; px++) {
+      var x = 80 + px / 400 * (W - 160);
+      var y = midY + Math.sin(px / 400 * Math.PI * 2 * k) * (y1 - y0) * 0.28;
+      if (px === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = cssVar("--teal"); ctx.lineWidth = 3; ctx.stroke();
+    ctx.font = "700 12px Segoe UI"; ctx.fillStyle = cssVar("--foam"); ctx.textAlign = "center";
+    ctx.fillText("상층 편서풍(제트류)의 흐름", W / 2, y0 - 20);
+  }
+  render();
+})();
+
+})();
+</script>
+</body>
+</html>
