@@ -19,6 +19,7 @@
     <button class="tab-btn" data-tab="1"><span class="num">02</span> 대기 안정도와 강수</button>
     <button class="tab-btn" data-tab="2"><span class="num">03</span> 대기를 움직이는 힘</button>
     <button class="tab-btn" data-tab="3"><span class="num">04</span> 행성파</button>
+    <button class="tab-btn" data-tab="4"><span class="num">05</span> 지구 대기의 역할</button>
   </nav>
 
   <main>
@@ -88,6 +89,28 @@
           </div>
         </div>
         <div class="info-card">행성파(로스비파)는 지구 자전에 의한 <b>전향력이 위도에 따라 달라지기 때문(코리올리 인자 변화)</b>에 발생하는 대규모 파동입니다. 상층 일기도에서 편서풍이 남북으로 크게 사행하는 모습으로 나타나며, 파수가 적을수록 사행의 규모가 커집니다.</div>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="4" hidden>
+      <div class="stage-head">
+        <div class="eyebrow">05 · 대기가 없다면 지구는 어떤 모습일까?</div>
+        <h2 class="display">지구 대기의 역할</h2>
+        <p>고도 슬라이더를 움직여 대기층을 살펴보고, 아래 카드를 눌러 대기가 생명체에게 어떤 역할을 하는지 확인해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="canvas-wrap"><canvas id="c4" width="900" height="420"></canvas></div>
+        <div class="controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">고도(km)<span class="val" id="c4-alt-val">0</span></div>
+            <input type="range" id="c4-alt" min="0" max="100" step="1" value="0">
+          </div>
+        </div>
+        <div class="info-card" id="c4-info"></div>
+      </div>
+      <div class="stage-card" style="margin-top:14px;">
+        <div class="card-grid" id="c4-grid" style="padding:18px 20px 4px;"></div>
+        <div class="detail-panel" id="c4-detail"><span class="hint">위에서 대기의 역할 카드를 하나 선택해 보세요.</span></div>
       </div>
     </section>
   </main>
@@ -246,6 +269,103 @@
     ctx.fillText("상층 편서풍(제트류)의 흐름", W / 2, y0 - 20);
   }
   render();
+})();
+
+
+/* TAB4 지구 대기의 역할 */
+(function () {
+  var canvas = document.getElementById("c4");
+  var ctx = setupCanvas(canvas);
+  var W = canvas._w, H = canvas._h;
+  var slider = document.getElementById("c4-alt");
+  var val = document.getElementById("c4-alt-val");
+  var info = document.getElementById("c4-info");
+
+  var layers = [
+    { max: 11, name: "대류권 (0~11km)", desc: "대기 질량의 약 80%가 모여 있으며, 구름·비·바람 등 거의 모든 기상 현상이 일어납니다. 온실 기체가 지구 복사 에너지를 가두어 지표 기온을 완만하게 유지시킵니다.", col: "--coral" },
+    { max: 50, name: "성층권 (11~50km)", desc: "고도 20~30km 부근에 오존층이 있어, 태양의 자외선을 흡수해 지표 생명체를 자외선으로부터 보호합니다. 오존이 자외선을 흡수하며 위로 갈수록 기온이 높아집니다.", col: "--teal" },
+    { max: 80, name: "중간권 (50~80km)", desc: "대기 중 기온이 가장 낮은 층입니다. 유성체(우주 먼지·소행성 파편)가 대기와의 마찰로 타서 없어지는 층으로, 지표를 유성체 충돌로부터 보호합니다.", col: "--cold" },
+    { max: 120, name: "열권 (80km~)", desc: "공기가 매우 희박하지만 태양 복사를 직접 흡수해 기온이 매우 높습니다. 오로라가 나타나고, 국제 우주 정거장이 위치한 층입니다.", col: "--violet" }
+  ];
+
+  function layerAt(alt) {
+    for (var i = 0; i < layers.length; i++) if (alt <= layers[i].max) return layers[i];
+    return layers[layers.length - 1];
+  }
+
+  function render() {
+    var alt = +slider.value;
+    val.textContent = alt;
+    var L = layerAt(alt);
+    info.innerHTML = "<b>" + L.name + "</b> — " + L.desc;
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
+
+    var x0 = 260, x1 = 640, y0 = 30, y1 = H - 40;
+    var maxAlt = 120;
+    function yOf(a) { return y1 - (a / maxAlt) * (y1 - y0); }
+
+    var bounds = [0, 11, 50, 80, 120];
+    for (var i = 0; i < layers.length; i++) {
+      var yTop = yOf(bounds[i + 1]), yBot = yOf(bounds[i]);
+      ctx.fillStyle = cssVar(layers[i].col);
+      ctx.globalAlpha = 0.16;
+      ctx.fillRect(x0, yTop, x1 - x0, yBot - yTop);
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = cssVar("--line");
+      ctx.beginPath(); ctx.moveTo(x0, yTop); ctx.lineTo(x1, yTop); ctx.stroke();
+      ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
+      ctx.fillText(layers[i].name.split(" ")[0], x1 + 12, (yTop + yBot) / 2 + 4);
+    }
+    // ozone highlight band inside stratosphere
+    var ozTop = yOf(30), ozBot = yOf(20);
+    ctx.fillStyle = cssVar("--teal"); ctx.globalAlpha = 0.35;
+    ctx.fillRect(x0, ozTop, x1 - x0, ozBot - ozTop);
+    ctx.globalAlpha = 1;
+    ctx.font = "10px Segoe UI"; ctx.fillStyle = cssVar("--foam"); ctx.textAlign = "left";
+    ctx.fillText("오존층", x0 + 8, (ozTop + ozBot) / 2 + 3);
+
+    // ground
+    ctx.fillStyle = cssVar("--panel-2");
+    ctx.fillRect(x0, yOf(0), x1 - x0, 6);
+    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
+    ctx.fillText("지표면", x0, yOf(0) + 20);
+
+    // altitude marker
+    var my = yOf(Math.min(alt, maxAlt));
+    ctx.strokeStyle = cssVar("--foam"); ctx.lineWidth = 2;
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(x0 - 30, my); ctx.lineTo(x1 + 4, my); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.arc(x0 - 30, my, 5, 0, Math.PI * 2); ctx.fillStyle = cssVar("--foam"); ctx.fill();
+    ctx.font = "700 11px Segoe UI"; ctx.textAlign = "right"; ctx.fillText(alt + "km", x0 - 38, my + 4);
+  }
+  slider.addEventListener("input", render);
+  render();
+})();
+
+/* TAB4 카드: 대기의 역할 */
+(function () {
+  var items = [
+    { ico: "🌡️", name: "온실 효과로 기온 유지", desc: "대기 중 수증기·이산화 탄소 등 온실 기체가 지구 복사 에너지의 일부를 흡수했다가 지표로 재방출해, 대기가 없을 때보다 지표 평균 기온을 약 33°C 더 높게 유지시킵니다. 대기가 없다면 달처럼 낮과 밤의 기온 차가 200°C 이상 벌어졌을 것입니다." },
+    { ico: "🛡️", name: "오존층의 자외선 차단", desc: "성층권의 오존층이 태양의 자외선(특히 UV-B, UV-C)을 흡수해 지표에 도달하는 양을 크게 줄입니다. 오존층이 없다면 지표의 생명체는 강한 자외선에 그대로 노출되어 생존이 어려웠을 것입니다." },
+    { ico: "☄️", name: "유성체로부터 보호", desc: "우주에서 날아오는 작은 유성체(운석 파편)는 대기와의 마찰열로 대부분 중간권에서 타서 사라집니다(유성). 대기가 없다면 달 표면처럼 작은 천체의 충돌이 그대로 지표에 흔적을 남겼을 것입니다." },
+    { ico: "🌬️", name: "기상 현상과 물질 순환의 장", desc: "대류권에서 일어나는 대기의 운동은 구름·비·바람 등 기상 현상을 만들고, 물의 순환과 열의 재분배(저위도→고위도)를 담당해 지구 전체의 에너지 균형을 유지합니다." }
+  ];
+  var grid = document.getElementById("c4-grid");
+  var detail = document.getElementById("c4-detail");
+  items.forEach(function (it) {
+    var btn = document.createElement("button");
+    btn.className = "pick-card";
+    btn.innerHTML = '<span class="ico">' + it.ico + '</span><div class="t">' + it.name + '</div>';
+    btn.addEventListener("click", function () {
+      grid.querySelectorAll(".pick-card").forEach(function (c) { c.classList.remove("on"); });
+      btn.classList.add("on");
+      detail.innerHTML = "<h4>" + it.ico + " " + it.name + "</h4>" + it.desc;
+    });
+    grid.appendChild(btn);
+  });
 })();
 
 })();
