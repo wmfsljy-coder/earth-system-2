@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>강수 과정과 대기의 운동 — 관측 스테이션</title>
 <link rel="stylesheet" href="../assets/theme.css">
+<style>
+  .data-mini-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 4px 0 0; }
+  .data-mini-table th, .data-mini-table td { border: 1px solid var(--line); padding: 6px 8px; text-align: center; }
+  .data-mini-table th { background: var(--panel-2); color: var(--mist); font-weight: 600; }
+</style>
 </head>
 <body>
 
@@ -63,6 +68,21 @@
         <div class="info-card" id="c1-info"></div>
       </div>
       <p class="foot-note">그래프는 개념 이해를 돕기 위해 단순화했습니다. 실제 위도별 에너지 과잉·부족의 경계는 약 위도 38° 부근입니다.</p>
+
+      <div class="stage-head" style="margin-top:30px;">
+        <div class="eyebrow">🔎 미션 · 복사 평형 온도 계산하기</div>
+        <h2 class="display" style="font-size:20px;">대기가 없다면 이 행성의 온도는 몇 °C일까요?</h2>
+        <p>태양 상수와 반사율(알베도) 자료가 주어집니다. 복사 평형 온도 T = [S(1-A) / 4σ]<sup>1/4</sup> (σ = 5.67×10⁻⁸ W/m²K⁴)를 이용해 계산한 값과 가장 가까운 보기를 선택해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="info-card" id="c1m-data" style="margin:18px 20px 0;"></div>
+        <div class="seg" id="c1m-choices" style="margin:14px 20px 0;"></div>
+        <div class="toggle-row" style="margin:14px 20px 0;">
+          <button class="chip" id="c1m-check">정답 확인</button>
+          <button class="chip" id="c1m-new">새 행성 자료</button>
+        </div>
+        <div class="info-card" id="c1m-info">보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.</div>
+      </div>
     </section>
 
     <section class="tab-panel" data-panel="2" hidden>
@@ -80,6 +100,25 @@
           </div>
         </div>
         <div class="info-card" id="c2-info"></div>
+      </div>
+
+      <div class="stage-head" style="margin-top:30px;">
+        <div class="eyebrow">🔎 미션 · 단열선도로 대기 안정도 해석하기</div>
+        <h2 class="display" style="font-size:20px;">이 대기는 안정할까요, 불안정할까요?</h2>
+        <p>주변 대기의 기온 감률 자료가 주어집니다. 건조 단열 감률(1.0°C/100m)과 습윤 단열 감률(약 0.5°C/100m)을 기준으로 이 대기가 절대 안정·조건부 불안정·절대 불안정 중 어디에 해당하는지 판단해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="info-card" id="c2m-data" style="margin:18px 20px 0;"></div>
+        <div class="seg" id="c2m-choices" style="margin:14px 20px 0;">
+          <button data-c="stable">절대 안정</button>
+          <button data-c="conditional">조건부 불안정</button>
+          <button data-c="unstable">절대 불안정</button>
+        </div>
+        <div class="toggle-row" style="margin:14px 20px 0;">
+          <button class="chip" id="c2m-check">정답 확인</button>
+          <button class="chip" id="c2m-new">새 관측 자료</button>
+        </div>
+        <div class="info-card" id="c2m-info">보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.</div>
       </div>
     </section>
 
@@ -102,6 +141,24 @@
           </div>
         </div>
         <div class="info-card" id="c3-info"></div>
+      </div>
+
+      <div class="stage-head" style="margin-top:30px;">
+        <div class="eyebrow">🔎 미션 · 회전원판 전향 효과 실험</div>
+        <h2 class="display" style="font-size:20px;">이 조건에서 공은 어느 쪽으로 휘어질까요?</h2>
+        <p>회전하는 원판 위에서 공을 굴리면 원판 밖에서 볼 때는 직선으로 가지만, 원판 위(회전하는 좌표계)에서 보면 경로가 휘어 보입니다. 반구와 회전 방향 조건을 보고 공이 휘는 방향을 선택해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="info-card" id="c3m-data" style="margin:18px 20px 0;"></div>
+        <div class="seg" id="c3m-choices" style="margin:14px 20px 0;">
+          <button data-c="right">진행 방향의 오른쪽으로 휘어짐</button>
+          <button data-c="left">진행 방향의 왼쪽으로 휘어짐</button>
+        </div>
+        <div class="toggle-row" style="margin:14px 20px 0;">
+          <button class="chip" id="c3m-check">정답 확인</button>
+          <button class="chip" id="c3m-new">새 조건</button>
+        </div>
+        <div class="info-card" id="c3m-info">보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.</div>
       </div>
     </section>
 
@@ -141,6 +198,25 @@
           </div>
         </div>
         <div class="info-card">행성파(로스비파)는 지구 자전에 의한 <b>전향력이 위도에 따라 달라지기 때문(코리올리 인자 변화)</b>에 발생하는 대규모 파동입니다. 상층 일기도에서 편서풍이 남북으로 크게 사행하는 모습으로 나타나며, 파수가 적을수록 사행의 규모가 커집니다.</div>
+      </div>
+
+      <div class="stage-head" style="margin-top:30px;">
+        <div class="eyebrow">🔎 미션 · 상층 일기도 판독하기</div>
+        <h2 class="display" style="font-size:20px;">이 상층 일기도의 파수는 얼마쯤일까요?</h2>
+        <p>상층 일기도에서 관측된 편서풍의 사행(남북으로 굽이치는 정도) 상태가 주어집니다. 파수가 적을수록 사행의 규모가 크다는 원리를 이용해, 예상되는 파수 범위를 선택해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="info-card" id="c5m-data" style="margin:18px 20px 0;"></div>
+        <div class="seg" id="c5m-choices" style="margin:14px 20px 0;">
+          <button data-c="low">파수 1~2 (사행 매우 큼)</button>
+          <button data-c="mid">파수 3~5 (사행 보통)</button>
+          <button data-c="high">파수 6~8 (사행 작음)</button>
+        </div>
+        <div class="toggle-row" style="margin:14px 20px 0;">
+          <button class="chip" id="c5m-check">정답 확인</button>
+          <button class="chip" id="c5m-new">새 일기도</button>
+        </div>
+        <div class="info-card" id="c5m-info">보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.</div>
       </div>
     </section>
   </main>
@@ -308,6 +384,82 @@
   render();
 })();
 
+/* TAB1 미션 — 복사 평형 온도 계산하기 */
+(function () {
+  var dataEl = document.getElementById("c1m-data");
+  var choicesEl = document.getElementById("c1m-choices");
+  var checkBtn = document.getElementById("c1m-check");
+  var newBtn = document.getElementById("c1m-new");
+  if (!dataEl) return;
+
+  var SIGMA = 5.67e-8;
+  var S = 1361, A = 0.3, trueC = 15;
+
+  function computeC(s, a) {
+    var te = Math.pow(s * (1 - a) / (4 * SIGMA), 0.25);
+    return te - 273.15;
+  }
+
+  var picked = null, choices = [];
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function newQuestion() {
+    S = 800 + Math.round(Math.random() * 14) * 50;
+    A = Math.round((0.1 + Math.random() * 0.5) * 20) / 20;
+    trueC = Math.round(computeC(S, A));
+    dataEl.innerHTML = "태양 상수 S = <b>" + S + " W/m²</b>, 반사율(알베도) A = <b>" + A.toFixed(2) + "</b>";
+    var decoys = [];
+    while (decoys.length < 3) {
+      var d = trueC + Math.round((Math.random() - 0.5) * 60);
+      if (Math.abs(d - trueC) > 6 && decoys.indexOf(d) === -1) decoys.push(d);
+    }
+    choices = shuffle([trueC].concat(decoys));
+    picked = null;
+    renderChoices();
+    var info = document.getElementById("c1m-info");
+    info.style.color = "";
+    info.textContent = "보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.";
+  }
+
+  function renderChoices() {
+    choicesEl.innerHTML = "";
+    choices.forEach(function (c) {
+      var btn = document.createElement("button");
+      btn.className = picked === c ? "on" : "";
+      btn.textContent = c + " °C";
+      btn.addEventListener("click", function () { picked = c; renderChoices(); });
+      choicesEl.appendChild(btn);
+    });
+  }
+
+  checkBtn.addEventListener("click", function () {
+    var info = document.getElementById("c1m-info");
+    if (picked === null) {
+      info.style.color = "";
+      info.textContent = "먼저 보기 중 하나를 선택하세요.";
+      return;
+    }
+    if (picked === trueC) {
+      info.style.color = "var(--teal)";
+      info.innerHTML = "<b>정답입니다!</b> T = [S(1-A)/4σ]^(1/4) 식에 대입하면 약 " + trueC + " °C가 됩니다.";
+    } else {
+      info.style.color = "var(--coral)";
+      info.innerHTML = "다시 생각해 보세요. 정답은 <b>" + trueC + " °C</b>입니다. 반사율이 클수록, 태양 상수가 작을수록 온도가 낮아집니다.";
+    }
+  });
+
+  newBtn.addEventListener("click", newQuestion);
+  newQuestion();
+})();
+
 /* TAB2 대기안정도 */
 (function () {
   var canvas = document.getElementById("c2");
@@ -346,6 +498,65 @@
       : "주변 대기의 기온 감률이 상승 공기 덩어리의 냉각률보다 <b>작아서</b>, 상승한 공기가 곧 주변보다 차가워져 <b>다시 가라앉습니다</b> — <b>안정</b>한 대기. 층운형 구름이 나타나기 쉽습니다.";
   }
   render();
+})();
+
+/* TAB2 미션 — 단열선도로 대기 안정도 해석하기 */
+(function () {
+  var dataEl = document.getElementById("c2m-data");
+  var choicesEl = document.getElementById("c2m-choices");
+  var checkBtn = document.getElementById("c2m-check");
+  var newBtn = document.getElementById("c2m-new");
+  if (!dataEl) return;
+
+  var DRY = 1.0, MOIST = 0.5;
+  var trueKey = "conditional", gamma = 0.6;
+  var picked = null;
+  var seg = choicesEl.querySelectorAll("button");
+
+  seg.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      picked = btn.dataset.c;
+      seg.forEach(function (b) { b.classList.toggle("on", b === btn); });
+    });
+  });
+
+  function classify(g) {
+    if (g > DRY) return "unstable";
+    if (g < MOIST) return "stable";
+    return "conditional";
+  }
+
+  var labels = { stable: "절대 안정", conditional: "조건부 불안정", unstable: "절대 불안정" };
+
+  function newQuestion() {
+    gamma = Math.round((0.2 + Math.random() * 1.0) * 20) / 20;
+    trueKey = classify(gamma);
+    dataEl.innerHTML = "관측된 주변 대기의 기온 감률은 <b>" + gamma.toFixed(2) + " °C/100 m</b>입니다. (건조 단열 감률 1.0, 습윤 단열 감률 0.5 °C/100 m 기준)";
+    picked = null;
+    seg.forEach(function (b) { b.classList.remove("on"); });
+    var info = document.getElementById("c2m-info");
+    info.style.color = "";
+    info.textContent = "보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.";
+  }
+
+  checkBtn.addEventListener("click", function () {
+    var info = document.getElementById("c2m-info");
+    if (picked === null) {
+      info.style.color = "";
+      info.textContent = "먼저 보기 중 하나를 선택하세요.";
+      return;
+    }
+    if (picked === trueKey) {
+      info.style.color = "var(--teal)";
+      info.innerHTML = "<b>정답입니다!</b> 기온 감률 " + gamma.toFixed(2) + " °C/100 m는 <b>" + labels[trueKey] + "</b>에 해당합니다.";
+    } else {
+      info.style.color = "var(--coral)";
+      info.innerHTML = "다시 생각해 보세요. 정답은 <b>" + labels[trueKey] + "</b>입니다. 감률이 1.0보다 크면 절대 불안정, 0.5보다 작으면 절대 안정, 그 사이면 조건부 불안정입니다.";
+    }
+  });
+
+  newBtn.addEventListener("click", newQuestion);
+  newQuestion();
 })();
 
 /* TAB3 대기를 움직이는 힘 */
@@ -400,6 +611,62 @@
       : "바람은 <b>기압 경도력</b>과 <b>전향력</b>이 함께 작용해 두 힘의 합력 방향으로 붑니다. 상공에서는 두 힘이 평형을 이루어 등압선과 나란한 지균풍이 붑니다.";
   }
   render();
+})();
+
+/* TAB3 미션 — 회전원판 전향 효과 실험 */
+(function () {
+  var dataEl = document.getElementById("c3m-data");
+  var choicesEl = document.getElementById("c3m-choices");
+  var checkBtn = document.getElementById("c3m-check");
+  var newBtn = document.getElementById("c3m-new");
+  if (!dataEl) return;
+
+  var trueKey = "right";
+  var picked = null;
+  var seg = choicesEl.querySelectorAll("button");
+
+  seg.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      picked = btn.dataset.c;
+      seg.forEach(function (b) { b.classList.toggle("on", b === btn); });
+    });
+  });
+
+  var scenarios = [
+    { hemi: "북반구", spin: "시계 반대 방향(위에서 볼 때)", key: "right" },
+    { hemi: "남반구", spin: "시계 방향(위에서 볼 때)", key: "left" }
+  ];
+  var current = scenarios[0];
+
+  function newQuestion() {
+    current = scenarios[Math.floor(Math.random() * scenarios.length)];
+    dataEl.innerHTML = "<b>" + current.hemi + "</b>를 나타낸 회전원판(자전 방향: " + current.spin + ") 중심에서 가장자리를 향해 공을 굴렸습니다.";
+    picked = null;
+    seg.forEach(function (b) { b.classList.remove("on"); });
+    var info = document.getElementById("c3m-info");
+    info.style.color = "";
+    info.textContent = "보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.";
+  }
+
+  checkBtn.addEventListener("click", function () {
+    var info = document.getElementById("c3m-info");
+    if (picked === null) {
+      info.style.color = "";
+      info.textContent = "먼저 보기 중 하나를 선택하세요.";
+      return;
+    }
+    var labels = { right: "진행 방향의 오른쪽", left: "진행 방향의 왼쪽" };
+    if (picked === current.key) {
+      info.style.color = "var(--teal)";
+      info.innerHTML = "<b>정답입니다!</b> " + current.hemi + "에서는 전향력에 의해 물체의 경로가 " + labels[current.key] + "으로 휘어 보입니다.";
+    } else {
+      info.style.color = "var(--coral)";
+      info.innerHTML = "다시 생각해 보세요. 정답은 <b>" + labels[current.key] + "</b>입니다. 북반구는 오른쪽, 남반구는 왼쪽으로 전향력이 작용합니다.";
+    }
+  });
+
+  newBtn.addEventListener("click", newQuestion);
+  newQuestion();
 })();
 
 /* TAB4 지균풍/지상풍 */
@@ -468,6 +735,63 @@
     ctx.fillText("상층 편서풍(제트류)의 흐름", W / 2, y0 - 20);
   }
   render();
+})();
+
+/* TAB5 미션 — 상층 일기도 판독하기 */
+(function () {
+  var dataEl = document.getElementById("c5m-data");
+  var choicesEl = document.getElementById("c5m-choices");
+  var checkBtn = document.getElementById("c5m-check");
+  var newBtn = document.getElementById("c5m-new");
+  if (!dataEl) return;
+
+  var descs = {
+    low: "편서풍이 남북으로 매우 크게 사행하며, 골(트로프)과 마루(리지)의 남북 진폭이 위도 20° 이상에 이릅니다.",
+    mid: "편서풍이 남북으로 어느 정도 사행하지만, 진폭이 크지 않고 물결의 개수가 여러 개 관측됩니다.",
+    high: "편서풍이 거의 위도선을 따라 동서로 곧게 불며, 남북 사행이 뚜렷하지 않고 물결의 개수가 많습니다."
+  };
+  var trueKey = "mid";
+  var picked = null;
+  var seg = choicesEl.querySelectorAll("button");
+
+  seg.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      picked = btn.dataset.c;
+      seg.forEach(function (b) { b.classList.toggle("on", b === btn); });
+    });
+  });
+
+  var keys = ["low", "mid", "high"];
+  var labels = { low: "파수 1~2 (사행 매우 큼)", mid: "파수 3~5 (사행 보통)", high: "파수 6~8 (사행 작음)" };
+
+  function newQuestion() {
+    trueKey = keys[Math.floor(Math.random() * keys.length)];
+    dataEl.innerHTML = descs[trueKey];
+    picked = null;
+    seg.forEach(function (b) { b.classList.remove("on"); });
+    var info = document.getElementById("c5m-info");
+    info.style.color = "";
+    info.textContent = "보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.";
+  }
+
+  checkBtn.addEventListener("click", function () {
+    var info = document.getElementById("c5m-info");
+    if (picked === null) {
+      info.style.color = "";
+      info.textContent = "먼저 보기 중 하나를 선택하세요.";
+      return;
+    }
+    if (picked === trueKey) {
+      info.style.color = "var(--teal)";
+      info.innerHTML = "<b>정답입니다!</b> " + labels[trueKey] + "에 해당합니다. 파수가 적을수록 사행의 규모(진폭)가 커집니다.";
+    } else {
+      info.style.color = "var(--coral)";
+      info.innerHTML = "다시 생각해 보세요. 정답은 <b>" + labels[trueKey] + "</b>입니다.";
+    }
+  });
+
+  newBtn.addEventListener("click", newQuestion);
+  newQuestion();
 })();
 
 })();

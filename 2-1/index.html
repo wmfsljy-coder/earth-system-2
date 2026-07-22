@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>해수의 운동 — 관측 스테이션</title>
 <link rel="stylesheet" href="../assets/theme.css">
+<style>
+  .data-mini-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 4px 0 0; }
+  .data-mini-table th, .data-mini-table td { border: 1px solid var(--line); padding: 6px 8px; text-align: center; }
+  .data-mini-table th { background: var(--panel-2); color: var(--mist); font-weight: 600; }
+</style>
 </head>
 <body>
 
@@ -133,6 +138,21 @@
         <div class="info-card" id="c4-info"></div>
       </div>
       <p class="foot-note">그림 Ⅱ-11: 심해파는 물 입자가 원 궤도를, 천해파는 해저 마찰의 영향으로 납작한 타원 궤도를 그립니다.</p>
+
+      <div class="stage-head" style="margin-top:30px;">
+        <div class="eyebrow">🔎 미션 · 바람이 만드는 파도 예측하기</div>
+        <h2 class="display" style="font-size:20px;">이 바람 조건에서 파고는 얼마나 될까요?</h2>
+        <p>해파는 바람이 강할수록, 바람이 부는 거리(취주 거리)가 길수록 커집니다. 주어진 풍속·취주 거리 자료를 보고 예상되는 파고 범위를 선택해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div class="info-card" id="c4m-data" style="margin:18px 20px 0;"></div>
+        <div class="seg" id="c4m-choices" style="margin:14px 20px 0;"></div>
+        <div class="toggle-row" style="margin:14px 20px 0;">
+          <button class="chip" id="c4m-check">정답 확인</button>
+          <button class="chip" id="c4m-new">새 기상 자료</button>
+        </div>
+        <div class="info-card" id="c4m-info">보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.</div>
+      </div>
     </section>
 
     <!-- 06 해일 -->
@@ -176,6 +196,25 @@
         <div class="info-card" id="c6-info"></div>
       </div>
       <p class="foot-note">그림 Ⅱ-28: 태양·지구·달이 일직선(삭·망)일 때 사리, 직각(상현·하현)일 때 조금이 나타납니다.</p>
+
+      <div class="stage-head" style="margin-top:30px;">
+        <div class="eyebrow">🔎 미션 · 실시간 조위 자료로 패턴 추론하기</div>
+        <h2 class="display" style="font-size:20px;">이 관측소는 사리일까요, 조금일까요?</h2>
+        <p>어느 관측소에서 하루 동안 측정한 조위 자료입니다. 최고·최저 조위와 조차(밀물-썰물 높이 차)를 보고 사리(대조)·조금(소조)·중간 중 어느 시기인지 판단해 보세요.</p>
+      </div>
+      <div class="stage-card">
+        <div id="c6m-data" style="margin:18px 20px 0;"></div>
+        <div class="seg" id="c6m-choices" style="margin:14px 20px 0;">
+          <button data-c="spring">사리(대조)</button>
+          <button data-c="mid">중간</button>
+          <button data-c="neap">조금(소조)</button>
+        </div>
+        <div class="toggle-row" style="margin:14px 20px 0;">
+          <button class="chip" id="c6m-check">정답 확인</button>
+          <button class="chip" id="c6m-new">새 관측 자료</button>
+        </div>
+        <div class="info-card" id="c6m-info">보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.</div>
+      </div>
     </section>
   </main>
 </div>
@@ -447,6 +486,76 @@
   render();
 })();
 
+/* TAB4 미션 — 바람이 만드는 파도 예측하기 */
+(function () {
+  var dataEl = document.getElementById("c4m-data");
+  var choicesEl = document.getElementById("c4m-choices");
+  var checkBtn = document.getElementById("c4m-check");
+  var newBtn = document.getElementById("c4m-new");
+  if (!dataEl) return;
+
+  var categories = [
+    { key: "calm", label: "잔잔함 (<0.5 m)", max: 0.5 },
+    { key: "normal", label: "보통 파도 (0.5~1.5 m)", max: 1.5 },
+    { key: "rough", label: "거친 파도 (1.5~3 m)", max: 3.0 },
+    { key: "storm", label: "매우 거친 파도 (>3 m)", max: Infinity }
+  ];
+
+  var wind = 5, fetch = 50, trueKey = "calm";
+  var picked = null;
+
+  function classify(w, f) {
+    var score = w * 0.16 + Math.sqrt(f) * 0.09;
+    for (var i = 0; i < categories.length; i++) {
+      if (score < categories[i].max) return categories[i].key;
+    }
+    return categories[categories.length - 1].key;
+  }
+
+  function newQuestion() {
+    wind = 2 + Math.round(Math.random() * 24);
+    fetch = 10 + Math.round(Math.random() * 990);
+    trueKey = classify(wind, fetch);
+    dataEl.innerHTML = "관측된 풍속은 <b>" + wind + " m/s</b>, 취주 거리(바람이 부는 거리)는 <b>" + fetch.toLocaleString() + " km</b>입니다.";
+    picked = null;
+    renderChoices();
+    var info = document.getElementById("c4m-info");
+    info.style.color = "";
+    info.textContent = "보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.";
+  }
+
+  function renderChoices() {
+    choicesEl.innerHTML = "";
+    categories.forEach(function (c) {
+      var btn = document.createElement("button");
+      btn.className = picked === c.key ? "on" : "";
+      btn.textContent = c.label;
+      btn.addEventListener("click", function () { picked = c.key; renderChoices(); });
+      choicesEl.appendChild(btn);
+    });
+  }
+
+  checkBtn.addEventListener("click", function () {
+    var info = document.getElementById("c4m-info");
+    if (picked === null) {
+      info.style.color = "";
+      info.textContent = "먼저 보기 중 하나를 선택하세요.";
+      return;
+    }
+    var trueLabel = categories.filter(function (c) { return c.key === trueKey; })[0].label;
+    if (picked === trueKey) {
+      info.style.color = "var(--teal)";
+      info.innerHTML = "<b>정답입니다!</b> 풍속 " + wind + " m/s, 취주 거리 " + fetch.toLocaleString() + " km 조건에서는 <b>" + trueLabel + "</b> 정도가 예상됩니다. 풍속이 강하고 취주 거리가 길수록 파랑 에너지가 커져 파고가 높아집니다.";
+    } else {
+      info.style.color = "var(--coral)";
+      info.innerHTML = "다시 생각해 보세요. 정답은 <b>" + trueLabel + "</b>입니다. 풍속과 취주 거리가 모두 클수록 더 높은 파도가 만들어집니다.";
+    }
+  });
+
+  newBtn.addEventListener("click", newQuestion);
+  newQuestion();
+})();
+
 /* TAB5 해일 */
 (function () {
   var canvas = document.getElementById("c5");
@@ -553,6 +662,65 @@
       : "달의 위치에 따라 밀물과 썰물의 차이가 사리와 조금 사이에서 변화하고 있습니다.";
   }
   render();
+})();
+
+/* TAB6 미션 — 실시간 조위 자료로 패턴 추론하기 */
+(function () {
+  var dataEl = document.getElementById("c6m-data");
+  var choicesEl = document.getElementById("c6m-choices");
+  var checkBtn = document.getElementById("c6m-check");
+  var newBtn = document.getElementById("c6m-new");
+  if (!dataEl) return;
+
+  var trueKey = "mid";
+  var picked = null;
+  var seg = choicesEl.querySelectorAll("button");
+
+  seg.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      picked = btn.dataset.c;
+      seg.forEach(function (b) { b.classList.toggle("on", b === btn); });
+    });
+  });
+
+  function newQuestion() {
+    var a = Math.floor(Math.random() * 360);
+    var rad = a * Math.PI / 180;
+    var aNorm = ((a % 180) + 180) % 180;
+    trueKey = (aNorm < 15 || aNorm > 165) ? "spring" : (Math.abs(aNorm - 90) < 15) ? "neap" : "mid";
+    var range = 1.2 + 2.3 * Math.abs(Math.cos(rad));
+    var mean = 2.5;
+    var high = (mean + range / 2).toFixed(2);
+    var low = (mean - range / 2).toFixed(2);
+    dataEl.innerHTML = '<table class="data-mini-table"><tr><th>최고 조위</th><th>최저 조위</th><th>조차</th></tr>' +
+      "<tr><td>" + high + " m</td><td>" + low + " m</td><td>" + range.toFixed(2) + " m</td></tr></table>";
+    picked = null;
+    seg.forEach(function (b) { b.classList.remove("on"); });
+    var info = document.getElementById("c6m-info");
+    info.style.color = "";
+    info.textContent = "보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.";
+  }
+
+  var labels = { spring: "사리(대조)", mid: "중간", neap: "조금(소조)" };
+
+  checkBtn.addEventListener("click", function () {
+    var info = document.getElementById("c6m-info");
+    if (picked === null) {
+      info.style.color = "";
+      info.textContent = "먼저 보기 중 하나를 선택하세요.";
+      return;
+    }
+    if (picked === trueKey) {
+      info.style.color = "var(--teal)";
+      info.innerHTML = "<b>정답입니다!</b> 조차가 " + (trueKey === "spring" ? "커서" : trueKey === "neap" ? "작아서" : "중간 정도라") + " <b>" + labels[trueKey] + "</b> 시기입니다.";
+    } else {
+      info.style.color = "var(--coral)";
+      info.innerHTML = "다시 생각해 보세요. 정답은 <b>" + labels[trueKey] + "</b>입니다. 조차(밀물-썰물 차)가 클수록 사리, 작을수록 조금에 가깝습니다.";
+    }
+  });
+
+  newBtn.addEventListener("click", newQuestion);
+  newQuestion();
 })();
 
 })();
