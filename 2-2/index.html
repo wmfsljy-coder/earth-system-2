@@ -50,12 +50,19 @@
       <div class="stage-head">
         <div class="eyebrow">02 · 들어오고 나가는 에너지의 균형</div>
         <h2 class="display">지구의 열수지</h2>
-        <p>지구가 흡수하는 태양 복사 에너지와 방출하는 지구 복사 에너지가 장기적으로 균형을 이루는 <b>복사 평형</b>을 확인해 보세요.</p>
+        <p>지구 전체로는 흡수하는 태양 복사 에너지와 방출하는 지구 복사 에너지가 균형을 이루지만, 위도에 따라서는 그렇지 않습니다. 위도 슬라이더를 움직여 저위도와 고위도의 에너지 과잉·부족을 비교해 보세요.</p>
       </div>
       <div class="stage-card">
         <div class="canvas-wrap"><canvas id="c1" width="900" height="380"></canvas></div>
-        <div class="info-card">지구 전체로 보면, 흡수하는 태양 복사 에너지의 양과 방출하는 지구 복사 에너지의 양이 <b>평형(100:100)</b>을 이루어 지구의 평균 기온이 대체로 일정하게 유지됩니다. 하지만 위도별로는 저위도가 에너지 <b>과잉</b>, 고위도가 에너지 <b>부족</b> 상태이며, 이 불균형을 대기와 해양의 순환이 열을 수송하며 해소합니다.</div>
+        <div class="controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">위도<span class="val" id="c1-lat-val">0°(적도)</span></div>
+            <input type="range" id="c1-lat" min="0" max="90" step="5" value="0">
+          </div>
+        </div>
+        <div class="info-card" id="c1-info"></div>
       </div>
+      <p class="foot-note">그래프는 개념 이해를 돕기 위해 단순화했습니다. 실제 위도별 에너지 과잉·부족의 경계는 약 위도 38° 부근입니다.</p>
     </section>
 
     <section class="tab-panel" data-panel="2" hidden>
@@ -243,33 +250,60 @@
   var canvas = document.getElementById("c1");
   var ctx = setupCanvas(canvas);
   var W = canvas._w, H = canvas._h;
+  var lat = 0;
+  var info = document.getElementById("c1-info");
+  var latVal = document.getElementById("c1-lat-val");
+  document.getElementById("c1-lat").addEventListener("input", function (e) {
+    lat = +e.target.value;
+    latVal.textContent = lat + "\u00b0" + (lat < 10 ? "(\uc801\ub3c4)" : lat > 80 ? "(\uadf9)" : "");
+    render();
+  });
+
+  function absorbed(l) { return 150 - 81 * Math.sin(l * Math.PI / 180); }
+  var EMITTED = 100;
+
   function render() {
     ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
     var groundY = H - 80, skyY = 60;
+    var abs = absorbed(lat);
+    var nAbs = Math.max(2, Math.round(abs / 25));
+    var nEm = Math.max(2, Math.round(EMITTED / 25));
+
     ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 3;
-    for (var i = 0; i < 4; i++) {
-      var x = 150 + i * 80;
+    for (var i = 0; i < nAbs; i++) {
+      var x = 130 + i * (240 / Math.max(nAbs - 1, 1));
       drawArrow(ctx, x, skyY, x, groundY - 10, 8);
     }
     ctx.font = "700 12px Segoe UI"; ctx.textAlign = "center";
-    ctx.fillText("태양 복사 에너지 흡수(100)", 310, skyY - 10);
+    ctx.fillText("태양 복사 흡수(" + abs.toFixed(0) + ")", 250, skyY - 10);
     ctx.restore();
 
     ctx.fillStyle = cssVar("--panel-2"); ctx.fillRect(0, groundY, W, H - groundY);
     ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left"; ctx.fillText("지표면", 12, groundY + 20);
 
     ctx.save(); ctx.strokeStyle = cssVar("--violet"); ctx.fillStyle = cssVar("--violet"); ctx.lineWidth = 3;
-    for (var j = 0; j < 4; j++) {
-      var xx = 600 + j * 80;
+    for (var j = 0; j < nEm; j++) {
+      var xx = 600 + j * (240 / Math.max(nEm - 1, 1));
       drawArrow(ctx, xx, groundY - 10, xx, skyY, 8);
     }
     ctx.font = "700 12px Segoe UI"; ctx.fillStyle = cssVar("--foam"); ctx.textAlign = "center";
-    ctx.fillText("지구 복사 에너지 방출(100)", 760, skyY - 10);
+    ctx.fillText("지구 복사 방출(" + EMITTED + ")", 720, skyY - 10);
     ctx.restore();
 
-    ctx.font = "700 14px Segoe UI"; ctx.fillStyle = cssVar("--teal"); ctx.textAlign = "center";
-    ctx.fillText("흡수(100) = 방출(100) → 복사 평형", W / 2, H - 20);
+    var diff = abs - EMITTED;
+    var state = diff > 3 ? "에너지 과잉" : diff < -3 ? "에너지 부족" : "거의 평형";
+    var color = diff > 3 ? cssVar("--coral") : diff < -3 ? cssVar("--cold") : cssVar("--teal");
+    ctx.font = "700 14px Segoe UI"; ctx.fillStyle = color; ctx.textAlign = "center";
+    ctx.fillText("위도 " + lat + "\u00b0 \u00b7 \ud761\uc218 " + abs.toFixed(0) + " vs \ubc29\ucd9c " + EMITTED + " \u2192 " + state, W / 2, H - 20);
+
+    info.innerHTML = "위도 " + lat + "°에서는 태양 복사 흡수량이 약 <b>" + abs.toFixed(0) + "</b>, 지구 복사 방출량은 평균적으로 약 <b>" + EMITTED + "</b>입니다. " +
+      (diff > 3
+        ? "저위도는 태양이 높이 떠 단위 면적당 받는 에너지가 많아 <b>에너지 과잉</b> 상태입니다."
+        : diff < -3
+        ? "고위도는 태양이 비스듬히 비춰 단위 면적당 받는 에너지가 적어 <b>에너지 부족</b> 상태입니다."
+        : "이 위도 부근(약 38°)에서 흡수량과 방출량이 <b>거의 같아집니다</b> — 에너지 과잉과 부족의 경계입니다.") +
+      " 이 위도별 불균형은 대기 대순환과 해류를 통한 열 수송으로 해소됩니다.";
   }
   render();
 })();
