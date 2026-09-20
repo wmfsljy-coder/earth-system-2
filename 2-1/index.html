@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>해수의 운동 — 관측 스테이션</title>
 <link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/story.css">
 <style>
-  .data-mini-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 4px 0 0; }
+  .data-mini-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 6px 0 0; }
   .data-mini-table th, .data-mini-table td { border: 1px solid var(--line); padding: 6px 8px; text-align: center; }
   .data-mini-table th { background: var(--panel-2); color: var(--mist); font-weight: 600; }
 </style>
@@ -20,752 +21,418 @@
       <div class="eyebrow" style="margin-top:8px">Ⅱ-1 · 해수의 운동</div>
       <h1 class="display">해수를 움직이는<br>힘과 파동</h1>
     </div>
-    <button class="tab-btn active" data-tab="0"><span class="num">01</span> 정역학 평형과 수압</button>
-    <button class="tab-btn" data-tab="1"><span class="num">02</span> 수압 경도력과 전향력</button>
-    <button class="tab-btn" data-tab="2"><span class="num">03</span> 에크만 수송과 지형류</button>
-    <button class="tab-btn" data-tab="3"><span class="num">04</span> 서안 경계류와 동안 경계류</button>
-    <button class="tab-btn" data-tab="4"><span class="num">05</span> 해파의 발생과 전파</button>
-    <button class="tab-btn" data-tab="5"><span class="num">06</span> 해일</button>
-    <button class="tab-btn" data-tab="6"><span class="num">07</span> 조석</button>
-    <button class="tab-btn" data-tab="7"><span class="num">08</span> 정리하기</button>
+    <button class="tab-btn active" data-tab="0"><span class="num">01</span> 고무 오리 2만 8천 개</button>
+    <button class="tab-btn" data-tab="1"><span class="num">02</span> 사흘 뒤의 파도</button>
+    <button class="tab-btn" data-tab="2"><span class="num">03</span> 26분</button>
+    <button class="tab-btn" data-tab="3"><span class="num">04</span> 바다가 갈라지는 날</button>
+    <button class="tab-btn" data-tab="4"><span class="num">05</span> 정리하기</button>
+    <button class="tab-btn" data-tab="5"><span class="num">06</span> 우리 반</button>
   </nav>
 
   <main>
-    <!-- 01 정역학 평형과 수압 -->
+    <!-- =====================================================================
+         01 지형류 — 이야기 「고무 오리 2만 8천 개」
+         ===================================================================== -->
     <section class="tab-panel" data-panel="0">
       <div class="stage-head">
-        <div class="eyebrow">01 · 물속으로 들어갈수록 무거워지는 이유</div>
-        <h2 class="display">정역학 평형과 수압</h2>
-        <p>수심 슬라이더를 움직여, 깊이 들어갈수록 수압이 어떻게 증가하는지 확인해 보세요.</p>
-      
-        <span class="std-chip">12지시02-01</span><span class="std-chip">12지시02-02</span><span class="std-chip">12지시02-03</span><span class="std-chip">12지시02-04</span><div class="std-note"><b>[12지시02-01]</b> 에크만 수송과 관련지어 지형류의 발생 원리를 설명할 수 있다.<br><b>[12지시02-02]</b> 해파의 발생 과정을 이해하고, 천해파와 심해파의 차이점을 비교·설명할 수 있다.<br><b>[12지시02-03]</b> 해일이 발생하는 여러 가지 원인을 이해하고, 피해 사례와 대처 방안을 제안할 수 있다.<br><b>[12지시02-04]</b> 조석의 발생 과정을 이해하고 자료 해석을 통해 각 지역에서의 조석 양상을 설명할 수 있다.</div><div class="terms"><b>에크만 수송</b><b>지형류</b><b>천해파·심해파</b><b>조석</b></div>
+        <div class="eyebrow">01 · 에크만 수송과 지형류 · 이야기 한 편</div>
+        <h2 class="display">고무 오리 2만 8천 개</h2>
+        <p>1992년 북태평양 한복판에서 실제로 일어난 일입니다. 바다에 쏟아진 목욕 장난감이 어디로 갈지, 바람에서 시작해 지형류까지 따라가며 직접 예측해 보세요.</p>
+        <span class="std-chip">12지시02-01</span><div class="std-note"><b>[12지시02-01]</b> 에크만 수송과 관련지어 지형류의 발생 원리를 설명할 수 있다.</div><div class="terms"><b>에크만 나선</b><b>에크만 수송</b><b>정역학 평형</b><b>수압 경도력</b><b>전향력</b><b>지형류</b><b>서안 경계류</b></div>
       </div>
-      <div class="stage-card">
-        <div class="canvas-wrap"><canvas id="c0" width="900" height="420"></canvas></div>
-        <div class="controls">
-          <div class="ctrl-group" style="flex:1 1 100%">
-            <div class="ctrl-label">수심(m)<span class="val" id="c0-d-val">0</span></div>
-            <input type="range" id="c0-d" min="0" max="200" step="5" value="0">
+
+      <div class="episode" id="epA">
+        <section class="scene" data-title="바다에 빠진 화물">
+          <div class="story narr"><div class="who">🌊</div><div class="say"><span class="name">이야기</span>1992년 1월, 홍콩을 떠나 미국으로 가던 화물선이 북태평양 한가운데에서 큰 폭풍을 만났습니다. 컨테이너 하나가 갑판에서 떨어져 부서졌고, 안에 들어 있던 <b>목욕 장난감 28,800개</b>(노란 오리, 초록 개구리, 파란 거북, 빨간 비버)가 그대로 바다에 쏟아졌습니다.</div></div>
+          <div class="story"><div class="who">🧑‍🔬</div><div class="say"><span class="name">해양학자 하윤</span>“보통이라면 그냥 쓰레기 사고예요. 그런데 이건 <b>언제, 어디에, 몇 개가</b> 빠졌는지 정확히 아는 표류물입니다. 해류를 재는 거대한 실험이 저절로 시작된 셈이죠. 조사관님, 이 오리들이 어디로 갈지 같이 예측해 봅시다.”</div></div>
+          <div class="case-file"><b class="k">사고 기록</b> 1992년 1월 10일 · 북태평양 북위 약 45°, 동경 약 178° · 장난감 <b>28,800개</b> 유실<br><b class="k">첫 발견</b> 약 10개월 뒤, 미국 <b>알래스카</b> 남동 해안에 수백 개가 떠밀려 옴</div>
+          <div class="gate loose" id="gA"></div>
+        </section>
+
+        <section class="scene" data-title="바람은 오른쪽으로 민다 — 에크만 나선과 수송">
+          <div class="story"><div class="who">🧑‍🔬</div><div class="say"><span class="name">하윤</span>“바다 위의 물건은 바람이 부는 쪽으로 그대로 가지 않아요. 바람이 표층 해수를 끌고, 그 층이 다시 아래층을 끌면서 <b>깊어질수록 방향이 조금씩 돌아갑니다</b>. 이걸 에크만 나선이라고 해요. 바람 방향을 돌려 가며, 물이 결국 <b>어느 쪽으로 옮겨 가는지</b> 확인해 보세요.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="a-ek" width="900" height="420"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">반구</div>
+                <div class="seg" id="a-ek-hemi">
+                  <button class="on" data-h="N">북반구</button>
+                  <button data-h="S">남반구</button>
+                </div>
+              </div>
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">바람이 불어 가는 방향 (0° = 북쪽, 90° = 동쪽)<span class="val" id="a-ek-dir-val">0°</span></div>
+                <input type="range" id="a-ek-dir" min="0" max="350" step="10" value="0">
+              </div>
+            </div>
+            <div class="info-card" id="a-ek-info"></div>
           </div>
-        </div>
-        <div class="info-card" id="c0-info"></div>
+          <div class="mission" id="mA2"><span class="m-tag">미션</span>오리 떼를 환류 중심(남쪽)으로 몰아넣는 바람을 찾으세요. <b>에크만 수송이 정남쪽(180°)</b>이 되게 하면 됩니다.<ul><li id="mA2a">북반구에서 수송이 정남쪽이 되는 바람 방향</li><li id="mA2b">남반구에서 수송이 정남쪽이 되는 바람 방향</li></ul></div>
+        </section>
+
+        <section class="scene" data-title="물이 쌓인 자리 — 수압 경도력과 전향력">
+          <div class="story"><div class="who">🧑‍🔬</div><div class="say"><span class="name">하윤</span>“사방에서 에크만 수송이 한가운데로 모이면 어떻게 될까요? 그 자리의 <b>해수면이 주변보다 높아집니다</b>. 실제로 북태평양 아열대 환류의 중심은 가장자리보다 1 m쯤 높아요. 물이 쌓이면 아래쪽 수압이 달라지고, 그때부터 바다가 스스로 흐르기 시작합니다.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="a-geo" width="900" height="440"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group">
+                <div class="ctrl-label">수압을 재는 수심 (m)<span class="val" id="a-geo-d-val">100</span></div>
+                <input type="range" id="a-geo-d" min="0" max="800" step="10" value="100">
+              </div>
+              <div class="ctrl-group">
+                <div class="ctrl-label">환류 중심과 가장자리의 해수면 높이차 (cm)<span class="val" id="a-geo-h-val">20</span></div>
+                <input type="range" id="a-geo-h" min="0" max="200" step="5" value="20">
+              </div>
+            </div>
+            <div class="info-card" id="a-geo-info"></div>
+          </div>
+          <div class="mission" id="mA3"><span class="m-tag">미션</span>두 가지를 모두 찾아내세요. 슬라이더는 하나씩 맞추면 됩니다.<ul><li id="mA3a">수압이 정확히 <b>21기압</b>이 되는 수심 (정역학 평형으로 계산됩니다)</li><li id="mA3b">지형류의 유속이 <b>6.5~7.0 cm/s</b>가 되는 해수면 높이차</li><li id="mA3c">아래 물음에 답하기</li></ul></div>
+          <div class="stage-card" style="margin-top:14px"><div id="a-pick"></div></div>
+        </section>
+
+        <section class="scene" data-title="왜 일본 쪽이 빨랐나 — 서안 경계류와 동안 경계류">
+          <div class="story"><div class="who">🧑‍🔬</div><div class="say"><span class="name">하윤</span>“환류는 둥글게 돌지만, 서쪽 가장자리와 동쪽 가장자리의 모습이 전혀 달라요. 대양 <b>서쪽</b>에서는 좁고 빠르고 깊은 해류가, <b>동쪽</b>에서는 넓고 느리고 얕은 해류가 흐릅니다. 그런데 한 바퀴를 도는 물의 양은 결국 같아야 해요. 동안 경계류의 폭을 조절해 보세요.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="a-bnd" width="900" height="420"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">자세히 볼 해류</div>
+                <div class="seg" id="a-bnd-side">
+                  <button class="on" data-s="west">서안 경계류(쿠로시오·멕시코만류)</button>
+                  <button data-s="east">동안 경계류(캘리포니아·카나리아)</button>
+                </div>
+              </div>
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">동안 경계류의 폭 (km)<span class="val" id="a-bnd-w-val">400</span></div>
+                <input type="range" id="a-bnd-w" min="200" max="3000" step="50" value="400">
+              </div>
+            </div>
+            <div class="info-card" id="a-bnd-info"></div>
+          </div>
+          <div class="mission" id="mA4"><span class="m-tag">미션</span>동안 경계류가 서안 경계류와 <b>같은 양(오차 2 Sv 이내)</b>의 물을 나르도록 폭을 맞추세요. 좁아도, 너무 넓어도 안 됩니다.</div>
+        </section>
+
+        <section class="scene" data-title="결말 — 오리가 그린 지도">
+          <div class="ending">
+            <h4>🦆 오리 떼는 바람이 아니라 ‘쌓인 물’을 따라갔다</h4>
+            <p>바람이 표층 해수를 끌면 <b>에크만 나선</b>이 생기고, 층 전체를 합한 <b>에크만 수송</b>은 북반구에서 바람의 오른쪽 직각(남반구는 왼쪽 직각)으로 나타납니다. 편서풍과 무역풍의 에크만 수송이 아열대 한가운데로 모이면 그곳의 해수면이 약 1 m 높아지고, 높은 쪽에서 낮은 쪽으로 <b>수압 경도력</b>이 생깁니다. 움직이기 시작한 해수는 <b>전향력</b>에 휘어, 결국 두 힘이 평형을 이루는 방향 — 등수압선과 나란한 방향 — 으로 흐릅니다. 이것이 <b>지형류</b>이고, 북반구 아열대에서는 시계 방향 환류가 됩니다.</p>
+            <p>환류의 서쪽 가장자리에서는 흐름이 좁고 빠른 <b>서안 경계류</b>로 몰리고(서안 강화), 동쪽 가장자리에서는 넓고 느린 <b>동안 경계류</b>로 퍼집니다. 그래서 오리들은 10개월 만에 알래스카 해안까지 닿을 수 있었습니다. 해양학자들은 이 표류 자료를 해류 모형과 맞춰 보며 북태평양 환류의 계산을 검증했습니다.</p>
+            <div class="vs" id="a-vs"></div>
+            <span class="stamp">사건 파일 ① 해결</span>
+          </div>
+          <div class="info-card" style="margin:0 0 14px">📎 과학자의 눈: 이 화면의 지형류 계산은 해수의 밀도가 어디서나 같다고 본 <b>단순화한 모형</b>입니다(순압 근사). 실제 바다는 깊이에 따라 밀도가 달라서 수압 경도력도 깊이마다 달라지고, 지형류는 깊어질수록 약해집니다. 또 실제 표류물은 해류뿐 아니라 바람과 파도에도 직접 밀리기 때문에, 해양학자들은 표류 자료를 쓸 때 이 몫을 따로 빼고 계산합니다.</div>
+          <div class="stage-card" style="padding:6px 0 4px"><div id="wkA"></div></div>
+        </section>
       </div>
-      <p class="foot-note">수심이 10 m 깊어질 때마다 수압이 약 1기압씩 증가합니다(그림 Ⅱ-4 참고). 정역학 평형은 중력과 연직 방향 압력 경도력이 균형을 이룬 상태입니다.</p>
+      <p class="teacher-note">교사용: 주소 끝에 <a href="?open=1">?open=1</a> 을 붙이면 모든 장면이 열립니다.</p>
     </section>
 
-    <!-- 02 수압 경도력과 전향력 -->
+    <!-- =====================================================================
+         02 해파 — 이야기 「사흘 뒤의 파도」
+         ===================================================================== -->
     <section class="tab-panel" data-panel="1" hidden>
       <div class="stage-head">
-        <div class="eyebrow">02 · 지형류를 만드는 힘의 평형</div>
-        <h2 class="display">수압 경도력과 전향력</h2>
-        <p>해수에 작용하는 힘을 하나씩 켜고 꺼 보면서, 수압 경도력과 전향력이 평형을 이룰 때 만들어지는 지형류를 확인해 보세요.</p>
+        <div class="eyebrow">02 · 해파의 발생과 전파 · 이야기 한 편</div>
+        <h2 class="display">사흘 뒤의 파도</h2>
+        <p>서핑 대회 운영 본부에 파견된 예보관이 되어 봅시다. 파도를 만들고, 언제 도착할지 계산하고, 해안에서 어떻게 부서지는지까지 예측해 대회 일정을 확정하세요.</p>
+        <span class="std-chip">12지시02-02</span><div class="std-note"><b>[12지시02-02]</b> 해파의 발생 과정을 이해하고, 천해파와 심해파의 차이점을 비교·설명할 수 있다.</div><div class="terms"><b>풍랑과 너울</b><b>풍속·취송 거리·지속 시간</b><b>심해파</b><b>천해파</b><b>천수 효과</b></div>
       </div>
-      <div class="stage-card">
-        <div class="canvas-wrap"><canvas id="c1" width="900" height="380"></canvas></div>
-        <div class="controls">
-          <div class="ctrl-group">
-            <div class="ctrl-label">작용하는 힘</div>
-            <div class="toggle-row">
-              <button class="chip on" data-f="pgf">수압 경도력</button>
-              <button class="chip on" data-f="cor">전향력</button>
-              <button class="chip" data-f="fric">마찰력</button>
+
+      <div class="episode" id="epB">
+        <section class="scene" data-title="파도가 없는 대회장">
+          <div class="story narr"><div class="who">🏄</div><div class="say"><span class="name">이야기</span>서핑 대회를 사흘 앞둔 아침. 대회장 앞바다는 거울처럼 잔잔합니다. 바람 한 점 없습니다. 주최 측은 대회를 미룰지 말지 오늘 안에 정해야 합니다.</div></div>
+          <div class="story"><div class="who">👩‍✈️</div><div class="say"><span class="name">대회 예보관 서진</span>“걱정 마세요. 지금 <b>3,600 km 떨어진 북태평양</b>에 큰 저기압이 자리 잡고 있어요. 서핑에 쓰는 파도는 대부분 여기 바람이 만든 게 아니라, <b>아주 먼 곳에서 온 너울</b>입니다.”</div></div>
+          <div class="case-file"><b class="k">현장</b> 대회장 풍속 1 m/s, 파고 0.2 m &nbsp;|&nbsp; <b class="k">원격</b> 3,600 km 떨어진 저기압 해역, 강풍 지속 중<br><b class="k">대회 규정</b> 파고 2.0~2.5 m 가 가장 좋은 경기 조건 (그보다 낮으면 심심하고, 높으면 위험해 중단)</div>
+          <div class="gate loose" id="gB"></div>
+        </section>
+
+        <section class="scene" data-title="파도 공장 — 무엇이 파고를 정하는가">
+          <div class="story"><div class="who">👩‍✈️</div><div class="say"><span class="name">서진</span>“바람이 만드는 파도의 크기는 딱 세 가지가 정해요. <b>풍속</b>, 바람이 같은 방향으로 불어 간 거리인 <b>취송 거리</b>, 그리고 <b>지속 시간</b>입니다. 셋 중 하나만 모자라도 파도는 크지 못해요. 저기압 해역의 조건을 이리저리 바꿔 보세요.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="b-gen" width="900" height="400"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group">
+                <div class="ctrl-label">풍속 (m/s)<span class="val" id="b-gen-u-val">6</span></div>
+                <input type="range" id="b-gen-u" min="4" max="25" step="1" value="6">
+              </div>
+              <div class="ctrl-group">
+                <div class="ctrl-label">취송 거리 (km)<span class="val" id="b-gen-f-val">100</span></div>
+                <input type="range" id="b-gen-f" min="20" max="1200" step="20" value="100">
+              </div>
+              <div class="ctrl-group">
+                <div class="ctrl-label">지속 시간 (시간)<span class="val" id="b-gen-t-val">6</span></div>
+                <input type="range" id="b-gen-t" min="2" max="48" step="2" value="6">
+              </div>
             </div>
+            <div class="info-card" id="b-gen-info"></div>
           </div>
-        </div>
-        <div class="info-card" id="c1-info"></div>
+          <div class="mission" id="mB2"><span class="m-tag">미션</span>대회 규정에 맞는 <b>파고 2.0~2.5 m</b>를 만드는 조건을 찾으세요. 너무 약해도, 너무 세도 실패입니다.</div>
+        </section>
+
+        <section class="scene" data-title="너울은 언제 도착하는가 — 심해파의 속도">
+          <div class="story"><div class="who">👩‍✈️</div><div class="say"><span class="name">서진</span>“저기압을 벗어난 파도는 <b>너울</b>이 되어 혼자 달려옵니다. 깊은 바다에서는 수심이 아무 상관이 없고, <b>파장이 긴 파도일수록 빠릅니다</b>. 파속은 √(gL/2π)로 구해요. 대회 시작은 지금부터 <b>48시간 뒤</b>입니다. 그때 딱 맞춰 도착하는 파장을 찾아 주세요.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="b-swell" width="900" height="380"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">너울의 파장 L (m)<span class="val" id="b-swell-l-val">150</span></div>
+                <input type="range" id="b-swell-l" min="100" max="500" step="10" value="150">
+              </div>
+            </div>
+            <div class="info-card" id="b-swell-info"></div>
+          </div>
+          <div class="mission" id="mB3"><span class="m-tag">미션</span>3,600 km를 건너 <b>47~49시간</b> 사이에 도착하는 파장을 찾으세요.</div>
+        </section>
+
+        <section class="scene" data-title="해안에 닿으면 — 천해파로 바뀌는 순간">
+          <div class="story"><div class="who">👩‍✈️</div><div class="say"><span class="name">서진</span>“같은 파도라도 <b>수심이 파장의 절반보다 깊으면 심해파</b>, <b>파장의 1/20보다 얕으면 천해파</b>입니다. 천해파가 되면 해저가 파도를 붙잡아 속도가 √(gh)로 줄고, 파장이 짧아지면서 파고는 솟아오릅니다. 그러다 물마루가 무너지는 것이 바로 서핑하는 파도예요. 수심을 바꿔 가며 물 입자의 궤도를 보세요.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="b-shoal" width="900" height="420"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">그 지점의 수심 h (m)<span class="val" id="b-shoal-h-val">60</span></div>
+                <input type="range" id="b-shoal-h" min="2" max="300" step="2" value="60">
+              </div>
+            </div>
+            <div class="info-card" id="b-shoal-info"></div>
+          </div>
+          <div class="mission" id="mB4"><span class="m-tag">미션</span>파장 280 m 의 너울로 두 상태를 모두 만들어 보세요.<ul><li id="mB4a">심해파 — 수심이 그 자리 파장의 <b>1/2보다 깊은</b> 곳</li><li id="mB4b">천해파 — 수심이 그 자리 파장의 <b>1/20보다 얕은</b> 곳</li><li id="mB4c">아래 물음에 답하기</li></ul></div>
+          <div class="stage-card" style="margin-top:14px"><div id="b-pick"></div></div>
+        </section>
+
+        <section class="scene" data-title="결말 — 대회는 열린다">
+          <div class="ending">
+            <h4>🏄 사흘 뒤, 파도는 예보대로 들어왔다</h4>
+            <p>해파는 바람이 해수면을 끌고 누르며 생깁니다. 그 크기는 <b>풍속·취송 거리·지속 시간</b>이 정하고, 셋 중 하나만 모자라도 파도는 더 자라지 못합니다. 바람이 부는 해역을 벗어난 파도는 <b>너울</b>이 되어, 파장이 긴 것부터 먼저 도착합니다.</p>
+            <p>깊은 바다에서 <b>심해파</b>의 속도는 √(gL/2π)로 <b>파장만</b>이 정하고, 물 입자는 원 궤도를 그립니다. 해안으로 다가와 수심이 파장의 1/20보다 얕아지면 <b>천해파</b>가 되어 속도는 √(gh)로 <b>수심만</b>이 정하고, 물 입자는 해저에 눌린 납작한 타원 궤도를 그립니다. 속도가 느려진 만큼 파장이 짧아지고 에너지가 좁은 공간에 몰리면서 파고가 솟다가, 파고가 수심의 약 0.8배에 이르면 물마루가 앞으로 무너집니다.</p>
+            <div class="vs" id="b-vs"></div>
+            <span class="stamp">사건 파일 ② 해결</span>
+          </div>
+          <div class="info-card" style="margin:0 0 14px">📎 과학자의 눈: 도착 시각을 파속(위상 속도)으로 계산했지만, 실제로 너울 무리의 에너지는 심해파에서 파속의 <b>절반</b>인 군속도로 나아갑니다. 그래서 실제 예보는 이 화면보다 더 늦게 잡습니다. 파고 계산식도 관측을 정리해 만든 <b>경험식</b>이라 실제 값과는 차이가 있습니다.</div>
+          <div class="stage-card" style="padding:6px 0 4px"><div id="wkB"></div></div>
+        </section>
       </div>
-      <p class="foot-note">그림 Ⅱ-6: 해수면 경사에서 수압 경도력이 작용 → 전향력이 휘게 함 → 두 힘이 평형을 이루면 등수압선과 나란한 지형류가 흐릅니다.</p>
+      <p class="teacher-note">교사용: 주소 끝에 <a href="?open=1">?open=1</a> 을 붙이면 모든 장면이 열립니다.</p>
     </section>
 
-    <!-- 03 에크만 수송과 지형류 -->
+    <!-- =====================================================================
+         03 해일 — 이야기 「26분」
+         ===================================================================== -->
     <section class="tab-panel" data-panel="2" hidden>
       <div class="stage-head">
-        <div class="eyebrow">03 · 바람이 만드는 나선형 흐름</div>
-        <h2 class="display">에크만 수송과 지형류</h2>
-        <p>표층에서 심층으로 갈수록 해수의 흐름 방향과 속력이 어떻게 바뀌는지(에크만 나선), 그 결과 나타나는 순 수송 방향을 확인해 보세요.</p>
+        <div class="eyebrow">03 · 해일 · 이야기 한 편</div>
+        <h2 class="display">26분</h2>
+        <p>지진 해일 경보실의 당직자가 되어, 해저 지진이 일어난 순간부터 해안에 물결이 닿기까지 남은 시간을 직접 계산합니다. 원인이 전혀 다른 폭풍 해일도 같은 자리에서 비교해 봅니다.</p>
+        <span class="std-chip">12지시02-03</span><div class="std-note"><b>[12지시02-03]</b> 해일이 발생하는 여러 가지 원인을 이해하고, 피해 사례와 대처 방안을 제안할 수 있다.</div><div class="terms"><b>지진 해일</b><b>폭풍 해일</b><b>천해파 속도</b><b>기압 효과</b><b>대처 방안</b></div>
       </div>
-      <div class="stage-card">
-        <div class="canvas-wrap"><canvas id="c2" width="900" height="440"></canvas></div>
-        <div class="controls">
-          <div class="ctrl-group" style="flex:1 1 100%">
-            <div class="ctrl-label">반구</div>
-            <div class="seg" id="c2-hemi">
-              <button class="on" data-h="N">북반구</button>
-              <button data-h="S">남반구</button>
+
+      <div class="episode" id="epC">
+        <section class="scene" data-title="14시 46분, 경보실">
+          <div class="story narr"><div class="who">🚨</div><div class="say"><span class="name">이야기</span>2011년 3월 11일 14시 46분, 일본 도호쿠 앞바다에서 규모 <b>9.0</b>의 거대한 해저 지진이 일어났습니다. 해저 바닥이 통째로 솟아오르면서 그 위에 있던 바닷물 전체가 들려 올라갔습니다. 경보실의 화면에 진원 위치가 찍힙니다.</div></div>
+          <div class="story"><div class="who">🧑‍💼</div><div class="say"><span class="name">경보실 당직자 도현</span>“지진파는 이미 도착했습니다. 이제 <b>물</b>이 옵니다. 대피 방송에 넣을 문장은 단 하나예요 — ‘몇 분 안에 대피하십시오.’ 그 숫자를 틀리면 안 됩니다.”</div></div>
+          <div class="case-file"><b class="k">진원</b> 해저, 해안에서 약 212 km &nbsp;|&nbsp; <b class="k">먼바다 파고</b> 약 1 m 이하 &nbsp;|&nbsp; <b class="k">파장</b> 100 km 이상</div>
+          <div class="gate loose" id="gC"></div>
+        </section>
+
+        <section class="scene" data-title="깊을수록 빠르다 — 지진 해일의 속도">
+          <div class="story"><div class="who">🧑‍💼</div><div class="say"><span class="name">도현</span>“지진 해일은 파장이 100 km가 넘습니다. 수심 4,000 m 인 태평양 한복판도 파장의 1/20보다 얕은 셈이라, 지진 해일은 <b>어디서나 천해파</b>예요. 그래서 속도는 오직 수심이 정합니다. v = √(gh). 수심을 바꿔 가며 확인해 보세요.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="c-spd" width="900" height="360"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">수심 h (m)<span class="val" id="c-spd-h-val">1,000</span></div>
+                <input type="range" id="c-spd-h" min="50" max="7000" step="50" value="1000">
+              </div>
             </div>
+            <div class="info-card" id="c-spd-info"></div>
           </div>
-        </div>
-        <div class="info-card" id="c2-info"></div>
+          <div class="mission" id="mC2"><span class="m-tag">미션</span>속도를 직접 확인하세요.<ul><li id="mC2a">지진 해일이 <b>시속 700 km</b>(제트 여객기 정도)보다 빨라지는 수심</li><li id="mC2b">지진 해일이 <b>시속 100 km</b>(자동차 정도)보다 느려지는 얕은 수심</li></ul></div>
+        </section>
+
+        <section class="scene" data-title="방송에 넣을 숫자 — 도달 시각 계산">
+          <div class="story"><div class="who">🧑‍💼</div><div class="say"><span class="name">도현</span>“진원에서 해안까지 수심이 계단처럼 달라집니다. 구간마다 속도가 다르니 <b>구간별 시간을 따로 구해 더해야</b> 해요. 계산한 값을 슬라이더에 넣고 확인 버튼을 누르면, 실제로 물결이 가는 모습을 보여 드립니다.”</div></div>
+          <div class="case-file"><b class="k">단면 자료</b>
+            <table class="data-mini-table"><tr><th>구간</th><th>거리</th><th>평균 수심</th></tr>
+            <tr><td>A 심해</td><td>150 km</td><td>5,000 m</td></tr>
+            <tr><td>B 대륙 사면</td><td>50 km</td><td>1,000 m</td></tr>
+            <tr><td>C 대륙붕</td><td>12 km</td><td>100 m</td></tr></table>
+          </div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="c-arr" width="900" height="400"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">내가 계산한 해안 도달 시각 (지진 발생 몇 분 뒤)<span class="val" id="c-arr-t-val">15분</span></div>
+                <input type="range" id="c-arr-t" min="5" max="45" step="1" value="15">
+              </div>
+            </div>
+            <div class="toggle-row" style="margin:0 20px 14px;"><button class="btn primary" id="c-arr-run" type="button">▶ 해일을 보내 확인하기</button></div>
+            <div class="info-card" id="c-arr-info">구간별로 v = √(gh) 를 구하고 거리 ÷ 속도를 더하세요. 값을 정한 뒤 확인 버튼을 누릅니다.</div>
+          </div>
+          <div class="mission" id="mC3"><span class="m-tag">미션</span>해안 도달 시각을 <b>오차 2분 이내</b>로 맞히세요.</div>
+        </section>
+
+        <section class="scene" data-title="다른 해일 — 기압과 바람과 만조가 겹칠 때">
+          <div class="story"><div class="who">🧑‍💼</div><div class="say"><span class="name">도현</span>“해일에는 다른 종류가 하나 더 있습니다. 2003년 태풍 <b>매미</b>가 남해안을 지날 때, 마산만의 바닷물이 시가지 안쪽까지 밀려들어 왔어요. 지진은 없었습니다. 범인은 <b>낮은 기압 + 해안으로 부는 강한 바람 + 만조</b>, 세 가지가 한꺼번에 겹친 것이었습니다.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="c-surge" width="900" height="420"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group">
+                <div class="ctrl-label">태풍 중심 기압 (hPa)<span class="val" id="c-surge-p-val">1000</span></div>
+                <input type="range" id="c-surge-p" min="900" max="1013" step="1" value="1000">
+              </div>
+              <div class="ctrl-group">
+                <div class="ctrl-label">해안으로 부는 바람의 세기 (m/s)<span class="val" id="c-surge-u-val">10</span></div>
+                <input type="range" id="c-surge-u" min="0" max="60" step="2" value="10">
+              </div>
+              <div class="ctrl-group">
+                <div class="ctrl-label">그때의 천문 조위 (m, 만조에 가까울수록 높다)<span class="val" id="c-surge-tide-val">0.5</span></div>
+                <input type="range" id="c-surge-tide" min="0" max="3" step="0.1" value="0.5">
+              </div>
+            </div>
+            <div class="info-card" id="c-surge-info"></div>
+          </div>
+          <div class="mission" id="mC4"><span class="m-tag">미션</span>방조제 높이는 <b>3.0 m</b> 입니다.<ul><li id="mC4a">기압만으로 해수면을 <b>1.0 m 이상</b> 밀어 올려 보세요(그래도 방조제는 못 넘습니다).</li><li id="mC4b">세 가지를 겹쳐 해수면을 <b>3.0~3.5 m</b>로 만들어, 방조제를 갓 넘기는 조건을 찾으세요.</li></ul></div>
+        </section>
+
+        <section class="scene" data-title="결말 — 무엇을 준비할 것인가">
+          <div class="story"><div class="who">🧑‍💼</div><div class="say"><span class="name">도현</span>“원인이 다르면 대처도 달라집니다. 아래 대책들을 <b>지진 해일</b>에 맞는 것과 <b>폭풍 해일</b>에 맞는 것, 그리고 <b>둘 다에 쓰이는 것</b>으로 나눠 주세요. 이게 오늘 회의에 올릴 마지막 자료입니다.”</div></div>
+          <div class="stage-card"><div id="c-sort"></div></div>
+          <div id="c-end" hidden>
+            <div class="ending" style="margin-top:16px">
+              <h4>🌊 같은 ‘해일’이라는 이름, 전혀 다른 두 사건</h4>
+              <p><b>지진 해일</b>은 해저 지진·화산 폭발·해저 산사태처럼 바닥이 갑자기 움직여 바닷물 전체가 들렸다 내려앉으며 생깁니다. 파장이 수십~수백 km라 깊은 바다에서도 천해파로 움직여 v = √(gh)로 매우 빠르게 달리지만, 먼바다에서는 파고가 1 m 안팎이라 배 위에서는 알아채기 어렵습니다. 해안에 가까워져 수심이 얕아지면 속도가 줄고 그 에너지가 위로 쌓여 파고가 급격히 커집니다. 2011년 도호쿠 지진 해일 때 일본 해안에는 지진이 일어나고 30분 안팎에 첫 큰 물결이 닿았습니다.</p>
+              <p><b>폭풍 해일</b>은 태풍이나 발달한 저기압이 지날 때, 낮아진 기압이 해수면을 빨아올리고(기압 1 hPa 낮아질 때 약 1 cm) 해안으로 부는 강한 바람이 물을 밀어붙여 생깁니다. 혼자서는 방조제를 넘기 어렵지만 <b>만조와 겹치면</b> 이야기가 달라집니다. 2003년 태풍 매미 때 남해안에서 실제로 그런 일이 일어났습니다.</p>
+              <div class="vs" id="c-vs"></div>
+              <span class="stamp">사건 파일 ③ 해결</span>
+            </div>
+            <div class="info-card" style="margin:0 0 14px">📎 과학자의 눈: 이 화면의 폭풍 해일 높이는 기압·바람·조위를 단순히 더한 <b>모형</b>입니다. 실제 해일고는 만의 모양, 해저 지형, 태풍의 진행 속도와 방향에 따라 크게 달라져서, 같은 태풍이라도 지역마다 전혀 다른 값이 나옵니다. 지진 해일의 도달 시각도 실제로는 바닥 지형과 굴절 때문에 이 계산보다 복잡합니다.</div>
+            <div class="stage-card" style="padding:6px 0 4px"><div id="wkC"></div></div>
+          </div>
+        </section>
       </div>
-      <p class="foot-note">그림 Ⅱ-7: 에크만 수송으로 위도 30°N 부근 해역에 해수가 모여 해수면이 높아지고, 이로 인한 수압 경도력과 전향력의 평형으로 지형류(환류)가 형성됩니다.</p>
+      <p class="teacher-note">교사용: 주소 끝에 <a href="?open=1">?open=1</a> 을 붙이면 모든 장면이 열립니다.</p>
     </section>
 
-    <!-- 04 서안 경계류와 동안 경계류 -->
+    <!-- =====================================================================
+         04 조석 — 이야기 「바다가 갈라지는 날」
+         ===================================================================== -->
     <section class="tab-panel" data-panel="3" hidden>
       <div class="stage-head">
-        <div class="eyebrow">04 · 같은 환류인데 왜 다르게 흐를까?</div>
-        <h2 class="display">서안 경계류와 동안 경계류</h2>
-        <p>대양의 서쪽과 동쪽 가장자리를 흐르는 해류를 비교해 보세요. 폭·유속·깊이·수온의 차이를 직접 눌러 확인할 수 있습니다.</p>
+        <div class="eyebrow">04 · 조석 · 이야기 한 편</div>
+        <h2 class="display">바다가 갈라지는 날</h2>
+        <p>진도 신비의 바닷길 축제 날짜를 잡는 일을 맡았습니다. 기조력이 무엇인지부터 시작해 사리와 조금을 만들어 보고, 관측소 조위 자료를 읽어 물이 가장 많이 빠지는 시각을 찾아내세요.</p>
+        <span class="std-chip">12지시02-04</span><div class="std-note"><b>[12지시02-04]</b> 조석의 발생 과정을 이해하고 자료 해석을 통해 각 지역에서의 조석 양상을 설명할 수 있다.</div><div class="terms"><b>기조력</b><b>밀물과 썰물</b><b>사리(대조)</b><b>조금(소조)</b><b>조차</b><b>조위 곡선</b></div>
       </div>
-      <div class="stage-card">
-        <div class="canvas-wrap"><canvas id="c3" width="900" height="420"></canvas></div>
-        <div class="controls">
-          <div class="ctrl-group" style="flex:1 1 100%">
-            <div class="ctrl-label">비교할 해류</div>
-            <div class="seg" id="c3-side">
-              <button class="on" data-s="west">서안 경계류(쿠로시오·멕시코만류)</button>
-              <button data-s="east">동안 경계류(캘리포니아·카나리아)</button>
+
+      <div class="episode" id="epD">
+        <section class="scene" data-title="축제 날짜를 잡아라">
+          <div class="story narr"><div class="who">🌗</div><div class="say"><span class="name">이야기</span>전라남도 진도에서는 해마다 회동리와 모도 사이의 바다가 갈라져, 길이 약 2.8 km의 길이 드러납니다. 사람들은 그 길을 걸어 섬까지 건너갔다 돌아옵니다. 축제는 그날에 맞춰 열립니다.</div></div>
+          <div class="story"><div class="who">👩‍🏫</div><div class="say"><span class="name">축제 기획단 은채</span>“그런데 날짜가 해마다 달라요. 게다가 그날 안에서도 <b>길이 열려 있는 시간은 한두 시간뿐</b>입니다. 우리가 정할 건 날짜와 시각, 딱 두 가지예요. 조사관님, 도와주세요.”</div></div>
+          <div class="case-file"><b class="k">확인된 사실</b> 바닷길은 <b>해마다 같은 날</b>이 아니다 · 하루에도 <b>물때가 약 50분씩 늦어진다</b> · 같은 날이라도 <b>인천과 동해안은 물이 빠지는 정도가 전혀 다르다</b></div>
+          <div class="gate loose" id="gD"></div>
+        </section>
+
+        <section class="scene" data-title="달이 태양을 이기는 까닭 — 기조력">
+          <div class="story"><div class="who">👩‍🏫</div><div class="say"><span class="name">은채</span>“조석을 일으키는 힘을 <b>기조력</b>이라고 해요. 이상한 점이 있어요. 태양은 달보다 질량이 <b>약 2,700만 배</b>나 큰데, 조석은 달이 더 크게 좌우합니다. 기조력은 질량에 비례하지만 <b>거리의 세제곱에 반비례</b>하거든요. 슬라이더로 직접 확인해 보세요.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="d-tf" width="900" height="360"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">태양까지의 거리 (달까지 거리의 몇 배?)<span class="val" id="d-tf-r-val">100배</span></div>
+                <input type="range" id="d-tf-r" min="50" max="600" step="10" value="100">
+              </div>
             </div>
+            <div class="info-card" id="d-tf-info"></div>
           </div>
-        </div>
-        <div class="info-card" id="c3-info"></div>
+          <div class="mission" id="mD2"><span class="m-tag">미션</span>거리를 바꿔 가며 두 가지를 찾으세요.<ul><li id="mD2a">태양의 기조력이 달과 <b>똑같아지는</b> 거리 배수</li><li id="mD2b">태양의 기조력이 달의 <b>절반 이하</b>가 되는 거리 배수 (실제 태양은 달보다 약 390배 멀다)</li></ul></div>
+        </section>
+
+        <section class="scene" data-title="사리와 조금 — 달의 위상이 정한다">
+          <div class="story"><div class="who">👩‍🏫</div><div class="say"><span class="name">은채</span>“달의 기조력이 주인공이지만, 태양도 약 0.46배의 몫을 합니다. 그래서 둘이 <b>한 줄로 늘어서면</b> 힘이 더해지고, <b>직각으로 갈라지면</b> 서로 깎습니다. 달을 공전시켜 가며 인천 관측소의 조차가 어떻게 변하는지 보세요.”</div></div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="d-ph" width="900" height="420"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">달의 공전 위치 (태양 방향에서 잰 각)<span class="val" id="d-ph-a-val">45°</span></div>
+                <input type="range" id="d-ph-a" min="0" max="350" step="10" value="45">
+              </div>
+            </div>
+            <div class="info-card" id="d-ph-info"></div>
+          </div>
+          <div class="mission" id="mD3"><span class="m-tag">미션</span>두 시기를 모두 만들어 보세요.<ul><li id="mD3a">조차가 가장 큰 <b>사리(대조)</b> — 인천 조차 7.9 m 이상</li><li id="mD3b">조차가 가장 작은 <b>조금(소조)</b> — 인천 조차 3.6 m 이하</li></ul></div>
+        </section>
+
+        <section class="scene" data-title="지역마다 다른 바다 — 조위 자료 읽기">
+          <div class="story"><div class="who">👩‍🏫</div><div class="say"><span class="name">은채</span>“이제 진짜 문제예요. 사리라고 아무 데서나 바다가 갈라지지 않습니다. 관측소를 바꿔 가며 조위 곡선을 보세요. <b>갯벌 체험장 바닥은 평균 해면보다 2.5 m 낮습니다.</b> 이 바닥이 드러나는 관측소와 시각을 찾아 주세요.”</div></div>
+          <div class="case-file"><b class="k">우리나라 주요 항구의 대조차(사리 때 조차)</b>
+            <table class="data-mini-table"><tr><th>인천(서해)</th><th>목포(남서해)</th><th>부산(남해)</th><th>묵호(동해)</th></tr>
+            <tr><td>약 8 m</td><td>약 4 m</td><td>약 1 m</td><td>약 0.3 m</td></tr></table>
+          </div>
+          <div class="stage-card">
+            <div class="canvas-wrap"><canvas id="d-road" width="900" height="400"></canvas></div>
+            <div class="controls">
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">관측소 (사리 때 자료)</div>
+                <div class="seg" id="d-road-sp">
+                  <button data-p="in">인천</button>
+                  <button class="on" data-p="mo">목포</button>
+                  <button data-p="mu">묵호</button>
+                </div>
+              </div>
+              <div class="ctrl-group" style="flex:1 1 100%">
+                <div class="ctrl-label">시각 (그날 0시부터, 시간)<span class="val" id="d-road-t-val">0.00시</span></div>
+                <input type="range" id="d-road-t" min="0" max="24" step="0.25" value="0">
+              </div>
+            </div>
+            <div class="info-card" id="d-road-info"></div>
+          </div>
+          <div class="mission" id="mD4"><span class="m-tag">미션</span>바닥(평균 해면 −2.5 m)이 <b>물 밖으로 드러나는</b> 관측소와 시각을 찾으세요.</div>
+          <div class="stage-card" style="margin-top:14px"><div id="d-pick"></div></div>
+        </section>
+
+        <section class="scene" data-title="결말 — 축제 날짜가 정해지다">
+          <div class="ending">
+            <h4>🌊 바다를 가르는 것은 전설이 아니라 달과 태양이었다</h4>
+            <p>달과 태양이 지구를 잡아당기는 힘은 지구의 앞면과 뒷면에서 크기가 다릅니다. 이 <b>차이</b>가 바닷물을 달 쪽과 그 반대쪽으로 부풀리는 <b>기조력</b>입니다. 기조력은 질량에 비례하고 거리의 <b>세제곱에 반비례</b>해서, 훨씬 가벼워도 훨씬 가까운 달이 태양보다 약 2배 큰 몫을 합니다. 지구가 하루에 한 바퀴 자전하는 동안 부푼 곳을 두 번 지나므로 밀물과 썰물이 하루에 두 번씩 오고, 달도 같은 방향으로 공전하기 때문에 물때는 날마다 약 50분씩 늦어집니다.</p>
+            <p>태양·지구·달이 한 줄로 늘어서는 삭과 망 무렵에는 두 기조력이 더해져 조차가 가장 큰 <b>사리(대조)</b>가, 직각을 이루는 상현·하현 무렵에는 서로 깎여 조차가 가장 작은 <b>조금(소조)</b>이 나타납니다. 같은 사리라도 지역마다 조차가 다릅니다. 수심이 얕고 만이 좁아지는 서해안에서는 조석파가 증폭되어 인천의 대조차가 약 8 m에 이르지만, 깊고 열린 동해안의 묵호는 약 0.3 m에 그칩니다. 진도의 바닷길이 사리 무렵 간조 시각에만 열리는 까닭이 여기에 있습니다.</p>
+            <div class="vs" id="d-vs"></div>
+            <span class="stamp">사건 파일 ④ 해결</span>
+          </div>
+          <div class="info-card" style="margin:0 0 14px">📎 과학자의 눈: 이 화면의 조위 곡선은 주기 12시간 25분짜리 반일주조 하나만 넣은 <b>단순화한 모형</b>입니다. 실제 조석은 주기가 다른 분조 수십 개가 겹친 것이라, 두 번의 만조 높이가 서로 다르거나 하루에 한 번만 만조가 오는 지역도 있습니다. 표의 대조차 값도 관측소와 시기에 따라 달라지는 대략의 값입니다.</div>
+          <div class="stage-card" style="padding:6px 0 4px"><div id="wkD"></div></div>
+        </section>
       </div>
-      <p class="foot-note">그림 Ⅱ-10: 서안 경계류는 폭이 좁고 유속이 빠르며 깊이가 깊고 따뜻한 해수를 고위도로 나릅니다. 동안 경계류는 폭이 넓고 유속이 느리며 얕고 찬 해수를 저위도로 나릅니다.</p>
+      <p class="teacher-note">교사용: 주소 끝에 <a href="?open=1">?open=1</a> 을 붙이면 모든 장면이 열립니다.</p>
     </section>
 
-    <!-- 05 해파의 발생과 전파 -->
+    <!-- ===================================================================== 05 정리하기 -->
     <section class="tab-panel" data-panel="4" hidden>
       <div class="stage-head">
-        <div class="eyebrow">05 · 바람이 만드는 물결</div>
-        <h2 class="display">해파의 발생과 전파</h2>
-        <p>수심에 따라 심해파와 천해파로 나뉩니다. 수심 슬라이더를 조절해 물 입자의 운동 궤적이 어떻게 달라지는지 확인해 보세요.</p>
-      </div>
-      <div class="stage-card">
-        <div class="canvas-wrap"><canvas id="c4" width="900" height="380"></canvas></div>
-        <div class="controls">
-          <div class="ctrl-group">
-            <div class="ctrl-label">수심/파장 비율<span class="val" id="c4-r-val">1.0</span></div>
-            <input type="range" id="c4-r" min="0.02" max="1" step="0.02" value="1">
-          </div>
-        </div>
-        <div class="info-card" id="c4-info"></div>
-      </div>
-      <p class="foot-note">그림 Ⅱ-11: 심해파는 물 입자가 원 궤도를, 천해파는 해저 마찰의 영향으로 납작한 타원 궤도를 그립니다.</p>
-
-      <div class="stage-head" style="margin-top:30px;">
-        <div class="eyebrow">🔎 미션 · 바람이 만드는 파도 예측하기</div>
-        <h2 class="display" style="font-size:20px;">이 바람 조건에서 파고는 얼마나 될까요?</h2>
-        <p>해파는 바람이 강할수록, 바람이 부는 거리(취주 거리)가 길수록 커집니다. 주어진 풍속·취주 거리 자료를 보고 예상되는 파고 범위를 선택해 보세요.</p>
-      </div>
-      <div class="stage-card">
-        <div class="info-card" id="c4m-data" style="margin:18px 20px 0;"></div>
-        <div class="seg" id="c4m-choices" style="margin:14px 20px 0;"></div>
-        <div class="toggle-row" style="margin:14px 20px 0;">
-          <button class="chip" id="c4m-check">정답 확인</button>
-          <button class="chip" id="c4m-new">새 기상 자료</button>
-        </div>
-        <div class="info-card" id="c4m-info">보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.</div>
-      </div>
-    </section>
-
-    <!-- 06 해일 -->
-    <section class="tab-panel" data-panel="5" hidden>
-      <div class="stage-head">
-        <div class="eyebrow">06 · 갑자기 밀려오는 거대한 물결</div>
-        <h2 class="display">해일 — 폭풍 해일과 지진 해일</h2>
-        <p>발생 원인이 전혀 다른 두 종류의 해일을 비교해 보세요.</p>
-      </div>
-      <div class="stage-card">
-        <div class="canvas-wrap"><canvas id="c5" width="900" height="400"></canvas></div>
-        <div class="controls">
-          <div class="ctrl-group" style="flex:1 1 100%">
-            <div class="ctrl-label">해일의 종류</div>
-            <div class="seg" id="c5-type">
-              <button class="on" data-t="storm">폭풍 해일</button>
-              <button data-t="tsunami">지진 해일(쓰나미)</button>
-            </div>
-          </div>
-        </div>
-        <div class="info-card" id="c5-info"></div>
-      </div>
-      <p class="foot-note">폭풍 해일은 강한 저기압·태풍이 원인이며 서서히 발달합니다. 지진 해일은 해저 지진·화산·단층 운동이 원인이며, 먼바다에서는 파고가 낮지만 파장이 매우 길어 빠르게 전파되다가 얕은 해안에서 파고가 급격히 커집니다.</p>
-    </section>
-
-    <!-- 07 조석 -->
-    <section class="tab-panel" data-panel="6" hidden>
-      <div class="stage-head">
-        <div class="eyebrow">07 · 달과 태양이 만드는 밀물과 썰물</div>
-        <h2 class="display">조석 — 사리와 조금</h2>
-        <p>달의 공전 위치를 바꾸어 가며, 태양·지구·달의 배치에 따라 사리(대조)와 조금(소조)이 어떻게 나타나는지 확인해 보세요.</p>
-      </div>
-      <div class="stage-card">
-        <div class="canvas-wrap"><canvas id="c6" width="900" height="380"></canvas></div>
-        <div class="controls">
-          <div class="ctrl-group">
-            <div class="ctrl-label">달의 위상(공전각)<span class="val" id="c6-a-val">0°</span></div>
-            <input type="range" id="c6-a" min="0" max="359" step="1" value="0">
-          </div>
-        </div>
-        <div class="info-card" id="c6-info"></div>
-      </div>
-      <p class="foot-note">그림 Ⅱ-28: 태양·지구·달이 일직선(삭·망)일 때 사리, 직각(상현·하현)일 때 조금이 나타납니다.</p>
-
-      <div class="stage-head" style="margin-top:30px;">
-        <div class="eyebrow">🔎 미션 · 실시간 조위 자료로 패턴 추론하기</div>
-        <h2 class="display" style="font-size:20px;">이 관측소는 사리일까요, 조금일까요?</h2>
-        <p>어느 관측소에서 하루 동안 측정한 조위 자료입니다. 최고·최저 조위와 조차(밀물-썰물 높이 차)를 보고 사리(대조)·조금(소조)·중간 중 어느 시기인지 판단해 보세요.</p>
-      </div>
-      <div class="stage-card">
-        <div id="c6m-data" style="margin:18px 20px 0;"></div>
-        <div class="seg" id="c6m-choices" style="margin:14px 20px 0;">
-          <button data-c="spring">사리(대조)</button>
-          <button data-c="mid">중간</button>
-          <button data-c="neap">조금(소조)</button>
-        </div>
-        <div class="toggle-row" style="margin:14px 20px 0;">
-          <button class="chip" id="c6m-check">정답 확인</button>
-          <button class="chip" id="c6m-new">새 관측 자료</button>
-        </div>
-        <div class="info-card" id="c6m-info">보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.</div>
-      </div>
-    </section>
-
-    <section class="tab-panel" data-panel="7" hidden>
-      <div class="stage-head">
-        <div class="eyebrow">08 · 오늘 알아낸 것을 문장으로</div>
+        <div class="eyebrow">05 · 네 사건을 하나로</div>
         <h2 class="display">정리하기</h2>
-        <p>조작한 것을 말이나 글로 옮기지 않으면 남지 않습니다. 아래를 채우고 <b>답안 복사</b>를 눌러 제출하세요. 쓰는 동안 자동으로 저장됩니다.</p>
+        <p>네 이야기의 결과가 아래에 모입니다. 네 사건을 꿰는 한 문장을 쓰고 <b>답안 복사</b>를 눌러 제출하세요. 쓰는 동안 자동으로 저장됩니다.</p>
       </div>
       <div class="stage-card" style="padding:6px 0 4px"><div id="wk"></div></div>
+    </section>
+
+    <!-- ===================================================================== 06 우리 반 -->
+    <section class="tab-panel" data-panel="5" hidden>
+      <div class="stage-head">
+        <div class="eyebrow">06 · 같은 반 친구들과 나누기</div>
+        <h2 class="display">우리 반</h2>
+        <p>내가 해결한 사건과 찾아낸 답을 우리 반에 올리고, 친구들은 어떤 값을 찾았는지 살펴보세요. <b>올리기 버튼을 눌렀을 때만</b> 공유됩니다. 실명 대신 별명을 쓰세요.</p>
+      </div>
+      <div class="stage-card"><div id="share"></div></div>
     </section>
   </main>
 </div>
 
 <button class="theme-toggle" id="themeToggle">라이트 모드</button>
 <script src="../assets/theme.js"></script>
-<script>
-(function () {
-"use strict";
-
-/* TAB0 정역학 평형과 수압 */
-(function () {
-  var canvas = document.getElementById("c0");
-  var ctx = setupCanvas(canvas);
-  var W = canvas._w, H = canvas._h;
-  var depth = 0;
-  var info = document.getElementById("c0-info");
-  document.getElementById("c0-d").addEventListener("input", function (e) {
-    depth = +e.target.value;
-    document.getElementById("c0-d-val").textContent = depth;
-    render();
-  });
-  function render() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
-    var colX = 160, colW = 140, top = 40, bot = H - 40;
-    ctx.fillStyle = cssVar("--panel-2"); ctx.fillRect(colX, top, colW, bot - top);
-    var markY = top + (depth / 200) * (bot - top);
-    ctx.fillStyle = cssVar("--cold"); ctx.globalAlpha = .55; ctx.fillRect(colX, top, colW, markY - top); ctx.globalAlpha = 1;
-    ctx.strokeStyle = cssVar("--foam"); ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(colX - 10, markY); ctx.lineTo(colX + colW + 10, markY); ctx.stroke();
-    ctx.font = "700 12px Segoe UI"; ctx.fillStyle = cssVar("--foam"); ctx.textAlign = "left";
-    ctx.fillText(depth + " m", colX + colW + 16, markY + 4);
-    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist");
-    ctx.fillText("해수면(0 m)", colX, top - 12);
-    ctx.fillText("200 m", colX, bot + 20);
-
-    var atm = 1 + depth / 10;
-    var barX = 420, barW = 400, barH = 30, barY = H / 2 - barH / 2;
-    ctx.strokeStyle = cssVar("--line"); ctx.strokeRect(barX, barY, barW, barH);
-    var frac = Math.min(1, atm / 21);
-    ctx.fillStyle = cssVar("--coral"); ctx.fillRect(barX, barY, barW * frac, barH);
-    ctx.font = "700 13px Segoe UI"; ctx.fillStyle = cssVar("--foam"); ctx.textAlign = "left";
-    ctx.fillText("수압 ≈ " + atm.toFixed(1) + " 기압 (대기압 1 + 수압 " + (depth/10).toFixed(1) + ")", barX, barY - 14);
-
-    info.innerHTML = "수심 <b>" + depth + " m</b>에서 수압은 약 <b>" + atm.toFixed(1) + " 기압</b>입니다. 정지된 해수에서는 어느 깊이에서나 <b>중력</b>과 <b>연직 방향 압력 경도력</b>이 크기는 같고 방향은 반대로 작용해 균형을 이루는데, 이를 <b>정역학 평형</b>이라고 합니다. 이 평형 덕분에 해수는 연직 방향으로는 가속되지 않고, 수심이 깊어질수록 위에 있는 물의 무게만큼 수압이 커집니다.";
-  }
-  render();
-})();
-
-/* TAB1 수압 경도력과 전향력 */
-(function () {
-  var canvas = document.getElementById("c1");
-  var ctx = setupCanvas(canvas);
-  var W = canvas._w, H = canvas._h;
-  var forces = { pgf: true, cor: true, fric: false };
-  var info = document.getElementById("c1-info");
-  document.querySelectorAll("#c1-info").length; // noop
-  document.querySelectorAll(".chip[data-f]").forEach(function (b) {
-    b.addEventListener("click", function () {
-      var k = b.getAttribute("data-f");
-      forces[k] = !forces[k];
-      b.classList.toggle("on", forces[k]);
-      render();
-    });
-  });
-  function render() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
-    var cx = W / 2, cy = H / 2;
-    if (forces.pgf) {
-      ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 4;
-      drawArrow(ctx, cx - 120, cy, cx, cy, 10);
-      ctx.font = "700 12px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("수압 경도력", cx - 60, cy - 16);
-      ctx.restore();
-    }
-    if (forces.cor) {
-      ctx.save(); ctx.strokeStyle = cssVar("--cold"); ctx.fillStyle = cssVar("--cold"); ctx.lineWidth = 4;
-      drawArrow(ctx, cx, cy + 100, cx, cy, 10);
-      ctx.font = "700 12px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("전향력", cx + 60, cy + 60);
-      ctx.restore();
-    }
-    if (forces.fric) {
-      ctx.save(); ctx.strokeStyle = cssVar("--violet"); ctx.fillStyle = cssVar("--violet"); ctx.lineWidth = 3;
-      drawArrow(ctx, cx + 30, cy - 90, cx, cy - 40, 8);
-      ctx.font = "11px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("마찰력", cx + 60, cy - 96);
-      ctx.restore();
-    }
-    if (forces.pgf && forces.cor) {
-      ctx.save(); ctx.strokeStyle = cssVar("--teal"); ctx.fillStyle = cssVar("--teal"); ctx.lineWidth = 5;
-      drawArrow(ctx, cx - 20, cy + 130, cx - 20, cy - 130, 12);
-      ctx.font = "700 13px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("지형류", cx - 100, cy - 130);
-      ctx.restore();
-    }
-    if (forces.pgf && forces.cor && !forces.fric) {
-      info.innerHTML = "수압 경도력과 전향력이 <b>평형(지형류 평형)</b>을 이루어, 등수압선과 나란한 방향으로 흐르는 <b>지형류</b>가 형성됩니다.";
-    } else if (forces.fric) {
-      info.innerHTML = "마찰력이 함께 작용하면 힘의 평형이 깨져, 해수는 등압선과 정확히 나란하지 않고 저압 쪽으로 비스듬히 흐르는 <b>에크만 나선</b>에 가까운 운동을 합니다.";
-    } else {
-      info.innerHTML = "수압 경도력과 전향력이 모두 작용해야 안정된 지형류가 만들어집니다. 힘을 더 켜 보세요.";
-    }
-  }
-  render();
-})();
-
-/* TAB2 에크만 수송과 지형류 */
-(function () {
-  var canvas = document.getElementById("c2");
-  var ctx = setupCanvas(canvas);
-  var W = canvas._w, H = canvas._h;
-  var hemi = "N";
-  var info = document.getElementById("c2-info");
-  document.querySelectorAll("#c2-hemi button").forEach(function (b) {
-    b.addEventListener("click", function () {
-      hemi = b.getAttribute("data-h");
-      document.querySelectorAll("#c2-hemi button").forEach(function (x) { x.classList.toggle("on", x === b); });
-      render();
-    });
-  });
-  function render() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
-    var sign = hemi === "N" ? 1 : -1;
-    var cx = 260, cy0 = 60;
-    // wind arrow
-    ctx.save(); ctx.strokeStyle = cssVar("--foam"); ctx.fillStyle = cssVar("--foam"); ctx.lineWidth = 4;
-    drawArrow(ctx, cx - 90, cy0 - 20, cx + 90, cy0 - 20, 10);
-    ctx.font = "700 12px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("바람(표층 마찰력)", cx, cy0 - 34);
-    ctx.restore();
-
-    var n = 7, len0 = 95;
-    var sumX = 0, sumY = 0;
-    for (var i = 0; i < n; i++) {
-      var depthY = cy0 + 20 + i * 40;
-      var ang = sign * (i + 1) * 15 * Math.PI / 180; // rotates clockwise(N)/counter(S) with depth
-      var len = len0 * Math.pow(0.78, i);
-      var ex = cx + len * Math.cos(ang);
-      var ey = depthY + len * Math.sin(ang) * 0; // keep arrows horizontal-ish per depth row, rotate visually via angle offset below
-      // draw each layer's current vector originating at (cx, depthY), rotated by ang from horizontal
-      var dx = len * Math.cos(ang), dy = len * Math.sin(ang) * 0.6;
-      ctx.save(); ctx.strokeStyle = cssVar("--cold"); ctx.fillStyle = cssVar("--cold"); ctx.globalAlpha = 1 - i * 0.09; ctx.lineWidth = 3;
-      drawArrow(ctx, cx, depthY, cx + dx, depthY + dy, 7);
-      ctx.restore();
-      sumX += dx; sumY += dy;
-      ctx.font = "10px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
-      ctx.fillText((i === 0 ? "표층" : (i*20)+"m"), cx - 250, depthY + 4);
-    }
-    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
-    ctx.fillText("깊이에 따른 유속 벡터(에크만 나선)", cx - 250, cy0 - 34);
-
-    // net Ekman transport arrow: 90 deg to the right(N)/left(S) of wind
-    var netAng = sign * 90 * Math.PI / 180;
-    var nx = 680, ny = 240;
-    ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 5;
-    var tx = nx + 120 * Math.cos(netAng), ty = ny + 120 * Math.sin(netAng);
-    drawArrow(ctx, nx, ny, tx, ty, 12);
-    ctx.font = "700 13px Segoe UI"; ctx.textAlign = "center";
-    ctx.fillText("에크만 수송(순 이동)", nx + (sign>0?70:-70), ny - 20);
-    ctx.restore();
-    ctx.save(); ctx.strokeStyle = cssVar("--foam"); ctx.fillStyle = cssVar("--foam"); ctx.lineWidth = 3;
-    drawArrow(ctx, nx - 90, ny - 90, nx + 90, ny - 90, 8);
-    ctx.font = "11px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("바람", nx, ny - 104);
-    ctx.restore();
-
-    info.innerHTML = hemi === "N"
-      ? "북반구에서는 표층 해수가 바람 방향의 오른쪽으로 흐르기 시작하고, 깊이가 깊어질수록 유속은 줄고 방향은 계속 오른쪽으로 회전하는 <b>에크만 나선</b>을 그립니다. 이 나선을 모두 합한 <b>순 수송(에크만 수송)</b>은 바람 방향의 <b>오른쪽 직각(90°)</b>으로 나타납니다."
-      : "남반구에서는 전향력의 방향이 반대이므로, 에크만 나선과 순 수송 모두 북반구와 반대 방향으로 나타납니다. 순 수송(에크만 수송)은 바람 방향의 <b>왼쪽 직각(90°)</b>입니다.";
-  }
-  render();
-})();
-
-/* TAB3 서안 경계류와 동안 경계류 */
-(function () {
-  var canvas = document.getElementById("c3");
-  var ctx = setupCanvas(canvas);
-  var W = canvas._w, H = canvas._h;
-  var side = "west";
-  var info = document.getElementById("c3-info");
-  document.querySelectorAll("#c3-side button").forEach(function (b) {
-    b.addEventListener("click", function () {
-      side = b.getAttribute("data-s");
-      document.querySelectorAll("#c3-side button").forEach(function (x) { x.classList.toggle("on", x === b); });
-      render();
-    });
-  });
-  function render() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
-    var top = 60, bot = H - 60, left = 120, right = W - 120;
-    ctx.fillStyle = cssVar("--panel-2"); ctx.fillRect(left, top, right - left, bot - top);
-    // continents
-    ctx.fillStyle = cssVar("--line");
-    ctx.fillRect(left - 90, top, 90, bot - top);
-    ctx.fillRect(right, top, 90, bot - top);
-    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "center";
-    ctx.fillText("대륙(서쪽)", left - 45, top - 10);
-    ctx.fillText("대륙(동쪽)", right + 45, top - 10);
-    ctx.fillText("적도", (left+right)/2, bot + 30);
-    ctx.fillText("고위도", (left+right)/2, top - 30);
-
-    // west boundary current: narrow, fast, deep, warm(red), poleward(up)
-    var westW = 42, eastW = 110;
-    ctx.save(); ctx.fillStyle = cssVar("--coral"); ctx.globalAlpha = side === "west" ? 1 : .35;
-    ctx.fillRect(left + 4, top + 10, westW, bot - top - 20);
-    ctx.restore();
-    ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 4; ctx.globalAlpha = side === "west" ? 1 : .35;
-    drawArrow(ctx, left + 4 + westW/2, bot - 20, left + 4 + westW/2, top + 30, 10);
-    ctx.restore();
-
-    // east boundary current: wide, slow, shallow, cold(blue), equatorward(down)
-    ctx.save(); ctx.fillStyle = cssVar("--cold"); ctx.globalAlpha = side === "east" ? 1 : .35;
-    ctx.fillRect(right - 4 - eastW, top + 30, eastW, bot - top - 60);
-    ctx.restore();
-    ctx.save(); ctx.strokeStyle = cssVar("--cold"); ctx.fillStyle = cssVar("--cold"); ctx.lineWidth = 4; ctx.globalAlpha = side === "east" ? 1 : .35;
-    drawArrow(ctx, right - 4 - eastW/2, top + 40, right - 4 - eastW/2, bot - 30, 10);
-    ctx.restore();
-
-    ctx.font = "700 12px Segoe UI"; ctx.fillStyle = cssVar("--foam"); ctx.textAlign = "center";
-    ctx.fillText("서안 경계류", left + 4 + westW/2, bot + 10);
-    ctx.fillText("동안 경계류", right - 4 - eastW/2, bot + 10);
-
-    info.innerHTML = side === "west"
-      ? "<b>서안 경계류</b>(쿠로시오 해류, 멕시코만류, 동오스트레일리아 해류 등) — 폭이 <b>좁고</b>, 유속이 <b>빠르며</b>, 흐르는 깊이가 <b>깊습니다</b>. 따뜻한 저위도의 해수를 고위도로 운반하며, 경계가 뚜렷합니다."
-      : "<b>동안 경계류</b>(캘리포니아 해류, 카나리아 해류, 페루 해류 등) — 폭이 <b>넓고</b>, 유속이 <b>느리며</b>, 흐르는 깊이가 <b>얕습니다</b>. 찬 고위도의 해수를 저위도로 운반하며, 경계가 뚜렷하지 않습니다.";
-  }
-  render();
-})();
-
-/* TAB4 해파 */
-(function () {
-  var canvas = document.getElementById("c4");
-  var ctx = setupCanvas(canvas);
-  var W = canvas._w, H = canvas._h;
-  var ratio = 1;
-  var info = document.getElementById("c4-info");
-  document.getElementById("c4-r").addEventListener("input", function (e) { ratio = +e.target.value; document.getElementById("c4-r-val").textContent = ratio.toFixed(2); render(); });
-
-  function render() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
-    var waterTop = 60, waterBot = H - 40;
-    var seaFloorY = waterTop + ratio * (waterBot - waterTop);
-    ctx.fillStyle = cssVar("--panel-2"); ctx.fillRect(0, waterTop, W, waterBot - waterTop);
-    ctx.fillStyle = cssVar("--line"); ctx.fillRect(0, seaFloorY, W, waterBot - seaFloorY);
-
-    var n = 8;
-    for (var i = 0; i < n; i++) {
-      var cx = 100 + i * (W - 200) / (n - 1);
-      var maxDepthFromSurface = seaFloorY - waterTop;
-      var particleY = waterTop + 30;
-      var r0 = Math.min(24, maxDepthFromSurface * 0.35);
-      var isDeep = ratio > 0.5;
-      var rx = r0, ry = isDeep ? r0 : r0 * Math.max(0.15, ratio);
-      ctx.save();
-      ctx.strokeStyle = cssVar("--teal"); ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.ellipse(cx, particleY, rx, ry, 0, 0, 7); ctx.stroke();
-      ctx.fillStyle = cssVar("--teal"); ctx.beginPath(); ctx.arc(cx, particleY - ry, 3, 0, 7); ctx.fill();
-      ctx.restore();
-    }
-    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
-    ctx.fillText("해수면", 10, waterTop - 8);
-    ctx.fillText("해저", 10, seaFloorY + 16);
-
-    var isDeepWave = ratio > 0.5;
-    info.innerHTML = isDeepWave
-      ? "수심이 파장의 1/2보다 깊은 <b>심해파</b>입니다. 물 입자는 원 궤도를 그리며, 파동이 해저의 영향을 받지 않습니다."
-      : "수심이 파장의 1/20보다 얕은 <b>천해파</b>에 가깝습니다. 물 입자는 납작한 타원 궤도를 그리며, 해저 마찰의 영향을 받아 파고가 커지고 파속이 느려집니다(해안가에서 파도가 부서지는 이유).";
-  }
-  render();
-})();
-
-/* TAB4 미션 — 바람이 만드는 파도 예측하기 */
-(function () {
-  var dataEl = document.getElementById("c4m-data");
-  var choicesEl = document.getElementById("c4m-choices");
-  var checkBtn = document.getElementById("c4m-check");
-  var newBtn = document.getElementById("c4m-new");
-  if (!dataEl) return;
-
-  var categories = [
-    { key: "calm", label: "잔잔함 (<0.5 m)", max: 0.5 },
-    { key: "normal", label: "보통 파도 (0.5~1.5 m)", max: 1.5 },
-    { key: "rough", label: "거친 파도 (1.5~3 m)", max: 3.0 },
-    { key: "storm", label: "매우 거친 파도 (>3 m)", max: Infinity }
-  ];
-
-  var wind = 5, fetch = 50, trueKey = "calm";
-  var picked = null;
-
-  function classify(w, f) {
-    var score = w * 0.16 + Math.sqrt(f) * 0.09;
-    for (var i = 0; i < categories.length; i++) {
-      if (score < categories[i].max) return categories[i].key;
-    }
-    return categories[categories.length - 1].key;
-  }
-
-  function newQuestion() {
-    wind = 2 + Math.round(Math.random() * 24);
-    fetch = 10 + Math.round(Math.random() * 990);
-    trueKey = classify(wind, fetch);
-    dataEl.innerHTML = "관측된 풍속은 <b>" + wind + " m/s</b>, 취주 거리(바람이 부는 거리)는 <b>" + fetch.toLocaleString() + " km</b>입니다.";
-    picked = null;
-    renderChoices();
-    var info = document.getElementById("c4m-info");
-    info.style.color = "";
-    info.textContent = "보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.";
-  }
-
-  function renderChoices() {
-    choicesEl.innerHTML = "";
-    categories.forEach(function (c) {
-      var btn = document.createElement("button");
-      btn.className = picked === c.key ? "on" : "";
-      btn.textContent = c.label;
-      btn.addEventListener("click", function () { picked = c.key; renderChoices(); });
-      choicesEl.appendChild(btn);
-    });
-  }
-
-  checkBtn.addEventListener("click", function () {
-    var info = document.getElementById("c4m-info");
-    if (picked === null) {
-      info.style.color = "";
-      info.textContent = "먼저 보기 중 하나를 선택하세요.";
-      return;
-    }
-    var trueLabel = categories.filter(function (c) { return c.key === trueKey; })[0].label;
-    if (picked === trueKey) {
-      info.style.color = "var(--teal)";
-      info.innerHTML = "<b>정답입니다!</b> 풍속 " + wind + " m/s, 취주 거리 " + fetch.toLocaleString() + " km 조건에서는 <b>" + trueLabel + "</b> 정도가 예상됩니다. 풍속이 강하고 취주 거리가 길수록 파랑 에너지가 커져 파고가 높아집니다.";
-    } else {
-      info.style.color = "var(--coral)";
-      info.innerHTML = "다시 생각해 보세요. 정답은 <b>" + trueLabel + "</b>입니다. 풍속과 취주 거리가 모두 클수록 더 높은 파도가 만들어집니다.";
-    }
-  });
-
-  newBtn.addEventListener("click", newQuestion);
-  newQuestion();
-})();
-
-/* TAB5 해일 */
-(function () {
-  var canvas = document.getElementById("c5");
-  var ctx = setupCanvas(canvas);
-  var W = canvas._w, H = canvas._h;
-  var type = "storm";
-  var info = document.getElementById("c5-info");
-  document.querySelectorAll("#c5-type button").forEach(function (b) {
-    b.addEventListener("click", function () {
-      type = b.getAttribute("data-t");
-      document.querySelectorAll("#c5-type button").forEach(function (x) { x.classList.toggle("on", x === b); });
-      render();
-    });
-  });
-  function render() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
-    var seaY = H - 100;
-    ctx.strokeStyle = cssVar("--line"); ctx.beginPath(); ctx.moveTo(0, seaY); ctx.lineTo(W, seaY); ctx.stroke();
-
-    if (type === "storm") {
-      // low pressure symbol
-      ctx.save(); ctx.strokeStyle = cssVar("--violet"); ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.arc(200, 100, 44, 0, 7); ctx.stroke();
-      ctx.font = "700 20px Segoe UI"; ctx.fillStyle = cssVar("--violet"); ctx.textAlign = "center"; ctx.fillText("L", 200, 108);
-      ctx.restore();
-      // broad gentle sea-level bump
-      ctx.beginPath(); ctx.moveTo(0, seaY);
-      for (var x = 0; x <= W; x += 10) {
-        var y = seaY - 40 * Math.exp(-Math.pow((x - 450) / 260, 2));
-        ctx.lineTo(x, y);
-      }
-      ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
-      ctx.fillStyle = cssVar("--cold"); ctx.globalAlpha = .6; ctx.fill(); ctx.globalAlpha = 1;
-      ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "center";
-      ctx.fillText("넓은 해역에 걸쳐 서서히 해수면이 부풀어 오름", 450, seaY + 70);
-      info.innerHTML = "<b>폭풍 해일</b> — 태풍이나 발달한 저기압처럼 기압이 낮고 바람이 강한 기상 현상이 통과할 때, 낮은 기압이 해수면을 밀어 올리고(흡인 효과) 강한 바람이 해안 쪽으로 해수를 몰아붙여(취송 효과) 넓은 해역에서 서서히 해수면이 높아집니다. 태풍의 진행 경로를 미리 예측할 수 있어 어느 정도 대비가 가능합니다.";
-    } else {
-      // sudden seafloor fault
-      ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.lineWidth = 4;
-      ctx.beginPath(); ctx.moveTo(120, seaY + 40); ctx.lineTo(160, seaY + 10); ctx.lineTo(160, seaY + 60); ctx.lineTo(200, seaY + 30); ctx.stroke();
-      ctx.restore();
-      ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--coral"); ctx.textAlign = "center";
-      ctx.fillText("해저 단층 운동/지진", 160, seaY + 90);
-      // long wavelength fast wave far offshore (low, wide) then tall near coast
-      ctx.beginPath(); ctx.moveTo(0, seaY);
-      for (var x2 = 0; x2 <= W; x2 += 10) {
-        var t = x2 / W;
-        var amp = 6 + t * t * 90; // grows near coast (right side = shallow)
-        var y2 = seaY - amp * Math.sin(x2 / 70);
-        ctx.lineTo(x2, y2);
-      }
-      ctx.strokeStyle = cssVar("--teal"); ctx.lineWidth = 2.5; ctx.stroke();
-      ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "left";
-      ctx.fillText("먼바다: 파장 길고 파고 낮음, 매우 빠르게 전파(제트기 속도급)", 20, seaY + 30);
-      ctx.textAlign = "right";
-      ctx.fillText("해안가: 수심이 얕아지며 파고가 급격히 커짐", W - 20, seaY - 110);
-      info.innerHTML = "<b>지진 해일(쓰나미)</b> — 해저에서 지진, 화산 폭발, 단층 운동 등이 갑작스럽게 일어나 해수 전체가 들썩이며 발생합니다. 먼바다에서는 파장이 매우 길고 파고가 낮아 눈에 잘 띄지 않지만 전파 속도가 매우 빠르며, 수심이 얕아지는 해안에 가까워질수록 파고가 급격히 높아져 큰 피해를 줍니다.";
-    }
-  }
-  render();
-})();
-
-/* TAB6 조석 */
-(function () {
-  var canvas = document.getElementById("c6");
-  var ctx = setupCanvas(canvas);
-  var W = canvas._w, H = canvas._h;
-  var a = 0;
-  var info = document.getElementById("c6-info");
-  document.getElementById("c6-a").addEventListener("input", function (e) { a = +e.target.value; document.getElementById("c6-a-val").textContent = a + "°"; render(); });
-
-  function render() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = cssVar("--panel"); ctx.fillRect(0, 0, W, H);
-    var cx = W / 2, cy = H / 2, rEarth = 40, rMoon = 160;
-    ctx.fillStyle = cssVar("--teal"); ctx.beginPath(); ctx.arc(cx, cy, rEarth, 0, 7); ctx.fill();
-    ctx.strokeStyle = cssVar("--line"); ctx.beginPath(); ctx.arc(cx, cy, rMoon, 0, 7); ctx.stroke();
-
-    var rad = a * Math.PI / 180;
-    var mx = cx + rMoon * Math.cos(rad), my = cy + rMoon * Math.sin(rad);
-    ctx.fillStyle = cssVar("--mist"); ctx.beginPath(); ctx.arc(mx, my, 12, 0, 7); ctx.fill();
-    ctx.font = "11px Segoe UI"; ctx.fillStyle = cssVar("--mist"); ctx.textAlign = "center"; ctx.fillText("달", mx, my - 20);
-
-    ctx.save(); ctx.strokeStyle = cssVar("--coral"); ctx.fillStyle = cssVar("--coral"); ctx.lineWidth = 3;
-    drawArrow(ctx, W - 40, cy, cx + rEarth + 20, cy, 8);
-    ctx.font = "11px Segoe UI"; ctx.textAlign = "center"; ctx.fillText("태양 방향", W - 60, cy - 14);
-    ctx.restore();
-
-    ctx.save();
-    ctx.translate(cx, cy); ctx.rotate(rad);
-    ctx.strokeStyle = cssVar("--violet"); ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.ellipse(0, 0, rEarth * 1.35, rEarth * 0.85, 0, 0, 7); ctx.stroke();
-    ctx.restore();
-
-    var aNorm = ((a % 180) + 180) % 180;
-    var isSpring = aNorm < 15 || aNorm > 165;
-    var isNeap = Math.abs(aNorm - 90) < 15;
-
-    info.innerHTML = isSpring
-      ? "태양-지구-달이 <b>일직선(삭 또는 망)</b>에 가까워 태양과 달의 기조력이 더해져 밀물과 썰물의 차이가 가장 큰 <b>사리(대조)</b>가 나타납니다."
-      : isNeap
-      ? "태양-지구-달이 <b>직각(상현 또는 하현)</b>에 가까워 태양과 달의 기조력이 서로 상쇄되어 밀물과 썰물의 차이가 가장 작은 <b>조금(소조)</b>이 나타납니다."
-      : "달의 위치에 따라 밀물과 썰물의 차이가 사리와 조금 사이에서 변화하고 있습니다.";
-  }
-  render();
-})();
-
-/* TAB6 미션 — 실시간 조위 자료로 패턴 추론하기 */
-(function () {
-  var dataEl = document.getElementById("c6m-data");
-  var choicesEl = document.getElementById("c6m-choices");
-  var checkBtn = document.getElementById("c6m-check");
-  var newBtn = document.getElementById("c6m-new");
-  if (!dataEl) return;
-
-  var trueKey = "mid";
-  var picked = null;
-  var seg = choicesEl.querySelectorAll("button");
-
-  seg.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      picked = btn.dataset.c;
-      seg.forEach(function (b) { b.classList.toggle("on", b === btn); });
-    });
-  });
-
-  function newQuestion() {
-    var a = Math.floor(Math.random() * 360);
-    var rad = a * Math.PI / 180;
-    var aNorm = ((a % 180) + 180) % 180;
-    trueKey = (aNorm < 15 || aNorm > 165) ? "spring" : (Math.abs(aNorm - 90) < 15) ? "neap" : "mid";
-    var range = 1.2 + 2.3 * Math.abs(Math.cos(rad));
-    var mean = 2.5;
-    var high = (mean + range / 2).toFixed(2);
-    var low = (mean - range / 2).toFixed(2);
-    dataEl.innerHTML = '<table class="data-mini-table"><tr><th>최고 조위</th><th>최저 조위</th><th>조차</th></tr>' +
-      "<tr><td>" + high + " m</td><td>" + low + " m</td><td>" + range.toFixed(2) + " m</td></tr></table>";
-    picked = null;
-    seg.forEach(function (b) { b.classList.remove("on"); });
-    var info = document.getElementById("c6m-info");
-    info.style.color = "";
-    info.textContent = "보기 중 하나를 선택한 뒤 [정답 확인]을 눌러 보세요.";
-  }
-
-  var labels = { spring: "사리(대조)", mid: "중간", neap: "조금(소조)" };
-
-  checkBtn.addEventListener("click", function () {
-    var info = document.getElementById("c6m-info");
-    if (picked === null) {
-      info.style.color = "";
-      info.textContent = "먼저 보기 중 하나를 선택하세요.";
-      return;
-    }
-    if (picked === trueKey) {
-      info.style.color = "var(--teal)";
-      info.innerHTML = "<b>정답입니다!</b> 조차가 " + (trueKey === "spring" ? "커서" : trueKey === "neap" ? "작아서" : "중간 정도라") + " <b>" + labels[trueKey] + "</b> 시기입니다.";
-    } else {
-      info.style.color = "var(--coral)";
-      info.innerHTML = "다시 생각해 보세요. 정답은 <b>" + labels[trueKey] + "</b>입니다. 조차(밀물-썰물 차)가 클수록 사리, 작을수록 조금에 가깝습니다.";
-    }
-  });
-
-  newBtn.addEventListener("click", newQuestion);
-  newQuestion();
-})();
-
-})();
-</script>
-
-<script>
-(function () {
-  window.sthUnit("esys-2-1");
-  window.sthWork({
-    mount: "wk",
-    unitLabel: "[지구시스템과학] 해수의 운동",
-    items: [
-      {
-            "id": "w1",
-            "label": "바람과 해수의 방향이 어긋나는 까닭",
-            "hint": "에크만 수송에서 표층 해수와 전체 수송의 방향이 바람과 각각 몇 도씩 어긋나는지, 왜 그런지 쓰세요.",
-            "ph": ""
-      },
-      {
-            "id": "w2",
-            "label": "천해파와 심해파를 가르는 것",
-            "hint": "무엇을 기준으로 나누는지, 그리고 속도가 무엇에 따라 달라지는지 각각 쓰세요.",
-            "ph": ""
-      },
-      {
-            "id": "w3",
-            "label": "아직 헷갈리는 것",
-            "hint": "다음 시간에 여기서부터 시작합니다.",
-            "ph": ""
-      }
-]
-  });
-})();
-</script>
+<script src="../assets/story.js"></script>
+<script src="../assets/share-config.js"></script>
+<script src="../assets/share.js"></script>
+<script src="episodes.js"></script>
 </body>
 </html>
