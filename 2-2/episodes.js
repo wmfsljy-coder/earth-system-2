@@ -506,7 +506,8 @@ function endScene(ep, idx, fn) {
       function yOf(h) { return GY - h * SC; }
 
       text(ctx, "공기 덩어리 한 덩이가 태백산맥을 넘는다", 40, 28, { s: 13, w: "800" });
-      text(ctx, "건조 단열 1.0 ℃/100 m · 습윤 단열 0.5 ℃/100 m · 이슬점은 오를 때 0.2 ℃/100 m 낮아짐", 40, 50, { s: 11, c: v("--mist") });
+      text(ctx, "건조 단열 1.0 ℃/100 m · 습윤 단열 0.5 ℃/100 m", 40, 50, { s: 11, c: v("--mist") });
+      text(ctx, "이슬점은 오를 때 0.2 ℃/100 m 낮아짐", 860, 50, { s: 11, a: "right", c: v("--mist") });
 
       /* 산 */
       ctx.fillStyle = v("--card-2");
@@ -924,7 +925,7 @@ function endScene(ep, idx, fn) {
       ctx.fillStyle = v("--coral");
       ctx.beginPath(); ctx.arc(xOfP(p), yOfZ(z), 6, 0, Math.PI * 2); ctx.fill();
       var lx = xOfP(p), la = lx > 700 ? "right" : "left";
-      text(ctx, p.toFixed(0) + " hPa", lx + (la === "right" ? -10 : 10), yOfZ(z) - 10, { s: 13, w: "900", a: la, c: v("--coral-700") });
+      text(ctx, p.toFixed(0) + " hPa", lx + (la === "right" ? -10 : 10), Math.max(yOfZ(z) - 10, TY + 16), { s: 13, w: "900", a: la, c: v("--coral-700") });
       /* 기준선 */
       [[P0 / 2, "지표의 1/2"], [P0 / 10, "지표의 1/10"]].forEach(function (m) {
         dash(ctx, xOfP(m[0]), TY, xOfP(m[0]), GY, v("--violet"), 1.5);
@@ -1314,15 +1315,15 @@ function endScene(ep, idx, fn) {
       ctx.fillStyle = v("--ink"); ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
 
       /* 오른쪽 수치 */
-      text(ctx, "전향 인자 f = 2Ω sin φ", 600, 92, { s: 11.5, w: "800", c: v("--mist") });
-      text(ctx, "= " + (f * 1e5).toFixed(2) + " ×10⁻⁵ /s", 600, 114, { s: 12.5, w: "800" });
-      text(ctx, "기압 경도력 (단위 질량당)", 600, 146, { s: 11.5, w: "800", c: v("--mist") });
-      text(ctx, "= " + (P * 1e4).toFixed(2) + " ×10⁻⁴ m/s²", 600, 168, { s: 12.5, w: "800" });
-      text(ctx, "지균풍 속도 V = 기압 경도력 ÷ f", 600, 206, { s: 11.5, w: "800", c: v("--mist") });
-      text(ctx, V.toFixed(1) + " m/s", 600, 250, { s: 30, w: "900", c: v("--teal-700") });
-      text(ctx, "= 시속 " + (V * 3.6).toFixed(0) + " km", 600, 278, { s: 13, w: "800", c: v("--mist") });
-      text(ctx, V > 50 ? "※ 저위도에서는 전향력이 너무 작아" : "등압선 간격이 좁을수록,", 600, 314, { s: 11, c: v("--mist") });
-      text(ctx, V > 50 ? "   지균풍 근사가 성립하지 않습니다" : "위도가 낮을수록 바람이 빨라집니다", 600, 334, { s: 11, c: v("--mist") });
+      text(ctx, "전향 인자 f = 2Ω sin φ", 620, 92, { s: 11.5, w: "800", c: v("--mist") });
+      text(ctx, "= " + (f * 1e5).toFixed(2) + " ×10⁻⁵ /s", 620, 114, { s: 12.5, w: "800" });
+      text(ctx, "기압 경도력 (단위 질량당)", 620, 146, { s: 11.5, w: "800", c: v("--mist") });
+      text(ctx, "= " + (P * 1e4).toFixed(2) + " ×10⁻⁴ m/s²", 620, 168, { s: 12.5, w: "800" });
+      text(ctx, "지균풍 속도 V = 기압 경도력 ÷ f", 620, 206, { s: 11.5, w: "800", c: v("--mist") });
+      text(ctx, V.toFixed(1) + " m/s", 620, 250, { s: 30, w: "900", c: v("--teal-700") });
+      text(ctx, "= 시속 " + (V * 3.6).toFixed(0) + " km", 620, 278, { s: 13, w: "800", c: v("--mist") });
+      text(ctx, V > 50 ? "※ 저위도에서는 전향력이 너무 작아" : "등압선 간격이 좁을수록,", 620, 314, { s: 11, c: v("--mist") });
+      text(ctx, V > 50 ? "   지균풍 근사가 성립하지 않습니다" : "위도가 낮을수록 바람이 빨라집니다", 620, 334, { s: 11, c: v("--mist") });
 
       text(ctx, "북반구에서 지균풍은 기압이 낮은 쪽을 ‘왼쪽’에 두고 붑니다", 60, 412, { s: 11.5, w: "800", c: v("--mist") });
 
@@ -1421,18 +1422,18 @@ function endScene(ep, idx, fn) {
       ctx.fillStyle = v("--ink"); ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI * 2); ctx.fill();
       if (low) {
         arrow(ctx, px, py, px - 62, py, v("--coral"), 4, 11);
-        text(ctx, "기압 경도력", px - 66, py - 10, { s: 10.5, w: "800", a: "right", c: v("--coral-700") });
+        text(ctx, "기압 경도력", px - 66, py - 22, { s: 10.5, w: "800", a: "right", c: v("--coral-700") });
         arrow(ctx, px, py, px + 44, py, v("--violet"), 4, 11);
-        text(ctx, "전향력", px + 48, py - 10, { s: 10.5, w: "800", c: v("--violet-700") });
+        text(ctx, "전향력", px + 48, py - 22, { s: 10.5, w: "800", c: v("--violet-700") });
         arrow(ctx, px, py, px + 30, py + 28, v("--amber"), 3, 9);
         text(ctx, "원심력", px + 34, py + 42, { s: 10.5, w: "800", c: v("--amber-700") });
         arrow(ctx, px, py - 20, px, py - 80, v("--teal"), 5, 13);
         text(ctx, "바람", px + 8, py - 78, { s: 12, w: "900", c: v("--teal-700") });
       } else {
         arrow(ctx, px, py, px + 62, py, v("--coral"), 4, 11);
-        text(ctx, "기압 경도력", px + 66, py - 10, { s: 10.5, w: "800", c: v("--coral-700") });
+        text(ctx, "기압 경도력", px + 66, py - 22, { s: 10.5, w: "800", c: v("--coral-700") });
         arrow(ctx, px, py, px - 44, py, v("--violet"), 4, 11);
-        text(ctx, "전향력", px - 48, py - 10, { s: 10.5, w: "800", a: "right", c: v("--violet-700") });
+        text(ctx, "전향력", px - 48, py - 22, { s: 10.5, w: "800", a: "right", c: v("--violet-700") });
         arrow(ctx, px, py, px + 30, py + 28, v("--amber"), 3, 9);
         text(ctx, "원심력", px + 34, py + 42, { s: 10.5, w: "800", c: v("--amber-700") });
         arrow(ctx, px, py + 20, px, py + 80, v("--teal"), 5, 13);
@@ -1599,7 +1600,7 @@ function endScene(ep, idx, fn) {
       paper(ctx, W, H);
       var X0 = 70, X1 = 870, YT = 86, YB = 380;
       function xOfLon(l) { return X0 + l / 360 * (X1 - X0); }
-      function yOfLat(la) { return YB - (la - 20) / 50 * (YB - YT); }
+      function yOfLat(la) { return YB - (la - 15) / 60 * (YB - YT); }
 
       text(ctx, "상층 일기도 — 편서풍이 남북으로 굽이친다 (행성파)", 40, 28, { s: 13, w: "800" });
       text(ctx, "파수 " + kw + " · 진폭 " + amp + "° · 파장 약 " + Math.round(wl()).toLocaleString() + " km (위도 45° 기준)", 40, 52, { s: 11.5, w: "800", c: v("--teal-700") });
