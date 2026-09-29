@@ -1245,7 +1245,9 @@ window.sthWork({
     { key: "r1", label: "① 고무 오리 2만 8천 개" },
     { key: "r2", label: "② 사흘 뒤의 파도" },
     { key: "r3", label: "③ 26분" },
-    { key: "r4", label: "④ 바다가 갈라지는 날" }
+    { key: "r4", label: "④ 바다가 갈라지는 날" },
+    { key: "rQuiz", label: "수준별 문제" },
+    { key: "rLab", label: "응용 실험실" }
   ],
   items: [
     { id: "all", label: "네 사건을 꿰는 한 문장", hint: "오리를 나른 지형류, 대회장에 닿은 너울, 26분 만에 온 지진 해일, 갈라진 바다. 네 이야기에 공통으로 들어 있는 생각을 ‘힘’과 ‘움직임’이라는 말을 넣어 쓰세요." },
@@ -1260,7 +1262,9 @@ window.sthShare({
     { key: "r1", label: "① 고무 오리 2만 8천 개" },
     { key: "r2", label: "② 사흘 뒤의 파도" },
     { key: "r3", label: "③ 26분" },
-    { key: "r4", label: "④ 바다가 갈라지는 날" }
+    { key: "r4", label: "④ 바다가 갈라지는 날" },
+    { key: "rQuiz", label: "수준별 문제" },
+    { key: "rLab", label: "응용 실험실" }
   ],
   line: { id: "all", label: "네 사건을 꿰는 한 문장" }
 });
