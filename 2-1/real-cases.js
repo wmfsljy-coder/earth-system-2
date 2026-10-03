@@ -52,7 +52,7 @@ window.sthLab({
       api.button("만조 위치 표시", function () { mark = 1 - mark; draw(); });
       api.info("가로축 눈금은 하루(24 시간)마다입니다. " + SRC
         + "<div data-map='{\"id\":\"boston-tide\",\"name\":\"보스턴 조위 관측소\",\"lat\":42.355,\"lng\":-71.053,\"zoom\":16,\"ask\":\"부두가 바다와 어떻게 맞닿아 있나요? 하루에 두 번, 해수면이 평소 약 3 m, 사리 때는 4 m 넘게 오르내리는 곳입니다. 배를 대는 데 어떤 어려움이 있을지 적어 보세요.\"}'></div>"
-        + "<div data-link='{\"id\":\"noaa-tide\",\"title\":\"NOAA 보스턴 조석 관측소\",\"src\":\"미국 해양대기청\",\"url\":\"https://tidesandcurrents.noaa.gov/stationhome.html?id=8443970\",\"ask\":\"오늘 보스턴의 만조 시각 두 개를 찾아, 그 간격이 몇 시간 몇 분인지 적어 오세요.\"}'></div>");
+        + "<div data-link='{\"id\":\"khoa-tide\",\"title\":\"국립해양조사원 스마트 조석예보 (교과서 연결 자료)\",\"src\":\"국립해양조사원 · 비상교육 지구시스템과학 78쪽\",\"url\":\"https://www.khoa.go.kr/\",\"ask\":\"첫 화면의 ‘스마트 조석예보’에서 우리 학교와 가까운 항구(예: 진해·부산)의 오늘 만조 시각 두 개를 찾아, 그 간격이 몇 시간 몇 분인지 적고 보스턴과 비교해 오세요.\"}'></div>");
       draw();
       return {
         judge: function () {
