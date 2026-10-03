@@ -1744,7 +1744,8 @@ window.sthWork({
     { key: "r3", label: "③ 하늘에 멈춰 선 기구" },
     { key: "r4", label: "④ 제트 기류를 읽는 사람" },
     { key: "rQuiz", label: "수준별 문제" },
-    { key: "rLab", label: "응용 실험실" }
+    { key: "rLab", label: "응용 실험실" },
+    { key: "rReal", label: "실제 자료" }
   ],
   items: [
     { id: "all", label: "네 사건을 꿰는 한 문장", hint: "대기가 골라서 흡수한 에너지, 산을 넘으며 데워진 공기, 저울처럼 균형을 이룬 기압, 지구를 감아 도는 물결. 네 이야기에 공통으로 들어 있는 생각을 ‘에너지’와 ‘균형’이라는 말을 넣어 쓰세요." },
@@ -1761,7 +1762,8 @@ window.sthShare({
     { key: "r3", label: "③ 하늘에 멈춰 선 기구" },
     { key: "r4", label: "④ 제트 기류를 읽는 사람" },
     { key: "rQuiz", label: "수준별 문제" },
-    { key: "rLab", label: "응용 실험실" }
+    { key: "rLab", label: "응용 실험실" },
+    { key: "rReal", label: "실제 자료" }
   ],
   line: { id: "all", label: "네 사건을 꿰는 한 문장" }
 });
