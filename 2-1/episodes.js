@@ -795,7 +795,7 @@ function endScene(ep, idx, fn) {
           if (diff <= 2) {
             window.sthState("cArr", guess);
             $("c-arr-info").innerHTML = "✅ 실제 도달 시각은 <b>" + real.toFixed(1) + "분</b>. 내 계산 " + guess + "분 — 오차 " + diff.toFixed(1) + "분입니다.<br>A: 150 km ÷ 221 m/s = 678초, B: 50 km ÷ 99 m/s = 505초, C: 12 km ÷ 31 m/s = 383초 → 모두 더해 1,566초 ≈ 26분.";
-            window.sthMission("mC3", true, "<span class='m-tag'>미션 완료</span>해안 도달까지 약 <b>26분</b>. 거리의 94%를 차지하는 심해 구간은 11분 만에 지나지만, 마지막 12 km는 6분이 넘게 걸립니다. <b>느려진 만큼 파고가 솟아오릅니다.</b>");
+            window.sthMission("mC3", true, "<span class='m-tag'>미션 완료</span>해안 도달까지 약 <b>26분</b>. 거리의 70%를 차지하는 심해 구간은 11분 만에 지나지만, 마지막 12 km는 6분이 넘게 걸립니다. <b>느려진 만큼 파고가 솟아오릅니다.</b>");
             ep.clear(2);
           } else {
             $("c-arr-info").innerHTML = "❌ 내 계산 " + guess + "분은 실제보다 <b>" + (guess > real ? "늦습니다" : "이릅니다") + "</b>. 구간별 속도를 다시 구해 보세요. 수심이 얕아질수록 √(gh) 가 작아져 같은 거리라도 훨씬 오래 걸립니다.";
