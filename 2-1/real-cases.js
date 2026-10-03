@@ -10,7 +10,7 @@ function highs(a) { var h = []; for (var i = 1; i < a.length - 1; i++) if (a[i] 
 var HB = highs(BOS), HP = highs(PEN);
 var PER = HB.length > 1 ? (HB[HB.length - 1] - HB[0]) / (HB.length - 1) : 12.4;
 function range(a) { return Math.max.apply(null, a) - Math.min.apply(null, a); }
-var SRC = "<small>출처: 미국 해양대기청(NOAA) 조석·해류 자료(CO-OPS), 보스턴 8443970·펜서콜라 8729840 관측소의 매시 해수면 높이(평균 저저조면 기준), 2024년 1월 15 ~ 17일(세계시). 사본은 data/tides.js.</small>";
+var SRC = "<small>출처: 미국 해양대기청(NOAA) 조석·해류 자료(CO-OPS), 보스턴 8443970·펜서콜라 8729840 관측소의 매시 해수면 높이(평균 저저조면 기준 — 하루 두 간조 중 낮은 쪽의 평균 높이를 0 으로 둔 것), 2024년 1월 15 ~ 17일(세계시). 사본은 data/tides.js.</small>";
 
 function plot(H, ctx, W, CH, a, col, lo, hi, marks) {
   H.paper(ctx, W, CH);
@@ -44,19 +44,19 @@ window.sthLab({
       var H = api.h, cv = api.canvas(270), ctx = cv.ctx, W = cv.W, p = 11, mark = 0;
       function draw() {
         var g = plot(H, ctx, W, cv.H, BOS, "--brand", -0.5, 4, mark ? HB : []);
-        if (mark) HB.forEach(function (i) { H.text(ctx, i + "시", g.X(i), g.Y(BOS[i]) - 9, { s: 10, w: "800", a: "center", c: H.v("--coral-700") }); });
+        if (mark) HB.forEach(function (i) { H.text(ctx, i + "시간째", g.X(i), g.Y(BOS[i]) - 9, { s: 10, w: "800", a: "center", c: H.v("--coral-700") }); });
         H.text(ctx, "내 답: 만조 간격 " + p.toFixed(1) + " 시간", 70, 40, { s: 13, w: "900", c: H.v("--ink") });
       }
       cv.canvas._redraw = draw;
       api.slider({ label: "평균 만조 간격", min: 10, max: 26, step: 0.1, value: 11, fmt: function (x) { return x.toFixed(1) + " 시간"; }, onInput: function (x) { p = x; api.changed(); draw(); } });
       api.button("만조 위치 표시", function () { mark = 1 - mark; draw(); });
       api.info("가로축 눈금은 하루(24 시간)마다입니다. " + SRC
-        + "<div data-map='{\"id\":\"boston-tide\",\"name\":\"보스턴 조위 관측소\",\"lat\":42.355,\"lng\":-71.053,\"zoom\":16,\"ask\":\"부두가 바다와 어떻게 맞닿아 있나요? 하루에 두 번, 해수면이 3 ~ 4 m 오르내리는 곳입니다. 배를 대는 데 어떤 어려움이 있을지 적어 보세요.\"}'></div>"
+        + "<div data-map='{\"id\":\"boston-tide\",\"name\":\"보스턴 조위 관측소\",\"lat\":42.355,\"lng\":-71.053,\"zoom\":16,\"ask\":\"부두가 바다와 어떻게 맞닿아 있나요? 하루에 두 번, 해수면이 평소 약 3 m, 사리 때는 4 m 넘게 오르내리는 곳입니다. 배를 대는 데 어떤 어려움이 있을지 적어 보세요.\"}'></div>"
         + "<div data-link='{\"id\":\"noaa-tide\",\"title\":\"NOAA 보스턴 조석 관측소\",\"src\":\"미국 해양대기청\",\"url\":\"https://tidesandcurrents.noaa.gov/stationhome.html?id=8443970\",\"ask\":\"오늘 보스턴의 만조 시각 두 개를 찾아, 그 간격이 몇 시간 몇 분인지 적어 오세요.\"}'></div>");
       draw();
       return {
         judge: function () {
-          if (Math.abs(p - PER) <= 0.2) return { ok: true, msg: "만조 " + HB.length + "번: " + HB.join(", ") + " 시 → (" + HB[HB.length - 1] + " − " + HB[0] + ") ÷ " + (HB.length - 1) + " ≈ " + PER.toFixed(1) + " 시간." };
+          if (Math.abs(p - PER) <= 0.2 + 1e-9) return { ok: true, msg: "만조 " + HB.length + "번: " + HB.join(", ") + " 시 → (" + HB[HB.length - 1] + " − " + HB[0] + ") ÷ " + (HB.length - 1) + " ≈ " + PER.toFixed(1) + " 시간." };
           return { ok: false, msg: p.toFixed(1) + " 시간은 " + (p < PER ? "짧습니다" : "깁니다") + ". 만조 위치를 표시해 첫 만조와 마지막 만조 사이를 세어 보세요." };
         }
       };
@@ -85,19 +85,19 @@ window.sthLab({
       cv.canvas._redraw = draw;
       api.seg({ label: "하루 만조 횟수", value: "2", options: [{ v: "1", t: "하루 1번" }, { v: "2", t: "하루 2번" }, { v: "4", t: "하루 4번" }], onPick: function (x) { n = x; api.changed(); draw(); } });
       api.slider({ label: "조차 (가장 높을 때 − 가장 낮을 때)", min: 0.1, max: 4, step: 0.02, value: 1.5, fmt: function (x) { return x.toFixed(2) + " m"; }, onInput: function (x) { r = x; api.changed(); draw(); } });
-      api.info("세로축 눈금이 보스턴보다 훨씬 촘촘합니다. 눈금 숫자를 잘 읽으세요. " + SRC
+      api.info("세로축 눈금이 보스턴보다 훨씬 촘촘합니다. 눈금 숫자를 잘 읽으세요. 17일에는 달이 적도 위를 지나 오르내림이 거의 사라지니 15·16일을 보세요. " + SRC
         + "<div data-map='{\"id\":\"pensacola\",\"name\":\"펜서콜라 조위 관측소\",\"lat\":30.404,\"lng\":-87.211,\"zoom\":12,\"ask\":\"관측소가 큰 바다와 어떻게 이어져 있나요? 좁은 입구로 이어진 만인지, 탁 트인 바닷가인지 적어 보세요.\"}'></div>");
       draw();
       return {
         judge: function () {
-          var R = range(PEN), per = HP.length > 1 ? (HP[HP.length - 1] - HP[0]) / (HP.length - 1) : 24;
+          var R = range(PEN), big = HP.filter(function (i) { return PEN[i] > 0.3; }), per = big.length > 1 ? (big[big.length - 1] - big[0]) / (big.length - 1) : 24;
           if (n === "1" && Math.abs(r - R) <= 0.08) return { ok: true, msg: "만조 간격 약 " + per.toFixed(0) + " 시간 — 하루 한 번(일주조), 조차 " + R.toFixed(2) + " m 입니다. 보스턴의 10분의 1 정도예요." };
           if (n !== "1") return { ok: false, msg: "봉우리를 다시 세어 보세요. 하루(눈금 한 칸)에 몇 번 솟나요?" };
           return { ok: false, msg: "횟수는 맞았습니다. 조차 " + r.toFixed(2) + " m 는 " + (r < R ? "작습니다" : "큽니다") + ". 세로 눈금을 다시 읽으세요." };
         }
       };
     },
-    hints: ["눈금 한 칸이 하루입니다. 한 칸 안에 봉우리가 몇 개인가요?", "가장 높은 곳은 0.5 m 근처, 가장 낮은 곳은 0 m 근처입니다."],
+    hints: ["눈금 한 칸이 하루입니다. 한 칸 안에 봉우리가 몇 개인가요?", "가장 높은 곳은 0.45 m 근처, 가장 낮은 곳은 0 m 근처입니다."],
     solution: "<b>하루 1번</b>(일주조), 조차 <b>약 " + range(PEN).toFixed(2) + " m</b>.",
     why: "달이 만드는 힘은 같아도, 실제 조석은 바다의 모양·크기·깊이에 따라 크게 달라집니다. 바닷물은 분지 안에서 저마다의 고유 주기로 출렁이는데, 멕시코만은 하루 두 번 오르내림에는 잘 반응하지 않고 하루 한 번 성분이 남아 <b>일주조</b>가 나타나고 조차도 작습니다. 보스턴처럼 대서양에 열린 곳은 하루 두 번의 <b>반일주조</b>가 크게 나타나요.<br>"
       + "우리나라도 서해는 조차가 크고(인천 최대 9 m 안팎) 동해는 매우 작습니다(수십 cm). 같은 나라 안에서도 바다의 모양에 따라 조석이 이렇게 다릅니다."
