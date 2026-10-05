@@ -10,9 +10,12 @@
    2) 이야기(소단원)를 끝까지 풀면 그 탭의 이야기 아래에 같은 진술이 다시 나온다(사후). 답하면 정답과 해설이 열린다.
       이때부터 처음 생각은 고정된다.
    3) 정리하기 탭(#wk 가 있는 탭) 위에 ‘처음 생각 → 지금 생각’ 표가 붙는다.
-   기록은 sthState("pc") 에 { f: { id: { v: 1|0|-1, c: "s"|"h" } }, a: { id: 1|0 } } 로 저장된다.
+   4) 정리하기 표 위에 ‘오개념 변화 측정’이 붙는다. 두 번 모두 답한 문장만으로
+      처음·이야기 뒤 정답 수, 확신하고 틀린 문장(굳은 오개념) 수, 정규화 향상도 g = (사후−사전)/(전체−사전),
+      변화 유형(오개념→바른 개념 · 처음부터 바름 · 흔들림 · 남은 오개념)을 보여 준다.
+   기록은 sthState("pc") 에 { f: { id: { v: 1|0|-1, c: "s"|"h" } }, a: { id: { v: 1|0, c: "s"|"h" } } } 로 저장된다.
    우리 반 올리기(share.js)의 수업 효과 기록에 p:id=처음>나중 으로 함께 실린다.
-     처음: 2 맞음·확실, 1 맞음·반반, 0 모름, -1 틀림·반반, -2 틀림·확실, n 답하지 않음 / 나중: 1 맞음, 0 틀림
+     처음: 2 맞음·확실, 1 맞음·반반, 0 모름, -1 틀림·반반, -2 틀림·확실, n 답하지 않음 / 나중: 2·1·-1·-2 (같은 뜻)
    주소에 ?open=1 을 붙이면(교사용) 사후 문항도 바로 열린다.
    ========================================================================= */
 (function () {
@@ -60,7 +63,18 @@
       ".pc-tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin:4px 0 6px}" +
       ".pc-tbl th,.pc-tbl td{border-top:1.5px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top;line-height:1.55}" +
       ".pc-tbl th{font-size:12px;color:var(--mist);border-top:0}" +
-      ".pc-tbl td.r{white-space:nowrap}";
+      ".pc-tbl td.r{white-space:nowrap}" +
+      ".pc-m{margin:2px 0 14px;padding:12px 14px;border-radius:16px;background:var(--card-2)}" +
+      ".pc-m h4{margin:0 0 8px;font-size:15px;color:var(--ink)}" +
+      ".pc-bar{display:grid;grid-template-columns:150px 1fr 64px;gap:8px;align-items:center;font-size:13px;color:var(--ink);margin:5px 0}" +
+      ".pc-bar i{display:block;height:12px;border-radius:999px;background:var(--line);overflow:hidden}" +
+      ".pc-bar i b{display:block;height:100%;border-radius:999px;background:var(--brand)}" +
+      ".pc-bar.post i b{background:var(--teal)}" +
+      ".pc-bar span:last-child{text-align:right;font-weight:800}" +
+      ".pc-m p{margin:8px 0 0;font-size:13.5px;line-height:1.7;color:var(--ink)}" +
+      ".pc-types{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}" +
+      ".pc-types span{font-size:12.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--card);border:1.5px solid var(--line);color:var(--ink)}" +
+      "@media (max-width:560px){.pc-bar{grid-template-columns:110px 1fr 54px}}";
     document.head.appendChild(s);
   }
 
@@ -94,12 +108,15 @@
       if (f.v === -1) return "잘 모르겠다";
       return (f.v === 1 ? "맞다" : "틀리다") + (f.c === "h" ? " (반반)" : f.c === "s" ? " (확실)" : "");
     }
+    /* 이야기 뒤 답: { v: 1|0, c: "s"|"h" } (예전 기록은 숫자 1|0) */
+    function aft(o, id) { var a = o.a[id]; if (a == null) return null; return typeof a === "number" ? { v: a, c: null, old: true } : a; }
+    function aftDone(o, id) { var a = aft(o, id); return !!a && (a.old || !!a.c); }
     function verdict(it, o) {
-      var f = o.f[it.id], a = o.a[it.id];
-      if (a == null) return null;
-      var nowOk = (a === 1) === !!it.a;
+      var f = o.f[it.id], a = aft(o, it.id);
+      if (!aftDone(o, it.id)) return null;
+      var nowOk = (a.v === 1) === !!it.a;
       var firstOk = f && f.v !== -1 && (f.v === 1) === !!it.a;
-      if (!nowOk) return { cls: "no", t: "⚠️ 아직 헷갈리는 문장" };
+      if (!nowOk) return { cls: "no", t: a.c === "s" ? "⚠️ 아직 굳게 믿고 있는 오개념" : "⚠️ 아직 헷갈리는 문장" };
       if (firstOk) return { cls: "ok", t: "✓ 처음부터 맞게 생각했어요" };
       if (f && f.v === -1) return { cls: "new", t: "💡 새로 알게 되었어요" };
       if (!f) return { cls: "ok", t: "✓ 맞았어요" };
@@ -110,7 +127,7 @@
     function preItem(it, showSec) {
       var box = el("div", "pc-item");
       function paint() {
-        var o = st(), f = o.f[it.id], locked = done(it.sec) && !OPEN_ALL || o.a[it.id] != null;
+        var o = st(), f = o.f[it.id], locked = done(it.sec) && !OPEN_ALL || aftDone(o, it.id);
         box.innerHTML = "<div class='pc-s'>" + (showSec && SEC[it.sec] ? "<span class='pc-sec'>" + it.sec + " " + esc(SEC[it.sec].name) + "</span>" : "") + esc(it.s) + "</div>";
         var r1 = el("div", "pc-row");
         r1.appendChild(el("span", "lbl", "내 생각"));
@@ -193,14 +210,24 @@
           var box = el("div", "pc-item");
           box.appendChild(el("div", "pc-s", esc(it.s)));
           box.appendChild(el("div", "pc-first", "처음 생각: " + firstText(o.f[it.id])));
-          var a = o.a[it.id], r = el("div", "pc-row");
+          var a = aft(o, it.id), fin = aftDone(o, it.id), r = el("div", "pc-row");
           r.appendChild(el("span", "lbl", "지금 생각"));
           [[1, "맞다"], [0, "틀리다"]].forEach(function (p) {
-            var b = el("button", "chip" + (a === p[0] ? " on" : ""), p[1]); b.type = "button"; b.disabled = a != null;
-            b.addEventListener("click", function () { var o2 = st(); o2.a[it.id] = p[0]; save(o2); refresh(); });
+            var b = el("button", "chip" + (a && a.v === p[0] ? " on" : ""), p[1]); b.type = "button"; b.disabled = fin;
+            b.addEventListener("click", function () { var o2 = st(); o2.a[it.id] = { v: p[0], c: null }; save(o2); refresh(); });
             r.appendChild(b);
           });
           box.appendChild(r);
+          if (a && !a.old) {
+            var r2 = el("div", "pc-row");
+            r2.appendChild(el("span", "lbl", "얼마나 확실한가요?"));
+            [["s", "확실해요"], ["h", "반반이에요"]].forEach(function (p) {
+              var b = el("button", "chip" + (a.c === p[0] ? " on" : ""), p[1]); b.type = "button"; b.disabled = fin;
+              b.addEventListener("click", function () { var o2 = st(); o2.a[it.id] = { v: a.v, c: p[0] }; save(o2); refresh(); });
+              r2.appendChild(b);
+            });
+            box.appendChild(r2);
+          }
           var v = verdict(it, o);
           if (v) {
             var ans = el("div", "pc-ans");
@@ -222,7 +249,9 @@
       var tb = el("div"); sumCard.appendChild(tb);
       var hd = wkPanel.querySelector(".stage-head");
       if (hd && hd.nextSibling) wkPanel.insertBefore(sumCard, hd.nextSibling); else wkPanel.insertBefore(sumCard, wkPanel.firstChild);
+      var mBox = el("div", "pc-m"); sumCard.insertBefore(mBox, tb);
       sumCard._paint = function () {
+        paintMeasure(mBox, st());
         var o = st(), cnt = { new: 0, ok: 0, no: 0, wait: 0 };
         var h = "<table class='pc-tbl'><thead><tr><th>문장</th><th>처음</th><th>이야기 뒤</th></tr></thead><tbody>";
         items.forEach(function (it) {
@@ -236,6 +265,47 @@
         tb.appendChild(el("div", "pc-foot", "바뀐 생각·새로 안 것 " + cnt.new + " · 처음부터 맞음 " + cnt.ok + " · 아직 헷갈림 " + cnt.no + (cnt.wait ? " · 아직 다시 답하지 않음 " + cnt.wait : "")));
       };
       cards.push(sumCard);
+    }
+
+    /* ---------- 오개념 변화 측정 ---------- */
+    function measure(o) {
+      var m = { N: 0, pre: 0, post: 0, preSW: 0, postSW: 0, fix: 0, keep: 0, slip: 0, stay: 0, wait: 0 };
+      items.forEach(function (it) {
+        var f = o.f[it.id];
+        if (!answered(it, o) || !aftDone(o, it.id)) { m.wait++; return; }
+        var a = aft(o, it.id), p0 = f.v !== -1 && (f.v === 1) === !!it.a, p1 = (a.v === 1) === !!it.a;
+        m.N++; if (p0) m.pre++; if (p1) m.post++;
+        if (!p0 && f.v !== -1 && f.c === "s") m.preSW++;
+        if (!p1 && a.c === "s") m.postSW++;
+        if (!p0 && p1) m.fix++; else if (p0 && p1) m.keep++; else if (p0 && !p1) m.slip++; else m.stay++;
+      });
+      m.g = m.N - m.pre > 0 ? (m.post - m.pre) / (m.N - m.pre) : null;
+      return m;
+    }
+    function bar(cls, label, n, N) {
+      var w = N ? Math.round(n / N * 100) : 0;
+      return "<div class='pc-bar " + cls + "'><span>" + label + "</span><i><b style='width:" + w + "%'></b></i><span>" + n + " / " + N + "</span></div>";
+    }
+    function paintMeasure(box, o) {
+      var m = measure(o);
+      var h = "<h4>📊 오개념 변화 측정</h4>";
+      if (!m.N) {
+        box.innerHTML = h + "<p>아직 측정할 문장이 없습니다. 단원 첫머리에서 답하고, 이야기를 끝낸 뒤 다시 답한 문장부터 여기에 셈됩니다.</p>";
+        return;
+      }
+      h += bar("pre", "처음 맞힌 문장", m.pre, m.N) + bar("post", "이야기 뒤 맞힌 문장", m.post, m.N);
+      h += "<p>확신하고 틀린 문장(굳은 오개념): 처음 <b>" + m.preSW + "개</b> → 이야기 뒤 <b>" + m.postSW + "개</b>";
+      if (m.preSW) h += m.postSW < m.preSW ? " — 굳은 오개념이 줄었어요." : m.postSW === m.preSW ? " — 아직 그대로예요." : " — 오히려 늘었어요. 해설을 다시 읽어 보세요.";
+      h += "</p>";
+      if (m.g === null) h += "<p>처음부터 모든 문장을 맞혔어요. 바로잡을 오개념이 없었습니다.</p>";
+      else {
+        var gp = Math.round(m.g * 100), lv = m.g >= 0.7 ? "크게 바뀜" : m.g >= 0.3 ? "어느 정도 바뀜" : m.g > 0 ? "조금 바뀜" : "바뀌지 않음";
+        h += "<p>정규화 향상도 <b>g = " + m.g.toFixed(2) + "</b> (" + lv + ") — 처음에 틀렸거나 몰랐던 문장 " + (m.N - m.pre) + "개 가운데 "
+          + (gp < 0 ? "오히려 맞힌 수가 줄었어요." : gp + "% 만큼을 바로잡았어요.") + "</p>";
+      }
+      h += "<div class='pc-types'><span>🔄 오개념 → 바른 개념 " + m.fix + "</span><span>✓ 처음부터 바름 " + m.keep + "</span><span>↘ 흔들림 " + m.slip + "</span><span>⚠️ 남은 오개념 " + m.stay + "</span></div>";
+      if (m.wait) h += "<p style='color:var(--mist);font-size:12.5px'>두 번 모두 답한 문장 " + m.N + "개로 셈했습니다. 남은 " + m.wait + "개는 처음 생각 또는 이야기 뒤 답이 아직 없습니다.</p>";
+      box.innerHTML = h;
     }
 
     function refresh() { cards.forEach(function (c) { c._paint(); }); }
@@ -254,7 +324,12 @@
       var x = f[k], ans = items[k], code = "n";
       if (x && x.v === -1) code = "0";
       else if (x && x.v != null && ans != null) code = String(((x.v === 1) === ans ? 1 : -1) * (x.c === "s" ? 2 : 1));
-      return k + "=" + code + (a[k] != null && ans != null ? ">" + (((a[k] === 1) === ans) ? 1 : 0) : "");
+      var y = a[k], tail = "";
+      if (y != null && ans != null) {
+        if (typeof y === "number") tail = ">" + ((y === 1) === ans ? 1 : -1);
+        else if (y.c) tail = ">" + ((y.v === 1) === ans ? 1 : -1) * (y.c === "s" ? 2 : 1);
+      }
+      return k + "=" + code + tail;
     }).join(",");
   };
 })();
