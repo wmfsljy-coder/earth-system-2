@@ -149,7 +149,7 @@ function endScene(ep, idx, fn) {
     var ctx = window.setupCanvas(canvas), W = canvas._w, H = canvas._h;
     var d = 100, dh = 20;                       /* 수심 m, 해수면 높이차 cm */
     var got = window.sthState("aGeo") || { a: false, b: false };
-    var F = 7.292e-5;                            /* 위도 30°N 의 전향 인자 */
+    var F = 7.292e-5;                            /* 위도 30°N의 전향 인자 */
     var LEN = 2.0e6;                             /* 환류 중심 ~ 가장자리 2,000 km */
 
     function speed() { return G * (dh / 100 / LEN) / F * 100; }   /* cm/s */
@@ -317,7 +317,7 @@ function endScene(ep, idx, fn) {
 
   /* 장면 5 — 결말 */
   function finish() {
-    window.sthState("r1", "해결 · 동안 경계류 폭 " + (window.sthState("aBnd") || "-") + " km 로 수송량 일치");
+    window.sthState("r1", "해결 · 동안 경계류 폭 " + (window.sthState("aBnd") || "-") + " km로 수송량 일치");
   }
   endScene(ep, 4, function () {
     var p = window.sthState("pA1") || "";
@@ -569,8 +569,8 @@ function endScene(ep, idx, fn) {
 
       $("b-shoal-info").innerHTML =
         "<b>" + label + "</b><br>" +
-        (kd === "deep" ? "물 입자는 거의 완전한 <b>원 궤도</b>를 그립니다. 파속은 √(gL/2π) = " + C0.toFixed(1) + " m/s 로 <b>파장만</b>이 정합니다."
-          : (kd === "shallow" ? "물 입자는 해저에 눌려 <b>납작한 타원 궤도</b>를 그립니다. 파속은 √(gh) = " + Math.sqrt(G * h).toFixed(2) + " m/s 로 <b>수심만</b>이 정합니다."
+        (kd === "deep" ? "물 입자는 거의 완전한 <b>원 궤도</b>를 그립니다. 파속은 √(gL/2π) = " + C0.toFixed(1) + " m/s로 <b>파장만</b>이 정합니다."
+          : (kd === "shallow" ? "물 입자는 해저에 눌려 <b>납작한 타원 궤도</b>를 그립니다. 파속은 √(gh) = " + Math.sqrt(G * h).toFixed(2) + " m/s로 <b>수심만</b>이 정합니다."
             : "파속이 파장과 수심 모두의 영향을 받는 구간입니다. 수심을 더 깊게, 또는 더 얕게 해 보세요.")) +
         "<br>속도가 줄어든 만큼 파장이 <b>" + L.toFixed(0) + " m</b>로 짧아지고, 같은 에너지가 좁은 곳에 몰려 파고는 <b>" + hs.toFixed(2) + " m</b>가 되었습니다.";
 
@@ -597,7 +597,7 @@ function endScene(ep, idx, fn) {
       answer: 1,
       why: [
         "파장이 정하는 것은 심해파의 속도입니다. 천해파는 다릅니다.",
-        "맞습니다. 천해파의 속도는 √(gh) 로 오직 수심이 정합니다. 그래서 해안으로 갈수록 느려집니다.",
+        "맞습니다. 천해파의 속도는 √(gh)로 오직 수심이 정합니다. 그래서 해안으로 갈수록 느려집니다.",
         "파고는 속도를 정하지 않습니다. 오히려 속도가 줄어든 결과로 파고가 커집니다.",
         "바람은 파도를 만들 뿐, 만들어진 파도가 퍼지는 속도는 정하지 않습니다."
       ],
@@ -774,7 +774,7 @@ function endScene(ep, idx, fn) {
       var mm = Math.floor(sec / 60), ss = Math.round(sec % 60);
       text(ctx, "지진 발생 후 " + mm + "분 " + (ss < 10 ? "0" + ss : ss) + "초 · " + km.toFixed(0) + " km 이동", 450, 68, { s: 14, w: "900", a: "center", c: v("--coral-700") });
       text(ctx, "내가 계산한 도달 시각: " + guess + "분", 40, 370, { s: 12.5, w: "800" });
-      text(ctx, "구간별로 v = √(gh) 를 구한 뒤 거리 ÷ 속도를 모두 더합니다", 40, 392, { s: 11, c: v("--mist") });
+      text(ctx, "구간별로 v = √(gh)를 구한 뒤 거리 ÷ 속도를 모두 더합니다", 40, 392, { s: 11, c: v("--mist") });
     }
     canvas._redraw = draw;
     $("c-arr-t").addEventListener("input", function (e) {
@@ -798,7 +798,7 @@ function endScene(ep, idx, fn) {
             window.sthMission("mC3", true, "<span class='m-tag'>미션 완료</span>해안 도달까지 약 <b>26분</b>. 거리의 70%를 차지하는 심해 구간은 11분 만에 지나지만, 마지막 12 km는 6분이 넘게 걸립니다. <b>느려진 만큼 파고가 솟아오릅니다.</b>");
             ep.clear(2);
           } else {
-            $("c-arr-info").innerHTML = "❌ 내 계산 " + guess + "분은 실제보다 <b>" + (guess > real ? "늦습니다" : "이릅니다") + "</b>. 구간별 속도를 다시 구해 보세요. 수심이 얕아질수록 √(gh) 가 작아져 같은 거리라도 훨씬 오래 걸립니다.";
+            $("c-arr-info").innerHTML = "❌ 내 계산 " + guess + "분은 실제보다 <b>" + (guess > real ? "늦습니다" : "이릅니다") + "</b>. 구간별 속도를 다시 구해 보세요. 수심이 얕아질수록 √(gh)가 작아져 같은 거리라도 훨씬 오래 걸립니다.";
           }
         }
       })();
