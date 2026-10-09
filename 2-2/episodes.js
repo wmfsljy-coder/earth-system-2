@@ -142,7 +142,7 @@ function endScene(ep, idx, fn) {
       ctx.beginPath(); ctx.arc(cx, yOf(T), 5.5, 0, Math.PI * 2); ctx.fill();
 
       /* 큰 숫자 */
-      text(ctx, "파장 " + L.toFixed(2) + " µm 의 투과율", 70, 324, { s: 11.5, w: "800", c: v("--mist") });
+      text(ctx, "파장 " + L.toFixed(2) + " µm의 투과율", 70, 324, { s: 11.5, w: "800", c: v("--mist") });
       text(ctx, (T * 100).toFixed(1) + " %", 70, 368, { s: 28, w: "900", c: T > 0.5 ? v("--teal-700") : v("--coral-700") });
       text(ctx, T > 0.5 ? "거의 그대로 지나갑니다" : (T > 0.1 ? "일부만 지나갑니다" : "대기가 거의 모두 붙잡습니다"), 70, 398, { s: 11.5, w: "800", c: v("--mist") });
 
@@ -663,7 +663,7 @@ function endScene(ep, idx, fn) {
       var envT = TG - gam * 10, parT = TG - parcelRate() * 10;
       dash(ctx, xOfT(Math.min(envT, parT)), yOfZ(1000), xOfT(Math.max(envT, parT)), yOfZ(1000), v("--green"), 2);
       text(ctx, "회색 = 주변 대기 · 주황 = 건조 단열 · 파랑 = 습윤 단열", X0, YB + 40, { s: 10.5, c: v("--mist") });
-      text(ctx, "1,000 m 에서 덩어리가 주변보다 " + (parT - envT >= 0 ? "+" : "") + (parT - envT).toFixed(1) + " ℃",
+      text(ctx, "1,000 m에서 덩어리가 주변보다 " + (parT - envT >= 0 ? "+" : "") + (parT - envT).toFixed(1) + " ℃",
         X0, YB + 62, { s: 11.5, w: "800", c: v(parT > envT ? "--green-700" : "--violet-700") });
 
       $("b-stab-info").innerHTML =
@@ -1087,9 +1087,9 @@ function endScene(ep, idx, fn) {
     function valText(id, s) {
       var x = val(id, s);
       if (id === "heat") return x.toFixed(2) + " ℃ 더 따뜻함";
-      if (id === "oro") return x.toFixed(1) + " m/s 의 바람";
-      if (id === "front") return x.toFixed(1) + " m/s 로 이동";
-      return (x * 1e5).toFixed(2) + " ×10⁻⁵ /s 로 수렴";
+      if (id === "oro") return x.toFixed(1) + " m/s의 바람";
+      if (id === "front") return x.toFixed(1) + " m/s로 이동";
+      return (x * 1e5).toFixed(2) + " ×10⁻⁵ /s로 수렴";
     }
     function cur() { for (var i = 0; i < KINDS.length; i++) if (KINDS[i].id === kind) return KINDS[i]; return KINDS[0]; }
 
@@ -1189,7 +1189,7 @@ function endScene(ep, idx, fn) {
 
       $("c-vert-info").innerHTML =
         "<b>" + c.name + "</b> · " + valText(kind, sv) + " → 상승 속도 <b>" + w.toFixed(3) + " m/s</b> (목표 " + c.target + " m/s)<br>" +
-        (kind === "heat" ? "지표가 가열되면 그 위 공기의 밀도가 작아져 무게가 줄고, 남는 기압 경도력이 공기를 밀어 올립니다. 부력 가속도는 g·ΔT/T 입니다. 좁은 지역에서 가장 빠른 상승 기류를 만들어 적운·적란운을 키웁니다."
+        (kind === "heat" ? "지표가 가열되면 그 위 공기의 밀도가 작아져 무게가 줄고, 남는 기압 경도력이 공기를 밀어 올립니다. 부력 가속도는 g·ΔT/T입니다. 좁은 지역에서 가장 빠른 상승 기류를 만들어 적운·적란운을 키웁니다."
           : kind === "oro" ? "산맥을 만난 바람은 옆으로 돌아가지 못하면 비탈을 타고 올라갑니다. 상승 속도는 풍속 × 경사입니다. 산맥의 바람받이 쪽에 늘 비가 많은 까닭입니다."
           : kind === "front" ? "성질이 다른 두 공기가 만나면 따뜻하고 가벼운 공기가 찬 공기 위로 올라탑니다. 전선면의 경사가 완만해 상승 속도는 느리지만, 전선을 따라 수백 km에 걸쳐 넓게 일어납니다."
           : "지상 저기압에서는 사방의 바람이 중심으로 모여듭니다(수렴). 아래는 지표라 빠져나갈 수 없으니 공기는 위로 올라갑니다. 속도는 가장 느리지만 저기압 전체에서 오래 이어져 큰 구름대를 만듭니다.") +
@@ -1223,7 +1223,7 @@ function endScene(ep, idx, fn) {
     var n = 0;
     ["heat", "oro", "front", "conv"].forEach(function (k) { if (g[k]) n++; });
     $("c-vs").innerHTML = "<b>나의 첫 추리</b> " + (p || "기록 없음") + "<br>" +
-      (p.indexOf("㉡") === 0 ? "정확했습니다. 두께 100 m 공기 층의 무게가 약 12 hPa 이라는 것까지 확인했습니다."
+      (p.indexOf("㉡") === 0 ? "정확했습니다. 두께 100 m 공기 층의 무게가 약 12 hPa이라는 것까지 확인했습니다."
         : "중력은 분명히 작용합니다. 다만 아래쪽 기압이 위쪽보다 커서 생기는 <b>연직 기압 경도력</b>이 그 무게를 정확히 받치고 있었습니다.") +
       "<br><b>내가 작동시킨 연직 운동의 원인</b> " + n + " / 4 가지";
   });
@@ -1452,7 +1452,7 @@ function endScene(ep, idx, fn) {
       bar(112, "지균풍 (등압선이 곧을 때)", VG, "--mist");
       bar(180, "저기압 주위 경도풍", grad(Rkm, "low"), "--brand");
       bar(248, "고기압 주위 경도풍", grad(Rkm, "high"), "--coral");
-      text(ctx, "고기압 주위는 곡률 반지름이 약 313 km 보다", 540, 306, { s: 10.5, c: v("--mist") });
+      text(ctx, "고기압 주위는 곡률 반지름이 약 313 km보다", 540, 306, { s: 10.5, c: v("--mist") });
       text(ctx, "작으면 힘의 평형 자체가 성립하지 않습니다.", 540, 326, { s: 10.5, c: v("--mist") });
       text(ctx, "→ 좁고 강한 고기압은 존재할 수 없습니다.", 540, 348, { s: 11, w: "800", c: v("--rose-700") });
 
@@ -1475,7 +1475,7 @@ function endScene(ep, idx, fn) {
       if (got.b) done("mD3b");
       if (got.c) done("mD3c");
       if (got.a && got.b && got.c) {
-        window.sthMission("mD3", true, "<span class='m-tag'>미션 완료</span>같은 기압 경도력이라도 <b>고기압 주위가 더 빠르고 저기압 주위가 더 느립니다</b>. 게다가 고기압 주위에서는 곡률 반지름이 약 313 km 보다 작으면 평형 자체가 없어서, 좁고 강한 고기압은 만들어질 수 없습니다.");
+        window.sthMission("mD3", true, "<span class='m-tag'>미션 완료</span>같은 기압 경도력이라도 <b>고기압 주위가 더 빠르고 저기압 주위가 더 느립니다</b>. 게다가 고기압 주위에서는 곡률 반지름이 약 313 km보다 작으면 평형 자체가 없어서, 좁고 강한 고기압은 만들어질 수 없습니다.");
         ep.clear(2);
       }
     }
