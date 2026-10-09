@@ -331,7 +331,7 @@ function endScene(ep, idx, fn) {
     mount: "wkA", unitLabel: "[지구시스템과학 Ⅱ-1] 이야기 ① 고무 오리 2만 8천 개",
     items: [
       { id: "w1", label: "바람과 해수의 방향이 어긋나는 까닭", hint: "에크만 수송에서 표층 해수와 전체 수송의 방향이 바람과 각각 몇 도씩 어긋나는지, 왜 그런지 쓰세요." },
-      { id: "aw2", label: "오리가 알래스카에 닿기까지", hint: "바람 → 에크만 수송 → 해수면이 높아짐 → 수압 경도력 → 전향력 → 지형류 → 서안 경계류 순서로, 각 단계에서 무엇이 무엇을 일으켰는지 이어서 쓰세요." }
+      { id: "aw2", label: "오리가 알래스카에 닿기까지", hint: "바람 → 에크만 수송 → 해수면이 높아짐 → 수압 경도력 → 전향력 → 지형류 → 북태평양 해류·알래스카 해류 순서로, 각 단계에서 무엇이 무엇을 일으켰는지 이어서 쓰세요." }
     ]
   });
 })();
@@ -795,7 +795,7 @@ function endScene(ep, idx, fn) {
           if (diff <= 2) {
             window.sthState("cArr", guess);
             $("c-arr-info").innerHTML = "✅ 실제 도달 시각은 <b>" + real.toFixed(1) + "분</b>. 내 계산 " + guess + "분 — 오차 " + diff.toFixed(1) + "분입니다.<br>A: 150 km ÷ 221 m/s = 678초, B: 50 km ÷ 99 m/s = 505초, C: 12 km ÷ 31 m/s = 383초 → 모두 더해 1,566초 ≈ 26분.";
-            window.sthMission("mC3", true, "<span class='m-tag'>미션 완료</span>해안 도달까지 약 <b>26분</b>. 거리의 94%를 차지하는 심해 구간은 11분 만에 지나지만, 마지막 12 km는 6분이 넘게 걸립니다. <b>느려진 만큼 파고가 솟아오릅니다.</b>");
+            window.sthMission("mC3", true, "<span class='m-tag'>미션 완료</span>해안 도달까지 약 <b>26분</b>. 거리의 약 70%를 차지하는 심해 구간은 11분 만에 지나지만, 마지막 12 km는 6분이 넘게 걸립니다. <b>느려진 만큼 파고가 솟아오릅니다.</b>");
             ep.clear(2);
           } else {
             $("c-arr-info").innerHTML = "❌ 내 계산 " + guess + "분은 실제보다 <b>" + (guess > real ? "늦습니다" : "이릅니다") + "</b>. 구간별 속도를 다시 구해 보세요. 수심이 얕아질수록 √(gh) 가 작아져 같은 거리라도 훨씬 오래 걸립니다.";
@@ -1108,7 +1108,7 @@ function endScene(ep, idx, fn) {
   (function () {
     var canvas = $("d-road"); if (!canvas) return;
     var ctx = window.setupCanvas(canvas), W = canvas._w, H = canvas._h;
-    var place = "mo", tm = 0, FLOOR = -2.5;
+    var place = "mo", tm = 0, FLOOR = -1.7;
     var ST = { "in": { n: "인천", R: 8.1 }, "mo": { n: "목포", R: 4.0 }, "mu": { n: "묵호", R: 0.3 } };
 
     function level(t) { return ST[place].R / 2 * Math.cos(2 * Math.PI * (t - HIGH) / PERIOD); }
@@ -1130,7 +1130,7 @@ function endScene(ep, idx, fn) {
       var fy = mid - FLOOR * sc;
       ctx.strokeStyle = v("--coral"); ctx.lineWidth = 2.5; ctx.setLineDash([7, 5]);
       ctx.beginPath(); ctx.moveTo(gx0, fy); ctx.lineTo(gx1, fy); ctx.stroke(); ctx.setLineDash([]);
-      text(ctx, "체험장 바닥 −2.5 m", gx0 + 6, fy - 8, { s: 10.5, w: "800", c: v("--coral-700") });
+      text(ctx, "바닷길 등성이 −1.7 m", gx0 + 6, fy - 8, { s: 10.5, w: "800", c: v("--coral-700") });
 
       /* 드러나는 구간 칠하기 */
       ctx.fillStyle = v("--green"); ctx.globalAlpha = .25;
@@ -1156,10 +1156,10 @@ function endScene(ep, idx, fn) {
       ctx.fillStyle = v("--amber"); ctx.beginPath(); ctx.arc(mx, mid - lv * sc, 6, 0, Math.PI * 2); ctx.fill();
 
       /* 오른쪽 — 체험장 단면 */
-      text(ctx, "지금 체험장의 모습", 755, 60, { s: 12, w: "800", a: "center" });
+      text(ctx, "지금 바닷길의 모습", 755, 60, { s: 12, w: "800", a: "center" });
       var base = 250;
       ctx.fillStyle = v("--line"); ctx.fillRect(640, base, 230, 26);
-      text(ctx, "체험장 바닥", 755, base + 44, { s: 10.5, a: "center", c: v("--mist") });
+      text(ctx, "바닷길 등성이", 755, base + 44, { s: 10.5, a: "center", c: v("--mist") });
       var wh = clamp((lv - FLOOR) * 22, 0, 150);
       if (wh > 0) {
         ctx.fillStyle = v("--brand"); ctx.globalAlpha = .5; ctx.fillRect(640, base - wh, 230, wh); ctx.globalAlpha = 1;
@@ -1177,13 +1177,13 @@ function endScene(ep, idx, fn) {
       $("d-road-info").innerHTML =
         "<b>" + ST[place].n + "</b> — 사리 때 조차 <b>" + ST[place].R.toFixed(1) + " m</b>. 지금은 <b>" + tm.toFixed(2) + "시</b>, 조위 <b>" + lv.toFixed(2) + " m</b>입니다.<br>" +
         (ST[place].R / 2 < -FLOOR
-          ? "이 관측소는 사리 때라도 조위가 −" + (ST[place].R / 2).toFixed(2) + " m까지밖에 내려가지 않습니다. 바닥(−2.5 m)이 드러날 수 없습니다."
-          : (open ? "✅ 바닥이 드러났습니다! 이 시간대에 축제를 열면 됩니다."
-            : "이 관측소에서는 드러날 수 있습니다. 조위가 −2.5 m보다 낮아지는 시각(간조 무렵)을 찾아보세요."));
+          ? "이 관측소는 사리 때라도 조위가 −" + (ST[place].R / 2).toFixed(2) + " m까지밖에 내려가지 않습니다. 등성이(−1.7 m)가 드러날 수 없습니다."
+          : (open ? (place === "mo" ? "✅ 바닷길이 드러났습니다! 이 시간대에 축제를 열면 됩니다." : "✅ 이 바다라면 드러납니다. 다만 진도의 물때는 가까운 <b>목포</b> 자료로 봐야 합니다.")
+            : "이 관측소에서는 드러날 수 있습니다. 조위가 −1.7 m보다 낮아지는 시각(간조 무렵)을 찾아보세요."));
 
-      if (place === "in" && open && !ep.cleared(3)) {
+      if (place === "mo" && open && !ep.cleared(3)) {
         window.sthState("dRoad", tm.toFixed(2) + "시");
-        window.sthMission("mD4", true, "<span class='m-tag'>미션 완료</span><b>인천</b>에서 " + tm.toFixed(2) + "시. 같은 사리라도 조차가 큰 곳에서만 바닥이 드러납니다. 목포(4 m)와 묵호(0.3 m)에서는 아무리 기다려도 열리지 않습니다.");
+        window.sthMission("mD4", true, "<span class='m-tag'>미션 완료</span><b>목포</b> 자료로 " + tm.toFixed(2) + "시. 같은 사리라도 조차가 충분히 큰 곳에서만 바닷길이 드러납니다. 조차가 0.3 m인 묵호 같은 동해안에서는 아무리 기다려도 열리지 않고, 조차가 8 m인 인천에서는 훨씬 넓은 갯벌이 드러납니다.");
         ep.clear(3);
       }
     }
@@ -1220,13 +1220,13 @@ function endScene(ep, idx, fn) {
   })();
 
   function finish() {
-    window.sthState("r4", "해결 · 인천 " + (window.sthState("dRoad") || "-") + " 사리 간조에 길이 열림");
+    window.sthState("r4", "해결 · 목포(진도) " + (window.sthState("dRoad") || "-") + " 사리 간조에 길이 열림");
   }
   endScene(ep, 4, function () {
     var p = window.sthState("pD1") || "";
     $("d-vs").innerHTML = "<b>나의 첫 추측</b> " + (p || "기록 없음") +
       (p.indexOf("㉡") === 0 ? " — 정확했습니다. 배치가 날짜를, 바다 모양이 장소를 정합니다." : " — 날씨가 아니라 태양·지구·달의 배치와 그 바다의 모양이 정합니다.") +
-      "<br><b>내가 찾은 시각</b> " + (window.sthState("dRoad") || "-") + " (인천 관측소)";
+      "<br><b>내가 찾은 시각</b> " + (window.sthState("dRoad") || "-") + " (목포 관측소 · 진도 바닷길)";
   });
 
   window.sthWork({

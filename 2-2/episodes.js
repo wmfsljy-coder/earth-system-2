@@ -79,7 +79,7 @@ function endScene(ep, idx, fn) {
   ];
   function tauOf(L) {
     var t = { o3: 0, h2o: 0, co2: 0, etc: 0 };
-    t.o3 += 200 / (1 + Math.exp((L - 0.300) / 0.012));
+    t.o3 += 200 / (1 + Math.exp((L - 0.290) / 0.006));
     t.etc += 0.0088 * Math.pow(L, -4.15);
     for (var i = 0; i < BANDS.length; i++) {
       var b = BANDS[i], z = (L - b[0]) / b[2];
@@ -167,7 +167,7 @@ function endScene(ep, idx, fn) {
           : "적외선 영역입니다. <b>수증기와 이산화 탄소</b>가 지구 복사를 대부분 흡수했다가 다시 내보냅니다 — 온실 효과의 정체입니다.");
 
       var ch = false;
-      if (!got.a && L < 0.35 && T <= 0.01) { got.a = true; ch = true; }
+      if (!got.a && L < 0.30 && T <= 0.01) { got.a = true; ch = true; }
       if (!got.b && L >= 0.40 && L <= 0.75 && T >= 0.70) { got.b = true; ch = true; }
       if (!got.c && L >= 5 && T <= 0.10) { got.c = true; ch = true; }
       if (!got.d && L >= 8 && L <= 12 && T >= 0.60) { got.d = true; ch = true; }
@@ -474,7 +474,7 @@ function endScene(ep, idx, fn) {
 
   window.sthGate({
     gate: "gB", key: "pB1", title: "조사관의 첫 추리",
-    question: "같은 날 같은 바람인데, 산맥 동쪽은 비가 오고 서쪽은 12 ℃나 더 덥고 건조했습니다. 왜 그럴까요?",
+    question: "같은 날 같은 바람인데, 산맥 동쪽은 비가 오고 서쪽은 7 ℃나 더 덥고 건조했습니다. 왜 그럴까요?",
     options: [
       "㉠ 서쪽이 더 남쪽이라 원래 기온이 높다",
       "㉡ 산을 오르며 구름과 비로 수증기를 잃은 공기가, 내려올 때는 더 빠르게 데워지기 때문이다",
@@ -952,7 +952,7 @@ function endScene(ep, idx, fn) {
       if (got.b) done("mC2b");
       if (got.c) done("mC2c");
       if (got.a && got.b && got.c) {
-        window.sthMission("mC2", true, "<span class='m-tag'>미션 완료</span>기압이 절반이 되는 높이는 <b>약 5.5 km</b>, 1/10이 되는 높이는 <b>약 16 km</b>입니다. 절반이 되는 데 5.5 km가 걸리는데 1/10까지는 그 세 배밖에 안 걸립니다 — 기압은 일정한 비율로 줄어드는 <b>지수 함수 모양</b>으로 낮아집니다. 그래서 1 km당 100 hPa 넘게 떨어지는 곳은 지표 부근(약 1.3 km 아래)뿐입니다.");
+        window.sthMission("mC2", true, "<span class='m-tag'>미션 완료</span>기압이 절반이 되는 높이는 <b>약 5.5 km</b>, 1/10이 되는 높이는 <b>약 16 km</b>입니다. 5.5 km 오를 때마다 대략 절반씩 줄어(5.5 km에서 1/2, 11 km에서 약 1/4, 16 km에서 약 1/10) 기압은 일정한 배율로 줄어드는 <b>지수 함수 모양</b>으로 낮아집니다. 그래서 1 km당 100 hPa 넘게 떨어지는 곳은 지표 부근(약 1.3 km 아래)뿐입니다.");
         ep.clear(1);
       }
     }
@@ -1223,7 +1223,7 @@ function endScene(ep, idx, fn) {
     var n = 0;
     ["heat", "oro", "front", "conv"].forEach(function (k) { if (g[k]) n++; });
     $("c-vs").innerHTML = "<b>나의 첫 추리</b> " + (p || "기록 없음") + "<br>" +
-      (p.indexOf("㉡") === 0 ? "정확했습니다. 두께 100 m 공기 층의 무게가 꼭 12 hPa 이라는 것까지 확인했습니다."
+      (p.indexOf("㉡") === 0 ? "정확했습니다. 두께 100 m 공기 층의 무게가 약 12 hPa 이라는 것까지 확인했습니다."
         : "중력은 분명히 작용합니다. 다만 아래쪽 기압이 위쪽보다 커서 생기는 <b>연직 기압 경도력</b>이 그 무게를 정확히 받치고 있었습니다.") +
       "<br><b>내가 작동시킨 연직 운동의 원인</b> " + n + " / 4 가지";
   });
