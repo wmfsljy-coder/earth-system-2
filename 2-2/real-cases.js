@@ -1,7 +1,8 @@
 /* 지구시스템과학2 Ⅱ-2 강수 과정과 대기의 운동 — 실제 자료
    r1 우리 동네 구름 밑면의 높이 — 기온과 이슬점으로 상승 응결 고도 구하기(2024년 하루 단위)
    r2 기압은 높이 올라가면 얼마나 줄까 — 부산과 티베트 고원(라싸)의 실제 지표 기압
-   자료: data/power-ungcheon-daily.js, data/power-pressure.js (NASA POWER) */
+   r3 우리 동네 비 — 비 온 날 하루 평균 강수는 몇 % 늘었나(창원 155)
+   자료: data/power-ungcheon-daily.js, data/power-pressure.js (NASA POWER), data/cw155.js */
 (function () {
 "use strict";
 var D = (window.REAL_POWER_DAILY || { rows: [] }).rows;          /* [YYYYMMDD, 기온, 이슬점] */
@@ -14,6 +15,9 @@ var A = PS[0] || { name: "부산", elev: 70, ps: 100.76 }, B = PS[1] || { name: 
 var HSC = (B.elev - A.elev) / Math.log(A.ps / B.ps), HALF = HSC * Math.LN2 / 1000;          /* 척도 높이, 기압 절반 높이(km) */
 var SRC1 = "<small>출처: NASA 랭글리 연구소 POWER 프로젝트 일별 자료(2024년), 창원 웅천 부근(북위 35.13°, 동경 128.70°)의 지상 2 m 기온(T2M)과 이슬점(T2MDEW). 사본은 data/power-ungcheon-daily.js.</small>";
 var SRC2 = "<small>출처: NASA POWER 기후값(2001~2020, MERRA-2 재분석)의 지표 기압(PS) — 부산 격자(해발 " + A.elev + " m) " + A.ps + " kPa, 라싸 격자(해발 " + B.elev + " m) " + B.ps + " kPa. 라싸 격자는 고원 평균 높이라 실제 라싸 시내(약 3,650 m, 약 65 kPa)보다 약 670 m 높습니다. 사본은 data/power-pressure.js.</small>";
+var ZI = (window.REAL_CW155 || {}).rainInt || { a: [1986, 1995, 89, 15.4, 13.5], b: [2016, 2025, 91, 17.2, 16.4] };
+var Z_UP = (ZI.b[3] / ZI.a[3] - 1) * 100;
+var SRC_Z = "<small>출처: 기상청 날씨누리 과거 관측 일별 자료, 창원(155) 일강수량. ‘비 온 날’은 0.1 mm 이상 내린 날, 하루 평균은 비 온 날의 강수량 합 ÷ 비 온 날 수. 사본은 data/cw155.js.</small>";
 
 window.sthLab({
   mount: "real", key: "real", result: "rReal", label: "실제 자료",
@@ -107,6 +111,48 @@ window.sthLab({
     solution: "약 <b>" + HALF.toFixed(1) + " km</b> (" + (Math.ceil((HALF - 0.4) * 10) / 10).toFixed(1) + " ~ " + (Math.floor((HALF + 0.4) * 10) / 10).toFixed(1) + ").",
     why: "공기는 위의 공기 무게에 눌려 아래로 갈수록 빽빽하고, 그 무게를 받치는 것이 기압입니다(정역학적 균형). 높이 올라갈수록 위에 남은 공기가 적어지면서 공기 자체도 묽어지므로, 기압은 같은 높이마다 같은 비율로 줄어듭니다. 약 5.5~6 km 오를 때마다 절반이 되어, 대기 질량의 절반은 지상 약 5.5 km 아래에 있습니다.<br>"
       + "공기가 따뜻하면 덜 빽빽해 기압이 천천히 줄고, 차가우면 빨리 줄어듭니다. 그래서 같은 높이라도 기온에 따라 기압이 달라지고, 이 차이가 상층의 바람(지균풍)을 만듭니다."
+  },
+  {
+    id: "r3", tag: "실제 자료 · 우리 동네 비", title: "비 오는 날은 그대로인데, 한 번에 내리는 비는?", short: "비의 세기",
+    who: "📍", name: "창원기상대(기상청)",
+    say: "“진해와 가까운 <b>창원기상대</b>의 처음 10년(" + ZI.a[0] + " ~ " + ZI.a[1] + ")과 최근 10년(" + ZI.b[0] + " ~ " + ZI.b[1] + ")을 견주었습니다. 한 해에 비 온 날 수, <b>비 온 날 하루에 내린 비의 평균</b>, 하루 30 mm 넘게 쏟아진 날 수예요. 비 온 날 하루 평균 강수량이 몇 % 늘었는지 구해 주세요.”",
+    predict: {
+      q: "공기가 따뜻해지면 비는 어떻게 바뀔 수 있을까요?",
+      options: ["㉠ 따뜻한 공기는 수증기를 더 많이 품을 수 있어, 한 번 내릴 때 더 세게 내릴 수 있다", "㉡ 따뜻해지면 수증기가 줄어 비가 약해진다", "㉢ 기온은 비와 아무 관계가 없다"],
+      answer: 0
+    },
+    task: "오른쪽 값으로 <b>(최근 − 처음) ÷ 처음 × 100</b>을 구해 슬라이더로 맞추세요(± 2 %).",
+    build: function (stage, api) {
+      var H = api.h, cv = api.canvas(270), ctx = cv.ctx, W = cv.W, k = 0;
+      var G = [["한 해 비 온 날", ZI.a[2], ZI.b[2], 120, "일"], ["비 온 날 하루 평균", ZI.a[3], ZI.b[3], 24, "mm"], ["30 mm 넘은 날", ZI.a[4], ZI.b[4], 24, "일"]];
+      var x0 = 40, x1 = 640, y0 = 30, y1 = 230, gw = (x1 - x0) / 3;
+      function draw() {
+        H.paper(ctx, W, cv.H); H.axes(ctx, x0, y0, x1, y1);
+        G.forEach(function (g, i) {
+          var cx = x0 + gw * i + gw / 2, f = function (v) { return y1 - v / g[3] * (y1 - y0); };
+          H.box(ctx, cx - 44, f(g[1]), 40, y1 - f(g[1]), H.v("--brand"), 0.85); H.box(ctx, cx + 4, f(g[2]), 40, y1 - f(g[2]), H.v("--coral-700"), 0.85);
+          H.text(ctx, g[1] + g[4], cx - 24, f(g[1]) - 6, { s: 11, w: "800", a: "center" }); H.text(ctx, g[2] + g[4], cx + 24, f(g[2]) - 6, { s: 11, w: "800", a: "center" });
+          H.text(ctx, g[0], cx, y1 + 16, { s: 11, a: "center", c: H.v("--mist") });
+        });
+        H.box(ctx, 680, 30, 12, 12, H.v("--brand")); H.text(ctx, ZI.a[0] + " ~ " + ZI.a[1], 698, 41, { s: 12, w: "800" });
+        H.box(ctx, 680, 52, 12, 12, H.v("--coral-700")); H.text(ctx, ZI.b[0] + " ~ " + ZI.b[1], 698, 63, { s: 12, w: "800" });
+        H.rows(ctx, 680, 100, [["하루 평균 강수", ZI.a[3] + " → " + ZI.b[3] + " mm"], ["내 답", "+" + k + " %", null, true]], 56);
+      }
+      cv.canvas._redraw = draw;
+      api.slider({ label: "비 온 날 하루 평균 강수의 변화", min: 0, max: 40, step: 1, value: 0, fmt: function (x) { return "+" + x + " %"; }, onInput: function (x) { k = x; api.changed(); draw(); } });
+      api.info("막대마다 세로 눈금이 다릅니다(위 숫자를 읽으세요). " + SRC_Z);
+      draw();
+      return {
+        judge: function () {
+          if (Math.abs(k - Z_UP) <= 2) return { ok: true, msg: "(" + ZI.b[3] + " − " + ZI.a[3] + ") ÷ " + ZI.a[3] + " × 100 ≈ " + Z_UP.toFixed(0) + " %. 비 온 날 수는 거의 같은데 한 번에 내리는 비가 늘었습니다." };
+          return { ok: false, msg: "+" + k + " %는 " + (k < Z_UP ? "작습니다" : "큽니다") + ". 늘어난 양을 처음 값으로 나누세요." };
+        }
+      };
+    },
+    hints: [ZI.b[3] + " − " + ZI.a[3] + " = ?", "그 값 ÷ " + ZI.a[3] + " × 100"],
+    solution: "(" + ZI.b[3] + " − " + ZI.a[3] + ") ÷ " + ZI.a[3] + " × 100 ≈ <b>+" + Z_UP.toFixed(0) + " %</b>.",
+    why: "공기가 품을 수 있는 수증기의 양(포화 수증기량)은 기온이 1 °C 오를 때마다 약 7 %씩 늘어납니다. 그래서 따뜻해진 공기가 상승해 단열 팽창으로 식으며 응결할 때, 한 번에 더 많은 비를 쏟을 수 있습니다. 창원에서는 비 온 날 수가 거의 그대로(" + ZI.a[2] + " → " + ZI.b[2] + "일)인데, 비 온 날 하루 평균 강수와 30 mm 넘는 날(" + ZI.a[4] + " → " + ZI.b[4] + "일)은 늘었습니다.<br>"
+      + "※ 비는 해마다 크게 들쭉날쭉해서, 10년씩 묶어도 우연한 차이가 섞여 있을 수 있습니다. 관측소 한 곳의 결과이므로 더 긴 기간과 여러 지점의 자료로 확인해야 합니다."
   }
   ]
 });
