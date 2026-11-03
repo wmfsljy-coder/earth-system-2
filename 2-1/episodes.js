@@ -1378,24 +1378,121 @@ function duck(ctx, x, y, s, flip) {
     if (ep.cleared(2)) window.sthMission("mD3", true);
   })();
 
-  /* 장면 4 — 지역별 조석 양상과 바닷길 시각 */
+  /* 장면 4 — 지역별 조석 양상과 바닷길 시각 (아이소메트릭 블록 모형 + 조위 곡선) */
   (function () {
     var canvas = $("d-road"); if (!canvas) return;
     var ctx = window.setupCanvas(canvas), W = canvas._w, H = canvas._h;
-    var place = "mo", tm = 0, FLOOR = -1.7;
+    var place = "mo", tm = 0, FLOOR = -1.7, ph = 0, playing = false;
     var ST = { "in": { n: "인천", R: 8.1 }, "mo": { n: "목포", R: 4.0 }, "mu": { n: "묵호", R: 0.3 } };
-
     function level(t) { return ST[place].R / 2 * Math.cos(2 * Math.PI * (t - HIGH) / PERIOD); }
+    function hm(t) { var h = Math.floor(t + 1e-6), m = Math.round((t - h) * 60); if (m === 60) { h++; m = 0; } return h + "시 " + (m < 10 ? "0" : "") + m + "분"; }
 
-    function draw() {
-      var lv = level(tm), open = lv < FLOOR, t, k;
-      ctx.clearRect(0, 0, W, H);
-      /* ── 왼쪽: 조위 곡선 ── */
-      var LW = 604;
-      K.stage(ctx, 0, 0, LW, H, "lab", { seed: 67, title: ST[place].n + " 관측소 — 사리 때의 조위 곡선 (조차 " + ST[place].R.toFixed(1) + " m)" });
-      var g = K.chart(ctx, { x: 4, y: 50, w: LW - 12, h: 270, x0: 0, x1: 24, y0: -5, y1: 5, xt: 4, yt: 5, xl: "시각", yl: "조위(m)", xf: function (v) { return v + "시"; } });
+    /* ── 모형: x = 회동리(왼쪽 위) → 모도(오른쪽 아래), y = 깊이 방향, 바닷길 등성이는 앞면(y = D)을 따라 놓인다 ── */
+    var DH = 425;                                       /* 모형 칸 높이(아래는 조위 곡선) */
+    var I = K.iso({ ox: 352, oy: 172, s: 0.62, L: 600, D: 200 });
+    var L = I.L, D = I.D, ZM = 10;                      /* 1 m = 10 그림 단위(높이 과장) */
+    function zm(m) { return (m + 9) * ZM; }             /* 해저 −9 m 가 블록 바닥(z = 0) */
+    var XM = 330;                                       /* 등성이에서 가장 낮은 곳 */
+    function crest(x) {                                 /* 등성이 마루 높이(m): 가운데가 가장 낮은 −1.7 m */
+      var a = (x - XM) / 230;
+      return -1.7 + 1.25 * a * a;
+    }
+    function island(x, y) {
+      var h1 = 6.5 - Math.pow((x - 0) / 95, 2) * 6 - Math.pow((y - 95) / 150, 2) * 4;          /* 회동리 */
+      var h2 = 5.2 - Math.pow((x - L) / 75, 2) * 6 - Math.pow((y - 120) / 105, 2) * 5;        /* 모도 */
+      return Math.max(h1, h2);
+    }
+    function seabed(x, y) {                            /* 해저 높이(m) */
+      var base = -6.2 + 0.8 * Math.sin(x / 70) * Math.cos(y / 50);
+      var w = 58, t = (D - y) / w, bar = t < 1 ? crest(x) - (crest(x) + 6.2) * t * t : -99;
+      return Math.max(base, bar, island(x, y));
+    }
+    function zOf(x, y) { return zm(seabed(x, y)); }
+    function landCol(x, y, z, light) {
+      var m = z / ZM - 9, c;
+      if (m > 1.5) c = m > 4.2 ? "#5d8f43" : "#6e9e4c";            /* 풀밭 */
+      else if (m > 0.2) c = "#cdb27a";                              /* 바닷가 */
+      else if (m > -2.4) c = "#d9c08a";                             /* 모래 등성이 */
+      else c = "#8e7b63";                                           /* 진흙 해저 */
+      return K.tint(c, light);
+    }
+    function faceZ(side) { return function (u) { return side === "front" ? zOf(u, D) : zOf(L, u); }; }
+
+    function drawModel(lv, open) {
+      var wz = zm(lv);
+      K.studio(ctx, 0, 0, W, DH, { x: I.P(L, D, 0).x - 140, y: I.P(L, D, 0).y - 30, rx: 330, ry: 58 });
+      ctx.save(); ctx.beginPath(); ctx.roundRect(0, 0, W, DH, 14); ctx.clip();
+      /* 지형 + 칸마다 물 덮기 */
+      I.field(ctx, zOf, landCol, 60, 20, function (c, x0, y0, x1, y1, zMax, zMin) {
+        if (wz > zMin + 0.2) {
+          var a = I.P(x0, y0, wz), b = I.P(x1, y0, wz), cc = I.P(x1, y1, wz), d = I.P(x0, y1, wz);
+          var depth = wz - zMin, al = Math.min(.78, .32 + depth / 90);
+          c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.lineTo(cc.x, cc.y); c.lineTo(d.x, d.y); c.closePath();
+          c.fillStyle = "rgba(" + Math.round(70 - depth * .4) + "," + Math.round(160 - depth * .5) + ",225," + al.toFixed(2) + ")"; c.fill();
+        }
+      });
+      /* 앞면·오른쪽 면: 해저 단면 */
+      ["front", "right"].forEach(function (side) {
+        var zf = faceZ(side);
+        I.face(ctx, side, function (Lw) {
+          I.profile(ctx, side, zf, 0);
+          var g = ctx.createLinearGradient(0, 0, 0, 160); g.addColorStop(0, "#6f5a43"); g.addColorStop(.55, "#a88a62"); g.addColorStop(1, "#d8bf8c");
+          ctx.fillStyle = g; ctx.fill();
+          ctx.save(); I.profile(ctx, side, zf, 0); ctx.clip();
+          var R = K.rng(side === "front" ? 31 : 37);
+          for (var i = 0; i < Lw * 1.6; i++) { ctx.fillStyle = R() > .5 ? "rgba(255,255,255,.18)" : "rgba(50,35,20,.25)"; ctx.fillRect(R() * Lw, R() * 160, 1.6, 1.6); }
+          ctx.strokeStyle = "rgba(60,40,20,.25)"; ctx.lineWidth = 1;
+          for (var y2 = 18; y2 < 160; y2 += 16) { ctx.beginPath(); ctx.moveTo(0, y2); ctx.lineTo(Lw, y2 + 3); ctx.stroke(); }
+          ctx.restore();
+        });
+      });
+      I.water(ctx, wz, function (u, side) { return faceZ(side)(u); }, { surface: false });
+      I.shade(ctx, "front", function (u) { return Math.max(zOf(u, D), wz); });
+      I.shade(ctx, "right", function (u) { return Math.max(zOf(L, u), wz); });
+      /* 앞면 눈금: 평균 해면과 등성이 −1.7 m */
+      I.face(ctx, "front", function (Lw) {
+        ctx.save(); ctx.setLineDash([6, 5]); ctx.lineWidth = 1.6;
+        ctx.strokeStyle = "rgba(255,255,255,.85)"; ctx.beginPath(); ctx.moveTo(0, zm(0)); ctx.lineTo(Lw, zm(0)); ctx.stroke();
+        ctx.strokeStyle = "#ff4d6d"; ctx.beginPath(); ctx.moveTo(0, zm(FLOOR)); ctx.lineTo(Lw, zm(FLOOR)); ctx.stroke();
+        ctx.restore();
+      });
+      I.edges(ctx, zOf(L, D), zOf(L, D));
+      /* 회동리 마을 · 모도 */
+      [[18, 40], [44, 70], [14, 110], [52, 128]].forEach(function (h, i) { I.house(ctx, h[0], h[1], zOf(h[0] + 8, h[1] + 8), 16, 14, 12, ["#c0553f", "#3f6fb5", "#c0553f", "#d08a2e"][i]); });
+      [[70, 30], [30, 160], [80, 150], [560, 70], [585, 110], [548, 150], [575, 160]].forEach(function (t, i) { I.tree(ctx, t[0], t[1], zOf(t[0], t[1]), 0.8 + (i % 3) * .12); });
+      /* 길이 열리면 사람들이 등성이를 따라 걷는다 */
+      var walkers = 0;
+      if (open) {
+        for (var k = 0; k < 14; k++) {
+          var px = ((k / 14 + ph * .02) % 1) * (L - 140) + 70, py = D - 14 - (k % 3) * 9;
+          if (zm(seabed(px, py)) > wz + 1) { I.person(ctx, px, py, zOf(px, py), ["#ff6b81", "#ffd35a", "#4fb6ff", "#3fd3a3", "#b69cff", "#ff9a3c"][k % 6], .9); walkers++; }
+        }
+      }
+      ctx.restore();
+      /* 이름표 */
+      var box = [0, W];
+      I.label(ctx, 40, 60, zOf(40, 60) + 14, "회동리 (진도)", 70, -34, "#f4f0e6", box);
+      I.label(ctx, L - 20, 120, zOf(L - 20, 120) + 6, "모도", 40, -24, "#f4f0e6", box);
+      I.label(ctx, XM, D, zm(crest(XM)), "등성이에서 가장 낮은 곳 −1.7 m", 30, 52, "#ff9aac", box);
+      if (!open) {
+        var dep = lv - FLOOR;
+        I.label(ctx, XM + 40, D - 20, wz, "등성이 위 물 깊이 " + dep.toFixed(2) + " m", 60, -40, "#bfe6ff", box);
+      }
+      var lp = I.P(150, D, zm(0)); K.pill(ctx, "평균 해면 0 m", lp.x + 6, lp.y - 6, { s: 11, c: "#ffffff", box: box });
+      var lp2 = I.P(150, D, zm(FLOOR)); K.pill(ctx, "−1.7 m", lp2.x + 6, lp2.y + 18, { s: 11, c: "#ff9aac", box: box });
+      /* 큰 글자 */
+      if (ST[place].R / 2 < -FLOOR) { K.bigText(ctx, ST[place].n + "의 바다였다면", 22, 52, 27, "#ffffff"); K.bigText(ctx, "길은 끝내 열리지 않는다", 22, 88, 20, "#ffd35a"); }
+      else if (open) { K.bigText(ctx, "바닷길이 열렸다", 22, 52, 30, "#ffd35a"); K.bigText(ctx, ST[place].n + " " + hm(tm) + " · 조위 " + lv.toFixed(2) + " m", 22, 88, 19, "#ffffff"); }
+      else { K.bigText(ctx, "아직 바다 밑", 22, 52, 30, "#ffffff"); K.bigText(ctx, ST[place].n + " " + hm(tm) + " · 조위 " + lv.toFixed(2) + " m", 22, 88, 19, "#ffd35a"); }
+      K.warn(ctx, W - 14, 30, "⚠ 높이는 보기 쉽게 과장 (1 m ≈ 실제보다 수백 배)", "right");
+      return walkers;
+    }
+    function drawChart(lv, open) {
+      var y0 = DH + 8, h = H - y0, t;
+      K.stage(ctx, 0, y0, W, h, "lab", { seed: 67 });
+      K.pill(ctx, ST[place].n + " 관측소 — 사리 때의 조위 곡선 (조차 " + ST[place].R.toFixed(1) + " m)", 14, y0 + 24, { s: 12, c: KC.blue });
+      var g = K.chart(ctx, { x: 4, y: y0 + 30, w: W - 220, h: h - 34, pb: 28, pt: 8, x0: 0, x1: 24, y0: -5, y1: 5, xt: 8, yt: 2, xl: "", yl: "", xf: function (v) { return v + "시"; } });
       var fy = g.Y(FLOOR);
-      /* 바닥이 드러나는 구간: 곡선과 등성이 사이 */
       ctx.fillStyle = "rgba(63,211,163,.30)"; ctx.beginPath(); var on = false;
       for (t = 0; t <= 24.001; t += 0.05) {
         var lt = level(t), px = g.X(t);
@@ -1405,54 +1502,29 @@ function duck(ctx, x, y, s, flip) {
       if (on) { ctx.lineTo(g.X(24), fy); ctx.closePath(); }
       ctx.fill();
       K.line(ctx, { x: g.L, y: fy }, { x: g.R, y: fy }, KC.red, 2, [7, 5]);
-      K.pill(ctx, "바닷길 등성이 −1.7 m", g.L + 8, fy - 8, { s: 10.5, c: KC.red });
-      var pts = [];
-      for (t = 0; t <= 24.001; t += 0.2) pts.push([t, level(t)]);
+      var pts = []; for (t = 0; t <= 24.001; t += 0.2) pts.push([t, level(t)]);
       K.plot(ctx, g, pts, KC.blue);
       var mx = g.X(tm), my = g.Y(lv);
       K.line(ctx, { x: mx, y: g.T }, { x: mx, y: g.B }, KC.yellow, 2);
       K.glow(ctx, mx, my, 5, "rgba(255,211,107,.98)", 3.4);
-      K.pill(ctx, tm.toFixed(2) + "시 · " + lv.toFixed(2) + " m", mx + (tm > 16 ? -10 : 10), Math.max(g.T + 16, Math.min(g.B - 10, my - 12)), { s: 11, a: tm > 16 ? "right" : "left", c: KC.yellow, box: [0, LW] });
-      K.pill(ctx, open ? "✅ 바닥이 물 밖으로 드러났습니다" : "아직 물에 잠겨 있습니다 (바닥보다 " + (lv - FLOOR).toFixed(2) + " m 높은 물)", 16, 356, { s: 12, c: open ? KC.green : KC.mute, box: [0, LW] });
-      K.t(ctx, "초록 구간 = 바닥이 드러나는 시간대", 16, 384, { s: 11, c: KC.mute });
-      /* ── 오른쪽: 바닷길 단면 ── */
-      var RX = LW + 8, RW = W - RX, base = 262;
-      K.stage(ctx, RX, 0, RW, H, "sky", { seed: 69 });
-      K.pill(ctx, "지금 바닷길의 모습", RX + 14, 28, { s: 12.5, c: KC.ink });
-      ctx.save(); ctx.beginPath(); ctx.roundRect(RX, 0, RW, H, 14); ctx.clip();
-      /* 등성이(모래) */
-      ctx.beginPath(); ctx.moveTo(RX, 330); ctx.quadraticCurveTo(RX + RW / 2, base - 36, W, 330); ctx.lineTo(W, H); ctx.lineTo(RX, H); ctx.closePath();
-      var sd = ctx.createLinearGradient(0, base, 0, H); sd.addColorStop(0, "#e6c995"); sd.addColorStop(1, "#8f6b3e"); ctx.fillStyle = sd; ctx.fill();
-      grains(ctx, RX, base - 20, RW, H - base + 20, 21, 120);
-      /* 물 */
-      var wl = clamp(278 - (lv - FLOOR) * 26, 120, 380);
-      ctx.fillStyle = waterGrad(ctx, wl, H, .55); ctx.fillRect(RX, wl, RW, H - wl);
-      ctx.strokeStyle = "#e9f7ff"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(RX, wl); ctx.lineTo(W, wl); ctx.stroke();
-      /* 양쪽 섬 */
-      [[RX - 10, RX + 58, 168, "회동리"], [W - 58, W + 10, 160, "모도"]].forEach(function (q) {
-        ctx.beginPath(); ctx.moveTo(q[0], H); ctx.lineTo(q[0], q[2] + 20); ctx.quadraticCurveTo((q[0] + q[1]) / 2, q[2] - 30, q[1], q[2] + 30); ctx.lineTo(q[1] + 20, H); ctx.closePath();
-        ctx.fillStyle = landGrad(ctx, q[0], q[2], q[1], H); ctx.fill();
-      });
-      if (open) {
-        for (k = 0; k < 5; k++) {
-          var hx = RX + 78 + k * 30, hy = 278 + Math.pow((hx - RX - RW / 2) / (RW / 2), 2) * 52;
-          ctx.fillStyle = ["#ff6b81", "#ffd36b", "#7fd3ff", "#3fd3a3", "#b69cff"][k];
-          ctx.beginPath(); ctx.arc(hx, hy - 14, 3.4, 0, 6.2832); ctx.fill(); ctx.fillRect(hx - 3, hy - 10, 6, 10);
-        }
-      }
-      ctx.restore();
-      K.pill(ctx, "회동리", RX + 24, 140, { a: "center", s: 10.5, c: KC.ink, box: [RX, W] });
-      K.pill(ctx, "모도", W - 24, 132, { a: "center", s: 10.5, c: KC.ink, box: [RX, W] });
-      if (!open) K.pill(ctx, "물 깊이 " + (lv - FLOOR).toFixed(2) + " m", RX + RW / 2, Math.max(64, wl - 12), { a: "center", s: 11.5, c: KC.blue });
-      else K.pill(ctx, "🚶 길이 드러났습니다", RX + RW / 2, 92, { a: "center", s: 12.5, c: KC.green });
-      K.pill(ctx, "바닷길 등성이 (평균 해면 −1.7 m)", RX + RW / 2, H - 14, { s: 10.5, a: "center", c: "#e8d6bd", box: [RX, W] });
+      /* 오른쪽 작은 판정 */
+      var rx = W - 200;
+      K.t(ctx, "바닷길 등성이 −1.7 m", rx, y0 + 52, { s: 11.5, w: "800", c: KC.red });
+      K.t(ctx, "초록 구간 = 바닥이 드러나는 시간", rx, y0 + 74, { s: 11, c: KC.mute });
+      K.t(ctx, open ? "지금: 길이 열림" : "지금: 잠겨 있음", rx, y0 + 112, { s: 15, w: "900", c: open ? KC.green : KC.ink });
+      K.t(ctx, "조위 " + lv.toFixed(2) + " m", rx, y0 + 138, { s: 13, w: "800", c: KC.yellow });
+    }
+    function draw() {
+      var lv = level(tm), open = lv < FLOOR;
+      ctx.clearRect(0, 0, W, H);
+      drawModel(lv, open);
+      drawChart(lv, open);
       $("d-road-info").innerHTML =
         "<b>" + ST[place].n + "</b> — 사리 때 조차 <b>" + ST[place].R.toFixed(1) + " m</b>. 지금은 <b>" + tm.toFixed(2) + "시</b>, 조위 <b>" + lv.toFixed(2) + " m</b>입니다.<br>" +
         (ST[place].R / 2 < -FLOOR
           ? "이 관측소는 사리 때라도 조위가 −" + (ST[place].R / 2).toFixed(2) + " m까지밖에 내려가지 않습니다. 등성이(−1.7 m)가 드러날 수 없습니다."
           : (open ? (place === "mo" ? "✅ 바닷길이 드러났습니다! 이 시간대에 축제를 열면 됩니다." : "✅ 이 바다라면 드러납니다. 다만 진도의 물때는 가까운 <b>목포</b> 자료로 봐야 합니다.")
             : "이 관측소에서는 드러날 수 있습니다. 조위가 −1.7 m보다 낮아지는 시각(간조 무렵)을 찾아보세요."));
-
       if (place === "mo" && open && !ep.cleared(3)) {
         window.sthState("dRoad", tm.toFixed(2) + "시");
         window.sthMission("mD4", true, "<span class='m-tag'>미션 완료</span><b>목포</b> 자료로 " + tm.toFixed(2) + "시. 같은 사리라도 조차가 충분히 큰 곳에서만 바닷길이 드러납니다. 조차가 0.3 m인 묵호 같은 동해안에서는 아무리 기다려도 열리지 않고, 조차가 8 m인 인천에서는 훨씬 넓은 갯벌이 드러납니다.");
@@ -1460,7 +1532,21 @@ function duck(ctx, x, y, s, flip) {
       }
     }
     canvas._redraw = draw;
-    $("d-road-t").addEventListener("input", function (e) { tm = +e.target.value; $("d-road-t-val").textContent = tm.toFixed(2) + "시"; draw(); });
+    function setT(t) { tm = t; $("d-road-t").value = tm; $("d-road-t-val").textContent = tm.toFixed(2) + "시"; draw(); }
+    $("d-road-t").addEventListener("input", function (e) { playing = false; $("d-road-play").textContent = "▶ 하루 흘려 보기"; setT(+e.target.value); });
+    $("d-road-play").addEventListener("click", function () {
+      playing = !playing; this.textContent = playing ? "⏸ 멈추기" : "▶ 하루 흘려 보기";
+      if (playing && tm >= 23.99) setT(0);
+    });
+    K.animate(canvas, function (dt) {
+      if (playing) {
+        var nt = Math.min(24, tm + dt / 1000 * 1.6);                 /* 1초에 1.6시간 */
+        tm = nt; $("d-road-t").value = Math.round(tm * 4) / 4; $("d-road-t-val").textContent = (Math.round(tm * 4) / 4).toFixed(2) + "시";
+        if (tm >= 24) { playing = false; $("d-road-play").textContent = "▶ 하루 흘려 보기"; }
+        ph += dt / 60; draw();
+      } else if (level(tm) < FLOOR) { ph += dt / 60; drawModelOnly(); }
+    }, 24);
+    function drawModelOnly() { var lv = level(tm); ctx.clearRect(0, 0, W, DH + 4); drawModel(lv, lv < FLOOR); }
     var pb = document.querySelectorAll("#d-road-sp button");
     Array.prototype.forEach.call(pb, function (b) {
       b.addEventListener("click", function () {
