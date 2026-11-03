@@ -55,7 +55,7 @@
         <section class="scene" data-title="대기는 아무 빛이나 막지 않는다 — 선택적 흡수">
           <div class="story"><div class="who">👩‍🚀</div><div class="say"><span class="name">한별</span>“먼저 이상한 점부터요. 대기가 빛을 막는다면 햇빛도 못 들어와야 하잖아요? 그런데 낮은 환합니다. 대기는 <b>파장에 따라 아주 다르게</b> 행동해요. 파장을 0.1 µm부터 40 µm까지 훑으면서, 어떤 빛이 막히고 어떤 빛이 통과하는지 직접 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="a-sp" width="900" height="420"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="a-sp" width="900" height="420"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">살펴볼 빛의 파장<span class="val" id="a-sp-w-val">2.00 µm</span></div>
@@ -75,7 +75,7 @@
         <section class="scene" data-title="대기가 없는 행성의 온도 — 복사 평형 온도">
           <div class="story"><div class="who">👩‍🚀</div><div class="say"><span class="name">한별</span>“이제 계산입니다. 어떤 천체든 받는 만큼 내보내면 온도가 일정해져요. 이 온도를 <b><span data-view="law:복사 평형">복사 평형</span> 온도</b>라고 합니다. 식은 T = [S(1−A) / 4σ]<sup>1/4</sup>, σ = 5.67×10⁻⁸ W/m²K⁴예요. 태양 상수와 반사율을 바꿔 가며 행성을 만들어 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="a-eq" width="900" height="400"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="a-eq" width="900" height="400"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">태양 상수 S (W/m²)<span class="val" id="a-eq-s-val">1,200</span></div>
@@ -85,6 +85,7 @@
                 <div class="ctrl-label">반사율(알베도) A<span class="val" id="a-eq-a-val">0.35</span></div>
                 <input type="range" id="a-eq-a" min="0" max="90" step="5" value="35">
               </div>
+              <button type="button" class="btn sm" id="a-eq-play">⏸ 빛 멈추기</button>
             </div>
             <div class="info-card" id="a-eq-info"></div>
           </div>
@@ -102,7 +103,7 @@
             <tr><td>30</td><td>25</td><td>45</td><td>104</td><td>8</td><td>20</td><td>9</td></tr></table>
           </div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="a-bal" width="900" height="470"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="a-bal" width="900" height="470"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">① 대기·구름이 우주로 내보내는 지구 복사<span class="val" id="a-bal-e-val">50</span></div>
@@ -164,7 +165,7 @@
         <section class="scene" data-title="공기 한 덩이를 따라 산을 넘다">
           <div class="story"><div class="who">👩‍🔬</div><div class="say"><span class="name">기상 조사관 유나</span>“공기 덩어리는 오르면 부피가 커지면서 스스로 식습니다. 밖과 열을 주고받지 않는 <b><span data-view="law:단열과정">단열 변화</span></b>죠. 그러다 기온이 이슬점까지 내려가면 수증기가 응결해 구름이 생기고, 그 뒤로는 응결할 때 나오는 숨은열 때문에 <b>천천히</b> 식습니다. 산기슭의 기온과 이슬점을 바꿔 가며 직접 넘겨 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="b-foehn" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="b-foehn" width="900" height="430"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">산기슭(동쪽)의 기온<span class="val" id="b-foehn-t-val">20 ℃</span></div>
@@ -174,6 +175,7 @@
                 <div class="ctrl-label">산기슭(동쪽)의 이슬점<span class="val" id="b-foehn-d-val">12 ℃</span></div>
                 <input type="range" id="b-foehn-d" min="-5" max="30" step="1" value="12">
               </div>
+              <button type="button" class="btn sm" id="b-foehn-play">⏸ 공기 멈추기</button>
             </div>
             <div class="info-card" id="b-foehn-info"></div>
           </div>
@@ -187,7 +189,7 @@
         <section class="scene" data-title="계속 올라갈까, 되돌아올까 — 대기 안정도">
           <div class="story"><div class="who">👩‍🔬</div><div class="say"><span class="name">유나</span>“공기 덩어리가 계속 올라갈지는 <b>주변 대기의 기온이 높이에 따라 얼마나 빨리 떨어지는가</b>가 정합니다. 주변이 덩어리보다 더 빨리 식으면 덩어리는 늘 주변보다 따뜻해서 계속 올라가요. 주변 대기의 기온 감률을 바꿔 가며 단열선도를 읽어 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="b-stab" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="b-stab" width="900" height="430"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">공기 덩어리의 상태</div>
@@ -200,6 +202,7 @@
                 <div class="ctrl-label">주변 대기의 기온 감률 (℃/100 m)<span class="val" id="b-stab-g-val">0.60</span></div>
                 <input type="range" id="b-stab-g" min="-0.4" max="1.4" step="0.05" value="0.6">
               </div>
+              <button type="button" class="btn sm" id="b-stab-play">⏸ 덩어리 멈추기</button>
             </div>
             <div class="info-card" id="b-stab-info"></div>
           </div>
@@ -213,12 +216,13 @@
         <section class="scene" data-title="구름은 어떻게 비가 되는가">
           <div class="story"><div class="who">👩‍🔬</div><div class="say"><span class="name">유나</span>“구름이 생겼다고 바로 비가 오지는 않아요. 구름 알갱이는 지름이 0.02 mm쯤이라 떨어지다가 증발해 버립니다. 빗방울이 되려면 지름이 100배쯤 커져야 해요. 구름 꼭대기를 높여 가며, 구름 속 온도가 어떻게 달라지고 어떤 방법으로 빗방울이 자라는지 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="b-rain" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="b-rain" width="900" height="430"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">구름 꼭대기의 높이 (km)<span class="val" id="b-rain-h-val">4.0</span></div>
                 <input type="range" id="b-rain-h" min="1" max="12" step="0.5" value="4">
               </div>
+              <button type="button" class="btn sm" id="b-rain-play">⏸ 구름 멈추기</button>
             </div>
             <div class="info-card" id="b-rain-info"></div>
           </div>
@@ -268,12 +272,13 @@
         <section class="scene" data-title="위로 갈수록 가벼워진다 — 기압의 연직 분포">
           <div class="story"><div class="who">🧑‍🏫</div><div class="say"><span class="name">도윤</span>“어떤 높이의 기압은 <b>그 위에 쌓인 공기 기둥의 무게</b>와 같습니다. 위로 올라갈수록 머리 위에 남은 공기가 줄어드니 기압이 낮아지죠. 그런데 줄어드는 모양이 직선이 아닙니다. 고도 슬라이더를 움직여 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="c-prof" width="900" height="410"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="c-prof" width="900" height="410"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">고도 (km)<span class="val" id="c-prof-z-val">5.0</span></div>
                 <input type="range" id="c-prof-z" min="0" max="20" step="0.1" value="5">
               </div>
+              <button type="button" class="btn sm" id="c-prof-play">⏸ 분자 멈추기</button>
             </div>
             <div class="info-card" id="c-prof-info"></div>
           </div>
@@ -287,7 +292,7 @@
         <section class="scene" data-title="공기 저울 — 정역학적 균형">
           <div class="story"><div class="who">🧑‍🏫</div><div class="say"><span class="name">도윤</span>“두께 <b>100 m</b>, 밑면적 <b>1 m²</b>짜리 공기 층을 하나 떼어 저울에 올려 봅시다. 아래에서 받치는 기압이 위에서 누르는 기압보다 큰 만큼 <b>위로 미는 힘</b>이 생기고, 공기 자신의 <b>무게</b>는 아래로 당깁니다. 두 힘이 같으면 층은 가만히 있어요. 아래 면의 기압과 공기의 기온을 바꿔 가며 저울을 맞춰 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="c-hydro" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="c-hydro" width="900" height="430"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">아래 면의 기압 (hPa) — 위 면은 1,000.0 hPa 고정<span class="val" id="c-hydro-p-val">1011.3</span></div>
@@ -310,7 +315,7 @@
         <section class="scene" data-title="저울은 언제 기우는가 — 연직 운동의 네 가지 원인">
           <div class="story"><div class="who">🧑‍🏫</div><div class="say"><span class="name">도윤</span>“실제 대기는 거의 언제나 정역학적 균형에 가깝습니다. 그런데 아주 조금만 기울어도 공기는 위아래로 움직이고, 그 움직임이 구름과 비를 만듭니다. 균형을 깨뜨리는 원인은 크게 네 가지예요. 하나씩 세기를 올려 가며 상승 속도를 재 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="c-vert" width="900" height="450"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="c-vert" width="900" height="450"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">살펴볼 원인</div>
@@ -325,6 +330,7 @@
                 <div class="ctrl-label">그 원인의 세기<span class="val" id="c-vert-s-val">20 %</span></div>
                 <input type="range" id="c-vert-s" min="0" max="100" step="1" value="20">
               </div>
+              <button type="button" class="btn sm" id="c-vert-play">⏸ 공기 멈추기</button>
             </div>
             <div class="info-card" id="c-vert-info"></div>
           </div>
@@ -374,7 +380,7 @@
         <section class="scene" data-title="힘 두 개로 부는 바람 — 지균풍">
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">세영</span>“마찰이 거의 없는 상공에서는 힘이 둘뿐이에요. 등압선에 수직으로 밀어 주는 <b>기압 경도력</b>, 그리고 움직이기 시작한 공기를 북반구에서 오른쪽으로 휘게 하는 <b><span data-view="law:코리올리 효과">전향력</span></b>. 두 힘이 크기가 같고 방향이 반대가 되면 바람은 등압선과 나란해집니다. 등압선 간격과 위도를 바꿔 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="d-geo" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="d-geo" width="900" height="430"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">이웃한 등압선 사이의 거리 (km)<span class="val" id="d-geo-d-val">500</span></div>
@@ -384,6 +390,7 @@
                 <div class="ctrl-label">위도 (북반구)<span class="val" id="d-geo-lat-val">45°</span></div>
                 <input type="range" id="d-geo-lat" min="15" max="70" step="5" value="45">
               </div>
+              <button type="button" class="btn sm" id="d-geo-play">⏸ 바람 멈추기</button>
             </div>
             <div class="toggle-row" style="margin:0 20px 14px;"><button class="btn primary" id="d-geo-run" type="button">▶ 정지한 공기를 놓아 보기</button></div>
             <div class="info-card" id="d-geo-info"></div>
@@ -399,7 +406,7 @@
         <section class="scene" data-title="휘어진 등압선 위에서 — 경도풍">
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">세영</span>“실제 일기도의 등압선은 곧지 않고 둥글게 휘어 있어요. 원을 따라 도는 공기에는 바깥으로 향하는 <b>원심력</b>이 더해집니다. 그러면 같은 기압 경도력이라도 저기압 주위와 고기압 주위의 풍속이 달라져요. 곡률 반지름을 바꿔 가며 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="d-grad" width="900" height="410"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="d-grad" width="900" height="410"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">어느 쪽 주위의 바람인가</div>
@@ -412,6 +419,7 @@
                 <div class="ctrl-label">등압선이 휘어진 정도 — 곡률 반지름 (km)<span class="val" id="d-grad-r-val">1,000</span></div>
                 <input type="range" id="d-grad-r" min="200" max="1500" step="50" value="1000">
               </div>
+              <button type="button" class="btn sm" id="d-grad-play">⏸ 바람 멈추기</button>
             </div>
             <div class="info-card" id="d-grad-info"></div>
           </div>
@@ -425,12 +433,13 @@
         <section class="scene" data-title="땅에 닿으면 비스듬해진다 — 지상풍">
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">세영</span>“지표 가까이에서는 <b>마찰력</b>이 하나 더 붙습니다. 마찰은 바람을 느리게 하고, 느려지면 전향력도 함께 작아져요. 그러면 기압 경도력이 남아 바람이 저기압 쪽으로 끌려 들어갑니다. 지표의 거칠기를 바꿔 가며 등압선과 이루는 각을 재 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="d-sfc" width="900" height="410"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="d-sfc" width="900" height="410"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">지표의 마찰 세기 (10⁻⁶/s)<span class="val" id="d-sfc-k-val">30</span></div>
                 <input type="range" id="d-sfc-k" min="0" max="150" step="5" value="30">
               </div>
+              <button type="button" class="btn sm" id="d-sfc-play">⏸ 바람 멈추기</button>
             </div>
             <div class="info-card" id="d-sfc-info"></div>
           </div>
@@ -445,7 +454,7 @@
         <section class="scene" data-title="지구를 감아 도는 물결 — 행성파">
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">세영</span>“이제 한파로 돌아갑시다. 중위도 상공의 편서풍은 곧게 불지 않고 남북으로 굽이칩니다. <b>전향력이 위도에 따라 달라지기 때문</b>에 생기는 지구 규모의 파동, <b>행성파</b>예요. 파수와 진폭을 바꿔 가며 한파가 어떻게 내려오는지 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="d-wave" width="900" height="440"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="d-wave" width="900" height="440"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">파수 — 지구를 한 바퀴 도는 물결의 수<span class="val" id="d-wave-k-val">4</span></div>
@@ -455,6 +464,7 @@
                 <div class="ctrl-label">사행의 진폭 (위도 °)<span class="val" id="d-wave-a-val">8°</span></div>
                 <input type="range" id="d-wave-a" min="0" max="25" step="1" value="8">
               </div>
+              <button type="button" class="btn sm" id="d-wave-play">⏸ 제트 기류 멈추기</button>
             </div>
             <div class="info-card" id="d-wave-info"></div>
           </div>
@@ -539,6 +549,7 @@
 <script src="../assets/account.js"></script>
 <script src="episodes.js"></script>
 <script src="worked.js"></script>
+<script src="handoff.js"></script>
 <script src="quiz-items.js"></script>
 <script src="../assets/review.js"></script>
 <script src="../assets/peer.js"></script>

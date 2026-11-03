@@ -54,7 +54,7 @@
         <section class="scene" data-title="바람은 오른쪽으로 민다 — 에크만 나선과 수송">
           <div class="story"><div class="who">🧑‍🔬</div><div class="say"><span class="name">하윤</span>“바다 위의 물건은 바람이 부는 쪽으로 그대로 가지 않아요. 바람이 표층 해수를 끌고, 그 층이 다시 아래층을 끌면서 <b>깊어질수록 방향이 조금씩 돌아갑니다</b>. 이걸 에크만 나선이라고 해요. 바람 방향을 돌려 가며, 물이 결국 <b>어느 쪽으로 옮겨 가는지</b> 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="a-ek" width="900" height="420"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="a-ek" width="900" height="420"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">반구</div>
@@ -67,6 +67,7 @@
                 <div class="ctrl-label">바람이 불어 가는 방향 (0° = 북쪽, 90° = 동쪽)<span class="val" id="a-ek-dir-val">0°</span></div>
                 <input type="range" id="a-ek-dir" min="0" max="350" step="10" value="0">
               </div>
+              <button type="button" class="btn sm" id="a-ek-play">⏸ 흐름 멈추기</button>
             </div>
             <div class="info-card" id="a-ek-info"></div>
           </div>
@@ -76,7 +77,7 @@
         <section class="scene" data-title="물이 쌓인 자리 — 수압 경도력과 전향력">
           <div class="story"><div class="who">🧑‍🔬</div><div class="say"><span class="name">하윤</span>“사방에서 에크만 수송이 한가운데로 모이면 어떻게 될까요? 그 자리의 <b>해수면이 주변보다 높아집니다</b>. 실제로 북태평양 아열대 환류의 중심은 가장자리보다 1 m쯤 높아요. 물이 쌓이면 아래쪽 수압이 달라지고, 그때부터 바다가 스스로 흐르기 시작합니다.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="a-geo" width="900" height="440"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="a-geo" width="900" height="440"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">수압을 재는 수심 (m)<span class="val" id="a-geo-d-val">100</span></div>
@@ -86,6 +87,7 @@
                 <div class="ctrl-label">환류 중심과 가장자리의 해수면 높이차 (cm)<span class="val" id="a-geo-h-val">20</span></div>
                 <input type="range" id="a-geo-h" min="0" max="200" step="5" value="20">
               </div>
+              <button type="button" class="btn sm" id="a-geo-play">⏸ 흐름 멈추기</button>
             </div>
             <div class="info-card" id="a-geo-info"></div>
           </div>
@@ -96,7 +98,7 @@
         <section class="scene" data-title="서쪽과 동쪽 가장자리는 왜 다른가 — 서안 경계류와 동안 경계류">
           <div class="story"><div class="who">🧑‍🔬</div><div class="say"><span class="name">하윤</span>“환류는 둥글게 돌지만, 서쪽 가장자리와 동쪽 가장자리의 모습이 전혀 달라요. 대양 <b>서쪽</b>에서는 좁고 빠르고 깊은 해류가, <b>동쪽</b>에서는 넓고 느리고 얕은 해류가 흐릅니다. 그런데 한 바퀴를 도는 물의 양은 결국 같아야 해요. 동안 경계류의 폭을 조절해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="a-bnd" width="900" height="420"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="a-bnd" width="900" height="420"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">자세히 볼 해류</div>
@@ -109,6 +111,7 @@
                 <div class="ctrl-label">동안 경계류의 폭 (km)<span class="val" id="a-bnd-w-val">400</span></div>
                 <input type="range" id="a-bnd-w" min="200" max="3000" step="50" value="400">
               </div>
+              <button type="button" class="btn sm" id="a-bnd-play">⏸ 해류 멈추기</button>
             </div>
             <div class="info-card" id="a-bnd-info"></div>
           </div>
@@ -153,7 +156,7 @@
         <section class="scene" data-title="파도 공장 — 무엇이 파고를 정하는가">
           <div class="story"><div class="who">👩‍✈️</div><div class="say"><span class="name">서진</span>“바람이 만드는 파도의 크기는 딱 세 가지가 정해요. <b>풍속</b>, 바람이 같은 방향으로 불어 간 거리인 <b>취송 거리</b>, 그리고 <b>지속 시간</b>입니다. 셋 중 하나만 모자라도 파도는 크지 못해요. 저기압 해역의 조건을 이리저리 바꿔 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="b-gen" width="900" height="400"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="b-gen" width="900" height="400"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">풍속 (m/s)<span class="val" id="b-gen-u-val">6</span></div>
@@ -167,6 +170,7 @@
                 <div class="ctrl-label">지속 시간 (시간)<span class="val" id="b-gen-t-val">6</span></div>
                 <input type="range" id="b-gen-t" min="2" max="48" step="2" value="6">
               </div>
+              <button type="button" class="btn sm" id="b-gen-play">⏸ 파도 멈추기</button>
             </div>
             <div class="info-card" id="b-gen-info"></div>
           </div>
@@ -176,11 +180,13 @@
         <section class="scene" data-title="너울은 언제 도착하는가 — 심해파의 속도">
           <div class="story"><div class="who">👩‍✈️</div><div class="say"><span class="name">서진</span>“저기압을 벗어난 파도는 <b>너울</b>이 되어 혼자 달려옵니다. 깊은 바다에서는 수심이 아무 상관이 없고, <b>파장이 긴 파도일수록 빠릅니다</b>. 파속은 √(gL/2π)로 구해요. 대회 시작은 지금부터 <b>48시간 뒤</b>입니다. 그때 딱 맞춰 도착하는 파장을 찾아 주세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="b-swell" width="900" height="380"></canvas></div>
-            <div class="controls">
-              <div class="ctrl-group" style="flex:1 1 100%">
+            <div class="canvas-wrap stage"><canvas id="b-swell" width="900" height="380"></canvas></div>
+            <div class="sim-side">
+              <div class="readout" id="b-swell-read"></div>
+              <div class="ctrl-group">
                 <div class="ctrl-label">너울의 파장 L (m)<span class="val" id="b-swell-l-val">150</span></div>
                 <input type="range" id="b-swell-l" min="100" max="500" step="10" value="150">
+                <button type="button" class="btn sm" id="b-swell-play" style="margin-top:10px">⏸ 너울 멈추기</button>
               </div>
             </div>
             <div class="info-card" id="b-swell-info"></div>
@@ -191,11 +197,13 @@
         <section class="scene" data-title="해안에 닿으면 — 천해파로 바뀌는 순간">
           <div class="story"><div class="who">👩‍✈️</div><div class="say"><span class="name">서진</span>“같은 파도라도 <b>수심이 파장의 절반보다 깊으면 심해파</b>, <b>파장의 1/20보다 얕으면 천해파</b>입니다. 천해파가 되면 해저가 파도를 붙잡아 속도가 √(gh)로 줄고, 파장이 짧아지면서 파고는 솟아오릅니다. 그러다 물마루가 무너지는 것이 바로 서핑하는 파도예요. 수심을 바꿔 가며 물 입자의 궤도를 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="b-shoal" width="900" height="420"></canvas></div>
-            <div class="controls">
-              <div class="ctrl-group" style="flex:1 1 100%">
+            <div class="canvas-wrap stage"><canvas id="b-shoal" width="900" height="420"></canvas></div>
+            <div class="sim-side">
+              <div class="readout" id="b-shoal-read"></div>
+              <div class="ctrl-group">
                 <div class="ctrl-label">그 지점의 수심 h (m)<span class="val" id="b-shoal-h-val">60</span></div>
                 <input type="range" id="b-shoal-h" min="2" max="300" step="2" value="60">
+                <button type="button" class="btn sm" id="b-shoal-play" style="margin-top:10px">⏸ 물결 멈추기</button>
               </div>
             </div>
             <div class="info-card" id="b-shoal-info"></div>
@@ -241,11 +249,13 @@
         <section class="scene" data-title="깊을수록 빠르다 — 지진 해일의 속도">
           <div class="story"><div class="who">🧑‍💼</div><div class="say"><span class="name">도현</span>“지진 해일은 파장이 100 km가 넘습니다. 수심 4,000 m 인 태평양 한복판도 파장의 1/20보다 얕은 셈이라, 지진 해일은 <b>어디서나 천해파</b>예요. 그래서 속도는 오직 수심이 정합니다. v = √(gh). 수심을 바꿔 가며 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="c-spd" width="900" height="360"></canvas></div>
-            <div class="controls">
-              <div class="ctrl-group" style="flex:1 1 100%">
+            <div class="canvas-wrap stage"><canvas id="c-spd" width="900" height="360"></canvas></div>
+            <div class="sim-side">
+              <div class="readout" id="c-spd-read"></div>
+              <div class="ctrl-group">
                 <div class="ctrl-label">수심 h (m)<span class="val" id="c-spd-h-val">1,000</span></div>
                 <input type="range" id="c-spd-h" min="50" max="7000" step="50" value="1000">
+                <button type="button" class="btn sm" id="c-spd-play" style="margin-top:10px">⏸ 해일 멈추기</button>
               </div>
             </div>
             <div class="info-card" id="c-spd-info"></div>
@@ -262,7 +272,7 @@
             <tr><td>C 대륙붕</td><td>12 km</td><td>100 m</td></tr></table>
           </div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="c-arr" width="900" height="400"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="c-arr" width="900" height="400"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">내가 계산한 해안 도달 시각 (지진 발생 몇 분 뒤)<span class="val" id="c-arr-t-val">15분</span></div>
@@ -278,8 +288,10 @@
         <section class="scene" data-title="다른 해일 — 기압과 바람과 만조가 겹칠 때">
           <div class="story"><div class="who">🧑‍💼</div><div class="say"><span class="name">도현</span>“해일에는 다른 종류가 하나 더 있습니다. 2003년 태풍 <b>매미</b>가 남해안을 지날 때, <span data-place=35.19,128.57,12,s>마산만</span>의 바닷물이 시가지 안쪽까지 밀려들어 왔어요. 지진은 없었습니다. 범인은 <b>낮은 기압 + 해안으로 부는 강한 바람 + 만조</b>, 세 가지가 한꺼번에 겹친 것이었습니다.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="c-surge" width="900" height="420"></canvas></div>
-            <div class="controls">
+            <div class="canvas-wrap stage"><canvas id="c-surge" width="900" height="420"></canvas></div>
+            <div class="sim-side">
+              <div class="readout" id="c-surge-read"></div>
+              <div>
               <div class="ctrl-group">
                 <div class="ctrl-label">태풍 중심 기압 (hPa)<span class="val" id="c-surge-p-val">1000</span></div>
                 <input type="range" id="c-surge-p" min="900" max="1013" step="1" value="1000">
@@ -291,6 +303,8 @@
               <div class="ctrl-group">
                 <div class="ctrl-label">그때의 천문 조위 (m, 만조에 가까울수록 높다)<span class="val" id="c-surge-tide-val">0.5</span></div>
                 <input type="range" id="c-surge-tide" min="0" max="3" step="0.1" value="0.5">
+              </div>
+              <button type="button" class="btn sm" id="c-surge-play" style="margin-top:10px">⏸ 태풍 멈추기</button>
               </div>
             </div>
             <div class="info-card" id="c-surge-info"></div>
@@ -340,7 +354,7 @@
         <section class="scene" data-title="달이 태양을 이기는 까닭 — 기조력">
           <div class="story"><div class="who">👩‍🏫</div><div class="say"><span class="name">은채</span>“조석을 일으키는 힘을 <b>기조력</b>이라고 해요. 이상한 점이 있어요. 태양은 달보다 질량이 <b>약 2,700만 배</b>나 큰데, 조석은 달이 더 크게 좌우합니다. 기조력은 질량에 비례하지만 <b>거리의 세제곱에 반비례</b>하거든요. 슬라이더로 직접 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="d-tf" width="900" height="360"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="d-tf" width="900" height="360"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">태양까지의 거리 (달까지 거리의 몇 배?)<span class="val" id="d-tf-r-val">100배</span></div>
@@ -355,7 +369,7 @@
         <section class="scene" data-title="사리와 조금 — 달의 위상이 정한다">
           <div class="story"><div class="who">👩‍🏫</div><div class="say"><span class="name">은채</span>“달의 기조력이 주인공이지만, 태양도 약 0.46배의 몫을 합니다. 그래서 둘이 <b>한 줄로 늘어서면</b> 힘이 더해지고, <b>직각으로 갈라지면</b> 서로 깎습니다. 달을 공전시켜 가며 인천 관측소의 조차가 어떻게 변하는지 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="d-ph" width="900" height="420"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="d-ph" width="900" height="420"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">달의 공전 위치 (태양 방향에서 잰 각)<span class="val" id="d-ph-a-val">45°</span></div>
@@ -374,7 +388,7 @@
             <tr><td>약 8 m</td><td>약 4 m</td><td>약 1 m</td><td>약 0.3 m</td></tr></table>
           </div>
           <div class="stage-card">
-            <div class="canvas-wrap"><canvas id="d-road" width="900" height="400"></canvas></div>
+            <div class="canvas-wrap stage"><canvas id="d-road" width="900" height="400"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">관측소 (사리 때 자료)</div>
@@ -464,6 +478,7 @@
 <script src="../assets/account.js"></script>
 <script src="episodes.js"></script>
 <script src="worked.js"></script>
+<script src="handoff.js"></script>
 <script src="quiz-items.js"></script>
 <script src="../assets/review.js"></script>
 <script src="../assets/peer.js"></script>
