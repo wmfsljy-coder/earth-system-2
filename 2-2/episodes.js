@@ -546,54 +546,186 @@ function heatCol(u, a) {
     }
 
     var foA = { on: !REDUCE }, foT = 0;
-    function paint() {
-      var m = model(), GY = 372, PX = 460, SC = 0.18, k;
-      function yOf(h) { return GY - h * SC; }
-      ctx.clearRect(0, 0, W, H);
-      K.stage(ctx, 0, 0, W, H, "sky", { seed: 83 });
-      K.pill(ctx, "공기 덩어리 한 덩이가 태백산맥을 넘는다", 16, 28, { s: 13, c: KC.blue });
-      K.pill(ctx, "건조 단열 1.0 ℃/100 m · 습윤 단열 0.5 ℃/100 m · 이슬점은 오를 때 0.2 ℃/100 m 낮아짐", W - 16, 28, { a: "right", s: 10.5, c: KC.ink });
-      /* 높이 눈금 */
-      [0, 500, 1000, 1500].forEach(function (h) {
-        K.line(ctx, { x: 18, y: yOf(h) }, { x: 150, y: yOf(h) }, "rgba(255,255,255,.35)", 1, [4, 4]);
-        K.t(ctx, h.toLocaleString() + " m", 22, yOf(h) - 5, { s: 10, c: "#10335a" });
-      });
-      /* 땅과 산 */
-      ctx.save(); ctx.beginPath(); ctx.moveTo(0, GY); ctx.lineTo(150, GY); ctx.lineTo(PX - 14, yOf(MH) + 6); ctx.quadraticCurveTo(PX, yOf(MH) - 4, PX + 14, yOf(MH) + 6); ctx.lineTo(770, GY); ctx.lineTo(W, GY); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
-      ctx.fillStyle = hillGrad(ctx, yOf(MH), H); ctx.fill(); ctx.restore();
-      K.pill(ctx, "동쪽 기슭 (영동)", 95, GY + 30, { a: "center", s: 11.5, c: KC.ink });
-      K.pill(ctx, "서쪽 기슭 (영서)", 805, GY + 30, { a: "center", s: 11.5, c: KC.ink });
-      /* 구름과 비 */
-      if (m.cloud > 0) {
-        var yl = yOf(m.lcl);
-        for (k = 0; k < 9; k++) {
-          var rx = 210 + k * 26, ry = yl + 10 + ((foT * 140 + k * 37) % 46);
-          if (ry < GY - 6) { ctx.strokeStyle = "rgba(60,120,220,.7)"; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx - 3, ry + 9); ctx.stroke(); }
+    /* ── 아이소메트릭 블록 모형: x = 동해·영동(왼쪽 위) → 영서(오른쪽 아래), y = 산맥이 뻗은 방향.
+          공기 덩어리는 앞면 가까이(y = YP)를 따라 산을 넘는다. 높이는 크게 과장(1,500 m ≈ 165 그림 단위). ── */
+    var I = K.iso({ ox: 290, oy: 196, s: 0.8, L: 640, D: 180 });
+    var BL = I.L, BD = I.D, ZB = 40, ZM = 0.11, XM = 330, YP = BD - 30;
+    function zm(mm) { return ZB + mm * ZM; }
+    function prof(x) {                       /* 공기가 지나는 길의 땅 높이(m): 동쪽은 가파르고 서쪽은 완만한 산맥 */
+      if (x < 48) return -260 * Math.pow(1 - x / 48, 1.4);
+      if (x < 110) return 0;
+      if (x <= XM) return MH * Math.pow(Math.sin((x - 110) / (XM - 110) * Math.PI / 2), 1.6);
+      if (x < 590) return MH * Math.pow(Math.cos((x - XM) / (590 - XM) * Math.PI / 2), 1.3);
+      return 0;
+    }
+    function ridgeX(x, y) { return x - 16 * Math.sin((y - YP) / 40); }
+    function hgt(x, y) {
+      var dy = y - YP, h = prof(ridgeX(x, y));
+      if (h > 0) h = Math.max(0, h * (0.93 + 0.07 * Math.cos(dy / 26)) + 45 * Math.sin(x / 19) * Math.cos(y / 15) * Math.min(1, h / 400));
+      return h;
+    }
+    function zOf(x, y) { return zm(hgt(x, y)); }
+    function faceZ(side) { return function (u) { return side === "front" ? zOf(u, BD) : zOf(BL, u); }; }
+    function mixHex(a, b, f) {
+      var A = parseInt(a.slice(1), 16), B = parseInt(b.slice(1), 16);
+      var r = [16, 8, 0].map(function (s) { var p = (A >> s) & 255, q = (B >> s) & 255; return Math.round(p + (q - p) * f); });
+      return "#" + ((1 << 24) + (r[0] << 16) + (r[1] << 8) + r[2]).toString(16).slice(1);
+    }
+    function landCol(dry) {
+      return function (x, y, z, light) {
+        var mm = (z - ZB) / ZM, c;
+        if (mm < -5) c = "#5f6b72";                                         /* 바닷바닥 */
+        else if (x < 110 && mm < 25) c = "#d8c48f";                         /* 바닷가 모래 */
+        else if (ridgeX(x, y) <= XM + 4) c = mm > 1100 ? "#2f5e33" : mm > 500 ? "#3c7a3b" : "#58984a";   /* 바람받이: 젖은 숲 */
+        else {                                                               /* 바람그늘: 산 너머가 더울수록 누렇게 마른다 */
+          c = mm > 900 ? "#4f7a3a" : mm > 300 ? "#6f9446" : "#8fae55";
+          c = mixHex(c, mm > 300 ? "#a8915a" : "#d1b066", dry * (mm > 300 ? .7 : 1));
         }
-        var ch = clamp((MH - m.lcl) * SC, 10, 200);
-        for (k = 0; k < 5; k++) cloud(ctx, 230 + k * 48, yl - ch * (.25 + (k % 2) * .2), 18 + ch * .12, .92);
-        K.line(ctx, { x: 150, y: yl }, { x: 770, y: yl }, KC.red, 2, [6, 5]);
-        K.pill(ctx, "상승 응결 고도 " + Math.round(m.lcl).toLocaleString() + " m", W - 16, yl - 8, { a: "right", s: 11, c: KC.red });
-      } else {
-        K.pill(ctx, "구름이 생기지 않습니다 (응결 고도가 산마루보다 높음)", PX, yOf(MH) + 64, { a: "center", s: 11.5, c: KC.ink });
+        return K.tint(c, light);
+      };
+    }
+    function tpAt(x, m) {                    /* 공기 덩어리가 x 에 있을 때의 기온(기존 모형 그대로) */
+      var h = Math.max(0, prof(x));
+      if (x <= XM) return h <= m.lcl ? T0 - h / 100 : T0 - m.lcl / 100 - 0.5 * (h - m.lcl) / 100;
+      return m.top + (MH - h) / 100;
+    }
+    function hsh(i) { var s = Math.sin(i * 12.9898 + 4.1) * 43758.5453; return s - Math.floor(s); }
+    var RAIN = [], RR = K.rng(91);
+    for (var ri = 0; ri < 60; ri++) RAIN.push([RR(), RR(), RR()]);
+    /* 앞면(y = BD) 위, 땅보다 높은 곳에만 수평선 긋기 */
+    function airLine(zz, u0, u1, col, w, dsh) {
+      ctx.save(); ctx.strokeStyle = col; ctx.lineWidth = w; ctx.setLineDash(dsh || []);
+      var on = false; ctx.beginPath();
+      for (var u = u0; u <= u1 + .01; u += 4) {
+        var p = I.P(u, BD, zz);
+        if (zOf(u, BD) < zz - 1) { if (on) ctx.lineTo(p.x, p.y); else ctx.moveTo(p.x, p.y); on = true; } else on = false;
       }
-      /* 공기 덩어리: 산을 따라 오르고 내린다 */
-      var u = (foT * .12) % 1, px, h, tp;
-      if (u < .5) { var a = u / .5; px = 120 + a * (PX - 120); h = clamp((px - 150) / (PX - 150), 0, 1) * MH; tp = h <= m.lcl ? T0 - h / 100 : T0 - m.lcl / 100 - 0.5 * (h - m.lcl) / 100; }
-      else { var b2 = (u - .5) / .5; px = PX + b2 * (800 - PX); h = clamp((770 - px) / (770 - PX), 0, 1) * MH; tp = m.top + (MH - h) / 100; }
-      var py = yOf(h) - 26, tu = (tp + 10) / 45;
-      K.planet(ctx, px, py, 13, heatCol(tu), "#3a2a4a");
-      K.pill(ctx, tp.toFixed(1) + " ℃", px, py - 20, { a: "center", s: 11, c: KC.ink });
-      /* 세 자리의 기온 */
-      function tag(x, y, s1, s2, col) {
-        K.pill(ctx, s1, x, y - 14, { a: "center", s: 13, c: col });
-        K.t(ctx, s2, x, y + 4, { s: 10.5, a: "center", c: "#0e2c4f", w: "800" });
+      ctx.stroke(); ctx.restore();
+    }
+
+    function paint() {
+      var m = model(), k, dry = clamp(m.gain / 7.5, 0, 1), wz = zm(0), box = [0, W];
+      ctx.clearRect(0, 0, W, H);
+      var fl = I.P(BL, BD, 0);
+      K.studio(ctx, 0, 0, W, H, { x: fl.x - 150, y: fl.y - 24, rx: 340, ry: 42 });
+      ctx.save(); ctx.beginPath(); ctx.roundRect(0, 0, W, H, 14); ctx.clip();
+      /* 지형 + 바다 */
+      I.field(ctx, zOf, landCol(dry), 64, 18, function (c, x0, y0, x1, y1, zMax, zMin) {
+        if (wz > zMin + 0.2) {
+          var a = I.P(x0, y0, wz), b = I.P(x1, y0, wz), cc = I.P(x1, y1, wz), d = I.P(x0, y1, wz), dep = wz - zMin;
+          c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.lineTo(cc.x, cc.y); c.lineTo(d.x, d.y); c.closePath();
+          c.fillStyle = "rgba(" + Math.round(50 - dep) + "," + Math.round(130 - dep * 1.5) + ",210," + Math.min(.9, .45 + dep / 40).toFixed(2) + ")"; c.fill();
+        }
+      });
+      /* 앞면·오른쪽 면: 암석 단면 + 겉흙 */
+      ["front", "right"].forEach(function (side) {
+        var zf = faceZ(side);
+        I.face(ctx, side, function (Lw) {
+          I.profile(ctx, side, zf, 0);
+          var g = ctx.createLinearGradient(0, 0, 0, zm(MH)); g.addColorStop(0, "#4f4740"); g.addColorStop(.3, "#857866"); g.addColorStop(1, "#b8a78c");
+          ctx.fillStyle = g; ctx.fill();
+          ctx.save(); I.profile(ctx, side, zf, 0); ctx.clip();
+          var R = K.rng(side === "front" ? 41 : 43);
+          for (var i = 0; i < Lw * 1.4; i++) { ctx.fillStyle = R() > .5 ? "rgba(255,255,255,.16)" : "rgba(40,30,20,.24)"; ctx.fillRect(R() * Lw, R() * zm(MH), 1.8, 1.8); }
+          ctx.strokeStyle = "#6b4a2e"; ctx.lineWidth = 5; ctx.beginPath();
+          for (var u = 0; u <= Lw; u += 4) ctx.lineTo(u, zf(u) - 2.5);
+          ctx.stroke();
+          ctx.restore();
+          if (side === "front") {                                            /* 동해 단면 */
+            ctx.beginPath(); ctx.moveTo(0, wz);
+            for (var u2 = 0; u2 <= 50; u2 += 2) ctx.lineTo(u2, Math.min(wz, zf(u2)));
+            ctx.lineTo(50, wz); ctx.closePath();
+            var wg = ctx.createLinearGradient(0, wz, 0, 0); wg.addColorStop(0, "rgba(70,150,225,.7)"); wg.addColorStop(1, "rgba(15,60,130,.85)");
+            ctx.fillStyle = wg; ctx.fill();
+          }
+        });
+      });
+      I.shade(ctx, "front", faceZ("front"));
+      I.shade(ctx, "right", faceZ("right"));
+      I.edges(ctx, zOf(BL, BD), zOf(BL, BD));
+      /* 마을과 숲 */
+      [[64, 34], [86, 70], [70, 112], [92, 140]].forEach(function (h, i) { I.house(ctx, h[0], h[1], zOf(h[0] + 7, h[1] + 7), 15, 13, 11, ["#c0553f", "#3f6fb5", "#d08a2e", "#c0553f"][i]); });
+      [[606, 40], [612, 96]].forEach(function (h, i) { I.house(ctx, h[0], h[1], zOf(h[0] + 7, h[1] + 7), 15, 13, 11, ["#5a6b7c", "#c0553f"][i]); });
+      [[150, 30], [175, 120], [205, 60], [235, 150], [260, 20], [290, 100], [380, 40], [420, 130], [470, 70], [520, 150], [555, 30]].forEach(function (t, i) {
+        I.tree(ctx, t[0], t[1], zOf(t[0], t[1]), 0.8 + (i % 3) * .12);
+      });
+      /* 고도 눈금(앞면 위의 공기) */
+      [0, 500, 1000, 1500].forEach(function (hh) {
+        if (hh > 0) airLine(zm(hh), 0, BL, "rgba(30,50,90,.32)", 1.2, [5, 5]);
+        if (m.cloud > 0 && Math.abs(hh - m.lcl) < 220) return;           /* 응결 고도 이름표 자리 */
+        var p = I.P(0, BD, zm(hh));
+        K.pill(ctx, hh === 0 ? "해수면 0 m" : hh.toLocaleString() + " m", p.x - 8, p.y + 4, { a: "right", s: 10.5, c: "#e8ecff", box: box });
+      });
+      /* 비와 구름 (바람받이) */
+      var x0c = 0;
+      if (m.cloud > 0) {
+        for (x0c = 110; x0c < XM && prof(x0c) < m.lcl; x0c += 2) {}
+        var xa = Math.max(14, x0c - 70), zl = zm(m.lcl);
+        var puffs = [], idx = 0;
+        for (var cx = xa; cx <= XM + 26; cx += 32) {
+          [22, 82, 142].forEach(function (cy) {
+            idx++;
+            var jx = cx + (hsh(idx) - .5) * 14 + 3 * Math.sin(foT * .6 + idx), jy = cy + (hsh(idx + 50) - .5) * 20;
+            var zb = Math.max(zl, zOf(jx, jy) + 3), zt = zm(MH) + (jx > XM ? 6 : 20);
+            if (zt - zb < 6) return;
+            var n = 1 + Math.floor((zt - zb) / 70);
+            for (var j = 0; j < n; j++) puffs.push({ x: jx, y: jy, z: zb + (j + .5) * (zt - zb) / n, s: 13 + Math.min(12, (zt - zb) / n * .25) + hsh(idx + j * 7) * 5 });
+          });
+        }
+        puffs.sort(function (a, b) { return (a.x + a.y) - (b.x + b.y) || a.z - b.z; });
+        puffs.forEach(function (q) { var p = I.P(q.x, q.y, q.z); cloud(ctx, p.x, p.y, q.s, .8); });
+        ctx.strokeStyle = "rgba(45,95,200,.85)"; ctx.lineWidth = 1.6;          /* 구름 밑에서 떨어지는 비 */
+        RAIN.forEach(function (r) {
+          var rx = xa + r[0] * (x0c + 20 - xa), ry = 10 + r[1] * (BD - 20), zg = zOf(rx, ry);
+          if (zl - zg < 10) return;
+          var f = (foT * 1.3 + r[2]) % 1, zz = zl - 4 - f * (zl - 4 - zg);
+          var p1 = I.P(rx, ry, zz), p2 = I.P(rx, ry, Math.max(zg, zz - 10));
+          ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x - 1.5, p2.y); ctx.stroke();
+        });
+        airLine(zl, 0, XM, "#e8394f", 2.2, [7, 5]);
       }
-      tag(80, GY - 44, T0.toFixed(0) + " ℃", "이슬점 " + m.td.toFixed(0) + " ℃", KC.blue);
-      tag(PX, yOf(MH) - 40, m.top.toFixed(1) + " ℃", "산마루 1,500 m", KC.green);
-      tag(840, GY - 44, m.lee.toFixed(1) + " ℃", (m.gain >= 0 ? "+" : "") + m.gain.toFixed(1) + " ℃", m.gain >= 5 ? KC.red : KC.ink);
-      K.t(ctx, "오를 때 — 응결 고도까지 1.0 ℃/100 m, 그 위는 0.5 ℃/100 m", 16, 422, { s: 11.5, w: "800", c: "#cfe6ff" });
-      K.t(ctx, "내려올 때 — 구름이 없으므로 줄곧 1.0 ℃/100 m", W - 16, 422, { s: 11.5, w: "800", a: "right", c: "#ffc1a8" });
+      /* 바람그늘의 아지랑이 */
+      if (dry > .3) {
+        ctx.strokeStyle = "rgba(255,140,40," + (.25 + dry * .35).toFixed(2) + ")"; ctx.lineWidth = 1.6;
+        for (k = 0; k < 7; k++) {
+          var hx = 520 + (k % 4) * 30, hy = 20 + k * 22, hz = zOf(hx, hy) + 8 + ((foT * 10 + k * 5) % 18);
+          var hp = I.P(hx, hy, hz);
+          ctx.beginPath(); ctx.moveTo(hp.x - 10, hp.y);
+          ctx.quadraticCurveTo(hp.x - 5, hp.y - 4, hp.x, hp.y); ctx.quadraticCurveTo(hp.x + 5, hp.y + 4, hp.x + 10, hp.y); ctx.stroke();
+        }
+      }
+      /* 동풍 */
+      [40, 120].forEach(function (yy) { K.arrow(ctx, I.P(-30, yy, wz + 22), I.P(36, yy, wz + 22), "#2a6fd6", 3.2, 12); });
+      /* 공기 덩어리가 지나는 길: 기온을 색으로 */
+      ctx.lineCap = "round";
+      [0, 1].forEach(function (pass) {
+        ctx.lineWidth = pass ? 4.5 : 8;
+        for (var tx = 8; tx < BL - 8; tx += 6) {
+          var pa = I.P(tx, YP, zm(Math.max(0, prof(tx))) + 14), pb = I.P(tx + 6, YP, zm(Math.max(0, prof(tx + 6))) + 14);
+          ctx.strokeStyle = pass ? heatCol((tpAt(tx + 3, m) + 10) / 45) : "rgba(20,25,45,.45)"; ctx.beginPath(); ctx.moveTo(pa.x, pa.y); ctx.lineTo(pb.x, pb.y); ctx.stroke();
+        }
+      });
+      ctx.lineCap = "butt";
+      var ux = 10 + ((foT * .12) % 1) * (BL - 20), tp = tpAt(ux, m), pp = I.P(ux, YP, zm(Math.max(0, prof(ux))) + 24);
+      K.planet(ctx, pp.x, pp.y, 13, heatCol((tp + 10) / 45), "#3a2a4a");
+      ctx.restore();
+      /* 이름표 */
+      K.pill(ctx, tp.toFixed(1) + " ℃", pp.x, pp.y - 18, { a: "center", s: 11, c: KC.yellow, box: box });
+      var wp = I.P(-30, 40, wz + 22); K.pill(ctx, "동해의 축축한 동풍", wp.x, wp.y - 12, { a: "center", s: 11.5, c: "#bfe6ff", box: box });
+      I.label(ctx, 80, BD - 4, zOf(80, BD - 4), "영동 기슭 " + T0 + " ℃ · 이슬점 " + m.td + " ℃", -30, 44, "#bfe6ff", box);
+      I.label(ctx, XM, 4, zOf(XM, 4) + 14, "태백산맥 산마루 1,500 m · " + m.top.toFixed(1) + " ℃", 70, -64, "#c9f5c0", box);
+      I.label(ctx, 620, BD - 10, zOf(620, BD - 10), "영서 기슭 " + m.lee.toFixed(1) + " ℃ (" + (m.gain >= 0 ? "+" : "") + m.gain.toFixed(1) + " ℃)", 40, -60, m.gain >= 5 ? "#ff9aac" : "#e8ecff", box);
+      if (m.cloud > 0) { var lp = I.P(0, BD, zm(m.lcl)); K.pill(ctx, "응결 고도 " + Math.round(m.lcl).toLocaleString() + " m", lp.x - 8, lp.y + 4, { a: "right", s: 11, c: "#ff9aac", box: box }); }
+      else { var np = I.P(XM, 60, zm(MH) + 40); K.pill(ctx, "구름 없음 — 응결 고도가 산마루보다 높음", np.x, np.y, { a: "center", s: 11.5, c: KC.ink, box: box }); }
+      /* 읽음판 */
+      K.t(ctx, "오를 때 — 응결 고도까지 1.0 ℃/100 m, 구름 속은 0.5 ℃/100 m", W - 18, 26, { s: 11.5, w: "800", a: "right", c: "#1d4f8f" });
+      K.t(ctx, "내려올 때 — 구름이 없어 줄곧 1.0 ℃/100 m", W - 18, 46, { s: 11.5, w: "800", a: "right", c: "#b2402a" });
+      K.t(ctx, "이슬점은 오를 때 0.2 ℃/100 m씩 낮아짐", W - 18, 66, { s: 11, a: "right", c: "#4a5872" });
+      /* 큰 글자 */
+      if (m.cloud <= 0) { K.bigText(ctx, "구름 없이 넘은 바람", 20, 46, 26, "#ffffff"); K.bigText(ctx, "산 너머도 그대로 " + m.lee.toFixed(1) + " ℃", 20, 80, 18, "#ffd35a"); }
+      else if (m.gain >= 7) { K.bigText(ctx, "산을 넘자 " + m.gain.toFixed(1) + " ℃ 더 뜨겁다", 20, 46, 26, "#ffd35a"); K.bigText(ctx, "영서를 말리는 높새바람", 20, 80, 18, "#ffffff"); }
+      else { K.bigText(ctx, "산 너머가 " + m.gain.toFixed(1) + " ℃ 더 덥다", 20, 46, 26, "#ffffff"); K.bigText(ctx, "구름 속 구간이 길수록 더 더워진다", 20, 80, 18, "#ffd35a"); }
+      K.warn(ctx, W - 14, H - 12, "⚠ 높이는 보기 쉽게 과장 (실제 산맥 폭은 수십 km)", "right");
     }
     K.animate(canvas, function (dt) { if (foA.on) { foT += dt / 1000; paint(); } });
     playWire("b-foehn-play", foA, "공기 멈추기", "공기 보내기");
