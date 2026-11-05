@@ -3,6 +3,16 @@
 (function () {
 "use strict";
 
+/* ---- 스튜디오 말투(밝은 바탕 + 흰 판정 카드) — window.sthKit ---- */
+var K = window.sthKit, LT = K.LT;
+function card(ctx, x, W, CH, title, rows, tip, good) {
+  K.card(ctx, x, 8, W - x - 8, CH - 16, title);
+  rows.forEach(function (r, i) { K.row(ctx, r[0], r[1], x + 16, W - 24, 62 + i * 28, r[2]); });
+  if (tip) K.tip(ctx, tip, x + 12, CH - 56, W - x - 32, good);
+}
+function waterFace(I, ctx, side, z0, z1) {
+  I.face(ctx, side, function (Lw) { var g = ctx.createLinearGradient(0, z1, 0, z0); g.addColorStop(0, side === "front" ? "#3fa3dc" : "#2f86c8"); g.addColorStop(1, side === "front" ? "#0b2a63" : "#08204f"); ctx.fillStyle = g; ctx.fillRect(0, z0, Lw, z1 - z0); });
+}
 window.sthLab({
   mount: "lab", key: "lab", result: "rLab",
   cases: [
@@ -23,25 +33,38 @@ window.sthLab({
       var w45 = "E", w15 = "E", mark = 50;
       function ek(w) { return w === "W" ? -1 : 1; }      /* 서풍(W: 동쪽으로 부는) → 남(−), 동풍(E) → 북(+) */
       function conv() { return ek(w45) < 0 && ek(w15) > 0; }
-      function Y(lat) { return 300 - lat / 60 * 260; }
+      var I = K.iso({ ox: 222, oy: 74, s: 0.6, L: 400, D: 300 }), ZS = 30;
+      function yL(lat) { return (60 - lat) / 60 * I.D; }
       function draw() {
-        H.paper(ctx, W, cv.H);
-        H.text(ctx, "북태평양을 남북으로 본 모습", 40, 26, { s: 13.5, w: "900" });
-        H.box(ctx, 120, Y(60), 360, Y(0) - Y(60), H.v("--brand"), 0.15);
-        [0, 15, 30, 45, 60].forEach(function (l) { H.text(ctx, l + "°N", 112, Y(l) + 4, { s: 10.5, a: "right", c: H.v("--mist") }); });
-        [[45, w45], [15, w15]].forEach(function (b) {
-          var y = Y(b[0]), e = b[1] === "W";
-          H.arrow(ctx, e ? 200 : 400, y, e ? 400 : 200, y, H.v("--ink"), 3, 12);
-          H.text(ctx, e ? "서풍 (편서풍 방향)" : "동풍 (무역풍 방향)", 300, y - 10, { s: 11.5, w: "800", a: "center" });
-          var d = ek(b[1]);
-          H.arrow(ctx, 440, y, 440, y - d * 40, H.v("--teal-700"), 3, 10);
-          H.text(ctx, "에크만 수송", 450, y - d * 20 + 4, { s: 10.5, c: H.v("--teal-700") });
+        var L = I.L, D = I.D, CH = cv.H, ok = conv();
+        ctx.clearRect(0, 0, W, CH);
+        K.studio(ctx, 0, 0, 596, CH, { x: 300, y: CH - 28, rx: 260, ry: 30 });
+        /* 북태평양 바다 판: 뒤 = 북(60°N), 앞 = 남(0°) */
+        waterFace(I, ctx, "front", 0, ZS); waterFace(I, ctx, "right", 0, ZS);
+        var a = I.P(L / 2, 0, ZS), b = I.P(L / 2, D, ZS), sg = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+        sg.addColorStop(0, "#3d78c6"); sg.addColorStop(1, "#45c1d6");
+        I.plane(ctx, ZS, sg, "rgba(255,255,255,.85)");
+        [0, 15, 30, 45, 60].forEach(function (l) { K.line(ctx, I.P(0, yL(l), ZS), I.P(L, yL(l), ZS), "rgba(255,255,255,.4)", 1, [4, 4]); });
+        if (ok) {
+          I.plane(ctx, ZS + .3, "rgba(255,212,59,.45)", "rgba(230,150,0,.9)", 0, L, yL(38), yL(22));
+          var R = K.rng(5); for (var i = 0; i < 26; i++) { var q = I.P(30 + R() * (L - 60), yL(24 + R() * 12), ZS + 1); ctx.fillStyle = ["#ffffff", "#ff8787", "#74c0fc", "#ffd43b"][i % 4]; ctx.fillRect(q.x - 2, q.y - 3, 4, 6); }
+        }
+        [[45, w45], [15, w15]].forEach(function (q) {
+          var y = yL(q[0]), e = q[1] === "W", d = ek(q[1]);
+          var w0 = I.P(e ? 50 : 290, y, ZS + 36), w1 = I.P(e ? 290 : 50, y, ZS + 36);
+          ctx.save(); ctx.shadowColor = "#ffb000"; ctx.shadowBlur = 8; K.arrow(ctx, w0, w1, "#f59f00", 5, 14); ctx.restore();
+          var t0 = I.P(340, y, ZS + 2), t1 = I.P(340, y - d * 62, ZS + 2);
+          ctx.save(); ctx.shadowColor = "#38d9a9"; ctx.shadowBlur = 8; K.arrow(ctx, t0, t1, "#0c8599", 5, 14); ctx.restore();
+          K.pill(ctx, e ? "서풍 (편서풍)" : "동풍 (무역풍)", (w0.x + w1.x) / 2, (w0.y + w1.y) / 2 - 12, { a: "center", s: 11, c: "#ffd36b", box: [0, 596] });
+          K.pill(ctx, "에크만 수송", t1.x + 8, t1.y + 4, { s: 11, c: "#99e9f2", box: [0, 596] });
         });
-        if (conv()) { H.box(ctx, 120, Y(38), 360, Y(22) - Y(38), H.v("--amber"), 0.25); H.text(ctx, "표층수가 모인다 (수렴)", 300, Y(30) + 4, { s: 12, w: "900", a: "center", c: H.v("--amber-700") }); }
-        H.text(ctx, "🧴", 140, Y(mark) + 6, { s: 18, a: "center" });
-        H.line(ctx, [[120, Y(mark)], [480, Y(mark)]], H.v("--rose"), 1.5);
-        H.text(ctx, "쓰레기 섬 표지 " + mark + "°N", 520, Y(mark) + 4, { s: 12, w: "800", c: H.v("--rose-700") });
-        H.text(ctx, conv() ? "두 바람이 표층수를 가운데로 모읍니다." : "지금 바람으로는 표층수가 모이지 않습니다.", 520, mark >= 30 ? 290 : 60, { s: 12, w: "800", c: conv() ? H.v("--green-700") : H.v("--mist") });
+        var m0 = I.P(0, yL(mark), ZS + 1), m1 = I.P(L, yL(mark), ZS + 1);
+        K.line(ctx, m0, m1, LT.red, 3);
+        var fp = I.P(18, yL(mark), ZS); K.line(ctx, fp, { x: fp.x, y: fp.y - 30 }, "#495057", 2);
+        ctx.fillStyle = LT.red; ctx.beginPath(); ctx.moveTo(fp.x, fp.y - 30); ctx.lineTo(fp.x + 14, fp.y - 25); ctx.lineTo(fp.x, fp.y - 20); ctx.closePath(); ctx.fill();
+        [0, 15, 30, 45, 60].forEach(function (l) { var p = I.P(0, yL(l), ZS); K.pill(ctx, l + "°N", p.x - 8, p.y + 4, { a: "right", s: 10.5, c: "#e8ecff", box: [0, 596] }); });
+        K.bigText(ctx, ok ? "표층수가 모인다" : "아직 모이지 않는다", 16, 36, 22, ok ? "#8ce99a" : "#ffffff");
+        card(ctx, 606, W, CH, "판정", [["45°N 부근 바람", w45 === "W" ? "서풍" : "동풍", w45 === "W" ? LT.green : LT.orange], ["15°N 부근 바람", w15 === "W" ? "서풍" : "동풍", w15 === "E" ? LT.green : LT.orange], ["표층수 수렴", ok ? "있음 · 약 30°N" : "없음", ok ? LT.green : LT.mute], ["쓰레기 섬 표지", mark + "°N", LT.red]], ok ? "두 수송이 가운데로 모입니다" : "실제로 부는 바람을 고르세요", ok ? true : null);
       }
       cv.canvas._redraw = draw;
       api.seg({ label: "위도 45° 부근의 바람", value: "E", options: [{ v: "W", t: "서풍 (서→동)" }, { v: "E", t: "동풍 (동→서)" }], onPick: function (x) { w45 = x; draw(); } });
@@ -78,36 +101,44 @@ window.sthLab({
     },
     task: "수심 표지를 옮겨 <b>파도가 처음 부서지는 수심</b>을 찾으세요(± 0.1 m).",
     build: function (stage, api) {
-      var H = api.h, cv = api.canvas(320), ctx = cv.ctx, W = cv.W;
+      var H = api.h, cv = api.canvas(360), ctx = cv.ctx, W = cv.W;
       var d = 6, H0 = 1.2, D0 = 10, G = 9.8;
       function hgt(x) { return H0 * Math.pow(D0 / x, 0.25); }
       var DB = Math.pow(H0 * Math.pow(D0, 0.25) / 0.78, 1 / 1.25);
+      /* 해안으로 갈수록 얕아지는 바다 블록: 왼쪽 위 = 수심 10 m, 오른쪽 아래 = 해변. 1 m = 11 그림 단위 */
+      var I = K.iso({ ox: 96, oy: 118, s: 0.6, L: 640, D: 110 }), MZ = 11, ZB = 14, ZW = ZB + 10 * MZ, XS = 600;
+      function depX(x) { return 10 * (1 - x / XS); }
+      function xDep(dep) { return XS * (1 - dep / 10); }
+      function bedZ(x) { return ZW - depX(x) * MZ; }
       function draw() {
-        H.paper(ctx, W, cv.H);
-        H.text(ctx, "해안으로 다가오는 파도의 단면", 40, 26, { s: 13.5, w: "900" });
-        var x0 = 60, x1 = 820, sy = 120;
-        function X(dep) { return x1 - dep / 10 * (x1 - x0); }
-        function Yb(dep) { return sy + dep * 16; }
-        ctx.fillStyle = "#d9c79c"; ctx.beginPath(); ctx.moveTo(x0, Yb(10)); ctx.lineTo(x1, sy); ctx.lineTo(x1, 300); ctx.lineTo(x0, 300); ctx.closePath(); ctx.fill();
-        var pts = [];
-        for (var xx = x0; xx <= X(Math.max(DB, 0.3)); xx += 3) {
-          var dep = (x1 - xx) / (x1 - x0) * 10, h = hgt(Math.max(dep, 0.3));
-          var k = 2 * Math.PI / (20 + dep * 9);
-          pts.push([xx, sy - h * 12 * Math.cos(k * (xx - x0))]);
-        }
-        H.line(ctx, pts, H.v("--brand"), 2.5);
-        H.text(ctx, "💥", X(DB), sy - 26, { s: 18, a: "center" });
-        H.line(ctx, [[X(d), sy - 60], [X(d), Yb(d)]], H.v("--rose"), 2);
-        H.text(ctx, "안전 요원 🚩 수심 " + d.toFixed(2) + " m", H.clamp(X(d), 140, 760), sy - 66, { s: 11.5, w: "800", a: "center", c: H.v("--rose-700") });
-        var h = hgt(d);
-        H.rows(ctx, 60, 230, [
-          ["이 수심의 파고", h.toFixed(2) + " m"],
-          ["파고 ÷ 수심", (h / d).toFixed(2), h / d >= 0.78 ? "--rose-700" : "--green-700"]
-        ], 50);
-        H.rows(ctx, 330, 230, [
-          ["천해파 속도 √(g × 수심)", Math.sqrt(G * d).toFixed(1) + " m/s"],
-          ["상태", h / d >= 0.78 ? "이미 부서진 뒤" : "아직 부서지지 않음"]
-        ], 50);
+        var L = I.L, D = I.D, CH = cv.H, xb = xDep(DB), h = hgt(d), brk = h / d >= 0.78;
+        ctx.clearRect(0, 0, W, CH);
+        K.studio(ctx, 0, 0, 596, CH, { x: 330, y: CH - 26, rx: 260, ry: 30 });
+        function surf(x) { if (x >= XS) return -1; var dep = Math.max(depX(x), .3), a = x < xb ? hgt(dep) * 4.2 : 1.2, lam = 26 + dep * 7; return ZW + a * .5 * Math.cos(x / lam * 6.2832); }
+        I.face(ctx, "front", function (Lw) {
+          ctx.beginPath(); ctx.moveTo(0, 0); for (var u = 0; u <= Lw; u += 4) ctx.lineTo(u, Math.max(0, bedZ(u))); ctx.lineTo(Lw, 0); ctx.closePath();
+          var g = ctx.createLinearGradient(0, 0, 0, ZW); g.addColorStop(0, "#5a4430"); g.addColorStop(1, "#d9c08a"); ctx.fillStyle = g; ctx.fill();
+          ctx.beginPath(); for (u = 0; u <= Math.min(Lw, XS); u += 3) ctx.lineTo(u, Math.max(bedZ(u), surf(u))); for (u = Math.min(Lw, XS); u >= 0; u -= 3) ctx.lineTo(u, bedZ(u)); ctx.closePath();
+          var w = ctx.createLinearGradient(0, ZW, 0, ZB); w.addColorStop(0, "rgba(70,172,230,.95)"); w.addColorStop(1, "rgba(12,60,130,.97)"); ctx.fillStyle = w; ctx.fill();
+        });
+        I.face(ctx, "right", function (Lw) { var g = ctx.createLinearGradient(0, 0, 0, ZW); g.addColorStop(0, "#4f3b29"); g.addColorStop(1, "#c9a978"); ctx.fillStyle = g; ctx.fillRect(0, 0, Lw, bedZ(L)); });
+        I.field(ctx, function (x) { return Math.max(bedZ(x), surf(x)); }, function (x, y, z, lt) {
+          if (x >= XS || bedZ(x) >= surf(x)) return K.tint("#e3c48e", lt);
+          if (x > xb - 8 && x < xb + 60) return K.tint("#e9f5ff", lt);
+          return K.tint(depX(x) < 3 ? "#5cc3e6" : "#3d8fd6", lt);
+        }, 120, 4);
+        /* 부서지는 자리 거품, 안전 요원 깃발 */
+        var R = K.rng(3); for (var i = 0; i < 18; i++) { var fq = I.P(xb + R() * 50, 6 + R() * (D - 12), ZW + 2); K.glow(ctx, fq.x, fq.y, 2, "rgba(255,255,255,.95)", 2.4); }
+        var xd = xDep(d), f0 = I.P(xd, D, Math.max(bedZ(xd), ZW)), f1 = { x: f0.x, y: f0.y - 46 };
+        K.line(ctx, f0, f1, "#495057", 2.4);
+        ctx.fillStyle = LT.red; ctx.beginPath(); ctx.moveTo(f1.x, f1.y); ctx.lineTo(f1.x + 16, f1.y + 6); ctx.lineTo(f1.x, f1.y + 12); ctx.closePath(); ctx.fill();
+        K.line(ctx, I.P(xd, D, bedZ(xd)), f0, LT.red, 2, [4, 3]);
+        I.edges(ctx, bedZ(L), 0);
+        K.pill(ctx, "안전 요원 · 수심 " + d.toFixed(2) + " m", f1.x, f1.y - 8, { a: "center", s: 11, c: "#ffc9c9", box: [0, 596] });
+        var bq = I.P(xb, 0, ZW + 6); K.pill(ctx, "💥 부서지는 곳", bq.x, bq.y - 8, { a: "center", s: 11, c: "#ffffff", box: [0, 596] });
+        var lq = I.P(0, D, ZB); K.pill(ctx, "수심 10 m · 파고 1.2 m", lq.x + 4, lq.y + 26, { s: 10.5, c: "#e8ecff", box: [0, 596] });
+        K.bigText(ctx, "파고 ÷ 수심 = " + (h / d).toFixed(2), 16, 36, 22, Math.abs(d - DB) <= 0.1 ? "#8ce99a" : "#ffffff");
+        card(ctx, 606, W, CH, "판정", [["이 수심의 파고", h.toFixed(2) + " m", LT.blue], ["파고 ÷ 수심", (h / d).toFixed(2), brk ? LT.red : LT.green], ["천해파 속도 √(gh)", Math.sqrt(G * d).toFixed(1) + " m/s"], ["상태", brk ? "이미 부서진 뒤" : "아직 안 부서짐", brk ? LT.orange : LT.ink]], Math.abs(d - DB) <= 0.1 ? "✓ 0.78 — 처음 부서지는 수심" : "0.78 이 되는 수심을 찾으세요", Math.abs(d - DB) <= 0.1 ? true : null);
       }
       cv.canvas._redraw = draw;
       api.slider({ label: "안전 요원을 둘 수심", min: 0.5, max: 10, step: 0.05, value: 6, fmt: function (x) { return x.toFixed(2) + " m"; }, onInput: function (x) { d = x; draw(); } });
@@ -145,21 +176,28 @@ window.sthLab({
       var ph = "neap", dn = 1.0, R0 = 4.5;
       function range() { return R0 * (Math.pow(1 / dn, 3) + (ph === "spring" ? 0.46 : -0.46)); }
       function draw() {
-        H.paper(ctx, W, cv.H);
-        H.text(ctx, "태양 · 지구 · 달의 배치", 40, 26, { s: 13.5, w: "900" });
-        H.text(ctx, "☀️", 60, 155, { s: 30 });
-        var ex = 260, ey = 145;
-        H.dot(ctx, ex, ey, 18, H.v("--brand")); H.text(ctx, "지구", ex, ey + 36, { s: 11, w: "800", a: "center" });
-        var r = 90 * dn, mx = ph === "spring" ? ex + r : ex, my = ph === "spring" ? ey : ey - r;
-        H.dot(ctx, mx, my, 9, H.v("--mist")); H.text(ctx, ph === "spring" ? "달 (망)" : "달 (상현)", mx + 14, my + 4, { s: 11, w: "800" });
-        ctx.save(); ctx.strokeStyle = H.v("--line"); ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.arc(ex, ey, 90, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
-        var R = range();
-        H.rows(ctx, 470, 60, [
-          ["위상", ph === "spring" ? "사리 (태양·달이 한 줄)" : "조금 (태양·달이 직각)"],
-          ["달의 거리 (평균 = 1)", dn.toFixed(3) + (dn < 0.945 - 1e-9 ? " — 보통의 근지점보다 가까움" : "")],
-          ["달의 기조력 (평균 = 1)", Math.pow(1 / dn, 3).toFixed(2) + " 배"],
-          ["조차", R.toFixed(2) + " m", R >= 7 ? "--green-700" : "--rose-700", true]
-        ], 54);
+        var CH = cv.H, R = range(), ok = R >= 7 && dn >= 0.945 - 1e-9;
+        ctx.clearRect(0, 0, W, CH);
+        K.stage(ctx, 0, 0, 596, CH, "space", { seed: 9 });
+        var ex = 300, ey = 160;
+        var sg = ctx.createRadialGradient(40, ey, 10, 40, ey, 380); sg.addColorStop(0, "rgba(255,211,107,.2)"); sg.addColorStop(1, "rgba(255,211,107,0)"); ctx.fillStyle = sg; ctx.fillRect(0, 0, 596, CH);
+        K.sun(ctx, 40, ey, 20); K.planet(ctx, 40, ey, 18, "#fff3bf", "#f08c00");
+        ctx.strokeStyle = "rgba(200,210,255,.4)"; ctx.lineWidth = 1.2; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.ellipse(ex, ey, 120, 120 * .42, 0, 0, 6.2832); ctx.stroke(); ctx.setLineDash([]);
+        /* 부푼 바닷물: 사리면 태양·달 방향(가로)으로 크게, 조금이면 둘이 엇갈려 작게 */
+        var bx = 46 + R * 4, erx = ph === "spring" ? bx : 40, ery = ph === "spring" ? 40 : 40 + R * 2.2;
+        ctx.save(); ctx.translate(ex, ey);
+        var g = ctx.createRadialGradient(-erx * .3, -10, 2, 0, 0, Math.max(erx, ery)); g.addColorStop(0, "rgba(220,245,255,.75)"); g.addColorStop(.6, "rgba(63,211,163,.45)"); g.addColorStop(1, "rgba(30,160,130,.18)");
+        ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(0, 0, erx, ery, 0, 0, 6.2832); ctx.fill(); ctx.strokeStyle = "#3fd3a3"; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
+        K.earth(ctx, ex, ey, 32);
+        ctx.fillStyle = "rgba(4,6,20,.45)"; ctx.beginPath(); ctx.arc(ex, ey, 32, -Math.PI / 2, Math.PI / 2); ctx.fill();
+        var r = 120 * dn, mx = ph === "spring" ? ex + r : ex + 4, my = ph === "spring" ? ey : ey - r * .42 - 10;
+        K.planet(ctx, mx, my, 13 / dn, "#e4e6ee", "#6b7088");
+        K.pill(ctx, ph === "spring" ? "달 (망)" : "달 (상현)", mx, my - 22, { a: "center", s: 11, c: "#ffffff", box: [0, 596] });
+        K.pill(ctx, "지구 · 부푼 바닷물", ex, ey + 70, { a: "center", s: 11, c: "#a5d8ff", box: [0, 596] });
+        K.pill(ctx, "태양", 40, ey + 46, { a: "center", s: 11, c: "#ffd36b", box: [0, 596] });
+        K.warn(ctx, 584, CH - 14, "⚠ 크기·거리·부풂은 과장", "right");
+        K.bigText(ctx, "조차 " + R.toFixed(2) + " m", 16, 40, 26, ok ? "#8ce99a" : "#ffffff");
+        card(ctx, 606, W, CH, "판정", [["위상", ph === "spring" ? "사리 (한 줄)" : "조금 (직각)", ph === "spring" ? LT.green : LT.ink], ["달의 거리 (평균 = 1)", dn.toFixed(3), dn < 0.945 - 1e-9 ? LT.red : LT.ink], ["달의 기조력", Math.pow(1 / dn, 3).toFixed(2) + " 배"], ["조차", R.toFixed(2) + " m", R >= 7 ? LT.green : LT.red]], dn < 0.945 - 1e-9 ? "근지점(0.945)보다 가까울 수 없음" : (R >= 7 ? "✓ 바닷길이 활짝 열린다" : "조차 7 m 이상을 찾으세요"), dn < 0.945 - 1e-9 ? false : (R >= 7 ? true : null));
       }
       cv.canvas._redraw = draw;
       api.seg({ label: "달의 위상", value: "neap", options: [{ v: "spring", t: "사리 (삭 · 망)" }, { v: "neap", t: "조금 (상현 · 하현)" }], onPick: function (x) { ph = x; draw(); } });

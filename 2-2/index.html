@@ -49,13 +49,14 @@
           <div class="story narr"><div class="who">🌕</div><div class="say"><span class="name">이야기</span>달은 지구와 거의 같은 거리에서 같은 태양 빛을 받습니다. 그런데 달 적도의 낮 표면은 <b>약 120 ℃</b>까지 오르고, 밤에는 <b>영하 170 ℃</b> 아래로 떨어집니다. 하루 사이에 300 ℃ 가까이 오르내리는 셈입니다. 같은 태양 아래 지구의 평균 기온은 <b>약 15 ℃</b>이고, 하루 기온 차는 아무리 커도 수십 ℃입니다.</div></div>
           <div class="story"><div class="who">👩‍🚀</div><div class="say"><span class="name">달 기지 설계 책임자 한별</span>“기지 벽을 얼마나 두껍게 할지, 방사선 차폐를 얼마나 넣을지 정하려면 먼저 <b>지구가 무엇으로 이 차이를 만드는지</b>를 알아야 해요. 자문관님, 지구의 대기가 하는 일을 하나씩 숫자로 뽑아 주세요.”</div></div>
           <div class="case-file"><b class="k">달</b> 대기 사실상 없음 · 낮 약 120 ℃ / 밤 약 −170 ℃ · 자외선과 우주선이 그대로 도달 · 작은 유성체가 그대로 충돌<br><b class="k">지구</b> 대기 있음 · 평균 약 15 ℃ · 지표에 도달하는 자외선이 크게 줄어듦 · 액체 상태의 물이 존재</div>
+          <figure class="hero-art"><img src="img/moon-base.webp" alt="달 표면을 정육면체 블록으로 잘라 낸 모형. 위에는 흰 달 기지와 태양 전지판, 우주인이 있고, 블록의 왼쪽 절반은 강한 햇빛에 밝고 오른쪽 절반은 차가운 밤 그늘이다. 검은 하늘에 별과 푸른 지구가 떠 있고, 옆면에는 회색 암석과 먼지층 단면이 보인다." width="900" height="900" loading="lazy"><figcaption><b>공기가 없는 달은 낮엔 달아오르고 밤엔 얼어붙습니다</b> 달에는 햇빛 에너지를 붙잡아 두었다가 되돌려 줄 대기가 거의 없습니다. 그래서 햇빛이 닿는 곳은 120 ℃까지 달아오르고, 그늘과 밤은 −170 ℃ 아래로 식습니다. 낮에도 하늘이 검은 것 역시 빛을 흩뜨릴 대기가 없기 때문입니다. <span class="art-note">⚠ 기지와 지구의 크기, 낮과 밤의 경계는 보기 쉽게 그렸습니다.</span></figcaption></figure>
           <div class="gate loose" id="gA"></div>
         </section>
 
         <section class="scene" data-title="대기는 아무 빛이나 막지 않는다 — 선택적 흡수">
           <div class="story"><div class="who">👩‍🚀</div><div class="say"><span class="name">한별</span>“먼저 이상한 점부터요. 대기가 빛을 막는다면 햇빛도 못 들어와야 하잖아요? 그런데 낮은 환합니다. 대기는 <b>파장에 따라 아주 다르게</b> 행동해요. 파장을 0.1 µm부터 40 µm까지 훑으면서, 어떤 빛이 막히고 어떤 빛이 통과하는지 직접 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="a-sp" width="900" height="420"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="a-sp" width="900" height="420"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">살펴볼 빛의 파장<span class="val" id="a-sp-w-val">2.00 µm</span></div>
@@ -75,7 +76,7 @@
         <section class="scene" data-title="대기가 없는 행성의 온도 — 복사 평형 온도">
           <div class="story"><div class="who">👩‍🚀</div><div class="say"><span class="name">한별</span>“이제 계산입니다. 어떤 천체든 받는 만큼 내보내면 온도가 일정해져요. 이 온도를 <b><span data-view="law:복사 평형">복사 평형</span> 온도</b>라고 합니다. 식은 T = [S(1−A) / 4σ]<sup>1/4</sup>, σ = 5.67×10⁻⁸ W/m²K⁴예요. 태양 상수와 반사율을 바꿔 가며 행성을 만들어 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="a-eq" width="900" height="400"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="a-eq" width="900" height="400"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">태양 상수 S (W/m²)<span class="val" id="a-eq-s-val">1,200</span></div>
@@ -103,7 +104,7 @@
             <tr><td>30</td><td>25</td><td>45</td><td>104</td><td>8</td><td>20</td><td>9</td></tr></table>
           </div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="a-bal" width="900" height="470"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="a-bal" width="900" height="500"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">① 대기·구름이 우주로 내보내는 지구 복사<span class="val" id="a-bal-e-val">50</span></div>
@@ -190,7 +191,7 @@
         <section class="scene" data-title="계속 올라갈까, 되돌아올까 — 대기 안정도">
           <div class="story"><div class="who">👩‍🔬</div><div class="say"><span class="name">유나</span>“공기 덩어리가 계속 올라갈지는 <b>주변 대기의 기온이 높이에 따라 얼마나 빨리 떨어지는가</b>가 정합니다. 주변이 덩어리보다 더 빨리 식으면 덩어리는 늘 주변보다 따뜻해서 계속 올라가요. 주변 대기의 기온 감률을 바꿔 가며 단열선도를 읽어 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="b-stab" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="b-stab" width="900" height="470"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">공기 덩어리의 상태</div>
@@ -217,7 +218,7 @@
         <section class="scene" data-title="구름은 어떻게 비가 되는가">
           <div class="story"><div class="who">👩‍🔬</div><div class="say"><span class="name">유나</span>“구름이 생겼다고 바로 비가 오지는 않아요. 구름 알갱이는 지름이 0.02 mm쯤이라 떨어지다가 증발해 버립니다. 빗방울이 되려면 지름이 100배쯤 커져야 해요. 구름 꼭대기를 높여 가며, 구름 속 온도가 어떻게 달라지고 어떤 방법으로 빗방울이 자라는지 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="b-rain" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="b-rain" width="900" height="480"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">구름 꼭대기의 높이 (km)<span class="val" id="b-rain-h-val">4.0</span></div>
@@ -267,13 +268,14 @@
           <div class="story narr"><div class="who">🎈</div><div class="say"><span class="name">이야기</span>과학 동아리가 만든 관측 기구가 하늘로 올라갑니다. 1 km, 3 km, 5 km… 그런데 어느 높이에서 기구가 <b>더 오르지도, 내려오지도 않고</b> 그대로 떠 있습니다. 실은 그 옆의 공기 덩어리도 마찬가지였습니다. 공기는 무게가 있는데도 지표로 쏟아져 쌓이지 않고, 수십 km 높이까지 층을 이루고 있습니다.</div></div>
           <div class="story"><div class="who">🧑‍🏫</div><div class="say"><span class="name">동아리 지도 교사 도윤</span>“공기 1 m³의 무게는 약 1.2 kg이에요. 중력은 분명히 아래로 잡아당기고 있습니다. 그런데 왜 대기는 지표에 얇게 깔려 있지 않고 위까지 퍼져 있을까요? 기구가 멈춘 것과 같은 까닭입니다.”</div></div>
           <div class="case-file"><b class="k">확인된 사실</b> 지표 부근 공기 밀도 약 1.2 kg/m³ · 지표 기압 약 1,013 hPa · 고도 5.5 km 부근 기압은 지표의 절반 · 고도 16 km 부근 기압은 지표의 1/10</div>
+          <figure class="hero-art"><img src="img/balloon-column.webp" alt="초록 땅 블록 위에 높이 솟은 유리 공기 기둥 모형. 기둥 속 공기 알갱이는 땅 가까이에서 촘촘하고 위로 갈수록 성기며, 하늘색도 위로 갈수록 짙어진다. 기둥 가운데쯤 흰 관측 기구가 관측 장비를 매단 채 떠 있고, 땅에는 작은 기상 관측소가 있다." width="900" height="900" loading="lazy"><figcaption><b>공기는 아래로 갈수록 촘촘하게 쌓여 있습니다</b> 어떤 높이의 기압은 그 위에 쌓인 공기 기둥의 무게입니다. 아래쪽 공기는 위의 공기에 눌려 촘촘하고, 위로 갈수록 성기게 퍼집니다. 그런데도 대기가 지표로 쏟아지지 않는 까닭을 이 이야기에서 찾습니다. <span class="art-note">⚠ 공기 분자를 점으로 크게 그렸고, 기둥 높이와 기구 크기는 실제 비율이 아닙니다.</span></figcaption></figure>
           <div class="gate loose" id="gC"></div>
         </section>
 
         <section class="scene" data-title="위로 갈수록 가벼워진다 — 기압의 연직 분포">
           <div class="story"><div class="who">🧑‍🏫</div><div class="say"><span class="name">도윤</span>“어떤 높이의 기압은 <b>그 위에 쌓인 공기 기둥의 무게</b>와 같습니다. 위로 올라갈수록 머리 위에 남은 공기가 줄어드니 기압이 낮아지죠. 그런데 줄어드는 모양이 직선이 아닙니다. 고도 슬라이더를 움직여 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="c-prof" width="900" height="410"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="c-prof" width="900" height="460"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">고도 (km)<span class="val" id="c-prof-z-val">5.0</span></div>
@@ -293,7 +295,7 @@
         <section class="scene" data-title="공기 저울 — 정역학적 균형">
           <div class="story"><div class="who">🧑‍🏫</div><div class="say"><span class="name">도윤</span>“두께 <b>100 m</b>, 밑면적 <b>1 m²</b>짜리 공기 층을 하나 떼어 저울에 올려 봅시다. 아래에서 받치는 기압이 위에서 누르는 기압보다 큰 만큼 <b>위로 미는 힘</b>이 생기고, 공기 자신의 <b>무게</b>는 아래로 당깁니다. 두 힘이 같으면 층은 가만히 있어요. 아래 면의 기압과 공기의 기온을 바꿔 가며 저울을 맞춰 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="c-hydro" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="c-hydro" width="900" height="440"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">아래 면의 기압 (hPa) — 위 면은 1,000.0 hPa 고정<span class="val" id="c-hydro-p-val">1011.3</span></div>
@@ -316,7 +318,7 @@
         <section class="scene" data-title="저울은 언제 기우는가 — 연직 운동의 네 가지 원인">
           <div class="story"><div class="who">🧑‍🏫</div><div class="say"><span class="name">도윤</span>“실제 대기는 거의 언제나 정역학적 균형에 가깝습니다. 그런데 아주 조금만 기울어도 공기는 위아래로 움직이고, 그 움직임이 구름과 비를 만듭니다. 균형을 깨뜨리는 원인은 크게 네 가지예요. 하나씩 세기를 올려 가며 상승 속도를 재 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="c-vert" width="900" height="450"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="c-vert" width="900" height="470"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">살펴볼 원인</div>
@@ -375,13 +377,14 @@
           <div class="story narr"><div class="who">❄️</div><div class="say"><span class="name">이야기</span>2021년 1월 초, 우리나라에 강한 한파가 닥쳤습니다. 서울의 아침 기온이 영하 18 ℃ 아래까지 떨어졌습니다. 그런데 같은 날 북반구 전체가 고르게 추웠던 것은 아닙니다. 한파가 몰아친 곳이 있는가 하면, 비슷한 위도인데도 평년보다 포근한 곳이 있었습니다. 북극의 찬 공기가 지구를 고르게 덮은 것이 아니라 <b>어느 한쪽으로만 흘러내린</b> 것입니다.</div></div>
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">항공 기상 예보관 세영</span>“한파가 온 곳과 포근했던 곳이 왜 갈렸을까요? 답은 상층 일기도에 있습니다. 조사관님, 먼저 바람 자체를 읽는 법부터 익힙시다. 상공의 바람은 왜 등압선을 따라 옆으로 부는지부터요.”</div></div>
           <div class="case-file"><b class="k">그날의 상층 일기도</b> <span data-view="earth:current/wind/isobaric/250hPa/orthographic=127.00,45.00,500" data-ask="지금 상층 편서풍은 곧게 불까, 남북으로 굽이칠까?">편서풍이 남북으로 크게 굽이침</span> · 우리나라 상공에 깊은 기압골 · 그 골의 동쪽과 서쪽으로 한 굽이씩 떨어진 곳에는 기압 마루<br><b class="k">계산에 쓸 값</b> 공기 밀도 1.2 kg/m³ · 자전 각속도 Ω = 7.292×10⁻⁵ rad/s · 이웃한 등압선의 기압 차 4 hPa</div>
+          <figure class="hero-art"><img src="img/jet-stream.webp" alt="북극 위에서 내려다본 지구본 모형. 북극해와 그린란드를 가운데 두고 빛나는 흰 띠 모양의 제트 기류가 크게 물결치며 북극을 감싸고, 그 안쪽에 푸른 찬 공기 덮개가 있다. 동아시아 쪽으로 깊게 처진 곳의 땅은 눈으로 덮였고, 유럽 서부는 띠 바깥에서 푸르다." width="900" height="900" loading="lazy"><figcaption><b>북극의 찬 공기는 편서풍이 굽이치는 곳으로 흘러내립니다</b> 북극을 둘러싼 상층 편서풍(제트 기류)은 곧게 돌지 않고 남북으로 크게 굽이칩니다. 남쪽으로 깊게 처진 골을 따라 찬 공기가 내려온 곳은 한파가 되고, 북쪽으로 솟은 마루 아래는 같은 위도라도 포근합니다. <span class="art-note">⚠ 대륙 모양과 기류의 굵기, 찬 공기 덮개는 단순하게 그렸습니다.</span></figcaption></figure>
           <div class="gate loose" id="gD"></div>
         </section>
 
         <section class="scene" data-title="힘 두 개로 부는 바람 — 지균풍">
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">세영</span>“마찰이 거의 없는 상공에서는 힘이 둘뿐이에요. 등압선에 수직으로 밀어 주는 <b>기압 경도력</b>, 그리고 움직이기 시작한 공기를 북반구에서 오른쪽으로 휘게 하는 <b><span data-view="law:코리올리 효과">전향력</span></b>. 두 힘이 크기가 같고 방향이 반대가 되면 바람은 등압선과 나란해집니다. 등압선 간격과 위도를 바꿔 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="d-geo" width="900" height="430"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="d-geo" width="900" height="450"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">이웃한 등압선 사이의 거리 (km)<span class="val" id="d-geo-d-val">500</span></div>
@@ -407,7 +410,7 @@
         <section class="scene" data-title="휘어진 등압선 위에서 — 경도풍">
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">세영</span>“실제 일기도의 등압선은 곧지 않고 둥글게 휘어 있어요. 원을 따라 도는 공기에는 바깥으로 향하는 <b>원심력</b>이 더해집니다. 그러면 같은 기압 경도력이라도 저기압 주위와 고기압 주위의 풍속이 달라져요. 곡률 반지름을 바꿔 가며 확인해 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="d-grad" width="900" height="410"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="d-grad" width="900" height="440"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">어느 쪽 주위의 바람인가</div>
@@ -434,7 +437,7 @@
         <section class="scene" data-title="땅에 닿으면 비스듬해진다 — 지상풍">
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">세영</span>“지표 가까이에서는 <b>마찰력</b>이 하나 더 붙습니다. 마찰은 바람을 느리게 하고, 느려지면 전향력도 함께 작아져요. 그러면 기압 경도력이 남아 바람이 저기압 쪽으로 끌려 들어갑니다. 지표의 거칠기를 바꿔 가며 등압선과 이루는 각을 재 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="d-sfc" width="900" height="410"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="d-sfc" width="900" height="450"></canvas></div>
             <div class="controls">
               <div class="ctrl-group" style="flex:1 1 100%">
                 <div class="ctrl-label">지표의 마찰 세기 (10⁻⁶/s)<span class="val" id="d-sfc-k-val">30</span></div>
@@ -455,7 +458,7 @@
         <section class="scene" data-title="지구를 감아 도는 물결 — 행성파">
           <div class="story"><div class="who">🧑‍✈️</div><div class="say"><span class="name">세영</span>“이제 한파로 돌아갑시다. 중위도 상공의 편서풍은 곧게 불지 않고 남북으로 굽이칩니다. <b>전향력이 위도에 따라 달라지기 때문</b>에 생기는 지구 규모의 파동, <b>행성파</b>예요. 파수와 진폭을 바꿔 가며 한파가 어떻게 내려오는지 보세요.”</div></div>
           <div class="stage-card">
-            <div class="canvas-wrap stage"><canvas id="d-wave" width="900" height="440"></canvas></div>
+            <div class="canvas-wrap studio"><canvas id="d-wave" width="900" height="480"></canvas></div>
             <div class="controls">
               <div class="ctrl-group">
                 <div class="ctrl-label">파수 — 지구를 한 바퀴 도는 물결의 수<span class="val" id="d-wave-k-val">4</span></div>

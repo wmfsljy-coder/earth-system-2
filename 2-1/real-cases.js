@@ -12,18 +12,21 @@ var PER = HB.length > 1 ? (HB[HB.length - 1] - HB[0]) / (HB.length - 1) : 12.4;
 function range(a) { return Math.max.apply(null, a) - Math.min.apply(null, a); }
 var SRC = "<small>출처: 미국 해양대기청(NOAA) 조석·해류 자료(CO-OPS), 보스턴 8443970·펜서콜라 8729840 관측소의 매시 해수면 높이(평균 저저조면 기준 — 하루 두 간조 중 낮은 쪽의 평균 높이를 0으로 둔 것), 2024년 1월 15~17일(세계시). 사본은 data/tides.js.</small>";
 
+/* ---- 스튜디오 말투(밝은 바탕 + 밝은 그래프 + 흰 카드) — window.sthKit ---- */
+var K = window.sthKit, LT = K.LT;
+function card(ctx, x, W, CH, title, rows, tip, good) {
+  K.card(ctx, x, 8, W - x - 8, CH - 16, title);
+  rows.forEach(function (r, i) { K.row(ctx, r[0], r[1], x + 16, W - 24, 62 + i * 28, r[2]); });
+  if (tip) K.tip(ctx, tip, x + 12, CH - 56, W - x - 32, good);
+}
 function plot(H, ctx, W, CH, a, col, lo, hi, marks) {
-  H.paper(ctx, W, CH);
-  var x0 = 60, x1 = W - 30, y0 = 24, y1 = CH - 36;
-  function X(h) { return x0 + h / (a.length - 1) * (x1 - x0); }
-  function Y(v) { return y1 - (v - lo) / (hi - lo) * (y1 - y0); }
-  H.axes(ctx, x0, y0, x1, y1);
-  for (var d = 0; d <= 3; d++) { var xx = X(d * 24); if (d * 24 <= a.length - 1) { H.dash(ctx, xx, y0, xx, y1, H.v("--line"), 1); H.text(ctx, (15 + d) + "일 0시", xx, y1 + 15, { s: 10, a: "center", c: H.v("--mist") }); } }
-  var step = (hi - lo) > 2 ? 1 : 0.2;
-  for (var v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) H.text(ctx, v.toFixed(step < 1 ? 1 : 0) + " m", x0 - 8, Y(v) + 4, { s: 10, a: "right", c: H.v("--mist") });
-  H.line(ctx, a.map(function (y, i) { return [X(i), Y(y)]; }), H.v(col), 2.5);
-  (marks || []).forEach(function (i) { H.dot(ctx, X(i), Y(a[i]), 5, H.v("--coral-700")); });
-  return { X: X, Y: Y };
+  ctx.clearRect(0, 0, W, CH);
+  K.studio(ctx, 0, 0, W, CH);
+  var g = K.chart(ctx, { x: 4, y: 52, w: 676, h: CH - 56, pl: 58, x0: 0, x1: 72, y0: lo, y1: hi, xt: 3, yt: hi - lo > 2 ? 9 : 4, light: true,
+    xf: function (v) { return (15 + Math.round(v / 24)) + "일 0시"; }, yf: function (v) { return v.toFixed(hi - lo > 2 ? 1 : 2) + " m"; } });
+  K.plot(ctx, g, a.map(function (y, i) { return [i, y]; }), col, { light: true, w: 2.6 });
+  (marks || []).forEach(function (i) { ctx.fillStyle = "#fff"; ctx.strokeStyle = LT.red; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(g.X(i), g.Y(a[i]), 5, 0, 6.2832); ctx.fill(); ctx.stroke(); });
+  return g;
 }
 
 window.sthLab({
@@ -43,9 +46,10 @@ window.sthLab({
     build: function (stage, api) {
       var H = api.h, cv = api.canvas(270), ctx = cv.ctx, W = cv.W, p = 11, mark = 0;
       function draw() {
-        var g = plot(H, ctx, W, cv.H, BOS, "--brand", -0.5, 4, mark ? HB : []);
-        if (mark) HB.forEach(function (i) { H.text(ctx, i + "시간째", g.X(i), g.Y(BOS[i]) - 9, { s: 10, w: "800", a: "center", c: H.v("--coral-700") }); });
-        H.text(ctx, "내 답: 만조 간격 " + p.toFixed(1) + " 시간", 70, 40, { s: 13, w: "900", c: H.v("--ink") });
+        var g = plot(H, ctx, W, cv.H, BOS, LT.blue, -0.5, 4, mark ? HB : []);
+        if (mark) HB.forEach(function (i) { K.t(ctx, i + "시간째", g.X(i), g.Y(BOS[i]) - 10, { s: 10, w: "800", a: "center", c: LT.red }); });
+        K.bigText(ctx, "만조 간격 " + p.toFixed(1) + " 시간", 16, 38, 22, "#ffffff");
+        card(ctx, 690, W, cv.H, "보스턴 · 2024년 1월", [["내 답", p.toFixed(1) + " 시간", LT.blue], ["찾은 만조", mark ? HB.length + " 번" : "–"], ["관측 간격", "1 시간마다"]], mark ? "첫 " + HB[0] + "시 · 끝 " + HB[HB.length - 1] + "시" : "‘만조 위치 표시’로 확인", null);
       }
       cv.canvas._redraw = draw;
       api.slider({ label: "평균 만조 간격", min: 10, max: 26, step: 0.1, value: 11, fmt: function (x) { return x.toFixed(1) + " 시간"; }, onInput: function (x) { p = x; api.changed(); draw(); } });
@@ -79,8 +83,9 @@ window.sthLab({
     build: function (stage, api) {
       var H = api.h, cv = api.canvas(270), ctx = cv.ctx, W = cv.W, n = "2", r = 1.5;
       function draw() {
-        plot(H, ctx, W, cv.H, PEN, "--teal", -0.1, 0.7, []);
-        H.text(ctx, "내 답: 하루 " + n + "번, 조차 " + r.toFixed(2) + " m   (보스턴의 조차 " + range(BOS).toFixed(1) + " m)", 70, 40, { s: 12.5, w: "900", c: H.v("--ink") });
+        plot(H, ctx, W, cv.H, PEN, LT.teal, -0.1, 0.7, []);
+        K.bigText(ctx, "하루 " + n + "번 · 조차 " + r.toFixed(2) + " m", 16, 38, 22, "#ffffff");
+        card(ctx, 690, W, cv.H, "펜서콜라 · 멕시코만", [["하루 만조", n + " 번", LT.blue], ["내가 읽은 조차", r.toFixed(2) + " m", LT.blue], ["보스턴 조차", range(BOS).toFixed(1) + " m", LT.mute]], "세로 눈금이 훨씬 촘촘합니다", null);
       }
       cv.canvas._redraw = draw;
       api.seg({ label: "하루 만조 횟수", value: "2", options: [{ v: "1", t: "하루 1번" }, { v: "2", t: "하루 2번" }, { v: "4", t: "하루 4번" }], onPick: function (x) { n = x; api.changed(); draw(); } });

@@ -3,6 +3,19 @@
 (function () {
 "use strict";
 
+/* ---- 스튜디오 말투(밝은 바탕 + 밝은 그래프 + 흰 판정 카드) — window.sthKit ---- */
+var K = window.sthKit, LT = K.LT;
+function card(ctx, x, W, CH, title, rows, tip, good) {
+  K.card(ctx, x, 8, W - x - 8, CH - 16, title);
+  rows.forEach(function (r, i) { K.row(ctx, r[0], r[1], x + 16, W - 24, 62 + i * 28, r[2]); });
+  if (tip) K.tip(ctx, tip, x + 12, CH - 56, W - x - 32, good);
+}
+/* 블록 위 평면에 지도처럼 그리기(글자는 넣지 않는다) */
+function onPlane(ctx, I, z, fn) {
+  var o = I.P(0, 0, z), px = I.P(1, 0, z), py = I.P(0, 1, z);
+  ctx.save(); ctx.transform(px.x - o.x, px.y - o.y, py.x - o.x, py.y - o.y, o.x, o.y); fn(); ctx.restore();
+}
+
 window.sthLab({
   mount: "lab", key: "lab", result: "rLab",
   cases: [
@@ -41,18 +54,24 @@ window.sthLab({
       function GX(l) { return gx0 + (l - 4) / 16 * (gx1 - gx0); }
       function GY(t) { return gy1 - t * (gy1 - gy0); }
       function draw() {
-        H.paper(ctx, W, cv.H);
-        H.text(ctx, "적외선이 대기를 통과하는 비율 (파장 µm)", 40, 26, { s: 13.5, w: "900" });
-        H.axes(ctx, gx0, gy0, gx1, gy1);
-        for (var l = 4; l < 20; l += 0.1) H.box(ctx, GX(l), GY(trans(l)), GX(l + 0.1) - GX(l) + 0.4, gy1 - GY(trans(l)), H.v("--teal"), 0.55);
-        [4, 6, 8, 10, 12, 14, 16, 18, 20].forEach(function (l) { H.text(ctx, l + "", GX(l), gy1 + 16, { s: 10, a: "center", c: H.v("--mist") }); });
-        [["수증기", 6.5], ["오존", 9.65], ["이산화 탄소", 15], ["대기의 창", 11.2]].forEach(function (b) { H.text(ctx, b[0], GX(b[1]), gy0 - 6, { s: 10.5, w: "800", a: "center", c: H.v("--mist") }); });
-        [[c1, "①", "--coral"], [c2, "②", "--violet"]].forEach(function (c) {
-          H.line(ctx, [[GX(c[0]), gy0], [GX(c[0]), gy1]], H.v(c[2]), 3);
-          H.text(ctx, c[1], GX(c[0]), gy1 + 34, { s: 14, w: "900", a: "center", c: H.v(c[2] + "-700") });
+        var CH = cv.H, ok1 = trans(c1) >= 0.8, ok2 = who(c2) === "수증기" && c2 < 8;
+        ctx.clearRect(0, 0, W, CH);
+        K.studio(ctx, 0, 0, 640, CH);
+        var g = K.chart(ctx, { x: 6, y: 50, w: 626, h: CH - 56, pl: 50, x0: 4, x1: 20, y0: 0, y1: 1, xt: 8, yt: 4, light: true, xl: "파장 (µm)", yf: function (v0) { return Math.round(v0 * 100) + "%"; } });
+        ctx.fillStyle = "rgba(15,159,118,.10)"; ctx.fillRect(g.X(8), g.T, g.X(13) - g.X(8), g.B - g.T);
+        ctx.beginPath(); ctx.moveTo(g.X(4), g.B);
+        for (var l = 4; l <= 20.001; l += 0.05) ctx.lineTo(g.X(l), g.Y(trans(l)));
+        ctx.lineTo(g.X(20), g.B); ctx.closePath();
+        var fg = ctx.createLinearGradient(0, g.T, 0, g.B); fg.addColorStop(0, "rgba(12,133,153,.55)"); fg.addColorStop(1, "rgba(12,133,153,.12)"); ctx.fillStyle = fg; ctx.fill();
+        ctx.strokeStyle = LT.teal; ctx.lineWidth = 2.2; ctx.stroke();
+        [["수증기", 6.5], ["오존", 9.65], ["대기의 창", 11.2], ["이산화 탄소", 15], ["수증기", 19]].forEach(function (b) { K.t(ctx, b[0], g.X(b[1]), g.T + 14, { s: 10.5, w: "800", a: "center", c: b[0] === "대기의 창" ? LT.green : LT.mute }); });
+        [[c1, "①", LT.red, ok1], [c2, "②", LT.violet, ok2]].forEach(function (c) {
+          K.line(ctx, { x: g.X(c[0]), y: g.T }, { x: g.X(c[0]), y: g.B }, c[2], 3);
+          ctx.fillStyle = "#fff"; ctx.strokeStyle = c[2]; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(g.X(c[0]), g.Y(trans(c[0])), 6, 0, 6.2832); ctx.fill(); ctx.stroke();
+          K.pill(ctx, c[1] + " " + c[0].toFixed(1) + " µm", g.X(c[0]), g.T + (c[1] === "①" ? 64 : 92), { a: "center", s: 11, c: "#ffffff", box: [0, 640] });
         });
-        H.text(ctx, "① 해수면 온도: " + c1.toFixed(1) + " µm · 통과 " + Math.round(trans(c1) * 100) + "%" + (who(c1) ? " (" + who(c1) + " 흡수)" : ""), 60, 290, { s: 12.5, w: "800", c: trans(c1) >= 0.8 ? H.v("--green-700") : H.v("--rose-700") });
-        H.text(ctx, "② 수증기: " + c2.toFixed(1) + " µm · 통과 " + Math.round(trans(c2) * 100) + "%" + (who(c2) ? " (" + who(c2) + " 흡수)" : ""), 480, 290, { s: 12.5, w: "800", c: who(c2) === "수증기" ? H.v("--green-700") : H.v("--rose-700") });
+        K.bigText(ctx, "① 통과 " + Math.round(trans(c1) * 100) + "% · ② 통과 " + Math.round(trans(c2) * 100) + "%", 14, 38, 21, ok1 && ok2 ? "#8ce99a" : "#ffffff");
+        card(ctx, 650, W, CH, "기상 위성의 두 눈", [["① 해수면 온도 채널", c1.toFixed(1) + " µm", ok1 ? LT.green : LT.red], ["① 대기 통과", Math.round(trans(c1) * 100) + "%"], ["② 수증기 채널", c2.toFixed(1) + " µm", ok2 ? LT.green : LT.red], ["② 흡수하는 기체", who(c2) || "거의 없음"]], ok1 && ok2 ? "✓ 바다 표면과 수증기를 각각 봅니다" : "①은 창으로, ②는 수증기 띠로", ok1 && ok2 ? true : null);
       }
       cv.canvas._redraw = draw;
       api.slider({ label: "① 해수면 온도 채널", min: 4, max: 20, step: 0.5, value: 15, fmt: function (x) { return x.toFixed(1) + " µm"; }, onInput: function (x) { c1 = x; draw(); } });
@@ -98,22 +117,29 @@ window.sthLab({
       function GX(t) { return gx0 + (t + 10) / 35 * (gx1 - gx0); }
       function GY(z) { return gy1 - z / 5000 * (gy1 - gy0); }
       function draw() {
-        H.paper(ctx, W, cv.H);
-        H.text(ctx, "상승하는 공기 덩이의 기온", 40, 26, { s: 13.5, w: "900" });
-        H.axes(ctx, gx0, gy0, gx1, gy1);
-        [-10, 0, 10, 20].forEach(function (t) { H.text(ctx, t + " ℃", GX(t), gy1 + 16, { s: 10, a: "center", c: H.v("--mist") }); });
-        [0, 1000, 2000, 3000, 4000, 5000].forEach(function (z) { H.text(ctx, z + " m", gx0 - 6, GY(z) + 4, { s: 10, a: "right", c: H.v("--mist") }); });
-        H.dash(ctx, GX(0), gy0, GX(0), gy1, H.v("--brand"));
-        var pts = []; for (var z = 0; z <= 5000; z += 50) pts.push([GX(tp(z)), GY(z)]);
-        H.line(ctx, pts, H.v("--coral"), 3);
-        H.box(ctx, gx0, GY(5000), gx1 - gx0, GY(LCL) - GY(5000), H.v("--mist"), 0.12);
-        [[base, "구름 밑면 (내 답)", "--teal-700"], [frz, "0 ℃ 고도 (내 답)", "--violet-700"]].forEach(function (m) {
-          H.line(ctx, [[gx0, GY(m[0])], [gx1, GY(m[0])]], H.v(m[2]), 2);
-          H.text(ctx, m[1] + " " + m[0] + " m", gx1 + 8, GY(m[0]) + 4, { s: 11.5, w: "800", c: H.v(m[2]) });
+        var CH = cv.H, ok1 = Math.abs(base - LCL) <= 50, ok2 = Math.abs(frz - FRZ) <= 50;
+        ctx.clearRect(0, 0, W, CH);
+        K.studio(ctx, 0, 0, 640, CH);
+        var g = K.chart(ctx, { x: 6, y: 46, w: 470, h: CH - 50, pl: 58, x0: -10, x1: 25, y0: 0, y1: 5000, xt: 7, yt: 5, light: true, xl: "기온 (℃)", xf: function (v0) { return v0 + "℃"; }, yf: function (v0) { return (v0 / 1000) + " km"; } });
+        ctx.fillStyle = "rgba(134,142,150,.14)"; ctx.fillRect(g.L, g.Y(5000), g.R - g.L, g.Y(LCL) - g.Y(5000));
+        K.line(ctx, { x: g.X(0), y: g.T }, { x: g.X(0), y: g.B }, LT.blue, 1.4, [5, 4]);
+        var pts = []; for (var z = 0; z <= 5000; z += 50) pts.push([tp(z), z]);
+        K.plot(ctx, g, pts, LT.orange, { light: true, w: 3 });
+        [[base, "구름 밑면 (내 답)", LT.teal, ok1, 1], [frz, "0 ℃ 고도 (내 답)", LT.violet, ok2, 0]].forEach(function (m) {
+          K.line(ctx, { x: g.L, y: g.Y(m[0]) }, { x: g.R, y: g.Y(m[0]) }, m[2], 2.4);
+          K.t(ctx, m[1] + " " + m[0] + " m", m[4] ? g.R - 4 : g.L + 6, g.Y(m[0]) - 6, { s: 11, w: "800", a: m[4] ? "right" : "left", c: m[2] });
         });
-        H.text(ctx, "건조 단열 감률 10 ℃/km (포화 전)", 560, 250, { s: 11.5, c: H.v("--mist") });
-        H.text(ctx, "습윤 단열 감률 5 ℃/km (구름 속)", 560, 272, { s: 11.5, c: H.v("--mist") });
-        H.text(ctx, "상승 응결 고도 ≈ 125 × (기온 − 이슬점) m", 560, 294, { s: 11.5, c: H.v("--mist") });
+        /* 옆에 작은 구름 기둥 모형: 비행기가 0 ℃ 고도 위를 날면 날개에 얼음 */
+        var I = K.iso({ ox: 560, oy: CH - 40, s: 0.5, L: 90, D: 90 }), zk = function (m) { return 8 + m / 5000 * 360; };
+        I.box(ctx, 0, 0, 0, 90, 90, 8, "#86b35e", "#8a6a45", "#6d5236");
+        I.quad(ctx, I.P(0, 90, 8), I.P(90, 90, 8), I.P(90, 90, zk(5000)), I.P(0, 90, zk(5000)), "rgba(150,200,250,.16)", "rgba(255,255,255,.7)");
+        for (var k = 0; k < 6; k++) { var cp = I.P(45, 45, zk(LCL + (5000 - LCL) * (k + .4) / 6)); ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.beginPath(); ctx.ellipse(cp.x + (k % 2 ? 6 : -6), cp.y, 26, 11, 0, 0, 6.2832); ctx.fill(); }
+        var fq = I.P(90, 90, zk(frz)); K.line(ctx, I.P(0, 90, zk(frz)), fq, LT.violet, 2);
+        var bq = I.P(90, 90, zk(base)); K.line(ctx, I.P(0, 90, zk(base)), bq, LT.teal, 2);
+        var ap = I.P(45, 70, zk(Math.min(4800, frz + 500))); ctx.fillStyle = "#495057"; ctx.beginPath(); ctx.moveTo(ap.x - 14, ap.y); ctx.lineTo(ap.x + 14, ap.y - 2); ctx.lineTo(ap.x + 16, ap.y + 2); ctx.lineTo(ap.x - 14, ap.y + 4); ctx.closePath(); ctx.fill();
+        ctx.fillRect(ap.x - 4, ap.y - 8, 6, 16);
+        K.bigText(ctx, "구름 밑면 " + base + " m · 0 ℃ " + frz + " m", 14, 36, 20, ok1 && ok2 ? "#8ce99a" : "#ffffff");
+        card(ctx, 650, W, CH, "착빙 고도", [["지표 기온 · 이슬점", T0 + " ℃ · " + TD + " ℃"], ["구름 밑면 (내 답)", base + " m", ok1 ? LT.green : LT.teal], ["0 ℃ 고도 (내 답)", frz + " m", ok2 ? LT.green : LT.violet], ["포화 전 · 구름 속", "10 · 5 ℃/km"]], ok1 && ok2 ? "✓ 이 위로 날면 착빙 위험" : (ok1 ? "구름 속 감률로 0 ℃ 찾기" : "125 × (기온 − 이슬점)"), ok1 && ok2 ? true : null);
       }
       cv.canvas._redraw = draw;
       api.slider({ label: "구름 밑면 높이", min: 0, max: 5000, step: 100, value: 2000, fmt: function (x) { return x + " m"; }, onInput: function (x) { base = x; draw(); } });
@@ -155,25 +181,32 @@ window.sthLab({
       var F = 2 * OM * Math.sin(45 * Math.PI / 180), VG = DP / (RHO * F * DN);
       var DIR = { W: "서풍 (서 → 동)", E: "동풍 (동 → 서)", N: "북풍 (북 → 남)", S: "남풍 (남 → 북)" };
       var VEC = { W: [1, 0], E: [-1, 0], N: [0, 1], S: [0, -1] };
-      function panel(x, title, hiTop, d) {
-        H.text(ctx, title, x + 150, 50, { s: 12.5, w: "900", a: "center" });
-        H.box(ctx, x, 60, 300, 200, H.v("--card-2"), 1);
-        for (var i = 0; i < 4; i++) H.line(ctx, [[x + 10, 80 + i * 55], [x + 290, 80 + i * 55]], H.v("--line"), 1.5);
-        H.text(ctx, hiTop ? "고기압 쪽 (적도)" : "저기압 쪽 (극)", x + 150, 74, { s: 11, w: "800", a: "center", c: hiTop ? H.v("--coral-700") : H.v("--brand-700") });
-        H.text(ctx, hiTop ? "저기압 쪽 (극)" : "고기압 쪽 (적도)", x + 150, 254, { s: 11, w: "800", a: "center", c: hiTop ? H.v("--brand-700") : H.v("--coral-700") });
-        H.text(ctx, "↑ 북", x + 280, 100, { s: 10.5, a: "right", c: H.v("--mist") });
-        var c = [x + 150, 160], e = VEC[d];
-        H.arrow(ctx, c[0] - e[0] * 60, c[1] - e[1] * 40, c[0] + e[0] * 60, c[1] + e[1] * 40, H.v("--violet"), 4, 12);
-        H.text(ctx, DIR[d], x + 150, 290, { s: 12, w: "800", a: "center", c: H.v("--violet-700") });
+      /* 두 반구의 상공 일기도를 판 모형으로: 뒤쪽 = 북쪽 */
+      function plate(I, hiTop, d, x0) {
+        var L = I.L, D = I.D;
+        I.box(ctx, 0, 0, 0, L, D, 8, "#f4f6fa", "#c5d3e6", "#aab9cf");
+        onPlane(ctx, I, 8.2, function () {
+          var g = ctx.createLinearGradient(0, 0, 0, D); g.addColorStop(0, hiTop ? "rgba(224,49,49,.18)" : "rgba(28,126,214,.2)"); g.addColorStop(1, hiTop ? "rgba(28,126,214,.2)" : "rgba(224,49,49,.18)");
+          ctx.fillStyle = g; ctx.fillRect(0, 0, L, D);
+          for (var i = 0; i < 4; i++) { ctx.strokeStyle = "rgba(40,60,110,.7)"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(12, 22 + i * (D - 44) / 3); ctx.lineTo(L - 12, 22 + i * (D - 44) / 3); ctx.stroke(); }
+        });
+        var e = VEC[d], c = { x: L / 2, y: D / 2 }, a = I.P(c.x - e[0] * 70, c.y - e[1] * 60, 12), b = I.P(c.x + e[0] * 70, c.y + e[1] * 60, 12);
+        ctx.save(); ctx.shadowColor = "#9775fa"; ctx.shadowBlur = 8; K.arrow(ctx, a, b, LT.violet, 5, 14); ctx.restore();
+        var n0 = I.P(L - 20, 40, 10), n1 = I.P(L - 20, 6, 10); K.arrow(ctx, n0, n1, "#12203a", 2, 8); K.t(ctx, "북", n1.x + 6, n1.y, { s: 10.5, w: "900", c: "#12203a" });
+        var tq = I.P(L / 2, 0, 8), bq = I.P(L / 2, D, 8);
+        K.pill(ctx, hiTop ? "고기압 쪽 (적도)" : "저기압 쪽 (극)", tq.x + 10, tq.y - 6, { s: 10.5, c: hiTop ? "#ffc9c9" : "#a5d8ff", box: [x0, x0 + 310] });
+        K.pill(ctx, hiTop ? "저기압 쪽 (극)" : "고기압 쪽 (적도)", bq.x - 10, bq.y + 20, { a: "right", s: 10.5, c: hiTop ? "#a5d8ff" : "#ffc9c9", box: [x0, x0 + 310] });
       }
       function draw() {
-        H.paper(ctx, W, cv.H);
-        H.text(ctx, "상공 일기도 (등압선 간격 4 hPa)", 40, 26, { s: 13.5, w: "900" });
-        panel(40, "북반구 45°N", false, dn);
-        panel(380, "남반구 45°S", true, ds);
-        H.rows(ctx, 720, 80, [["내가 정한 풍속", v + " m/s", Math.abs(v - VG) <= 1.5 ? "--green-700" : null, true]], 60);
-        H.text(ctx, "f = 2Ω sin 45°", 720, 170, { s: 11, c: H.v("--mist") });
-        H.text(ctx, "공기 밀도 0.7 kg/m³", 720, 190, { s: 11, c: H.v("--mist") });
+        var CH = cv.H, okN = dn === "W", okS = ds === "W", okV = Math.abs(v - VG) <= 1.5;
+        ctx.clearRect(0, 0, W, CH);
+        K.studio(ctx, 0, 0, 640, CH);
+        plate(K.iso({ ox: 150, oy: 92, s: 0.64, L: 230, D: 190 }), false, dn, 0);
+        plate(K.iso({ ox: 468, oy: 92, s: 0.64, L: 230, D: 190 }), true, ds, 320);
+        K.t(ctx, "북반구 45°N · " + DIR[dn], 160, CH - 14, { s: 12, w: "900", a: "center", c: okN ? LT.green : LT.ink });
+        K.t(ctx, "남반구 45°S · " + DIR[ds], 480, CH - 14, { s: 12, w: "900", a: "center", c: okS ? LT.green : LT.ink });
+        K.bigText(ctx, "상공 일기도 · 등압선 간격 4 hPa", 14, 34, 18, "#ffffff");
+        card(ctx, 650, W, CH, "남반구 항로", [["북반구 바람", dn === "W" ? "서풍 ✓" : DIR[dn].split(" ")[0], okN ? LT.green : LT.orange], ["남반구 바람", ds === "W" ? "서풍 ✓" : DIR[ds].split(" ")[0], okS ? LT.green : LT.orange], ["내가 정한 풍속", v + " m/s", okV ? LT.green : LT.blue], ["f = 2Ω sin 45°", "공기 0.7 kg/m³"]], okN && okS && okV ? "✓ 두 반구 모두 같은 편서풍" : "남반구는 저기압을 오른쪽에", okN && okS && okV ? true : null);
       }
       cv.canvas._redraw = draw;
       var opts = [{ v: "W", t: "서풍" }, { v: "E", t: "동풍" }, { v: "N", t: "북풍" }, { v: "S", t: "남풍" }];

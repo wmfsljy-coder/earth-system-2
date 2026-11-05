@@ -19,6 +19,19 @@ var ZI = (window.REAL_CW155 || {}).rainInt || { a: [1986, 1995, 89, 15.4, 13.5],
 var Z_UP = (ZI.b[3] / ZI.a[3] - 1) * 100;
 var SRC_Z = "<small>출처: 기상청 날씨누리 과거 관측 일별 자료, 창원(155) 일강수량. ‘비 온 날’은 0.1 mm 이상 내린 날, 하루 평균은 비 온 날의 강수량 합 ÷ 비 온 날 수. 사본은 data/cw155.js.</small>";
 
+/* ---- 스튜디오 말투(밝은 바탕 + 밝은 그래프 + 흰 판정 카드) — window.sthKit ---- */
+var K = window.sthKit, LT = K.LT;
+function card(ctx, x, W, CH, title, rows, tip, good) {
+  K.card(ctx, x, 8, W - x - 8, CH - 16, title);
+  rows.forEach(function (r, i) { K.row(ctx, r[0], r[1], x + 16, W - 24, 62 + i * 28, r[2]); });
+  if (tip) K.tip(ctx, tip, x + 12, CH - 56, W - x - 32, good);
+}
+/* 블록 위 평면에 지도처럼 그리기(글자는 넣지 않는다) */
+function onPlane(ctx, I, z, fn) {
+  var o = I.P(0, 0, z), px = I.P(1, 0, z), py = I.P(0, 1, z);
+  ctx.save(); ctx.transform(px.x - o.x, px.y - o.y, py.x - o.x, py.y - o.y, o.x, o.y); fn(); ctx.restore();
+}
+
 window.sthLab({
   mount: "real", key: "real", result: "rReal", label: "실제 자료",
   doneNote: "정리하기 탭에서 실제 자료로 구름이 생기는 높이와 기압의 연직 분포를 설명해 보세요.",
@@ -39,16 +52,18 @@ window.sthLab({
       function X(i) { return x0 + i / (D.length - 1) * (x1 - x0); }
       function Y(t) { return y1 - (t + 15) / 50 * (y1 - y0); }
       function draw() {
-        H.paper(ctx, W, cv.H); H.axes(ctx, x0, y0, x1, y1);
-        [-10, 0, 10, 20, 30].forEach(function (t) { H.text(ctx, t + "°C", x0 - 6, Y(t) + 4, { s: 10, a: "right", c: H.v("--mist") }); });
-        var a = -1, b = -1;
+        var CH = cv.H, a = -1, b = -1;
+        ctx.clearRect(0, 0, W, CH);
+        K.studio(ctx, 0, 0, W, CH);
         D.forEach(function (r, i) { if (+r[0].slice(4, 6) === k) { if (a < 0) a = i; b = i; } });
-        if (a >= 0) { ctx.fillStyle = "rgba(255,190,60,.18)"; ctx.fillRect(X(a), y0, X(b) - X(a), y1 - y0); }
-        H.line(ctx, D.map(function (r, i) { return [X(i), Y(r[1])]; }), H.v("--coral-700"), 1.4);
-        H.line(ctx, D.map(function (r, i) { return [X(i), Y(r[2])]; }), H.v("--brand"), 1.4);
-        for (var mm = 1; mm <= 12; mm += 1) { var first = -1; D.forEach(function (r, i) { if (first < 0 && +r[0].slice(4, 6) === mm) first = i; }); if (first >= 0) H.text(ctx, mm + "월", X(first) + 12, y1 + 15, { s: 9.5, a: "center", c: mm === k ? H.v("--amber-700") : H.v("--mist") }); }
-        H.text(ctx, "빨강 = 기온, 파랑 = 이슬점", x0 + 8, y0 + 4, { s: 11, w: "800", c: H.v("--mist") });
-        H.rows(ctx, 680, 40, [["고른 달", k + "월 (" + M[k].n + "일)", "--amber-700"], ["평균 기온", M[k].t.toFixed(2) + " °C"], ["평균 이슬점", M[k].d.toFixed(2) + " °C"], ["기온 − 이슬점", (M[k].t - M[k].d).toFixed(2) + " °C"], ["내 답 (평균 구름 밑면)", est + " m", null, true]], 52);
+        var g = K.chart(ctx, { x: 4, y: 48, w: 660, h: CH - 52, pl: 50, x0: 0, x1: D.length - 1, y0: -15, y1: 35, xt: 1, yt: 5, light: true, xf: function () { return ""; }, yf: function (v0) { return v0 + "°C"; } });
+        if (a >= 0) { ctx.fillStyle = "rgba(245,159,0,.16)"; ctx.fillRect(g.X(a), g.T, g.X(b) - g.X(a), g.B - g.T); }
+        K.plot(ctx, g, D.map(function (r, i) { return [i, r[1]]; }), LT.red, { light: true, w: 1.4, glow: false });
+        K.plot(ctx, g, D.map(function (r, i) { return [i, r[2]]; }), LT.blue, { light: true, w: 1.4, glow: false });
+        for (var mm = 1; mm <= 12; mm++) { var first = -1; D.forEach(function (r, i) { if (first < 0 && +r[0].slice(4, 6) === mm) first = i; }); if (first >= 0) K.t(ctx, mm + "월", g.X(first) + 12, g.B + 15, { s: 10, w: mm === k ? "900" : "600", a: "center", c: mm === k ? LT.orange : LT.mute }); }
+        K.t(ctx, "빨강 = 기온 · 파랑 = 이슬점", g.L + 8, g.T + 14, { s: 11, w: "800", c: LT.mute });
+        K.bigText(ctx, k + "월 · 구름 밑면 약 " + Math.round(lcl(M[k])) + " m", 14, 36, 20, "#ffffff");
+        card(ctx, 674, W, CH, "창원 웅천 · 2024년", [["고른 달", k + "월 (" + M[k].n + "일)", LT.orange], ["평균 기온", M[k].t.toFixed(2) + " °C"], ["평균 이슬점", M[k].d.toFixed(2) + " °C"], ["기온 − 이슬점", (M[k].t - M[k].d).toFixed(2) + " °C"], ["내 답", est + " m", LT.blue]], "125 × (기온 − 이슬점)", null);
       }
       cv.canvas._redraw = draw;
       api.slider({ label: "달", min: 1, max: 12, step: 1, value: 1, fmt: function (x) { return x + "월"; }, onInput: function (x) { k = x; api.changed(); draw(); } });
@@ -85,15 +100,17 @@ window.sthLab({
       function X(p) { return x0 + p / 110 * (x1 - x0); }
       function Y(z) { return y1 - z / 12 * (y1 - y0); }
       function draw() {
-        H.paper(ctx, W, cv.H); H.axes(ctx, x0, y0, x1, y1);
-        [0, 3, 6, 9, 12].forEach(function (z) { H.text(ctx, z + " km", x0 - 8, Y(z) + 4, { s: 10, a: "right", c: H.v("--mist") }); });
-        [0, 25, 50, 75, 100].forEach(function (p) { H.text(ctx, p + " kPa", X(p), y1 + 15, { s: 10, a: "center", c: H.v("--mist") }); });
-        var p0 = A.ps * Math.exp(A.elev / 1000 * Math.LN2 / hk), pts = [];
-        for (var z = 0; z <= 12; z += 0.1) pts.push([X(p0 * Math.pow(0.5, z / hk)), Y(z)]);
-        H.line(ctx, pts, H.v("--amber-700"), 2.5);
-        H.dash(ctx, X(p0 / 2), y0, X(p0 / 2), y1, H.v("--line"), 1);
-        [A, B].forEach(function (s) { H.dot(ctx, X(s.ps), Y(s.elev / 1000), 7, H.v("--brand")); H.text(ctx, s.name + " " + s.ps + " kPa", X(s.ps) + 10, Y(s.elev / 1000) + 4, { s: 11, w: "800", c: H.v("--brand-700") }); });
-        H.rows(ctx, 660, 50, [["내 답 (절반 높이)", hk.toFixed(1) + " km", null, true], ["이 곡선의 해수면 기압", p0.toFixed(1) + " kPa"]], 62);
+        var CH = cv.H, p0 = A.ps * Math.exp(A.elev / 1000 * Math.LN2 / hk), pts = [], ok = Math.abs(hk - HALF) <= 0.4;
+        ctx.clearRect(0, 0, W, CH);
+        K.studio(ctx, 0, 0, W, CH);
+        var g = K.chart(ctx, { x: 4, y: 44, w: 560, h: CH - 48, pl: 50, x0: 0, x1: 110, y0: 0, y1: 12, xt: 11, yt: 4, light: true, xl: "기압 (kPa)", xf: function (v0) { return Math.round(v0); }, yf: function (v0) { return v0 + " km"; } });
+        for (var z = 0; z <= 12; z += 0.1) pts.push([p0 * Math.pow(0.5, z / hk), z]);
+        K.line(ctx, { x: g.X(p0 / 2), y: g.T }, { x: g.X(p0 / 2), y: g.B }, "rgba(112,72,232,.6)", 1.4, [5, 4]);
+        K.t(ctx, "해수면의 절반", g.X(p0 / 2) + 4, g.T + 12, { s: 10.5, w: "800", c: LT.violet });
+        K.plot(ctx, g, pts, LT.orange, { light: true, w: 2.8 });
+        [A, B].forEach(function (s) { ctx.fillStyle = "#fff"; ctx.strokeStyle = LT.blue; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(g.X(s.ps), g.Y(s.elev / 1000), 6, 0, 6.2832); ctx.fill(); ctx.stroke(); K.t(ctx, s.name + " " + s.ps + " kPa", g.X(s.ps) + 10, g.Y(s.elev / 1000) + 4, { s: 11, w: "800", c: LT.blue }); });
+        K.bigText(ctx, "기압이 절반 되는 높이 " + hk.toFixed(1) + " km", 14, 34, 19, ok ? "#8ce99a" : "#ffffff");
+        card(ctx, 674, W, CH, "부산 ↔ 라싸", [["내 답 (절반 높이)", hk.toFixed(1) + " km", ok ? LT.green : LT.blue], ["곡선의 해수면 기압", p0.toFixed(1) + " kPa"], ["낮은 곳 · 해발 " + A.elev + " m", A.ps + " kPa"], ["높은 곳 · 해발 " + B.elev + " m", B.ps + " kPa"]], "두 점을 모두 지나게 맞추기", null);
       }
       cv.canvas._redraw = draw;
       api.slider({ label: "기압이 절반이 되는 높이", min: 2, max: 10, step: 0.1, value: 3, fmt: function (x) { return x.toFixed(1) + " km"; }, onInput: function (x) { hk = x; api.changed(); draw(); } });
@@ -127,16 +144,25 @@ window.sthLab({
       var G = [["한 해 비 온 날", ZI.a[2], ZI.b[2], 120, "일"], ["비 온 날 하루 평균", ZI.a[3], ZI.b[3], 24, "mm"], ["30 mm 넘은 날", ZI.a[4], ZI.b[4], 24, "일"]];
       var x0 = 40, x1 = 640, y0 = 30, y1 = 230, gw = (x1 - x0) / 3;
       function draw() {
-        H.paper(ctx, W, cv.H); H.axes(ctx, x0, y0, x1, y1);
+        var CH = cv.H, x0 = 60, x1 = 650, y0 = 60, y1 = CH - 34, gw = (x1 - x0) / 3;
+        ctx.clearRect(0, 0, W, CH);
+        K.studio(ctx, 0, 0, W, CH);
+        ctx.fillStyle = "rgba(255,255,255,.75)"; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
+        K.line(ctx, { x: x0, y: y1 }, { x: x1, y: y1 }, LT.line, 1.5);
         G.forEach(function (g, i) {
-          var cx = x0 + gw * i + gw / 2, f = function (v) { return y1 - v / g[3] * (y1 - y0); };
-          H.box(ctx, cx - 44, f(g[1]), 40, y1 - f(g[1]), H.v("--brand"), 0.85); H.box(ctx, cx + 4, f(g[2]), 40, y1 - f(g[2]), H.v("--coral-700"), 0.85);
-          H.text(ctx, g[1] + g[4], cx - 24, f(g[1]) - 6, { s: 11, w: "800", a: "center" }); H.text(ctx, g[2] + g[4], cx + 24, f(g[2]) - 6, { s: 11, w: "800", a: "center" });
-          H.text(ctx, g[0], cx, y1 + 16, { s: 11, a: "center", c: H.v("--mist") });
+          var cx = x0 + gw * i + gw / 2, f = function (v0) { return y1 - v0 / g[3] * (y1 - y0 - 14); };
+          [[g[1], "#4dabf7", "#1864ab", -46], [g[2], "#ff8787", "#c92a2a", 6]].forEach(function (q) {
+            var bx = cx + q[3], top = f(q[0]), gg = ctx.createLinearGradient(bx, 0, bx + 40, 0);
+            gg.addColorStop(0, q[1]); gg.addColorStop(1, q[2]);
+            ctx.fillStyle = gg; ctx.fillRect(bx, top, 40, y1 - top);
+            ctx.fillStyle = "rgba(255,255,255,.35)"; ctx.beginPath(); ctx.moveTo(bx, top); ctx.lineTo(bx + 8, top - 6); ctx.lineTo(bx + 48, top - 6); ctx.lineTo(bx + 40, top); ctx.closePath(); ctx.fill();
+            ctx.fillStyle = "rgba(0,0,0,.18)"; ctx.beginPath(); ctx.moveTo(bx + 40, top); ctx.lineTo(bx + 48, top - 6); ctx.lineTo(bx + 48, y1 - 6); ctx.lineTo(bx + 40, y1); ctx.closePath(); ctx.fill();
+            K.t(ctx, q[0] + g[4], bx + 20, top - 10, { s: 11.5, w: "900", a: "center", c: LT.ink });
+          });
+          K.t(ctx, g[0], cx, y1 + 18, { s: 11.5, w: "800", a: "center", c: LT.mute });
         });
-        H.box(ctx, 680, 30, 12, 12, H.v("--brand")); H.text(ctx, ZI.a[0] + " ~ " + ZI.a[1], 698, 41, { s: 12, w: "800" });
-        H.box(ctx, 680, 52, 12, 12, H.v("--coral-700")); H.text(ctx, ZI.b[0] + " ~ " + ZI.b[1], 698, 63, { s: 12, w: "800" });
-        H.rows(ctx, 680, 100, [["하루 평균 강수", ZI.a[3] + " → " + ZI.b[3] + " mm"], ["내 답", "+" + k + " %", null, true]], 56);
+        K.bigText(ctx, "비 온 날 하루 평균 +" + k + " %?", 14, 38, 21, "#ffffff");
+        card(ctx, 674, W, CH, "창원(155) 일강수량", [["파랑", ZI.a[0] + " ~ " + ZI.a[1], LT.blue], ["빨강", ZI.b[0] + " ~ " + ZI.b[1], LT.red], ["하루 평균", ZI.a[3] + " → " + ZI.b[3] + " mm"], ["내 답", "+" + k + " %", LT.blue]], "(나중 ÷ 처음 − 1) × 100", null);
       }
       cv.canvas._redraw = draw;
       api.slider({ label: "비 온 날 하루 평균 강수의 변화", min: 0, max: 40, step: 1, value: 0, fmt: function (x) { return "+" + x + " %"; }, onInput: function (x) { k = x; api.changed(); draw(); } });
