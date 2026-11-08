@@ -13,6 +13,92 @@ function card(ctx, x, W, CH, title, rows, tip, good) {
 function waterFace(I, ctx, side, z0, z1) {
   I.face(ctx, side, function (Lw) { var g = ctx.createLinearGradient(0, z1, 0, z0); g.addColorStop(0, side === "front" ? "#3fa3dc" : "#2f86c8"); g.addColorStop(1, side === "front" ? "#0b2a63" : "#08204f"); ctx.fillStyle = g; ctx.fillRect(0, z0, Lw, z1 - z0); });
 }
+/* 투명 아크릴 큐브(진열장) 속 우주 — 밝은 스튜디오 위 받침대에 놓고 큐브 안만 짙은 남색으로 칠한다.
+   var cb = spaceCube(ctx, { x, y, w, h, d, seed });  앞면 사각형 (x, y, w, h), 깊이 d 만큼 오른쪽 위로 들어간다.
+   cb.inside(function () { … 큐브 속 그림 … }); cb.glass();   // 유리 반사·모서리는 맨 나중에
+   바닥 그림자: K.studio(ctx, 0, 0, LW, H, cubeFloor(같은 o)) */
+function cubeFloor(o) { var d = o.d == null ? 28 : o.d; return { x: o.x + o.w / 2 + d / 2, y: o.y + o.h + 18, rx: o.w * .62, ry: 24 }; }
+function spaceCube(ctx, o) {
+  var x = o.x, y = o.y, w = o.w, h = o.h, dx = o.d == null ? 28 : o.d, dy = dx * .62, PZ = 14, M = 8;
+  var hull = [[x, y + h], [x, y], [x + dx, y - dy], [x + w + dx, y - dy], [x + w + dx, y + h - dy], [x + w, y + h]];
+  function poly(pts) { ctx.beginPath(); pts.forEach(function (p, i) { if (i) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]); }); ctx.closePath(); }
+  var bx0 = x - M, bx1 = x + w + M, by = y + h + 2;
+  poly([[bx0, by], [bx1, by], [bx1 + dx, by - dy], [bx0 + dx, by - dy]]); ctx.fillStyle = "#f4f6f9"; ctx.fill();
+  var pg = ctx.createLinearGradient(0, by, 0, by + PZ); pg.addColorStop(0, "#dde2ea"); pg.addColorStop(1, "#aab3c1");
+  poly([[bx0, by], [bx1, by], [bx1, by + PZ], [bx0, by + PZ]]); ctx.fillStyle = pg; ctx.fill();
+  poly([[bx1, by], [bx1 + dx, by - dy], [bx1 + dx, by - dy + PZ], [bx1, by + PZ]]); ctx.fillStyle = "#8f99a8"; ctx.fill();
+  poly(hull);
+  var g = ctx.createLinearGradient(x, y - dy, x + w * .4, y + h); g.addColorStop(0, "#070b26"); g.addColorStop(1, "#141b4c");
+  ctx.fillStyle = g; ctx.fill();
+  ctx.save(); poly(hull); ctx.clip();
+  var R = K.rng(o.seed || 7), n = Math.round(w * h / 1300), i;
+  for (i = 0; i < 4; i++) { var nx = x + R() * w, ny = y + R() * h, nr = 80 + R() * 120, ng = ctx.createRadialGradient(nx, ny, 0, nx, ny, nr); ng.addColorStop(0, "rgba(140,130,230,.10)"); ng.addColorStop(1, "rgba(140,130,230,0)"); ctx.fillStyle = ng; ctx.fillRect(x, y - dy, w + dx, h + dy); }
+  for (i = 0; i < n; i++) { var m = R(); ctx.globalAlpha = .3 + R() * .6; ctx.fillStyle = m > .95 ? "#ffe2b8" : "#ffffff"; ctx.beginPath(); ctx.arc(x + R() * (w + dx), y - dy + R() * (h + dy), m > .98 ? 1.6 : m > .9 ? 1.1 : .65, 0, 6.2832); ctx.fill(); }
+  ctx.globalAlpha = 1;
+  ctx.strokeStyle = "rgba(190,210,255,.24)"; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(x + dx, y - dy); ctx.lineTo(x + dx, y + h - dy); ctx.lineTo(x + w + dx, y + h - dy); ctx.moveTo(x + dx, y + h - dy); ctx.lineTo(x, y + h); ctx.stroke();
+  ctx.restore();
+  return {
+    box: [x, x + w], x: x, y: y, w: w, h: h, dx: dx, dy: dy,
+    inside: function (fn) { ctx.save(); poly(hull); ctx.clip(); fn(); ctx.restore(); },
+    glass: function () {
+      poly([[x, y], [x + dx, y - dy], [x + w + dx, y - dy], [x + w, y]]); ctx.fillStyle = "rgba(255,255,255,.16)"; ctx.fill();
+      poly([[x + w, y], [x + w + dx, y - dy], [x + w + dx, y + h - dy], [x + w, y + h]]); ctx.fillStyle = "rgba(210,225,255,.10)"; ctx.fill();
+      ctx.save(); poly([[x, y], [x + w, y], [x + w, y + h], [x, y + h]]); ctx.clip();
+      var rg = ctx.createLinearGradient(x, y, x + w * .5, y + h * .9);
+      rg.addColorStop(0, "rgba(255,255,255,.13)"); rg.addColorStop(.28, "rgba(255,255,255,.03)"); rg.addColorStop(.31, "rgba(255,255,255,.10)"); rg.addColorStop(.36, "rgba(255,255,255,0)"); rg.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = rg; ctx.fillRect(x, y, w, h); ctx.restore();
+      ctx.lineJoin = "round"; ctx.strokeStyle = "rgba(255,255,255,.92)"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.rect(x, y, w, h); ctx.moveTo(x, y); ctx.lineTo(x + dx, y - dy); ctx.lineTo(x + w + dx, y - dy); ctx.lineTo(x + w, y); ctx.moveTo(x + w + dx, y - dy); ctx.lineTo(x + w + dx, y + h - dy); ctx.lineTo(x + w, y + h); ctx.stroke();
+      ctx.strokeStyle = "rgba(40,60,100,.38)"; ctx.lineWidth = 1; poly(hull); ctx.stroke(); ctx.lineJoin = "miter";
+    }
+  };
+}
+/* 입체 공의 밤 쪽: sa = 빛(태양)이 오는 쪽 각(라디안, 0 = 오른쪽) */
+function nightSide(ctx, x, y, r, sa, a) {
+  var c = Math.cos(sa), s = Math.sin(sa), ng = ctx.createLinearGradient(x + c * r, y + s * r, x - c * r, y - s * r);
+  ng.addColorStop(0, "rgba(3,6,24,0)"); ng.addColorStop(.44, "rgba(3,6,24,0)"); ng.addColorStop(.58, "rgba(3,6,24," + (a * .85).toFixed(2) + ")"); ng.addColorStop(1, "rgba(3,6,24," + a + ")");
+  ctx.fillStyle = ng; ctx.beginPath(); ctx.arc(x, y, r + .5, 0, 6.2832); ctx.fill();
+}
+/* 입체 공(달·행성): 빛 받는 쪽이 밝고 반대쪽은 밤 */
+function litBall(ctx, x, y, r, base, dark, sa, night) {
+  var g = ctx.createRadialGradient(x + Math.cos(sa) * r * .42, y + Math.sin(sa) * r * .42 - r * .18, r * .06, x, y, r * 1.05);
+  g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(.24, base); g.addColorStop(1, dark);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+  if (night !== 0) nightSide(ctx, x, y, r, sa, night == null ? .66 : night);
+}
+/* 입체 달: 공 + 운석 구덩이 + 밤 쪽 */
+function moon3d(ctx, x, y, r, sa) {
+  litBall(ctx, x, y, r, "#e4e6ee", "#5d6276", sa, 0);
+  var cr = K.rng(5); for (var i = 0; i < 6; i++) { ctx.fillStyle = "rgba(60,64,80,.3)"; ctx.beginPath(); ctx.arc(x + (cr() - .5) * r * 1.1, y + (cr() - .5) * r * 1.1, r * (.08 + cr() * .12), 0, 6.2832); ctx.fill(); }
+  nightSide(ctx, x, y, r, sa, .74);
+}
+/* 입체 지구: 바다·대륙·극지 얼음·밤 쪽·대기 테두리 */
+function globe3d(ctx, x, y, r, sa) {
+  var g = ctx.createRadialGradient(x + Math.cos(sa) * r * .4, y + Math.sin(sa) * r * .4 - r * .2, r * .08, x, y, r);
+  g.addColorStop(0, "#d5f0ff"); g.addColorStop(.35, "#3b95e6"); g.addColorStop(1, "#0f327a");
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+  ctx.save(); ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.clip();
+  ctx.fillStyle = "rgba(96,178,96,.92)";
+  [[.15, -.12, .42, .24, .6], [-.38, .3, .22, .3, -.3], [.42, .45, .2, .12, .2]].forEach(function (q) { ctx.beginPath(); ctx.ellipse(x + q[0] * r, y + q[1] * r, q[2] * r, q[3] * r, q[4], 0, 6.2832); ctx.fill(); });
+  ctx.fillStyle = "rgba(255,255,255,.42)"; ctx.beginPath(); ctx.ellipse(x - .05 * r, y - .95 * r, .34 * r, .1 * r, 0, 0, 6.2832); ctx.fill();
+  ctx.restore();
+  nightSide(ctx, x, y, r, sa, .68);
+  ctx.strokeStyle = "rgba(150,210,255,.8)"; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(x, y, r + 1.5, 0, 6.2832); ctx.stroke();
+}
+/* 부푼 바닷물(반투명 타원체): rx 늘어난 쪽 반지름, rot 회전, sa 빛 방향, green 이면 초록 */
+function tideShell(ctx, x, y, rx, ry, rot, sa, green) {
+  rot = rot || 0;
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  var la = sa - rot, g = ctx.createRadialGradient(Math.cos(la) * rx * .35, Math.sin(la) * ry * .35 - ry * .3, 2, 0, 0, rx);
+  if (green) { g.addColorStop(0, "rgba(230,255,245,.9)"); g.addColorStop(.5, "rgba(63,211,163,.6)"); g.addColorStop(1, "rgba(10,110,90,.8)"); }
+  else { g.addColorStop(0, "rgba(230,248,255,.9)"); g.addColorStop(.5, "rgba(90,180,240,.6)"); g.addColorStop(1, "rgba(16,78,168,.8)"); }
+  ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, 0, 6.2832); ctx.fill();
+  ctx.strokeStyle = green ? "rgba(150,245,210,.95)" : "rgba(175,228,255,.95)"; ctx.lineWidth = 1.8; ctx.stroke();
+  ctx.restore();
+}
+/* 빛나는 입체 태양 */
+function sun3d(ctx, x, y, r) { K.sun(ctx, x, y, r * 1.1); K.planet(ctx, x, y, r, "#fff3bf", "#f08c00"); }
 window.sthLab({
   mount: "lab", key: "lab", result: "rLab",
   cases: [
@@ -172,31 +258,34 @@ window.sthLab({
     },
     task: "달의 위상과 거리를 정해 <b>조차 7 m 이상</b>인 날을 찾으세요.",
     build: function (stage, api) {
-      var H = api.h, cv = api.canvas(300), ctx = cv.ctx, W = cv.W;
+      var H = api.h, cv = api.canvas(330), ctx = cv.ctx, W = cv.W;
       var ph = "neap", dn = 1.0, R0 = 4.5;
       function range() { return R0 * (Math.pow(1 / dn, 3) + (ph === "spring" ? 0.46 : -0.46)); }
       function draw() {
         var CH = cv.H, R = range(), ok = R >= 7 && dn >= 0.945 - 1e-9;
         ctx.clearRect(0, 0, W, CH);
-        K.stage(ctx, 0, 0, 596, CH, "space", { seed: 9 });
-        var ex = 300, ey = 160;
-        var sg = ctx.createRadialGradient(40, ey, 10, 40, ey, 380); sg.addColorStop(0, "rgba(255,211,107,.2)"); sg.addColorStop(1, "rgba(255,211,107,0)"); ctx.fillStyle = sg; ctx.fillRect(0, 0, 596, CH);
-        K.sun(ctx, 40, ey, 20); K.planet(ctx, 40, ey, 18, "#fff3bf", "#f08c00");
-        ctx.strokeStyle = "rgba(200,210,255,.4)"; ctx.lineWidth = 1.2; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.ellipse(ex, ey, 120, 120 * .42, 0, 0, 6.2832); ctx.stroke(); ctx.setLineDash([]);
-        /* 부푼 바닷물: 사리면 태양·달 방향(가로)으로 크게, 조금이면 둘이 엇갈려 작게 */
+        /* 밝은 스튜디오 위 아크릴 큐브 속 우주: 태양·지구(부푼 바닷물)·달 입체 공 */
+        var CB = { x: 14, y: 74, w: 540, h: 206, d: 28, seed: 9 }, BX = [CB.x, CB.x + CB.w];
+        K.studio(ctx, 0, 0, 596, CH, cubeFloor(CB));
+        var cb = spaceCube(ctx, CB);
+        var ex = 300, ey = CB.y + CB.h / 2 + 4, SXX = 62, SA = Math.PI;
         var bx = 46 + R * 4, erx = ph === "spring" ? bx : 40, ery = ph === "spring" ? 40 : 40 + R * 2.2;
-        ctx.save(); ctx.translate(ex, ey);
-        var g = ctx.createRadialGradient(-erx * .3, -10, 2, 0, 0, Math.max(erx, ery)); g.addColorStop(0, "rgba(220,245,255,.75)"); g.addColorStop(.6, "rgba(63,211,163,.45)"); g.addColorStop(1, "rgba(30,160,130,.18)");
-        ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(0, 0, erx, ery, 0, 0, 6.2832); ctx.fill(); ctx.strokeStyle = "#3fd3a3"; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
-        K.earth(ctx, ex, ey, 32);
-        ctx.fillStyle = "rgba(4,6,20,.45)"; ctx.beginPath(); ctx.arc(ex, ey, 32, -Math.PI / 2, Math.PI / 2); ctx.fill();
         var r = 120 * dn, mx = ph === "spring" ? ex + r : ex + 4, my = ph === "spring" ? ey : ey - r * .42 - 10;
-        K.planet(ctx, mx, my, 13 / dn, "#e4e6ee", "#6b7088");
-        K.pill(ctx, ph === "spring" ? "달 (망)" : "달 (상현)", mx, my - 22, { a: "center", s: 11, c: "#ffffff", box: [0, 596] });
-        K.pill(ctx, "지구 · 부푼 바닷물", ex, ey + 70, { a: "center", s: 11, c: "#a5d8ff", box: [0, 596] });
-        K.pill(ctx, "태양", 40, ey + 46, { a: "center", s: 11, c: "#ffd36b", box: [0, 596] });
-        K.warn(ctx, 584, CH - 14, "⚠ 크기·거리·부풂은 과장", "right");
-        K.bigText(ctx, "조차 " + R.toFixed(2) + " m", 16, 40, 26, ok ? "#8ce99a" : "#ffffff");
+        cb.inside(function () {
+          var sg = ctx.createRadialGradient(SXX, ey, 10, SXX, ey, 380); sg.addColorStop(0, "rgba(255,211,107,.2)"); sg.addColorStop(1, "rgba(255,211,107,0)"); ctx.fillStyle = sg; ctx.fillRect(CB.x, CB.y - 30, CB.w + 30, CB.h + 30);
+          sun3d(ctx, SXX, ey, 18);
+          ctx.strokeStyle = "rgba(200,210,255,.4)"; ctx.lineWidth = 1.2; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.ellipse(ex, ey, 120, 120 * .42, 0, 0, 6.2832); ctx.stroke(); ctx.setLineDash([]);
+          /* 부푼 바닷물: 사리면 태양·달 방향(가로)으로 크게, 조금이면 둘이 엇갈려 작게 */
+          tideShell(ctx, ex, ey, erx, ery, 0, SA, true);
+          globe3d(ctx, ex, ey, 32, SA);
+          moon3d(ctx, mx, my, 13 / dn, SA);
+        });
+        cb.glass();
+        K.pill(ctx, ph === "spring" ? "달 (망)" : "달 (상현)", mx, my - 22, { a: "center", s: 12, c: "#ffffff", box: BX });
+        K.pill(ctx, "지구 · 부푼 바닷물", ex, ey + 74, { a: "center", s: 12, c: "#a5d8ff", box: BX });
+        K.pill(ctx, "태양", SXX, ey + 46, { a: "center", s: 12, c: "#ffd36b", box: BX });
+        K.warn(ctx, 584, CH - 10, "⚠ 크기·거리·부풂은 과장", "right");
+        K.bigText(ctx, "조차 " + R.toFixed(2) + " m", 16, 42, 26, ok ? "#8ce99a" : "#ffffff");
         card(ctx, 606, W, CH, "판정", [["위상", ph === "spring" ? "사리 (한 줄)" : "조금 (직각)", ph === "spring" ? LT.green : LT.ink], ["달의 거리 (평균 = 1)", dn.toFixed(3), dn < 0.945 - 1e-9 ? LT.red : LT.ink], ["달의 기조력", Math.pow(1 / dn, 3).toFixed(2) + " 배"], ["조차", R.toFixed(2) + " m", R >= 7 ? LT.green : LT.red]], dn < 0.945 - 1e-9 ? "근지점(0.945)보다 가까울 수 없음" : (R >= 7 ? "✓ 바닷길이 활짝 열린다" : "조차 7 m 이상을 찾으세요"), dn < 0.945 - 1e-9 ? false : (R >= 7 ? true : null));
       }
       cv.canvas._redraw = draw;
