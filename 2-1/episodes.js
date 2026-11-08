@@ -229,12 +229,12 @@ function seaFaces(ctx, I, bed, surf, o) {
       var st = Math.max(1.5, Lw / 180), u, R = K.rng(side === "front" ? 13 : 17);
       I.profile(ctx, side, b, 0);
       var g = ctx.createLinearGradient(0, 0, 0, bt); g.addColorStop(0, o.rockDeep || "#4f3d2b"); g.addColorStop(1, o.rockTop || "#c6a676");
-      ctx.fillStyle = g; ctx.fill();
-      ctx.save(); I.profile(ctx, side, b, 0); ctx.clip();
+      ctx.fillStyle = o.plain ? (o.rockTop || "#c6a676") : g; ctx.fill();   /* plain: 땅속이 주제가 아닌 장면은 한 가지 색 */
+      if (!o.plain) { ctx.save(); I.profile(ctx, side, b, 0); ctx.clip();
       for (u = 0; u < Lw * 1.4; u++) { ctx.fillStyle = R() > .5 ? "rgba(255,255,255,.16)" : "rgba(40,25,10,.22)"; ctx.fillRect(R() * Lw, R() * bt * 1.6, 1.6, 1.6); }
       ctx.strokeStyle = "rgba(60,40,20,.22)"; ctx.lineWidth = 1;
       for (var zz = 12; zz < bt * 1.8; zz += 14) { ctx.beginPath(); ctx.moveTo(0, zz); ctx.lineTo(Lw, zz + 2); ctx.stroke(); }
-      ctx.restore();
+      ctx.restore(); }
       ctx.beginPath();
       for (u = 0; u <= Lw + .01; u += st) ctx.lineTo(Math.min(u, Lw), b(Math.min(u, Lw)));
       for (u = Lw; u >= -.01; u -= st) { var uu = Math.max(u, 0); ctx.lineTo(uu, Math.max(b(uu), s(uu))); }
@@ -931,7 +931,7 @@ function boat(ctx, I, x, y, z, col) {
       var fc = I.P(L0, D, 0);
       studioOpen(ctx, LW, H, { x: fc.x - 140, y: fc.y - 40, rx: 330, ry: 56 });
       seaTop(ctx, I, function (xx) { return bed(xx); }, surf, 120, 5, function (xx, yy, z, lt) { return K.tint(xx > XB + 20 ? "#7fae5a" : "#e3c48e", lt); });
-      seaFaces(ctx, I, function (xx) { return bed(xx); }, surf, { zt: ZS + 10, bedTop: 14 });
+      seaFaces(ctx, I, function (xx) { return bed(xx); }, surf, { zt: ZS + 10, bedTop: 14, plain: true, rockTop: "#b89a6c" });
       /* 물마루 선 */
       ctx.strokeStyle = "rgba(255,255,255,.8)"; ctx.lineWidth = 1.3;
       var off = ((swT * vis) % lam + lam) % lam;

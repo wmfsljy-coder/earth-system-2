@@ -32,7 +32,7 @@ window.sthLab({
     },
     task: "① 채널은 <b>대기를 80% 이상 통과</b>하는 파장에, ② 채널은 <b>수증기가 강하게 흡수</b>하는 파장에 두세요.",
     build: function (stage, api) {
-      var H = api.h, cv = api.canvas(400), ctx = cv.ctx, W = cv.W;
+      var H = api.h, cv = api.canvas(392), ctx = cv.ctx, W = cv.W;
       var c1 = 15, c2 = 11;
       function trans(l) {
         if (l >= 5.5 && l <= 7.5) return 0.08;           /* 수증기 */
@@ -51,7 +51,7 @@ window.sthLab({
         return "";
       }
       /* 바다 블록(0~AZG) 위 대기 판(AZG~AZT), 오존층은 AZO 부터 */
-      var AI = K.iso({ ox: 170, oy: 164, s: 0.72, L: 470, D: 110 }), AZG = 22, AZT = 140, AZO = AZT - 34;
+      var AI = K.iso({ ox: 170, oy: 155, s: 0.72, L: 470, D: 110 }), AZG = 10, AZT = 128, AZO = AZT - 34;
       var AMOL = (function () {
         var R = K.rng(23), out = [], i;
         for (i = 0; i < 12; i++) out.push(["오존", 20 + R() * 430, 10 + R() * 90, AZO + 5 + R() * 14]);
@@ -75,7 +75,7 @@ window.sthLab({
         var Lb = AI.L, Db = AI.D, BX = [0, 640], fc = AI.P(Lb, Db, 0);
         K.studio(ctx, 0, 0, 640, CH, { x: fc.x - 140, y: fc.y - 30, rx: 290, ry: 40 });
         ["front", "right"].forEach(function (side) {
-          AI.face(ctx, side, function (Lw) { var g0 = ctx.createLinearGradient(0, 0, 0, AZG); g0.addColorStop(0, "#0b2a63"); g0.addColorStop(1, "#3fa3dc"); ctx.fillStyle = g0; ctx.fillRect(0, 0, Lw, AZG); });
+          AI.face(ctx, side, function (Lw) { ctx.fillStyle = "#2f7fc4"; ctx.fillRect(0, 0, Lw, AZG); });   /* 얇은 단색 바다 받침 */
         });
         AI.shade(ctx, "front", function () { return AZG; }); AI.shade(ctx, "right", function () { return AZG; });
         AI.plane(ctx, AZG, "#4dabf7", "rgba(255,255,255,.7)");
@@ -169,14 +169,14 @@ window.sthLab({
     },
     task: "<b>구름 밑면 높이</b>(상승 응결 고도)와 <b>구름 속 0 ℃ 고도</b>를 정하세요(각 ± 50 m).",
     build: function (stage, api) {
-      var H = api.h, cv = api.canvas(460), ctx = cv.ctx, W = cv.W;
+      var H = api.h, cv = api.canvas(452), ctx = cv.ctx, W = cv.W;
       var T0 = 20, TD = 12, base = 2000, frz = 2000;
       var LCL = 125 * (T0 - TD);
       function tp(z) { return z <= LCL ? T0 - 10 * z / 1000 : T0 - 10 * LCL / 1000 - 5 * (z - LCL) / 1000; }
       var FRZ = LCL + (T0 - 10 * LCL / 1000) / 5 * 1000;
       var gx0 = 90, gx1 = 480, gy0 = 40, gy1 = 310;
       /* 산비탈 위 공기 기둥 블록(유리): 높이 0~5,000 m. 앞면 색 = 올라가는 공기 덩이의 기온 */
-      var CI = K.iso({ ox: 262, oy: 284, s: 0.85, L: 230, D: 120 }), CZG = 16;
+      var CI = K.iso({ ox: 262, oy: 277, s: 0.85, L: 230, D: 120 }), CZG = 8;
       function zk(m) { return CZG + m / 5000 * 244; }
       function tCol(tt, a) { var u = Math.max(0, Math.min(1, (tt + 10) / 30)); return "rgba(" + Math.round(70 + 185 * u) + "," + Math.round(130 + 40 * (1 - Math.abs(u - .5) * 2)) + "," + Math.round(240 - 180 * u) + "," + a + ")"; }
       function puff(c, x, y, sc) {
@@ -193,7 +193,7 @@ window.sthLab({
         K.studio(ctx, 0, 0, 640, CH, { x: fc.x - 70, y: fc.y - 28, rx: 230, ry: 40 });
         /* 땅 블록 */
         ["front", "right"].forEach(function (side) {
-          I.face(ctx, side, function (Lw) { var g0 = ctx.createLinearGradient(0, 0, 0, CZG); g0.addColorStop(0, "#4f3b29"); g0.addColorStop(1, "#b48d5c"); ctx.fillStyle = g0; ctx.fillRect(0, 0, Lw, CZG); });
+          I.face(ctx, side, function (Lw) { ctx.fillStyle = "#8a6a48"; ctx.fillRect(0, 0, Lw, CZG); });   /* 얇은 단색 받침 */
         });
         I.shade(ctx, "front", function () { return CZG; }); I.shade(ctx, "right", function () { return CZG; });
         I.plane(ctx, CZG, "#86b35e");

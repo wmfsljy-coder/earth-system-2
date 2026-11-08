@@ -208,17 +208,11 @@ function onPlane(ctx, I, z, fn) {
   var o = I.P(0, 0, z), px = I.P(1, 0, z), py = I.P(0, 1, z);
   ctx.save(); ctx.transform(px.x - o.x, px.y - o.y, py.x - o.x, py.y - o.y, o.x, o.y); fn(); ctx.restore();
 }
-/* 땅 블록: 앞면·오른쪽 면은 흙 단면, 윗면은 top 색 */
+/* 땅 받침: 대기 장면의 바닥이라 지층 단면 없이 얇은 단색 옆면, 윗면은 top 색 */
 function soilBlock(ctx, I, zt, top, seed) {
   ["front", "right"].forEach(function (side) {
     I.face(ctx, side, function (Lw) {
-      var g = ctx.createLinearGradient(0, 0, 0, zt); g.addColorStop(0, "#4f3b29"); g.addColorStop(1, "#b48d5c");
-      ctx.fillStyle = g; ctx.fillRect(0, 0, Lw, zt);
-      ctx.fillStyle = "#5f8f45"; ctx.fillRect(0, zt - 3, Lw, 3);
-      var R = K.rng((seed || 3) + (side === "front" ? 0 : 9));
-      for (var i = 0; i < Lw * 1.2; i++) { ctx.fillStyle = R() > .5 ? "rgba(255,255,255,.15)" : "rgba(30,20,10,.22)"; ctx.fillRect(R() * Lw, R() * zt, 1.5, 1.5); }
-      ctx.strokeStyle = "rgba(40,25,10,.2)"; ctx.lineWidth = 1;
-      for (var zz = 8; zz < zt - 4; zz += 9) { ctx.beginPath(); ctx.moveTo(0, zz); ctx.lineTo(Lw, zz + 1.5); ctx.stroke(); }
+      ctx.fillStyle = "#8a6a48"; ctx.fillRect(0, 0, Lw, zt);
     });
   });
   I.shade(ctx, "front", function () { return zt; }); I.shade(ctx, "right", function () { return zt; });
@@ -306,7 +300,7 @@ function flow(ctx, a, b, val, col, lab, side, box) {
     function xOf(L) { return X0 + (Math.log(L) / Math.LN10 + 1) / 2.602 * (X1 - X0); }
     function yOf(t) { return YB - t * (YB - YT); }
     /* ── 대기 판 모형: 땅 블록(0~SZG) 위 대기(SZG~SZT), 오존층(SZO0~SZO1) ── */
-    var SI = K.iso({ ox: 196, oy: 232, s: 0.8, L: 480, D: 110 }), SZG = 24, SZT = 170, SZO0 = SZT - 40, SZO1 = SZT - 12, SZW = SZG + 70;
+    var SI = K.iso({ ox: 196, oy: 221, s: 0.8, L: 480, D: 110 }), SZG = 10, SZT = 156, SZO0 = SZT - 40, SZO1 = SZT - 12, SZW = SZG + 70;
     var SMOL = (function () {
       var R = K.rng(41), out = [], i;
       for (i = 0; i < 16; i++) out.push(["o3", 20 + R() * 440, 10 + R() * 90, SZO0 + 5 + R() * 18]);
@@ -795,8 +789,8 @@ function flow(ctx, a, b, val, col, lab, side, box) {
     var foA = { on: !REDUCE }, foT = 0;
     /* ── 아이소메트릭 블록 모형: x = 동해·영동(왼쪽 위) → 영서(오른쪽 아래), y = 산맥이 뻗은 방향.
           공기 덩어리는 앞면 가까이(y = YP)를 따라 산을 넘는다. 높이는 크게 과장(1,500 m ≈ 165 그림 단위). ── */
-    var I = K.iso({ ox: 290, oy: 196, s: 0.8, L: 640, D: 180 });
-    var BL = I.L, BD = I.D, ZB = 40, ZM = 0.11, XM = 330, YP = BD - 30;
+    var I = K.iso({ ox: 290, oy: 182, s: 0.8, L: 640, D: 180 });
+    var BL = I.L, BD = I.D, ZB = 32, ZM = 0.11, XM = 330, YP = BD - 30;
     function zm(mm) { return ZB + mm * ZM; }
     function prof(x) {                       /* 공기가 지나는 길의 땅 높이(m): 동쪽은 가파르고 서쪽은 완만한 산맥 */
       if (x < 48) return -260 * Math.pow(1 - x / 48, 1.4);
@@ -864,20 +858,15 @@ function flow(ctx, a, b, val, col, lab, side, box) {
           c.fillStyle = "rgba(" + Math.round(50 - dep) + "," + Math.round(130 - dep * 1.5) + ",210," + Math.min(.9, .45 + dep / 40).toFixed(2) + ")"; c.fill();
         }
       });
-      /* 앞면·오른쪽 면: 암석 단면 + 겉흙 */
+      /* 앞면·오른쪽 면: 지층 없이 한 가지 색으로 채운 산 (땅속은 이 장면의 주제가 아님) */
       ["front", "right"].forEach(function (side) {
         var zf = faceZ(side);
         I.face(ctx, side, function (Lw) {
           I.profile(ctx, side, zf, 0);
-          var g = ctx.createLinearGradient(0, 0, 0, zm(MH)); g.addColorStop(0, "#4f4740"); g.addColorStop(.3, "#857866"); g.addColorStop(1, "#b8a78c");
-          ctx.fillStyle = g; ctx.fill();
-          ctx.save(); I.profile(ctx, side, zf, 0); ctx.clip();
-          var R = K.rng(side === "front" ? 41 : 43);
-          for (var i = 0; i < Lw * 1.4; i++) { ctx.fillStyle = R() > .5 ? "rgba(255,255,255,.16)" : "rgba(40,30,20,.24)"; ctx.fillRect(R() * Lw, R() * zm(MH), 1.8, 1.8); }
-          ctx.strokeStyle = "#6b4a2e"; ctx.lineWidth = 5; ctx.beginPath();
-          for (var u = 0; u <= Lw; u += 4) ctx.lineTo(u, zf(u) - 2.5);
+          ctx.fillStyle = "#9a8566"; ctx.fill();
+          ctx.strokeStyle = "rgba(70,55,35,.55)"; ctx.lineWidth = 1.5; ctx.beginPath();
+          for (var u = 0; u <= Lw; u += 4) ctx.lineTo(u, zf(u));
           ctx.stroke();
-          ctx.restore();
           if (side === "front") {                                            /* 동해 단면 */
             ctx.beginPath(); ctx.moveTo(0, wz);
             for (var u2 = 0; u2 <= 50; u2 += 2) ctx.lineTo(u2, Math.min(wz, zf(u2)));
@@ -1027,8 +1016,8 @@ function flow(ctx, a, b, val, col, lab, side, box) {
 
     var stA = { on: !REDUCE }, stT = 0;
     /* ── 공기 기둥 블록(유리): 앞면 색 = 주변 기온(높이 0~3,000 m), 속에서 공기 덩어리(공)가 움직인다 ── */
-    var LW = 520, RX = 532, ZG = 24, ZT = 280;
-    var I = K.iso({ ox: 296, oy: 372, s: 0.95, L: 200, D: 130 });
+    var LW = 520, RX = 532, ZG = 10, ZT = 266;
+    var I = K.iso({ ox: 296, oy: 349, s: 0.95, L: 200, D: 130 });
     function zOfM(m) { return ZG + m / 3000 * (ZT - ZG); }
     function paint() {
       var KD = kind(), up = rising(), L = I.L, D = I.D, i;
@@ -1073,7 +1062,7 @@ function flow(ctx, a, b, val, col, lab, side, box) {
       /* ── 오른쪽: 단열선도 카드 ── */
       var envT = TG - gam * 10, parT = TG - parcelRate() * 10;
       judgeCard(ctx, RX, W, H, KD === "unstable" ? "절대 불안정" : KD === "inv" ? "역전층 (매우 안정)" : KD === "stable" ? "절대 안정" : "조건부 불안정", up ? LT.green : LT.violet, "주변 감률 " + gam.toFixed(2) + " ℃/100 m");
-      var g = K.chart(ctx, { x: RX + 6, y: 84, w: W - RX - 16, h: 300, x0: -25, x1: 35, y0: 0, y1: 3000, xt: 6, yt: 3, xl: "기온 (℃)", yl: "높이 (m)", light: true });
+      var g = K.chart(ctx, { x: RX + 6, y: 84, w: W - RX - 16, h: 280, x0: -25, x1: 35, y0: 0, y1: 3000, xt: 6, yt: 3, xl: "기온 (℃)", yl: "높이 (m)", light: true });
       ctx.save(); ctx.beginPath(); ctx.rect(g.L, g.T - 2, g.R - g.L, g.B - g.T + 2); ctx.clip();
       K.plot(ctx, g, [[TG, 0], [TG - 30, 3000]], LT.orange, { light: true, w: wet ? 1.6 : 4 });
       K.plot(ctx, g, [[TG, 0], [TG - 15, 3000]], LT.blue, { light: true, w: wet ? 4 : 1.6 });
@@ -1081,9 +1070,9 @@ function flow(ctx, a, b, val, col, lab, side, box) {
       K.line(ctx, { x: g.X(Math.min(envT, parT)), y: g.Y(1000) }, { x: g.X(Math.max(envT, parT)), y: g.Y(1000) }, up ? LT.green : LT.violet, 3, [4, 3]);
       ctx.restore();
       var px = RX + 18, px1 = W - 18;
-      K.row(ctx, "1,000 m에서 덩어리 − 주변", (parT - envT >= 0 ? "+" : "") + (parT - envT).toFixed(1) + " ℃", px, px1, 420, parT > envT ? LT.green : LT.violet);
-      K.tip(ctx, parT > envT ? "덩어리가 더 따뜻하다 → 가벼워 계속 상승" : "덩어리가 더 차갑다 → 무거워 되돌아옴", px - 4, 432, px1 - px + 8, parT > envT);
-      var lx = px, ly = 494; [["주변 대기", LT.ink], ["건조 단열 1.0", LT.orange], ["습윤 단열 0.5 ℃/100 m", LT.blue]].forEach(function (q) { ctx.font = "800 12px " + K.FONT; var qw = 22 + ctx.measureText(q[0]).width; if (lx + qw > px1) { lx = px; ly += 24; } ctx.fillStyle = q[1]; ctx.fillRect(lx, ly - 6, 16, 4); K.t(ctx, q[0], lx + 22, ly, { s: 12, w: "800", c: q[1] }); lx += qw + 16; });
+      K.row(ctx, "1,000 m에서 덩어리 − 주변", (parT - envT >= 0 ? "+" : "") + (parT - envT).toFixed(1) + " ℃", px, px1, 398, parT > envT ? LT.green : LT.violet);
+      K.tip(ctx, parT > envT ? "덩어리가 더 따뜻하다 → 가벼워 계속 상승" : "덩어리가 더 차갑다 → 무거워 되돌아옴", px - 4, 410, px1 - px + 8, parT > envT);
+      var lx = px, ly = 472; [["주변 대기", LT.ink], ["건조 단열 1.0", LT.orange], ["습윤 단열 0.5 ℃/100 m", LT.blue]].forEach(function (q) { ctx.font = "800 12px " + K.FONT; var qw = 22 + ctx.measureText(q[0]).width; if (lx + qw > px1) { lx = px; ly += 24; } ctx.fillStyle = q[1]; ctx.fillRect(lx, ly - 6, 16, 4); K.t(ctx, q[0], lx + 22, ly, { s: 12, w: "800", c: q[1] }); lx += qw + 16; });
     }
     K.animate(canvas, function (dt) { if (stA.on) { stT += dt / 1000; paint(); } });
     playWire("b-stab-play", stA, "덩어리 멈추기", "덩어리 놓기");
@@ -1136,8 +1125,8 @@ function flow(ctx, a, b, val, col, lab, side, box) {
 
     var rnA = { on: !REDUCE }, rnT = 0;
     /* ── 하늘 기둥 블록: 땅 위 0~12 km, 구름은 밑면 1 km 부터 꼭대기까지. 빨간 판 = 등온면 ── */
-    var LW = 600, RX = 612, ZG = 20, KMZ = 25;
-    var I = K.iso({ ox: 230, oy: 336, s: 0.62, L: 300, D: 130 });
+    var LW = 600, RX = 612, ZG = 8, KMZ = 25;
+    var I = K.iso({ ox: 230, oy: 296, s: 0.62, L: 300, D: 130 });
     var layer = cacheLayer(canvas, W, H);
     function zK(km) { return ZG + km * KMZ; }
     function star6(x, y, r, col) {
@@ -1326,8 +1315,8 @@ function flow(ctx, a, b, val, col, lab, side, box) {
 
     var prA = { on: !REDUCE }, prT = 0;
     /* ── 공기 기둥 블록(유리): 땅 위 0~20 km, 분자 점은 아래로 갈수록 촘촘 ── */
-    var LW = 520, RX = 532, ZG = 20, KZ = 12.5;
-    var I = K.iso({ ox: 280, oy: 380, s: 1.0, L: 180, D: 120 });
+    var LW = 520, RX = 532, ZG = 8, KZ = 12.5;
+    var I = K.iso({ ox: 280, oy: 356, s: 1.0, L: 180, D: 120 });
     var MOL = (function () { var R = K.rng(37), out = [], i; for (i = 0; i < 900; i++) { var zz = -Math.log(1 - R() * 0.98) * 8; if (zz <= 20) out.push([6 + R() * 168, 6 + R() * 108, zz, R() * 6.28]); } return out; })();
     function zK(km) { return ZG + km * KZ; }
     function paint() {
@@ -1355,7 +1344,7 @@ function flow(ctx, a, b, val, col, lab, side, box) {
       /* ── 오른쪽: 밝은 그래프 카드 ── */
       var hit = Math.abs(p - P0 / 2) <= 15 ? "지표의 1/2 ✓" : (Math.abs(p - P0 / 10) <= 5 ? "지표의 1/10 ✓" : (dp >= 100 ? "1 km에 100 hPa ✓" : p.toFixed(1) + " hPa"));
       judgeCard(ctx, RX, W, H, hit, hit.indexOf("✓") >= 0 ? LT.green : LT.ink, "위에 쌓인 공기의 무게 = 기압");
-      var g = K.chart(ctx, { x: RX + 6, y: 84, w: W - RX - 16, h: 300, x0: 0, x1: 1050, y0: 0, y1: 20, xt: 7, yt: 4, xl: "기압 (hPa)", yl: "높이 (km)", light: true });
+      var g = K.chart(ctx, { x: RX + 6, y: 84, w: W - RX - 16, h: 280, x0: 0, x1: 1050, y0: 0, y1: 20, xt: 7, yt: 4, xl: "기압 (hPa)", yl: "높이 (km)", light: true });
       [[P0 / 2, "1/2"], [P0 / 10, "1/10"]].forEach(function (m) { K.line(ctx, { x: g.X(m[0]), y: g.T }, { x: g.X(m[0]), y: g.B }, "rgba(112,72,232,.6)", 1.4, [5, 4]); K.t(ctx, m[1], g.X(m[0]) + 4, g.T + 12, { s: 10.5, w: "800", c: LT.violet }); });
       var pts = []; for (var s = 0; s <= 200; s++) pts.push([pres(s / 10), s / 10]);
       K.plot(ctx, g, pts, LT.green, { light: true, w: 3 });
@@ -1363,9 +1352,9 @@ function flow(ctx, a, b, val, col, lab, side, box) {
       K.line(ctx, { x: g.X(p), y: g.Y(z) }, { x: g.X(p), y: g.B }, LT.orange, 1.6, [5, 4]);
       ctx.fillStyle = "#fff"; ctx.strokeStyle = LT.orange; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(g.X(p), g.Y(z), 6, 0, 6.2832); ctx.fill(); ctx.stroke();
       var px = RX + 18, px1 = W - 18;
-      K.row(ctx, "고도 " + z.toFixed(1) + " km의 기압", p.toFixed(1) + " hPa", px, px1, 418, LT.orange);
-      K.row(ctx, "1 km 더 오르면", "−" + dp.toFixed(1) + " hPa", px, px1, 444, dp >= 100 ? LT.red : LT.ink);
-      K.tip(ctx, z < 1.5 ? "지표 부근: 100 m마다 약 12 hPa" : "위로 갈수록 덜 줄어듭니다(지수 함수 모양)", px - 4, 460, px1 - px + 8, null);
+      K.row(ctx, "고도 " + z.toFixed(1) + " km의 기압", p.toFixed(1) + " hPa", px, px1, 398, LT.orange);
+      K.row(ctx, "1 km 더 오르면", "−" + dp.toFixed(1) + " hPa", px, px1, 424, dp >= 100 ? LT.red : LT.ink);
+      K.tip(ctx, z < 1.5 ? "지표 부근: 100 m마다 약 12 hPa" : "위로 갈수록 덜 줄어듭니다(지수 함수 모양)", px - 4, 440, px1 - px + 8, null);
     }
     K.animate(canvas, function (dt) { if (prA.on) { prT += dt / 1000; paint(); } });
     playWire("c-prof-play", prA, "분자 멈추기", "분자 움직이기");
