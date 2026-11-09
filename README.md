@@ -2,14 +2,14 @@
 
 학생이 직접 조작하며 배우는 **이야기형 인터랙티브 단원** 모음입니다. 브라우저만 있으면 되고, 설치·회원 가입이 없습니다.
 
-- 바로 열기: https://wmfsljy-coder.github.io/earth-system-2/
+- 바로 열기: https://wmfsljy-coder.github.io/earth-system-2-yd8mc7/
 
 ## 단원
 
 | 단원 | 제목 | 이야기(탭) | 수준별 문제 | 응용 실험실 |
 |---|---|---|---|---|
-| [2-1](https://wmfsljy-coder.github.io/earth-system-2/2-1/) | 해수의 운동 | 에크만 수송과 지형류 · 해파의 발생과 전파 · 해일 · 조석 | ○ | ○ |
-| [2-2](https://wmfsljy-coder.github.io/earth-system-2/2-2/) | 강수 과정과 대기의 운동 | 대기의 선택적 흡수와 열수지 · 단열 변화와 대기 안정도 · 기압의 연직 분포와 정역학적 균형 · 지균풍·경도풍과 행성파 | ○ | ○ |
+| [2-1](https://wmfsljy-coder.github.io/earth-system-2-yd8mc7/2-1/) | 해수의 운동 | 에크만 수송과 지형류 · 해파의 발생과 전파 · 해일 · 조석 | ○ | ○ |
+| [2-2](https://wmfsljy-coder.github.io/earth-system-2-yd8mc7/2-2/) | 강수 과정과 대기의 운동 | 대기의 선택적 흡수와 열수지 · 단열 변화와 대기 안정도 · 기압의 연직 분포와 정역학적 균형 · 지균풍·경도풍과 행성파 | ○ | ○ |
 
 ## 한 단원의 구성
 
@@ -23,8 +23,8 @@
 ## 내 학교에서 쓰기
 
 1. 이 저장소를 **Fork** 하거나 *Use this template* 으로 복사합니다.
-2. Settings → Pages → Branch 를 `main` / `(root)` 로 두면 몇 분 뒤 `https://<내 계정>.github.io/earth-system-2/` 에 열립니다.
-3. **우리 반 공유**를 쓰려면 `assets/share-config.js` 의 주소를 내 Apps Script 웹 앱 주소로 바꿉니다(만드는 법: science-teacher-hub 의 [GUIDE.md](https://github.com/wmfsljy-coder/science-teacher-hub/blob/main/GUIDE.md)). 바꾸지 않으면 공유 기능만 꺼지고 나머지는 그대로 됩니다.
+2. Settings → Pages → Branch 를 `main` / `(root)` 로 두면 몇 분 뒤 `https://<내 계정>.github.io/earth-system-2-yd8mc7/` 에 열립니다.
+3. **우리 반 공유**를 쓰려면 `assets/share-config.js` 의 주소를 내 Apps Script 웹 앱 주소로 바꿉니다(만드는 법: science-teacher-hub 의 [GUIDE.md](https://github.com/wmfsljy-coder/science-teacher-hub-qtrqwc/blob/main/GUIDE.md)). 바꾸지 않으면 공유 기능만 꺼지고 나머지는 그대로 됩니다.
 4. 반 목록을 고르게 하려면 `assets/share-config.js` 에 `window.STH_CLASSES = [{ v: "1-1", t: "1학년 1반" }, …]` 를 적습니다.
 
 ## 라이선스
