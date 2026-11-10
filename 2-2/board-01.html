@@ -546,7 +546,7 @@
     win:  ["M660 410 V6", "#e03131", 6, 675, 38, "대기의 창 8", "#fff", 1],
     lat:  ["M790 410 V292", "#0b7f99", 9, 805, 365, "숨은열 20", "#161b28", 0],
     conv: ["M920 410 V292", "#e8590c", 6, 935, 365, "대류·전도 9", "#161b28", 0],
-    back: ["M1080 280 V398", "#e03131", 22, 1100, 365, "재복사 ②", "#161b28", 0],
+    back: ["M1115 280 V398", "#e03131", 22, 1135, 365, "재복사 ②", "#161b28", 0],
     out:  ["M1120 120 V6", "#e03131", 17, 1138, 38, "대기 방출 ①", "#fff", 1]
   };
   var SETS = {   // 장면별: 짚는 화살표, 단계, ①·② 값
@@ -554,17 +554,17 @@
     sfc:   { focus: ["sfc", "ir", "lat", "conv", "back"], steps: {}, v1: "?", v2: "?", zone: "sfc" },
     space: { focus: ["sun", "refl", "win", "out"], steps: {}, v1: "?", v2: "88", zone: "space" }
   };
-  function hbSvg(set) {
+  function hbSvg(set, k) {   /* k: 그림마다 다른 id 꼬리표(숨은 장면의 정의를 가리키면 그려지지 않는다) */
     var h = "<svg class='hb focus' viewBox='0 0 1400 480' width='1400' height='480' aria-label='전 지구 평균 열수지 그림(태양 복사 100 단위)'>";
-    h += "<defs><linearGradient id='hbA' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='#e7f5ff'/><stop offset='1' stop-color='#cfe6ff'/></linearGradient>";
-    h += "<linearGradient id='hbG' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='#94d82d'/><stop offset='.18' stop-color='#a47148'/><stop offset='1' stop-color='#6f4a2e'/></linearGradient>";
-    ["f59f00", "adb5bd", "e03131", "0b7f99", "e8590c"].forEach(function (c) { h += "<marker id='hm" + c + "' viewBox='0 0 10 10' refX='7' refY='5' markerWidth='2.6' markerHeight='2.6' orient='auto'><path d='M0 0 L10 5 L0 10 Z' fill='#" + c + "'/></marker>"; });
+    h += "<defs><linearGradient id='hbA" + k + "' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='#e7f5ff'/><stop offset='1' stop-color='#cfe6ff'/></linearGradient>";
+    h += "<linearGradient id='hbG" + k + "' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='#94d82d'/><stop offset='.18' stop-color='#a47148'/><stop offset='1' stop-color='#6f4a2e'/></linearGradient>";
+    ["f59f00", "adb5bd", "e03131", "0b7f99", "e8590c"].forEach(function (c) { h += "<marker id='hm" + c + k + "' viewBox='0 0 10 10' refX='7' refY='5' markerWidth='2.6' markerHeight='2.6' orient='auto'><path d='M0 0 L10 5 L0 10 Z' fill='#" + c + "'/></marker>"; });
     h += "</defs>";
     h += "<rect x='0' y='0' width='1400' height='56' rx='10' fill='#1f2a44'/>";
-    h += "<rect x='0' y='120' width='1400' height='160' rx='14' fill='url(#hbA)'/>";
+    h += "<rect x='0' y='120' width='1400' height='160' rx='14' fill='url(#hbA" + k + ")'/>";
     h += "<text x='1388' y='150' font-size='24' font-weight='900' fill='#1864ab' text-anchor='end'>대기</text>";
 
-    h += "<rect x='0' y='410' width='1400' height='70' rx='10' fill='url(#hbG)'/>";
+    h += "<rect x='0' y='410' width='1400' height='70' rx='10' fill='url(#hbG" + k + ")'/>";
     h += "<text x='1388' y='460' font-size='24' font-weight='900' fill='#fff' text-anchor='end'>지표</text>";
     h += "<text x='1388' y='38' font-size='22' font-weight='900' fill='#aab3c5' text-anchor='end'>우주</text>";
     if (set.zone === "sfc") h += "<rect x='4' y='290' width='1392' height='186' rx='14' fill='none' stroke='#1462d8' stroke-width='5' stroke-dasharray='14 8'/>";
@@ -576,7 +576,7 @@
       var st = set.steps[id] ? " data-step='" + set.steps[id] + "'" : "";
       var f = set.focus.indexOf(id) >= 0 ? " f" : "";
       h += "<g class='arr" + f + "'" + st + ">";
-      h += "<path d='" + a[0] + "' fill='none' stroke='" + a[1] + "' stroke-width='" + a[2] + "' marker-end='url(#hm" + c + ")'" + (id === "win" ? " stroke-dasharray='14 8'" : "") + "/>";
+      h += "<path d='" + a[0] + "' fill='none' stroke='" + a[1] + "' stroke-width='" + a[2] + "' marker-end='url(#hm" + c + k + ")'" + (id === "win" ? " stroke-dasharray='14 8'" : "") + "/>";
       if (id === "atm") h += "<circle cx='360' cy='215' r='12' fill='#f59f00'/>";
       if (id === "ir") h += "<circle cx='560' cy='288' r='0'/>";
       var txt = a[6] === "#fff" ? "" : " stroke='#fff' stroke-width='6' paint-order='stroke'";
@@ -585,7 +585,7 @@
     h += "<text x='1388' y='270' font-size='18' fill='#5f6b80' text-anchor='end'>화살표 굵기 ∝ 양 · 반올림한 대푯값</text>";
     return h + "</svg>";
   }
-  Array.prototype.forEach.call(document.querySelectorAll(".hbwrap"), function (w) { w.innerHTML = hbSvg(SETS[w.getAttribute("data-hb")]); });
+  Array.prototype.forEach.call(document.querySelectorAll(".hbwrap"), function (w) { w.innerHTML = hbSvg(SETS[w.getAttribute("data-hb")], w.getAttribute("data-hb")); });
 })();
 </script>
 </body>
