@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개념정리 학습지 · 대기의 선택적 흡수와 열수지 (지구시스템과학 Ⅱ-2 01)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<style>
+  /* 개념정리 학습지 — 칠판 강의 화면(board-01.html)의 빈칸 번호와 1:1. 주소 끝 ?key=1 이면 교사용 정답이 보인다. */
+  @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&display=swap');
+  @page { size: A4; margin: 13mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9edf2; font-family: "Gothic A1", "Malgun Gothic", sans-serif; color: #161b28; }
+  .paper { width: 210mm; min-height: 297mm; margin: 18px auto; background: #fff; padding: 13mm 14mm; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  .tools { width: 210mm; margin: 18px auto 0; display: flex; gap: 10px; justify-content: flex-end; font-size: 14px; }
+  .tools a, .tools button { font: inherit; font-weight: 800; padding: 8px 14px; border-radius: 10px; border: 2px solid #c9d1dd; background: #fff; color: #161b28; text-decoration: none; cursor: pointer; }
+  .tools button.main { background: #1462d8; border-color: #1462d8; color: #fff; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #161b28; padding-bottom: 8px; margin-bottom: 12px; }
+  header .k { font-size: 11.5px; font-weight: 800; color: #5f6b80; }
+  header h1 { font-size: 22px; font-weight: 900; margin: 2px 0 0; letter-spacing: -.03em; }
+  header .who { display: flex; gap: 8px; font-size: 12px; font-weight: 800; }
+  header .who span { border: 1.5px solid #9aa4b5; border-radius: 6px; padding: 6px 10px; min-width: 92px; }
+  .key-mark { display: none; color: #d9302c; font-weight: 900; font-size: 12px; }
+  .key .key-mark { display: inline; }
+  .guide { font-size: 11.5px; color: #5f6b80; margin: 0 0 10px; }
+  h2 { font-size: 15.5px; font-weight: 900; margin: 11px 0 5px; padding: 4px 10px; background: #eef2f8; border-left: 5px solid #1462d8; border-radius: 4px; }
+  p, li { font-size: 13.5px; line-height: 1.88; margin: 0; }
+  ul { margin: 0; padding-left: 18px; }
+  .blank { position: relative; display: inline-block; min-width: 4.4em; padding: 0 1.1em 0 1.7em; margin: 0 2px; border-bottom: 1.6px solid #161b28; color: transparent; line-height: 1.5; text-align: center; font-weight: 800; }
+  .blank::before { content: attr(data-n); position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; background: #1462d8; color: #fff; font-size: 9.5px; font-weight: 900; line-height: 15px; text-align: center; }
+  .key .blank { color: #d9302c; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin: 4px 0 2px; }
+  td, th { border: 1px solid #c9d1dd; padding: 4px 8px; text-align: left; line-height: 1.6; }
+  th { background: #f4f6fa; font-weight: 800; }
+  .formula { font-weight: 800; background: #f8fafc; border: 1px dashed #c9d1dd; border-radius: 6px; padding: 2px 10px; display: inline-block; }
+  .q { margin-top: 6px; }
+  .q p { line-height: 1.7; }
+  .q .ans { display: none; color: #d9302c; font-weight: 900; }
+  .key .q .ans { display: inline; }
+  .write { border: 1.5px solid #9aa4b5; border-radius: 8px; height: 54px; margin-top: 4px; }
+  .foot { margin-top: 10px; font-size: 10.5px; color: #8a94a6; display: flex; justify-content: space-between; }
+  @media print {
+    body { background: #fff; }
+    .tools { display: none; }
+    .paper { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="tools">
+  <a href="board-01.html">칠판 강의 화면</a>
+  <a id="keyLink" href="?key=1">교사용 정답 보기</a>
+  <button class="main" onclick="window.print()">인쇄하기</button>
+</div>
+<div class="paper">
+  <header>
+    <div>
+      <div class="k">지구시스템과학 · Ⅱ-2 강수 과정과 대기의 운동 · 01 &nbsp;<span class="key-mark">[교사용 정답]</span></div>
+      <h1>개념정리 학습지 · 대기의 선택적 흡수와 열수지</h1>
+    </div>
+    <div class="who"><span>학번</span><span>이름</span></div>
+  </header>
+  <p class="guide">칠판 화면에 번호가 열리면 같은 번호 빈칸에 받아 적으세요. (빈칸 1~14)</p>
+
+  <h2>① 대기의 선택적 흡수</h2>
+  <ul>
+    <li>태양 복사(약 5,800 K): 0.5 µm 부근이 가장 강함 → 파장이 짧은 <b class="blank" data-n="1">단파</b> 복사</li>
+    <li>지구 복사(약 288 K): 10 µm 부근이 가장 강함 → 파장이 긴 <b class="blank" data-n="2">장파</b> 복사(적외선)</li>
+  </ul>
+  <table>
+    <tr><th style="width:22%">빛(파장)</th><th>대기는</th><th style="width:38%">그 결과</th></tr>
+    <tr><td>자외선(0.3 µm 미만)</td><td><b class="blank" data-n="3">오존</b>이 거의 모두 흡수</td><td>지표의 생명체를 지킨다</td></tr>
+    <tr><td><b class="blank" data-n="4">가시광선</b></td><td>대부분 통과</td><td>낮이 환하고 지표가 데워진다</td></tr>
+    <tr><td>적외선(5 µm 이상)</td><td><b class="blank" data-n="5">수증기·이산화 탄소</b>가 흡수</td><td>대기가 데워져 다시 지표로 내보낸다</td></tr>
+    <tr><td>8~12 µm</td><td>거의 통과: <b class="blank" data-n="6">대기의 창</b></td><td>지구 복사 일부가 우주로 빠져나간다</td></tr>
+  </table>
+  <p>→ 대기를 이루는 기체들은 파장에 따라 흡수하는 정도가 다른 <b class="blank" data-n="7">선택적 흡수체</b>이다.</p>
+
+  <h2>② 복사 평형 온도와 온실 효과</h2>
+  <ul>
+    <li>흡수하는 에너지 = 방출하는 에너지 → 온도가 일정: <b class="blank" data-n="8">복사 평형</b></li>
+    <li>받는 면은 원판(πR²), 내보내는 면은 공 전체(4πR²) → <span class="formula">σT⁴ = S(1 − A) ÷ 4</span></li>
+    <li>S = 1,361 W/m², A = 0.3 → S(1 − A) ÷ 4 ≈ 238 W/m² → T ≈ 255 K ≈ 약 <b class="blank" data-n="9">−18</b> ℃</li>
+    <li>실제 평균 기온 약 15 ℃ → 33 ℃의 차이 = <b class="blank" data-n="10">온실 효과</b> (대기가 흡수한 지구 복사를 지표로 재복사)</li>
+  </ul>
+
+  <h2>③ 전 지구 평균 열수지 (태양 복사 = 100 단위)</h2>
+  <table>
+    <tr><th>관측값</th><td>반사 30 · 대기·구름 흡수 25 · 지표 흡수 45 · 지표 복사 104 · 대기의 창 8 · 숨은열 20 · 대류·전도 9</td></tr>
+  </table>
+  <ul>
+    <li>지표: 45 + ② = 104 + 20 + 9 → ② 재복사 = <b class="blank" data-n="11">88</b></li>
+    <li>대기권 밖: 100 = 30 + 8 + ① → ① 대기·구름이 우주로 내보내는 지구 복사 = <b class="blank" data-n="12">62</b></li>
+    <li>대기: 받는 것 25 + 96 + 20 + 9 = <b class="blank" data-n="13">150</b> = 잃는 것 62 + 88 → 세 곳 모두 받은 양 = 잃은 양</li>
+    <li>위도별: 저위도는 에너지 과잉, 고위도는 부족 → 남는 에너지를 <b class="blank" data-n="14">대기와 해수</b>의 운동이 고위도로 나른다.</li>
+  </ul>
+
+  <h2>문제로 확인하기</h2>
+  <div class="q">
+    <p>1. 지표 흡수 45, 재복사 88, 지표 복사 104, 숨은열 20일 때 지표에서 대류·전도로 잃는 양은? &nbsp;㉠ 5 &nbsp;㉡ 9 &nbsp;㉢ 29 <span class="ans">→ ㉡</span></p>
+    <p>2. 대기의 창에 대한 설명으로 옳은 것은? <span class="ans">→ ㉡</span><br>
+      ㉠ 자외선이 지표까지 들어오는 통로이다 &nbsp; ㉡ 8~12 µm 지구 복사가 우주로 빠져나간다 &nbsp; ㉢ 이산화 탄소가 가장 많이 흡수하는 파장대이다</p>
+  </div>
+  <h2>한 문장 정리</h2>
+  <p>달의 하루 기온 차가 300 ℃에 이르는 까닭을 '대기'와 '재복사'라는 말을 넣어 한 문장으로 쓰세요.</p>
+  <div class="write"></div>
+  <div class="foot"><span>칠판 강의 화면: board-01.html · 이야기 ① 「달 기지 설계도」</span><span>과학 수업 도구</span></div>
+</div>
+<script>
+  if (new URLSearchParams(location.search).get("key") === "1") {
+    document.body.classList.add("key");
+    var a = document.getElementById("keyLink"); a.textContent = "학생용으로 보기"; a.href = "?";
+  }
+</script>
+</body>
+</html>

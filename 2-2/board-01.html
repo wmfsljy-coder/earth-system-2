@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>칠판 강의 · 대기의 선택적 흡수와 열수지 (지구시스템과학 Ⅱ-2 01)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/board.css">
+<style>
+  @keyframes earthIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .current .art .ewrap { animation: earthIn 1.2s ease both; }
+  .graph { display: block; margin: 0 auto; }
+  .lines p { margin-bottom: 8px; }
+  .eq { font-size: 34px; font-weight: 800; letter-spacing: -.02em; line-height: 1.55; }
+  .eq .v { font-variant-numeric: tabular-nums; }
+  .hbwrap { position: relative; }
+  .hb .arr { transition: opacity .4s; }
+  .hb.focus .arr { opacity: .13; }
+  .hb.focus .arr.f { opacity: 1; }
+  .ledger-strip { display: flex; gap: 28px; align-items: center; margin-top: 14px; }
+  .ledger-strip .card { padding: 18px 26px; }
+  .moon-earth { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  .me { border-radius: 24px; padding: 26px 30px; }
+  .me.moon { background: #2b2f38; color: #f1f3f5; }
+  .me.earth { background: #e3f1ff; }
+  .me h3 { font-size: 38px; margin-bottom: 10px; }
+  .me .t { font-size: 58px; font-weight: 900; letter-spacing: -.03em; line-height: 1.15; }
+  .me .t small { font-size: 26px; font-weight: 700; opacity: .8; }
+  .me ul { margin: 14px 0 0; padding-left: 26px; }
+  .me li { font-size: 26px; line-height: 1.5; margin: 0 0 4px; }
+  .roles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 20px; }
+  .roles .card { min-height: 330px; }
+  .roles .ic { font-size: 56px; }
+  .roles h3 { font-size: 32px; margin: 8px 0 6px; }
+  .roles .sb { font-size: 22px; font-weight: 800; color: var(--blue); display: block; margin-bottom: 10px; }
+  .roles p { font-size: 24px; line-height: 1.5; color: var(--mute); }
+  .sumlist { list-style: none; padding: 0; margin: 0; }
+  .sumlist li { position: relative; padding: 16px 24px 16px 84px; margin-bottom: 14px; background: #fff; border-radius: 20px; font-size: 29px; }
+  .sumlist li::before { content: attr(data-k); position: absolute; left: 24px; top: 16px; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 900; font-size: 24px; text-align: center; line-height: 44px; }
+  .q { font-size: 31px !important; font-weight: 800; margin-bottom: 14px !important; }
+  #s-quiz .opt { font-size: 26px; padding: 14px 22px; }
+</style>
+</head>
+<body>
+<div class="deck"><div class="stage">
+
+<!-- 1 표지 -->
+<section class="slide dark cover" id="s-cover" data-title="표지">
+  <div class="art">
+    <svg viewBox="0 0 1600 520" aria-label="대기에 둘러싸인 지구: 햇빛은 들어오고 지구가 내보내는 적외선 일부는 대기가 붙잡는다">
+      <defs>
+        <radialGradient id="cE" cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#4dabf7"/><stop offset=".55" stop-color="#1864ab"/><stop offset="1" stop-color="#0b2a4a"/></radialGradient>
+        <radialGradient id="cAtm" cx="50%" cy="100%" r="60%"><stop offset=".86" stop-color="#74c0fc" stop-opacity=".0"/><stop offset=".9" stop-color="#74c0fc" stop-opacity=".55"/><stop offset="1" stop-color="#74c0fc" stop-opacity="0"/></radialGradient>
+        <radialGradient id="cSun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#ffe066"/><stop offset="1" stop-color="#ffd43b" stop-opacity="0"/></radialGradient>
+        <marker id="mY" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ffd43b"/></marker>
+        <marker id="mR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ff6b6b"/></marker>
+      </defs>
+      <circle cx="170" cy="90" r="120" fill="url(#cSun)"/>
+      <g class="ewrap">
+        <ellipse cx="800" cy="1180" rx="1000" ry="900" fill="url(#cAtm)"/>
+        <ellipse cx="800" cy="1180" rx="900" ry="810" fill="url(#cE)"/>
+        <path d="M120 470 Q400 400 640 392 T1100 400 T1480 470" fill="none" stroke="#a5d8ff" stroke-width="2" opacity=".6"/>
+      </g>
+      <g stroke="#ffd43b" stroke-width="6" fill="none" marker-end="url(#mY)">
+        <line x1="260" y1="140" x2="560" y2="350"/><line x1="320" y1="90" x2="700" y2="330"/><line x1="380" y1="40" x2="840" y2="330"/>
+      </g>
+      <g stroke="#ff6b6b" stroke-width="5" fill="none" stroke-linecap="round">
+        <path d="M1000 360 q12 -18 0 -36 q-12 -18 0 -36 q12 -18 0 -36" marker-end="url(#mR)"/>
+        <path d="M1160 370 q12 -18 0 -36 q-12 -18 0 -36 q12 -18 0 -36 q12 -18 0 -36 q-12 -18 0 -36 q12 -18 0 -36" marker-end="url(#mR)"/>
+        <path d="M1300 390 q12 -18 0 -36 q-12 -18 0 -36 q12 -18 0 -36" marker-end="url(#mR)"/>
+      </g>
+      <text x="420" y="225" fill="#ffe066" font-size="26" font-weight="900">햇빛</text>
+      <text x="1190" y="140" fill="#ffa8a8" font-size="26" font-weight="900">지구가 내보내는 적외선</text>
+      <text x="1560" y="24" fill="#7b8598" font-size="17" text-anchor="end">⚠ 대기 두께·화살표 크기는 보기 쉽게 과장했습니다</text>
+    </svg>
+  </div>
+  <div class="ttl">
+    <p class="kicker">지구시스템과학 · Ⅱ-2 강수 과정과 대기의 운동 · 01</p>
+    <h1>대기의 선택적 흡수와 열수지</h1>
+    <p class="sub" data-step="1">같은 햇빛인데, 달은 300 ℃를 오르내리고 지구는 왜 안 그럴까</p>
+  </div>
+  <aside class="script">
+    <p>오늘은 대기가 햇빛과 지구의 열을 어떻게 다루는지, 그리고 지구 전체의 에너지 장부가 어떻게 맞는지 봅니다. 학습지 빈칸 번호가 화면 번호와 같습니다.</p>
+    <p data-at="1">부제의 질문은 오늘 마지막 장면에서 다시 답합니다.</p>
+  </aside>
+</section>
+
+<!-- 2 도입 -->
+<section class="slide soft" id="s-hook" data-title="달과 지구의 하루" data-part="도입">
+  <p class="kicker">도입 · 달 기지 설계도</p>
+  <h2>같은 거리, 같은 태양인데</h2>
+  <div class="moon-earth">
+    <div class="me moon"><h3>🌕 달</h3><div class="t">낮 약 120 ℃<br>밤 약 −170 ℃</div>
+      <ul><li>대기가 사실상 없다</li><li>자외선·우주선이 그대로 닿는다</li><li>작은 유성체가 그대로 충돌한다</li></ul></div>
+    <div class="me earth"><h3>🌍 지구</h3><div class="t">평균 약 15 ℃<br><small>하루 기온 차는 커도 수십 ℃</small></div>
+      <ul><li>대기가 있다</li><li>지표에 닿는 자외선이 크게 줄어든다</li><li>액체 상태의 물이 있다</li></ul></div>
+  </div>
+  <p class="big center mt2" data-step="1">왜 달의 하루 기온 차는 <span class="c-red">300 ℃</span>에 이를까?</p>
+  <aside class="script">
+    <p>달 기지를 설계한다고 상상해 봅시다. 달은 지구와 거의 같은 거리에서 같은 햇빛을 받는데, 낮에는 120 ℃, 밤에는 영하 170 ℃까지 내려갑니다.</p>
+    <p data-at="1">까닭을 한 문장으로 말하게 하고 답은 주지 않습니다. '대기'라는 말이 나오면 "대기가 정확히 무엇을 하길래?"라고 되묻습니다.</p>
+  </aside>
+</section>
+
+<!-- 3 키워드 -->
+<section class="slide" id="s-kw" data-title="오늘의 키워드" data-part="도입">
+  <p class="kicker">오늘의 키워드</p>
+  <h2>이 다섯 낱말로 오늘을 정리합니다</h2>
+  <div class="kw">
+    <div class="card"><b>선택적 흡수</b><span>파장에 따라 흡수하는 정도가 다르다</span></div>
+    <div class="card"><b>대기의 창</b><span>지구 복사가 대기를 거의 그대로 빠져나가는 파장대</span></div>
+    <div class="card"><b>복사 평형 온도</b><span>받는 만큼 내보낼 때의 온도</span></div>
+    <div class="card"><b>온실 효과</b><span>대기가 지표를 더 따뜻하게 하는 효과</span></div>
+    <div class="card"><b>열수지</b><span>들어온 에너지와 나간 에너지의 장부</span></div>
+  </div>
+  <div class="card blue mt2 row" style="gap:30px"><span class="blank on" style="font-size:34px;font-weight:900;flex:none"><i class="bn">1</i>빈칸</span>
+    <p style="margin:0">화면에 번호가 열리면 <b>학습지의 같은 번호</b>에 받아 적으세요. 오늘 빈칸은 <b>1~14번</b>입니다.</p></div>
+  <aside class="script"><p>키워드 다섯 개를 읽어 주기만 합니다. 정리 장면에서 모두 다시 나옵니다.</p></aside>
+</section>
+
+<!-- 4 태양 복사와 지구 복사 -->
+<section class="slide" id="s-spec" data-title="태양 복사와 지구 복사" data-part="① 선택적 흡수">
+  <p class="kicker">① 대기의 선택적 흡수 · 먼저 빛의 종류부터</p>
+  <h2>태양과 지구는 다른 빛을 낸다</h2>
+  <svg class="graph" id="specSvg" viewBox="0 0 1400 420" width="1400" height="420" aria-label="태양 복사와 지구 복사의 파장별 세기 곡선(각각 최댓값을 1로 맞춤)"></svg>
+  <div class="cols" style="margin-top:4px">
+    <p data-step="1"><span class="c-orange"><b>태양 복사</b></span> · 약 5,800 K · 0.5 µm 부근이 가장 강하다 → 파장이 짧은 <b class="blank" data-n="1" data-step="1">단파</b> 복사</p>
+    <p data-step="2"><span class="c-red"><b>지구 복사</b></span> · 약 288 K · 10 µm 부근이 가장 강하다 → 파장이 긴 <b class="blank" data-n="2" data-step="2">장파</b> 복사 (적외선)</p>
+  </div>
+  <aside class="script">
+    <p>가로축은 파장인데 한 칸이 10배인 로그 눈금이에요. 무지개 띠가 우리 눈에 보이는 가시광선입니다.</p>
+    <p data-at="1">태양처럼 뜨거운 물체는 짧은 파장, 가시광선 근처를 가장 세게 냅니다. 빈칸 1번, 단파 복사.</p>
+    <p data-at="2">지구처럼 차가운 물체는 10 µm 근처 적외선을 냅니다. 빈칸 2번, 장파 복사. 두 곡선은 각각 가장 높은 곳을 1로 맞춘 것이라 실제 세기는 태양 쪽이 훨씬 큽니다.</p>
+  </aside>
+</section>
+
+<!-- 5 선택적 흡수 -->
+<section class="slide" id="s-trans" data-title="대기는 빛을 골라서 흡수한다" data-part="① 선택적 흡수">
+  <p class="kicker">① 대기의 선택적 흡수 · 파장 0.1~40 µm를 훑어보면</p>
+  <h2>대기는 빛을 골라서 통과시킨다</h2>
+  <svg class="graph" id="transSvg" viewBox="0 0 1400 400" width="1260" height="360" aria-label="파장에 따른 대기의 투과율(단순화한 모형)"></svg>
+  <div class="cols" style="gap:14px 40px">
+    <p data-step="1">자외선(0.3 µm 미만): <b class="blank" data-n="3" data-step="1">오존</b>이 거의 모두 흡수</p>
+    <p data-step="2"><b class="blank" data-n="4" data-step="2">가시광선</b>: 대부분 통과 → 낮이 환하다</p>
+    <p data-step="3">적외선(5 µm 이상): <b class="blank" data-n="5" data-step="3">수증기·이산화 탄소</b>가 흡수</p>
+    <p data-step="4">8~12 µm: <b class="blank" data-n="6" data-step="4">대기의 창</b> → 지구 복사 일부가 우주로</p>
+  </div>
+  <p class="note" style="bottom:14px;font-size:18px">투과율 곡선은 주요 흡수대만 넣은 단순화한 모형입니다. 실제 값은 고도·수증기량·구름에 따라 크게 달라집니다.</p>
+  <aside class="script">
+    <p>세로축은 투과율, 대기를 통과해 나오는 비율입니다. 1이면 다 통과, 0이면 다 막힘. 한별이 말했죠. 대기가 빛을 막는다면 낮이 어두워야 하는데 왜 환할까요?</p>
+    <p data-at="1">0.3 µm보다 짧은 자외선은 거의 0. 성층권의 오존이 흡수합니다. 빈칸 3번, 오존. 생명체를 지키는 일이에요.</p>
+    <p data-at="2">가시광선은 70% 넘게 통과합니다. 빈칸 4번, 가시광선. 그래서 낮이 환하고 지표가 데워집니다.</p>
+    <p data-at="3">5 µm보다 긴 적외선은 대부분 막힙니다. 빈칸 5번, 수증기와 이산화 탄소가 흡수해요. 지구 복사가 바로 이 영역이었죠.</p>
+    <p data-at="4">그런데 8~12 µm는 뻥 뚫려 있습니다. 빈칸 6번, 대기의 창. 지구 복사 가운데 이 파장만 거의 그대로 우주로 빠져나갑니다. 가운데 살짝 패인 곳은 오존의 흡수대예요.</p>
+  </aside>
+</section>
+
+<!-- 6 선택적 흡수체 -->
+<section class="slide soft" id="s-select" data-title="대기는 선택적 흡수체" data-part="① 선택적 흡수">
+  <p class="kicker">① 대기의 선택적 흡수 · 정리</p>
+  <h2>대기를 이루는 기체들은 <b class="blank" data-n="7" data-step="1">선택적 흡수체</b></h2>
+  <table class="ledger" style="background:#fff;border-radius:18px;overflow:hidden">
+    <tr><th>빛</th><th>대기는</th><th>누가</th><th>그 결과</th></tr>
+    <tr><td><b class="c-violet">자외선</b></td><td>거의 모두 흡수</td><td>오존(성층권)</td><td>지표의 생명체를 지킨다</td></tr>
+    <tr><td><b class="c-orange">가시광선</b></td><td>대부분 통과</td><td>-</td><td>낮이 환하고 지표가 데워진다</td></tr>
+    <tr><td><b class="c-red">적외선</b></td><td>대부분 흡수</td><td>수증기·이산화 탄소</td><td>대기가 데워지고 다시 지표로 내보낸다</td></tr>
+    <tr><td><b class="c-teal">8~12 µm</b></td><td>거의 통과</td><td>(대기의 창)</td><td>지구가 우주로 열을 내보내는 통로</td></tr>
+  </table>
+  <p class="big center mt" data-step="2">햇빛은 들여보내고, 지구의 열은 붙잡는다</p>
+  <aside class="script">
+    <p>지금까지를 한 낱말로 하면 무엇일까요?</p>
+    <p data-at="1">빈칸 7번, 선택적 흡수체. 파장에 따라 흡수하는 정도가 다르다는 뜻입니다. 표를 한 줄씩 짚어 줍니다.</p>
+    <p data-at="2">이 성질 하나가 오늘 뒤쪽 내용 전부의 출발점입니다.</p>
+  </aside>
+</section>
+
+<!-- 7 복사 평형 -->
+<section class="slide" id="s-eq" data-title="받는 만큼 내보낸다" data-part="② 복사 평형">
+  <p class="kicker">② 복사 평형 온도</p>
+  <h2>받는 만큼 내보내면 온도가 일정하다</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg viewBox="0 0 560 440" width="560" height="440" aria-label="햇빛은 지구의 원판 넓이로 받고, 지구는 공 전체 겉넓이로 내보낸다">
+      <defs>
+        <radialGradient id="eqE" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#a5d8ff"/><stop offset=".6" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d6e"/></radialGradient>
+        <marker id="eqY" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#f59f00"/></marker>
+        <marker id="eqR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e03131"/></marker>
+      </defs>
+      <g stroke="#f59f00" stroke-width="6" marker-end="url(#eqY)">
+        <line x1="10" y1="130" x2="230" y2="130"/><line x1="10" y1="180" x2="225" y2="180"/><line x1="10" y1="230" x2="222" y2="230"/><line x1="10" y1="280" x2="225" y2="280"/><line x1="10" y1="330" x2="230" y2="330"/>
+      </g>
+      <text x="10" y="105" font-size="24" font-weight="900" fill="#e8590c">햇빛 S</text>
+      <circle cx="350" cy="230" r="120" fill="url(#eqE)"/>
+      <g data-step="2">
+        <ellipse cx="236" cy="230" rx="22" ry="120" fill="rgba(245,159,0,.25)" stroke="#f59f00" stroke-width="4"/>
+        <text x="236" y="395" font-size="23" font-weight="900" fill="#e8590c" text-anchor="middle">받는 면 πR²</text>
+      </g>
+      <g data-step="2" stroke="#e03131" stroke-width="5" marker-end="url(#eqR)">
+        <line x1="350" y1="100" x2="350" y2="40"/><line x1="440" y1="140" x2="490" y2="95"/><line x1="480" y1="230" x2="545" y2="230"/>
+        <line x1="440" y1="320" x2="490" y2="365"/><line x1="350" y1="360" x2="350" y2="420"/><line x1="260" y1="320" x2="245" y2="345"/><line x1="260" y1="140" x2="245" y2="115"/>
+      </g>
+      <text x="470" y="30" font-size="23" font-weight="900" fill="#e03131" text-anchor="middle" data-step="2">내보내는 면 4πR²</text>
+    </svg>
+    <div class="lines">
+      <p data-step="1">흡수하는 에너지 = 방출하는 에너지 → 온도가 일정 <br>→ <b class="blank" data-n="8" data-step="1">복사 평형</b></p>
+      <p data-step="2">받는 면은 원판(πR²), 내보내는 면은 공 전체(4πR²) → <b>÷ 4</b></p>
+      <p data-step="3" class="formula" style="font-size:38px">σT⁴ = S(1 − A) ÷ 4<br>T = [ S(1 − A) ÷ 4σ ]<sup>1/4</sup></p>
+      <p data-step="3" class="small">S 태양 상수 · A 반사율(알베도) · σ = 5.67×10⁻⁸ W/m²K⁴ (슈테판-볼츠만 상수)</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>어떤 천체든 들어오는 에너지와 나가는 에너지를 생각해 봅시다. 햇빛은 한쪽에서만 옵니다.</p>
+    <p data-at="1">받는 만큼 내보내면 온도가 더 오르지도 내리지도 않아요. 빈칸 8번, 복사 평형.</p>
+    <p data-at="2">햇빛을 가로막는 넓이는 그림자, 곧 원판 πR²입니다. 그런데 지구는 밤낮 가리지 않고 공 전체 4πR²에서 내보내요. 그래서 4로 나눕니다.</p>
+    <p data-at="3">물체가 내보내는 에너지는 σT⁴입니다. 반사된 몫 A를 빼고 정리하면 이 식이 나옵니다. 식을 외우기보다 '받은 것 = 내보낸 것'에서 나왔다는 것을 강조합니다.</p>
+  </aside>
+</section>
+
+<!-- 8 지구의 복사 평형 온도 -->
+<section class="slide" id="s-calc" data-title="지구의 복사 평형 온도 계산" data-part="② 복사 평형">
+  <p class="kicker">② 복사 평형 온도 · 지구에 넣어 보기</p>
+  <h2>대기가 없다면 지구는 몇 ℃일까</h2>
+  <div class="row" style="gap:20px;margin-bottom:24px"><span class="tag blue">태양 상수 S = 1,361 W/m²</span><span class="tag blue">반사율 A = 0.3</span><span class="tag blue">σ = 5.67×10⁻⁸</span></div>
+  <p class="eq" data-step="1">① S(1 − A) ÷ 4 = 1,361 × 0.7 ÷ 4 ≈ <span class="c-orange">238 W/m²</span> &nbsp;<span class="small">지구 1 m²가 평균으로 흡수하는 양</span></p>
+  <p class="eq" data-step="2">② T⁴ = 238 ÷ (5.67×10⁻⁸) ≈ 4.2×10⁹ → T ≈ <span class="c-blue">255 K</span></p>
+  <p class="eq" data-step="3">③ 255 K − 273 = 약 <b class="blank" data-n="9" data-step="3">−18</b> ℃ &nbsp;<span class="small">지구의 복사 평형 온도</span></p>
+  <p class="big center mt2" data-step="3">그런데 실제 지구의 평균 기온은 <span class="c-green">약 15 ℃</span></p>
+  <aside class="script">
+    <p>지구 값을 넣어 봅니다. 태양 상수는 대기권 밖에서 햇빛에 수직인 1 m²가 1초에 받는 에너지, 약 1,361 W/m²예요. 지구 반사율은 약 0.3입니다.</p>
+    <p data-at="1">반사된 30%를 빼고 4로 나누면 약 238 W/m².</p>
+    <p data-at="2">σ로 나눈 뒤 네제곱근을 구하면 약 255 K. 계산기로 4.2×10⁹의 제곱근을 두 번 구하면 됩니다.</p>
+    <p data-at="3">빈칸 9번, 약 영하 18 ℃. 대기가 없다면 지구는 꽁꽁 언 행성이어야 해요. 그런데 실제는 15 ℃. 이 차이를 다음 장면에서 봅니다.</p>
+  </aside>
+</section>
+
+<!-- 9 33 ℃ -->
+<section class="slide" id="s-gh" data-title="33 ℃는 어디서 왔을까" data-part="② 복사 평형">
+  <p class="kicker">② 복사 평형 온도 · 실제와의 차이</p>
+  <h2>33 ℃는 어디서 왔을까</h2>
+  <div class="cols" style="grid-template-columns:520px 1fr;align-items:center">
+    <svg viewBox="0 0 520 470" width="520" height="470" aria-label="대기가 없을 때 영하 18도와 실제 15도를 비교한 온도계">
+      <g font-size="22" fill="#5f6b80" text-anchor="end">
+        <text x="70" y="78">40</text><text x="70" y="178">20</text><text x="70" y="278">0</text><text x="70" y="378">−20</text>
+      </g>
+      <g stroke="#d5dbe6" stroke-width="2"><line x1="80" y1="70" x2="500" y2="70"/><line x1="80" y1="170" x2="500" y2="170"/><line x1="80" y1="270" x2="500" y2="270"/><line x1="80" y1="370" x2="500" y2="370"/></g>
+      <rect x="130" y="40" width="70" height="410" rx="35" fill="#eef2f7" stroke="#c9d1dd" stroke-width="3"/>
+      <rect x="140" y="360" width="50" height="80" rx="25" fill="#4dabf7"/>
+      <text x="165" y="350" font-size="30" font-weight="900" fill="#1462d8" text-anchor="middle">−18 ℃</text>
+      <text x="165" y="30" font-size="21" font-weight="800" fill="#5f6b80" text-anchor="middle">대기가 없다면</text>
+      <rect x="330" y="40" width="70" height="410" rx="35" fill="#eef2f7" stroke="#c9d1dd" stroke-width="3"/>
+      <rect x="340" y="195" width="50" height="245" rx="25" fill="#e8590c"/>
+      <text x="365" y="185" font-size="30" font-weight="900" fill="#e8590c" text-anchor="middle">15 ℃</text>
+      <text x="365" y="30" font-size="21" font-weight="800" fill="#5f6b80" text-anchor="middle">실제 평균</text>
+      <path d="M440 195 H470 V360 H440" fill="none" stroke="#161b28" stroke-width="4"/>
+      <text x="478" y="285" font-size="28" font-weight="900" fill="#161b28">33</text>
+    </svg>
+    <div>
+      <svg viewBox="0 0 760 330" width="760" height="330" data-step="1" aria-label="지표가 내보낸 적외선을 대기가 흡수해 위아래로 다시 내보낸다">
+        <defs>
+          <marker id="gR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e03131"/></marker>
+          <linearGradient id="gAtm" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e7f5ff"/><stop offset="1" stop-color="#bfe0ff"/></linearGradient>
+          <linearGradient id="gGr" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8bc34a"/><stop offset=".2" stop-color="#a47148"/><stop offset="1" stop-color="#7b5233"/></linearGradient>
+        </defs>
+        <rect x="0" y="60" width="760" height="130" rx="16" fill="url(#gAtm)"/>
+        <text x="16" y="92" font-size="22" font-weight="900" fill="#1864ab">대기 (수증기·이산화 탄소)</text>
+        <rect x="0" y="270" width="760" height="60" rx="10" fill="url(#gGr)"/>
+        <text x="16" y="310" font-size="22" font-weight="900" fill="#fff">지표</text>
+        <g stroke="#e03131" stroke-width="7" fill="none" marker-end="url(#gR)">
+          <line x1="200" y1="268" x2="200" y2="140"/>
+          <line x1="430" y1="150" x2="430" y2="15"/>
+          <line x1="520" y1="170" x2="520" y2="262"/>
+        </g>
+        <circle cx="200" cy="130" r="10" fill="#e03131"/>
+        <text x="215" y="235" font-size="22" font-weight="800" fill="#c92a2a">지표의 적외선</text>
+        <text x="445" y="40" font-size="22" font-weight="800" fill="#c92a2a">우주로</text>
+        <text x="535" y="235" font-size="22" font-weight="900" fill="#c92a2a">지표로 다시 (재복사)</text>
+      </svg>
+      <p class="big" data-step="2">이 33 ℃의 차이 → <b class="blank" data-n="10" data-step="2">온실 효과</b></p>
+      <p class="small" data-step="2">온실 효과 덕분에 물이 액체로 있을 수 있다. 문제가 되는 것은 온실 기체가 늘어 '강화된' 온실 효과다.</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>계산은 영하 18 ℃, 실제는 15 ℃. 33 ℃만큼 더 따뜻합니다.</p>
+    <p data-at="1">지표가 내보낸 적외선을 수증기와 이산화 탄소가 흡수하죠. 데워진 대기는 위로도, 아래 지표로도 다시 내보냅니다. 지표는 햇빛에 더해 대기가 돌려보낸 에너지까지 받는 거예요.</p>
+    <p data-at="2">빈칸 10번, 온실 효과. 온실 효과 자체는 나쁜 것이 아니라 생명에 꼭 필요한 것이라는 점을 분명히 말해 줍니다.</p>
+  </aside>
+</section>
+
+<!-- 10 열수지: 태양 복사 -->
+<section class="slide" id="s-hb1" data-title="열수지 장부 ① 들어온 태양 복사" data-part="③ 열수지">
+  <p class="kicker">③ 전 지구 평균 열수지 · 태양 복사 = 100 단위</p>
+  <h2>들어온 햇빛 100은 어디로 갈까</h2>
+  <div class="hbwrap" data-hb="sun"></div>
+  <p class="eq center" data-step="3">100 = 반사 30 + 대기·구름 흡수 25 + 지표 흡수 45</p>
+  <aside class="script">
+    <p>이제 장부를 맞춥니다. 지구에 들어오는 태양 복사를 100으로 놓아요. 숫자는 관측값을 반올림한 대푯값이라 교과서마다 1~2씩 다를 수 있습니다.</p>
+    <p data-at="1">30은 구름, 대기, 지표에서 반사되어 바로 우주로 돌아갑니다.</p>
+    <p data-at="2">25는 대기와 구름이, 45는 지표가 흡수합니다.</p>
+    <p data-at="3">더하면 100. 들어온 햇빛은 이렇게 셋으로 나뉩니다.</p>
+  </aside>
+</section>
+
+<!-- 11 지표의 장부 -->
+<section class="slide" id="s-hb2" data-title="열수지 장부 ② 지표" data-part="③ 열수지">
+  <p class="kicker">③ 전 지구 평균 열수지 · 지표의 장부</p>
+  <h2>지표가 받는 양 = 지표가 잃는 양</h2>
+  <div class="hbwrap" data-hb="sfc"></div>
+  <p class="eq center" data-step="1">받는 것 45 + <span class="c-red">②</span> = 잃는 것 104 + 20 + 9 = 133</p>
+  <p class="eq center" data-step="2">② = 133 − 45 = <b class="blank" data-n="11" data-step="2">88</b> &nbsp;<span class="small">대기가 지표로 돌려보내는 재복사</span></p>
+  <aside class="script">
+    <p>지표만 봅시다. 지표가 받는 것은 햇빛 45와 대기가 돌려보내는 재복사 ②. 잃는 것은 지표 복사 104, 물이 증발할 때 가져가는 숨은열 20, 대류와 전도 9입니다.</p>
+    <p data-at="1">지표 온도가 일정하려면 두 쪽이 같아야 해요. 잃는 쪽을 더하면 133.</p>
+    <p data-at="2">② = 133 − 45, 빈칸 11번, 88. 지표는 햇빛보다 대기에서 두 배 가까이 더 받습니다. 이것이 온실 효과를 숫자로 본 모습이에요. 지표 복사 104가 들어온 햇빛 100보다 큰 것도 이 때문입니다.</p>
+  </aside>
+</section>
+
+<!-- 12 대기권 밖의 장부 -->
+<section class="slide" id="s-hb3" data-title="열수지 장부 ③ 대기권 밖" data-part="③ 열수지">
+  <p class="kicker">③ 전 지구 평균 열수지 · 대기권 밖에서 본 장부</p>
+  <h2>들어온 100 = 우주로 나간 양</h2>
+  <div class="hbwrap" data-hb="space"></div>
+  <p class="eq center" data-step="1">들어온 것 100 = 나간 것 반사 30 + 대기의 창 8 + <span class="c-red">①</span></p>
+  <p class="eq center" data-step="2">① = 100 − 30 − 8 = <b class="blank" data-n="12" data-step="2">62</b> &nbsp;<span class="small">대기·구름이 우주로 내보내는 지구 복사</span></p>
+  <aside class="script">
+    <p>이번에는 우주에서 지구 전체를 봅니다. 들어온 것은 태양 복사 100뿐이에요.</p>
+    <p data-at="1">나가는 것은 반사 30, 대기의 창으로 빠져나간 지표 복사 8, 그리고 대기와 구름이 우주로 내보내는 ①.</p>
+    <p data-at="2">빈칸 12번, 62. 우주로 나가는 장파 복사의 대부분은 지표가 아니라 대기에서 나갑니다.</p>
+  </aside>
+</section>
+
+<!-- 13 대기의 장부 -->
+<section class="slide soft" id="s-hb4" data-title="열수지 장부 ④ 대기 · 검산" data-part="③ 열수지">
+  <p class="kicker">③ 전 지구 평균 열수지 · 대기의 장부로 검산</p>
+  <h2>대기의 장부도 맞을까</h2>
+  <div class="cols">
+    <div class="card">
+      <h3>대기가 받는 것</h3>
+      <table class="ledger">
+        <tr><td>태양 복사 흡수</td><td class="v">25</td></tr>
+        <tr><td>지표 복사 104 가운데 흡수 (104 − 8)</td><td class="v">96</td></tr>
+        <tr><td>숨은열</td><td class="v">20</td></tr>
+        <tr><td>대류·전도</td><td class="v">9</td></tr>
+        <tr class="sum"><td>합</td><td class="v"><b class="blank" data-n="13" data-step="1">150</b></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>대기가 잃는 것</h3>
+      <table class="ledger">
+        <tr><td>우주로 내보내는 지구 복사 ①</td><td class="v">62</td></tr>
+        <tr><td>지표로 돌려보내는 재복사 ②</td><td class="v">88</td></tr>
+        <tr class="sum" data-step="2"><td>합</td><td class="v">150</td></tr>
+      </table>
+      <p class="big mt" data-step="2" style="color:var(--green)">150 = 150 ✓</p>
+    </div>
+  </div>
+  <p class="big center mt" data-step="3">지표 · 대기 · 대기권 밖, 세 곳 모두 <span class="c-blue">받은 양 = 잃은 양</span> → 지구 전체는 복사 평형</p>
+  <aside class="script">
+    <p>앞에서 구한 두 값이 맞는지 대기의 장부로 검산합니다. 지표 복사 104 가운데 대기의 창 8은 대기를 그냥 지나가니 대기가 흡수하는 것은 96이에요.</p>
+    <p data-at="1">받는 쪽 합, 빈칸 13번, 150.</p>
+    <p data-at="2">잃는 쪽은 62 + 88 = 150. 딱 맞습니다.</p>
+    <p data-at="3">세 장부가 모두 맞아요. 그래서 지구의 평균 기온이 해마다 크게 변하지 않습니다.</p>
+  </aside>
+</section>
+
+<!-- 14 위도별 -->
+<section class="slide" id="s-lat" data-title="그런데 위도별로는?" data-part="③ 열수지">
+  <p class="kicker">③ 전 지구 평균 열수지 · 다음 차시와 잇기</p>
+  <h2>지구 전체는 맞는데, 위도별로는?</h2>
+  <svg class="graph" id="latSvg" viewBox="0 0 1400 430" width="1400" height="430" aria-label="위도에 따라 흡수하는 태양 복사와 방출하는 지구 복사를 비교한 모식도"></svg>
+  <p class="big center" data-step="3">남는 에너지를 <b class="blank" data-n="14" data-step="3">대기와 해수</b>의 운동이 고위도로 나른다</p>
+  <aside class="script">
+    <p>지구 전체로는 장부가 맞지만 위도마다 보면 다릅니다. 노란 선은 흡수하는 태양 복사, 빨간 선은 내보내는 지구 복사예요. 값은 대략을 나타낸 모식도입니다.</p>
+    <p data-at="1">적도 쪽은 받는 것이 더 많고, 극 쪽은 내보내는 것이 더 많습니다. 위도 약 38° 근처에서 같아져요.</p>
+    <p data-at="2">그렇다면 저위도는 계속 뜨거워지고 고위도는 계속 식어야 할 텐데, 그렇지 않죠.</p>
+    <p data-at="3">빈칸 14번, 대기와 해수의 운동이 남는 열을 고위도로 나르기 때문입니다. 바람과 해류가 생기는 근본 까닭이고, 다음 차시들의 주제입니다.</p>
+  </aside>
+</section>
+
+<!-- 15 달 기지로 -->
+<section class="slide soft" id="s-roles" data-title="달 기지로 돌아가기" data-part="정리">
+  <p class="kicker">정리 · 달 기지 설계서에 옮겨 적기</p>
+  <h2>달 기지에서 사람이 만들어야 할 대기의 일</h2>
+  <div class="roles">
+    <div class="card" data-step="1"><div class="ic">🛡️</div><h3>자외선 차단</h3><span class="sb">오존층</span><p>짧은 파장의 자외선을 흡수해 생명체를 지킨다</p></div>
+    <div class="card" data-step="2"><div class="ic">🌡️</div><h3>기온 유지</h3><span class="sb">온실 효과</span><p>재복사로 밤에도 급하게 식지 않게 한다</p></div>
+    <div class="card" data-step="3"><div class="ic">☄️</div><h3>유성체 막기</h3><span class="sb">중간권</span><p>작은 유성체는 대기에서 타 없어진다</p></div>
+    <div class="card" data-step="4"><div class="ic">🌬️</div><h3>물과 열 나르기</h3><span class="sb">대기의 운동</span><p>남는 열과 수증기를 다른 곳으로 옮긴다</p></div>
+  </div>
+  <aside class="script">
+    <p>처음 질문으로 돌아갑니다. 달의 하루 기온 차가 300 ℃인 까닭, 이제 설명할 수 있나요? 대기가 없으니 낮에 받은 열을 붙잡아 둘 재복사가 없고, 밤에는 그대로 우주로 빠져나갑니다.</p>
+    <p data-at="1">달 기지라면 이 네 가지를 사람이 만들어야 합니다. 하나씩 엽니다.</p>
+    <p data-at="4">단원 화면 이야기 ①의 마지막 미션이 바로 이 네 가지로 관찰 기록을 나누는 활동입니다.</p>
+  </aside>
+</section>
+
+<!-- 16 정리 -->
+<section class="slide soft" id="s-sum" data-title="오늘의 정리" data-part="정리">
+  <p class="kicker">오늘의 정리</p>
+  <h2>지구를 살 만하게 하는 것은 '골라서 흡수하는 대기'</h2>
+  <ul class="sumlist">
+    <li data-k="1" data-step="1">대기는 <b>선택적 흡수체</b>: 자외선은 오존이, 적외선은 수증기·이산화 탄소가 흡수, 가시광선과 8~12 µm(<b>대기의 창</b>)는 통과</li>
+    <li data-k="2" data-step="2">대기가 없다면 <b>복사 평형 온도</b>는 약 −18 ℃, 실제는 약 15 ℃ → 33 ℃가 <b>온실 효과</b></li>
+    <li data-k="3" data-step="3"><b>열수지</b>: 지표·대기·대기권 밖 모두 받은 양 = 잃은 양 (재복사 88, 대기의 방출 62)</li>
+    <li data-k="4" data-step="4">위도별로는 저위도 과잉·고위도 부족 → 대기와 해수의 운동이 열을 나른다</li>
+  </ul>
+  <aside class="script"><p>학습지를 덮고 한 줄씩 먼저 말로 떠올리게 한 다음 엽니다.</p></aside>
+</section>
+
+<!-- 17 문제 -->
+<section class="slide" id="s-quiz" data-title="문제로 확인하기" data-part="정리">
+  <p class="kicker">문제로 확인하기</p>
+  <h2>두 문제만 풀어 봅시다</h2>
+  <div class="cols">
+    <div class="card">
+      <p class="q">1. 지표 흡수 45, 재복사 88, 지표 복사 104, 숨은열 20일 때 지표에서 대류·전도로 잃는 양은?</p>
+      <div class="opts">
+        <div class="opt wrong" data-step="1">㉠ 5</div>
+        <div class="opt right" data-step="1">㉡ 9</div>
+        <div class="opt wrong" data-step="1">㉢ 29</div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="q">2. 대기의 창에 대한 설명으로 옳은 것은?</p>
+      <div class="opts">
+        <div class="opt wrong" data-step="2">㉠ 자외선이 지표까지 들어오는 통로이다</div>
+        <div class="opt right" data-step="2">㉡ 8~12 µm 지구 복사가 우주로 빠져나간다</div>
+        <div class="opt wrong" data-step="2">㉢ 이산화 탄소가 가장 많이 흡수하는 파장대이다</div>
+      </div>
+    </div>
+  </div>
+  <aside class="script">
+    <p>1분 동안 풀게 하고 손가락으로 답을 들게 합니다.</p>
+    <p data-at="1">1번은 45 + 88 = 104 + 20 + x, x = 9. ㉡.</p>
+    <p data-at="2">2번은 ㉡. 대기의 창은 적외선 영역이고, 흡수가 아니라 통과하는 곳입니다.</p>
+  </aside>
+</section>
+
+<!-- 18 활동·다음 -->
+<section class="slide dark" id="s-next" data-title="직접 해 보기 · 다음 시간" data-part="정리">
+  <p class="kicker">직접 해 보기</p>
+  <h2>이야기 ① 「달 기지 설계도」</h2>
+  <div class="cols">
+    <div class="card"><h3>파장·반사율을 직접 바꿔 보세요</h3><p>대기의 네 가지 일 찾기, 세 가지 행성 만들기, 열수지 장부 맞추기 미션이 기다립니다.</p>
+      <p class="mt"><a href="index.html" style="color:#74b6ff;font-weight:900">단원 화면 열기 →</a></p></div>
+    <div class="card"><h3>다음 시간 · 02 산을 넘은 바람</h3><p>공기 덩어리를 따라 산을 넘으며 단열 변화, 구름, 비가 생기는 과정을 추적합니다.</p></div>
+  </div>
+  <aside class="script"><p>남은 시간에는 단원 화면의 이야기 ①을 열어 미션을 하게 합니다. 칠판에서 본 장부를 학생이 직접 슬라이더로 맞춰 봅니다.</p></aside>
+</section>
+
+</div></div>
+<script src="../assets/board.js"></script>
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function lg(v, a, b) { return Math.log(v) / Math.LN10; }
+
+  /* ---- 태양 복사·지구 복사 곡선 (플랑크 식, 각각 최댓값 = 1) ---- */
+  (function () {
+    var svg = document.getElementById("specSvg"), X0 = 80, X1 = 1340, Y0 = 340, Y1 = 50;
+    function X(l) { return X0 + (lg(l) + 1) / 3 * (X1 - X0); }          // 0.1 ~ 100 µm
+    function Y(v) { return Y0 - v * (Y0 - Y1); }
+    function planck(l, T) { return Math.pow(l, -5) / (Math.exp(14388 / (l * T)) - 1); }
+    function curve(T) {
+      var pts = [], mx = 0, i, l;
+      for (i = 0; i <= 400; i++) { l = Math.pow(10, -1 + 3 * i / 400); var b = planck(l, T); pts.push([l, b]); if (b > mx) mx = b; }
+      return pts.map(function (p) { return [X(p[0]), Y(p[1] / mx)]; });
+    }
+    function path(pts) { return "M" + X0 + " " + Y0 + " " + pts.map(function (p) { return "L" + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" ") + " L" + X1 + " " + Y0 + " Z"; }
+    var h = "";
+    h += "<defs><linearGradient id='vis' x1='0' x2='1'><stop offset='0' stop-color='#7048e8'/><stop offset='.2' stop-color='#1c7ed6'/><stop offset='.4' stop-color='#37b24d'/><stop offset='.6' stop-color='#fcc419'/><stop offset='.8' stop-color='#f76707'/><stop offset='1' stop-color='#e03131'/></linearGradient></defs>";
+    h += "<rect x='" + X(0.4) + "' y='" + (Y0 + 6) + "' width='" + (X(0.75) - X(0.4)) + "' height='16' fill='url(#vis)'/>";
+    h += "<text x='" + ((X(0.4) + X(0.75)) / 2) + "' y='" + (Y0 + 78) + "' font-size='21' font-weight='800' fill='#5f6b80' text-anchor='middle'>가시광선</text>";
+    h += "<g data-step='1'><path d='" + path(curve(5800)) + "' fill='rgba(245,159,0,.28)' stroke='#f08c00' stroke-width='5'/>";
+    h += "<text x='" + (X(0.5) + 14) + "' y='" + (Y1 + 6) + "' font-size='27' font-weight='900' fill='#e8590c'>태양 복사</text></g>";
+    h += "<g data-step='2'><path d='" + path(curve(288)) + "' fill='rgba(224,49,49,.2)' stroke='#e03131' stroke-width='5'/>";
+    h += "<text x='" + (X(10) + 14) + "' y='" + (Y1 + 6) + "' font-size='27' font-weight='900' fill='#c92a2a'>지구 복사</text></g>";
+    h += "<line x1='" + X0 + "' y1='" + Y0 + "' x2='" + X1 + "' y2='" + Y0 + "' stroke='#161b28' stroke-width='4'/>";
+    [0.1, 1, 10, 100].forEach(function (l) { h += "<line x1='" + X(l) + "' y1='" + Y0 + "' x2='" + X(l) + "' y2='" + (Y0 + 30) + "' stroke='#161b28' stroke-width='3'/><text x='" + X(l) + "' y='" + (Y0 + 56) + "' font-size='23' font-weight='800' fill='#161b28' text-anchor='middle'>" + l + "</text>"; });
+    h += "<text x='" + X1 + "' y='" + (Y0 + 78) + "' font-size='21' font-weight='800' fill='#5f6b80' text-anchor='end'>파장 (µm) · 한 칸 = 10배</text>";
+    h += "<text x='" + X0 + "' y='" + (Y1 - 22) + "' font-size='21' font-weight='800' fill='#5f6b80'>세기 (각 곡선의 최댓값 = 1)</text>";
+    svg.innerHTML = h;
+  })();
+
+  /* ---- 대기의 투과율 (단순화한 모형: 주요 흡수대만) ---- */
+  (function () {
+    var svg = document.getElementById("transSvg"), X0 = 80, X1 = 1340, Y0 = 310, Y1 = 50, LMAX = Math.log(40) / Math.LN10;
+    function X(l) { return X0 + (lg(l) + 1) / (LMAX + 1) * (X1 - X0); }
+    function Y(v) { return Y0 - v * (Y0 - Y1); }
+    var P = [[0.1,0],[0.28,0],[0.3,0.01],[0.32,0.3],[0.35,0.6],[0.4,0.75],[0.5,0.82],[0.75,0.85],[0.9,0.8],[0.94,0.45],[0.98,0.8],[1.1,0.5],[1.2,0.8],[1.38,0.12],[1.55,0.82],[1.85,0.08],[2.1,0.76],[2.5,0.25],[2.7,0.02],[3.0,0.12],[3.5,0.62],[4.1,0.55],[4.3,0],[4.6,0.3],[5.0,0.08],[5.5,0.02],[6.3,0],[7.5,0.04],[8.0,0.6],[9.0,0.74],[9.6,0.38],[10.2,0.74],[11.5,0.7],[12.5,0.5],[13.5,0.12],[14,0.02],[15,0],[18,0.03],[20,0.05],[25,0.02],[40,0]];
+    var d = "M" + X(0.1) + " " + Y0 + " " + P.map(function (p) { return "L" + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join(" ") + " L" + X(40) + " " + Y0 + " Z";
+    function band(a, b, col, step, label, ly) {
+      var s = "<g data-step='" + step + "'><rect x='" + X(a) + "' y='" + Y1 + "' width='" + (X(b) - X(a)) + "' height='" + (Y0 - Y1) + "' fill='" + col + "'/>";
+      if (label) s += "<text x='" + ((X(a) + X(b)) / 2) + "' y='" + (ly || Y1 - 12) + "' font-size='22' font-weight='900' fill='#161b28' text-anchor='middle'>" + label + "</text>";
+      return s + "</g>";
+    }
+    var h = "";
+    h += "<g stroke='#e8edf4' stroke-width='2'><line x1='" + X0 + "' y1='" + Y(1) + "' x2='" + X1 + "' y2='" + Y(1) + "'/><line x1='" + X0 + "' y1='" + Y(.5) + "' x2='" + X1 + "' y2='" + Y(.5) + "'/></g>";
+    h += band(0.1, 0.3, "rgba(103,65,217,.16)", 1, "자외선");
+    h += band(0.4, 0.75, "rgba(245,159,0,.2)", 2, "가시광선");
+    h += band(5, 8, "rgba(224,49,49,.14)", 3, "") + band(12, 40, "rgba(224,49,49,.14)", 3, "적외선 흡수", Y1 - 12);
+    h += band(8, 12, "rgba(11,127,153,.22)", 4, "대기의 창");
+    h += "<path d='" + d + "' fill='rgba(28,126,214,.22)' stroke='#1462d8' stroke-width='4' stroke-linejoin='round'/>";
+    h += "<line x1='" + X0 + "' y1='" + Y0 + "' x2='" + X1 + "' y2='" + Y0 + "' stroke='#161b28' stroke-width='4'/>";
+    [0.1, 0.3, 1, 3, 10, 30].forEach(function (l) { h += "<line x1='" + X(l) + "' y1='" + Y0 + "' x2='" + X(l) + "' y2='" + (Y0 + 14) + "' stroke='#161b28' stroke-width='3'/><text x='" + X(l) + "' y='" + (Y0 + 42) + "' font-size='22' font-weight='800' fill='#161b28' text-anchor='middle'>" + l + "</text>"; });
+    h += "<text x='" + X1 + "' y='" + (Y0 + 70) + "' font-size='21' font-weight='800' fill='#5f6b80' text-anchor='end'>파장 (µm)</text>";
+    h += "<text x='" + (X0 - 12) + "' y='" + (Y(1) + 8) + "' font-size='21' font-weight='800' fill='#5f6b80' text-anchor='end'>1</text><text x='" + (X0 - 12) + "' y='" + (Y0 + 8) + "' font-size='21' font-weight='800' fill='#5f6b80' text-anchor='end'>0</text>";
+    h += "<text x='" + X0 + "' y='" + (Y0 + 70) + "' font-size='21' font-weight='800' fill='#5f6b80'>투과율 (1 = 모두 통과)</text>";
+    svg.innerHTML = h;
+  })();
+
+  /* ---- 위도별 에너지 (모식도) ---- */
+  (function () {
+    var svg = document.getElementById("latSvg"), X0 = 130, X1 = 1290, Y0 = 350, Y1 = 40;
+    function X(p) { return X0 + p / 90 * (X1 - X0); }
+    function Y(v) { return Y0 - v / 330 * (Y0 - Y1); }
+    function a(p) { return 70 + 235 * Math.pow(Math.cos(p * Math.PI / 180), 1.6); }
+    function e(p) { return 250 - 80 * Math.pow(p / 90, 1.5); }
+    var A = [], E = [], i, cross = 0;
+    for (i = 0; i <= 90; i++) { A.push([X(i), Y(a(i))]); E.push([X(i), Y(e(i))]); if (!cross && a(i) < e(i)) cross = i; }
+    function pl(arr) { return arr.map(function (p, k) { return (k ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" "); }
+    var sur = "M" + A.slice(0, cross + 1).map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L") + " L" + E.slice(0, cross + 1).reverse().map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L") + " Z";
+    var def = "M" + E.slice(cross).map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L") + " L" + A.slice(cross).reverse().map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L") + " Z";
+    var h = "";
+    h += "<g data-step='2'><path d='" + sur + "' fill='rgba(232,89,12,.25)'/><path d='" + def + "' fill='rgba(20,98,216,.2)'/>";
+    h += "<text x='" + X(14) + "' y='" + Y(262) + "' font-size='28' font-weight='900' fill='#d9480f' text-anchor='middle'>에너지 과잉</text>";
+    h += "<text x='" + X(72) + "' y='" + Y(132) + "' font-size='28' font-weight='900' fill='#1462d8' text-anchor='middle'>에너지 부족</text></g>";
+    h += "<path d='" + pl(A) + "' fill='none' stroke='#f08c00' stroke-width='6'/><path d='" + pl(E) + "' fill='none' stroke='#e03131' stroke-width='6'/>";
+    h += "<text x='" + (X(2)) + "' y='" + (Y(a(2)) - 16) + "' font-size='24' font-weight='900' fill='#e8590c'>흡수하는 태양 복사</text>";
+    h += "<text x='" + X(60) + "' y='" + (Y(e(60)) - 34) + "' font-size='24' font-weight='900' fill='#c92a2a' text-anchor='middle'>방출하는 지구 복사</text>";
+    h += "<g data-step='1'><line x1='" + X(cross) + "' y1='" + Y1 + "' x2='" + X(cross) + "' y2='" + Y0 + "' stroke='#161b28' stroke-width='3' stroke-dasharray='8 6'/>";
+    h += "<text x='" + (X(cross) + 10) + "' y='" + (Y1 + 20) + "' font-size='23' font-weight='900' fill='#161b28'>약 38°</text></g>";
+    h += "<line x1='" + X0 + "' y1='" + Y0 + "' x2='" + X1 + "' y2='" + Y0 + "' stroke='#161b28' stroke-width='4'/>";
+    [0, 30, 60, 90].forEach(function (p) { h += "<line x1='" + X(p) + "' y1='" + Y0 + "' x2='" + X(p) + "' y2='" + (Y0 + 14) + "' stroke='#161b28' stroke-width='3'/><text x='" + X(p) + "' y='" + (Y0 + 42) + "' font-size='22' font-weight='800' fill='#161b28' text-anchor='middle'>" + (p ? p + "°" : "0° 적도") + "</text>"; });
+    h += "<text x='" + X1 + "' y='" + (Y0 + 72) + "' font-size='21' font-weight='800' fill='#5f6b80' text-anchor='end'>위도 · 모식도(값은 대략)</text>";
+    h += "<text x='" + X0 + "' y='" + (Y0 + 72) + "' font-size='21' font-weight='800' fill='#5f6b80'>세로: 에너지 (W/m²)</text>";
+    svg.innerHTML = h;
+  })();
+
+  /* ---- 열수지 그림 (장면 네 곳에서 같은 그림, 짚는 곳만 다르게) ---- */
+  var A = {   // id: [경로, 색, 굵기, 글 x, 글 y, 글, 글 색, 위쪽(우주 띠)이면 1]
+    sun:  ["M190 0 V120", "#f59f00", 26, 175, 38, "태양 복사 100", "#fff", 1, "end"],
+    refl: ["M210 120 C210 96 290 96 290 74 V6", "#adb5bd", 12, 305, 38, "반사 30", "#fff", 1],
+    atm:  ["M178 120 C178 160 360 168 360 205", "#f59f00", 11, 378, 212, "대기·구름 흡수 25", "#161b28", 0],
+    sfc:  ["M190 120 V400", "#f59f00", 15, 205, 365, "지표 흡수 45", "#161b28", 0],
+    ir:   ["M560 410 V292", "#e03131", 26, 575, 365, "지표 복사 104", "#161b28", 0],
+    win:  ["M660 410 V6", "#e03131", 6, 675, 38, "대기의 창 8", "#fff", 1],
+    lat:  ["M790 410 V292", "#0b7f99", 9, 805, 365, "숨은열 20", "#161b28", 0],
+    conv: ["M920 410 V292", "#e8590c", 6, 935, 365, "대류·전도 9", "#161b28", 0],
+    back: ["M1080 280 V398", "#e03131", 22, 1100, 365, "재복사 ②", "#161b28", 0],
+    out:  ["M1120 120 V6", "#e03131", 17, 1138, 38, "대기 방출 ①", "#fff", 1]
+  };
+  var SETS = {   // 장면별: 짚는 화살표, 단계, ①·② 값
+    sun:   { focus: ["sun", "refl", "atm", "sfc"], steps: { refl: 1, atm: 2, sfc: 2 }, v1: "?", v2: "?", hide: ["ir", "win", "lat", "conv", "back", "out"] },
+    sfc:   { focus: ["sfc", "ir", "lat", "conv", "back"], steps: {}, v1: "?", v2: "?", zone: "sfc" },
+    space: { focus: ["sun", "refl", "win", "out"], steps: {}, v1: "?", v2: "88", zone: "space" }
+  };
+  function hbSvg(set) {
+    var h = "<svg class='hb focus' viewBox='0 0 1400 480' width='1400' height='480' aria-label='전 지구 평균 열수지 그림(태양 복사 100 단위)'>";
+    h += "<defs><linearGradient id='hbA' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='#e7f5ff'/><stop offset='1' stop-color='#cfe6ff'/></linearGradient>";
+    h += "<linearGradient id='hbG' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='#94d82d'/><stop offset='.18' stop-color='#a47148'/><stop offset='1' stop-color='#6f4a2e'/></linearGradient>";
+    ["f59f00", "adb5bd", "e03131", "0b7f99", "e8590c"].forEach(function (c) { h += "<marker id='hm" + c + "' viewBox='0 0 10 10' refX='7' refY='5' markerWidth='2.6' markerHeight='2.6' orient='auto'><path d='M0 0 L10 5 L0 10 Z' fill='#" + c + "'/></marker>"; });
+    h += "</defs>";
+    h += "<rect x='0' y='0' width='1400' height='56' rx='10' fill='#1f2a44'/>";
+    h += "<rect x='0' y='120' width='1400' height='160' rx='14' fill='url(#hbA)'/>";
+    h += "<text x='1388' y='150' font-size='24' font-weight='900' fill='#1864ab' text-anchor='end'>대기</text>";
+
+    h += "<rect x='0' y='410' width='1400' height='70' rx='10' fill='url(#hbG)'/>";
+    h += "<text x='1388' y='460' font-size='24' font-weight='900' fill='#fff' text-anchor='end'>지표</text>";
+    h += "<text x='1388' y='38' font-size='22' font-weight='900' fill='#aab3c5' text-anchor='end'>우주</text>";
+    if (set.zone === "sfc") h += "<rect x='4' y='290' width='1392' height='186' rx='14' fill='none' stroke='#1462d8' stroke-width='5' stroke-dasharray='14 8'/>";
+    if (set.zone === "space") h += "<rect x='3' y='-2' width='1394' height='64' rx='12' fill='none' stroke='#ffd43b' stroke-width='5' stroke-dasharray='14 8'/>";
+    Object.keys(A).forEach(function (id) {
+      if (set.hide && set.hide.indexOf(id) >= 0) return;
+      var a = A[id], c = a[1].slice(1), lab = a[5];
+      if (id === "out") lab += " " + set.v1; if (id === "back") lab += " " + set.v2;
+      var st = set.steps[id] ? " data-step='" + set.steps[id] + "'" : "";
+      var f = set.focus.indexOf(id) >= 0 ? " f" : "";
+      h += "<g class='arr" + f + "'" + st + ">";
+      h += "<path d='" + a[0] + "' fill='none' stroke='" + a[1] + "' stroke-width='" + a[2] + "' marker-end='url(#hm" + c + ")'" + (id === "win" ? " stroke-dasharray='14 8'" : "") + "/>";
+      if (id === "atm") h += "<circle cx='360' cy='215' r='12' fill='#f59f00'/>";
+      if (id === "ir") h += "<circle cx='560' cy='288' r='0'/>";
+      var txt = a[6] === "#fff" ? "" : " stroke='#fff' stroke-width='6' paint-order='stroke'";
+      h += "<text x='" + a[3] + "' y='" + a[4] + "' font-size='25' font-weight='900' fill='" + a[6] + "'" + (a[8] ? " text-anchor='" + a[8] + "'" : "") + txt + ">" + lab + "</text></g>";
+    });
+    h += "<text x='1388' y='270' font-size='18' fill='#5f6b80' text-anchor='end'>화살표 굵기 ∝ 양 · 반올림한 대푯값</text>";
+    return h + "</svg>";
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".hbwrap"), function (w) { w.innerHTML = hbSvg(SETS[w.getAttribute("data-hb")]); });
+})();
+</script>
+</body>
+</html>
