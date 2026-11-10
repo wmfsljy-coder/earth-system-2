@@ -49,7 +49,7 @@
 <body>
 <div class="tools">
   <a href="board-01.html">칠판 강의 화면</a>
-  <a id="keyLink" href="?key=1">교사용 정답 보기</a>
+  <a id="keyLink" href="?key=1" hidden>교사용 정답 보기</a>
   <button class="main" onclick="window.print()">인쇄하기</button>
 </div>
 <div class="paper">
@@ -109,7 +109,7 @@
 <script>
   if (new URLSearchParams(location.search).get("key") === "1") {
     document.body.classList.add("key");
-    var a = document.getElementById("keyLink"); a.textContent = "학생용으로 보기"; a.href = "?";
+    var a = document.getElementById("keyLink"); a.textContent = "학생용으로 보기"; a.href = "?"; a.hidden = false;
   }
 </script>
 </body>
