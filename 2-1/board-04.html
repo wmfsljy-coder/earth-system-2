@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>칠판 강의 · 조석 (지구시스템과학 Ⅱ-1 04)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/board.css">
+<style>
+  .graph { display: block; margin: 0 auto; }
+  .sumlist { list-style: none; padding: 0; margin: 0; }
+  .sumlist li { position: relative; padding: 16px 24px 16px 84px; margin-bottom: 14px; background: #fff; border-radius: 20px; font-size: 29px; }
+  .sumlist li::before { content: attr(data-k); position: absolute; left: 24px; top: 16px; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 900; font-size: 24px; text-align: center; line-height: 44px; }
+  .q { font-size: 31px !important; font-weight: 800; margin-bottom: 14px !important; }
+  #s-quiz .opt { font-size: 26px; padding: 14px 22px; }
+  .lines p { margin-bottom: 12px; }
+  .eq { font-size: 34px; font-weight: 800; letter-spacing: -.02em; line-height: 1.6; margin-bottom: 6px; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .three .card { text-align: center; min-height: 270px; }
+  .three .ic { font-size: 64px; }
+  .three b.nm { display: block; font-size: 38px; margin: 8px 0; }
+  .three p { font-size: 25px; color: var(--mute); }
+</style>
+</head>
+<body>
+<div class="deck"><div class="stage">
+
+<!-- 1 표지 -->
+<section class="slide dark cover" id="s-cover" data-title="표지">
+  <div class="art">
+    <svg viewBox="0 0 1600 520" aria-label="달 쪽과 그 반대쪽으로 바닷물이 부푼 지구와 달">
+      <defs>
+        <radialGradient id="cv4-e" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#a5d8ff"/><stop offset=".6" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d6e"/></radialGradient>
+        <radialGradient id="cv4-m" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#f1f3f5"/><stop offset="1" stop-color="#868e96"/></radialGradient>
+      </defs>
+      <ellipse cx="700" cy="270" rx="250" ry="190" fill="#4dabf7" opacity=".45"/>
+      <circle cx="700" cy="270" r="180" fill="url(#cv4-e)"/>
+      <path d="M640 200 q40 -30 90 -10 q30 40 -10 70 q-60 20 -80 -60 Z" fill="#5c7a4a" opacity=".85"/>
+      <circle cx="1300" cy="270" r="60" fill="url(#cv4-m)"/>
+      <text x="1300" y="370" fill="#dee2e6" font-size="24" font-weight="900" text-anchor="middle">달</text>
+      <text x="700" y="500" fill="#a5d8ff" font-size="24" font-weight="900" text-anchor="middle">부푼 바닷물</text>
+      <text x="1560" y="24" fill="#7b8598" font-size="17" text-anchor="end">⚠ 부푼 정도와 지구·달의 크기·거리는 크게 과장했습니다</text>
+    </svg>
+  </div>
+  <div class="ttl">
+    <p class="kicker">지구시스템과학 · Ⅱ-1 해수의 운동 · 04</p>
+    <h1>조석</h1>
+    <p class="sub" data-step="1">바다가 갈라지는 날과 시각은 누가 정할까</p>
+  </div>
+  <aside class="script">
+    <p>오늘은 밀물과 썰물이 왜 생기는지, 그리고 진도 바닷길이 열리는 날과 시각을 어떻게 찾는지 봅니다. 학습지 빈칸 번호가 화면 번호와 같습니다.</p>
+    <p data-at="1">부제의 질문은 마지막에 세 가지로 답합니다.</p>
+  </aside>
+</section>
+
+<!-- 2 도입 -->
+<section class="slide soft" id="s-hook" data-title="바다가 갈라지는 날" data-part="도입">
+  <p class="kicker">도입 · 진도 신비의 바닷길</p>
+  <h2>바다가 갈라지는 날은 왜 해마다 다를까</h2>
+  <div class="cols w64">
+    <div class="card">
+      <p>전라남도 진도 회동리와 모도 사이 바다가 갈라져 길이 약 <b>2.8 km</b>의 길이 드러납니다.</p>
+      <table class="ledger mt">
+        <tr><td>날짜</td><td class="v">해마다 다르다</td></tr>
+        <tr><td>열려 있는 시간</td><td class="v">한두 시간뿐</td></tr>
+        <tr><td>물때</td><td class="v">날마다 약 50분씩 늦어진다</td></tr>
+        <tr><td>같은 날 인천과 동해안</td><td class="v">물이 빠지는 정도가 전혀 다르다</td></tr>
+      </table>
+    </div>
+    <div class="card yel">
+      <h3>바다가 갈라지는 날을 정하는 것은?</h3>
+      <div class="opts">
+        <div class="opt">㉠ 그날의 바람과 날씨</div>
+        <div class="opt">㉡ 태양·지구·달의 배치와 그 지역의 바다 모양</div>
+        <div class="opt">㉢ 해마다 달라지는 해수면의 높이</div>
+      </div>
+      <p class="small mt" data-step="1">손을 들어 골라 보고, 까닭을 한 문장으로 말해 보세요.</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>축제 기획단이 정할 것은 날짜와 시각 두 가지입니다. 표의 사실 네 가지가 모두 단서예요.</p>
+    <p data-at="1">손을 들게 하고 까닭을 묻습니다. 답은 주지 않습니다.</p>
+  </aside>
+</section>
+
+<!-- 3 키워드 -->
+<section class="slide" id="s-kw" data-title="오늘의 키워드" data-part="도입">
+  <p class="kicker">오늘의 키워드</p>
+  <h2>이 다섯 낱말로 오늘을 정리합니다</h2>
+  <div class="kw">
+    <div class="card"><b>기조력</b><span>조석을 일으키는 힘</span></div>
+    <div class="card"><b>밀물과 썰물</b><span>해수면이 높아지고 낮아지는 움직임</span></div>
+    <div class="card"><b>사리(대조)</b><span>조차가 가장 큰 때</span></div>
+    <div class="card"><b>조금(소조)</b><span>조차가 가장 작은 때</span></div>
+    <div class="card"><b>조위 곡선</b><span>시간에 따른 해수면 높이 그래프</span></div>
+  </div>
+  <div class="card blue mt2 row" style="gap:30px"><span class="blank on" style="font-size:34px;font-weight:900;flex:none"><i class="bn">1</i>빈칸</span>
+    <p style="margin:0">화면에 번호가 열리면 <b>학습지의 같은 번호</b>에 받아 적으세요. 오늘 빈칸은 <b>1~12번</b>입니다.</p></div>
+  <aside class="script"><p>키워드 다섯 개를 읽어 주기만 합니다.</p></aside>
+</section>
+
+<!-- 4 기조력 -->
+<section class="slide" id="s-tidal" data-title="당기는 힘의 차이" data-part="① 기조력">
+  <p class="kicker">① 기조력 · 달이 지구를 당기면</p>
+  <h2>앞면과 뒷면에서 당기는 힘이 다르다</h2>
+  <svg class="graph" viewBox="0 0 1400 400" width="1400" height="400" aria-label="달이 당기는 힘은 지구의 달 쪽 면에서 크고 반대쪽 면에서 작다. 그 차이로 바닷물이 양쪽으로 부푼다">
+    <defs>
+      <radialGradient id="td-e" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#a5d8ff"/><stop offset=".6" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d6e"/></radialGradient>
+      <radialGradient id="td-m" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#f1f3f5"/><stop offset="1" stop-color="#868e96"/></radialGradient>
+      <marker id="td-k" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#161b28"/></marker>
+      <marker id="td-r" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+    </defs>
+    <ellipse cx="500" cy="200" rx="230" ry="150" fill="#74c0fc" opacity=".55" data-step="2"/>
+    <circle cx="500" cy="200" r="150" fill="url(#td-e)"/>
+    <circle cx="1250" cy="200" r="55" fill="url(#td-m)"/><text x="1250" y="290" font-size="24" font-weight="900" fill="#495057" text-anchor="middle">달</text>
+    <g data-step="1" stroke="#161b28" stroke-width="8">
+      <line x1="660" y1="200" x2="860" y2="200" marker-end="url(#td-k)"/>
+      <line x1="500" y1="200" x2="640" y2="200" stroke-width="7" marker-end="url(#td-k)" stroke="#fff"/>
+      <line x1="340" y1="200" x2="440" y2="200" stroke-width="6" marker-end="url(#td-k)"/>
+      <text x="760" y="180" font-size="21" font-weight="900" fill="#161b28" stroke="none" text-anchor="middle">가깝다 → 크다</text>
+      <text x="380" y="180" font-size="21" font-weight="900" fill="#fff" stroke="none" text-anchor="middle">멀다 → 작다</text>
+    </g>
+    <g data-step="2" stroke="#d9302c" stroke-width="9">
+      <line x1="740" y1="300" x2="830" y2="300" marker-end="url(#td-r)"/>
+      <line x1="260" y1="300" x2="170" y2="300" marker-end="url(#td-r)"/>
+      <text x="785" y="345" font-size="21" font-weight="900" fill="#d9302c" stroke="none" text-anchor="middle">달 쪽으로</text>
+      <text x="215" y="345" font-size="21" font-weight="900" fill="#d9302c" stroke="none" text-anchor="middle">반대쪽으로</text>
+    </g>
+    <text x="1395" y="392" font-size="17" fill="#5f6b80" text-anchor="end">⚠ 부푼 정도와 크기·거리는 크게 과장</text>
+  </svg>
+  <div class="lines" style="margin-top:6px">
+    <p data-step="1">달이 당기는 힘: 가까운 면 &gt; 지구 중심 &gt; 먼 면</p>
+    <p data-step="2">이 <b>차이</b>가 바닷물을 부풀리는 힘 → <b class="blank" data-n="1" data-step="2">기조력</b>, 달 쪽과 그 <b class="blank" data-n="2" data-step="3">반대쪽</b> 두 곳이 부푼다</p>
+  </div>
+  <aside class="script">
+    <p>달은 지구 전체를 당깁니다. 그런데 지구 지름만큼 거리 차이가 있죠.</p>
+    <p data-at="1">달에 가까운 면은 더 세게, 지구 중심은 그보다 약하게, 먼 면은 가장 약하게 당겨집니다.</p>
+    <p data-at="2">지구 중심을 기준으로 보면, 가까운 면의 바닷물은 달 쪽으로, 먼 면의 바닷물은 뒤에 남겨지듯 반대쪽으로 끌립니다. 이 차이가 빈칸 1번, 기조력입니다.</p>
+    <p data-at="3">그래서 부푼 곳은 한 곳이 아니라 달 쪽과 빈칸 2번, 반대쪽 두 곳이에요. 다음 장면에서 이것이 하루 두 번의 밀물이 됩니다.</p>
+  </aside>
+</section>
+
+<!-- 5 달 vs 태양 -->
+<section class="slide soft" id="s-sunmoon" data-title="태양보다 달이 큰 까닭" data-part="① 기조력">
+  <p class="kicker">① 기조력 · 태양은 달보다 2,700만 배 무겁다</p>
+  <h2>그런데 왜 조석은 달이 더 좌우할까</h2>
+  <p class="formula" data-step="1">기조력 ∝ 질량 ÷ 거리의 <b class="blank" data-n="3" data-step="1">세제곱</b></p>
+  <p class="eq mt" data-step="2">태양 ÷ 달 = 2,700만 ÷ 390³ = 2.7×10⁷ ÷ 5.9×10⁷ ≈ <b class="blank" data-n="4" data-step="2">0.46</b></p>
+  <p class="small" data-step="2">태양은 달보다 약 390배 멀다 · 태양이 달보다 약 300배 거리였다면 둘의 기조력이 같았을 것이다</p>
+  <svg class="graph mt" viewBox="0 0 1400 150" width="1400" height="150" data-step="3" aria-label="달의 기조력 1과 태양의 기조력 0.46 비교 막대">
+    <text x="0" y="45" font-size="26" font-weight="900" fill="#495057">달</text>
+    <rect x="90" y="18" width="1100" height="40" rx="10" fill="#868e96"/><text x="1205" y="48" font-size="26" font-weight="900" fill="#161b28">1</text>
+    <text x="0" y="115" font-size="26" font-weight="900" fill="#e8590c">태양</text>
+    <rect x="90" y="88" width="506" height="40" rx="10" fill="#f59f00"/><text x="611" y="118" font-size="26" font-weight="900" fill="#161b28">0.46</text>
+  </svg>
+  <aside class="script">
+    <p>태양은 달보다 약 2,700만 배 무거운데, 조석은 달이 더 크게 좌우합니다. 이상하죠?</p>
+    <p data-at="1">만유인력은 거리의 제곱에 반비례하지만, 기조력은 '힘의 차이'라서 거리의 빈칸 3번, 세제곱에 반비례합니다. 멀리 있을수록 훨씬 빨리 약해져요.</p>
+    <p data-at="2">태양은 달보다 약 390배 멀어서, 계산하면 빈칸 4번, 약 0.46. 달의 절반 정도입니다.</p>
+    <p data-at="3">그래서 달이 주인공이고, 태양은 거드는 역할이에요.</p>
+  </aside>
+</section>
+
+<!-- 6 하루 두 번 -->
+<section class="slide" id="s-twice" data-title="하루 두 번, 날마다 50분씩" data-part="② 밀물과 썰물">
+  <p class="kicker">② 밀물과 썰물 · 지구가 자전하면</p>
+  <h2>부푼 곳을 하루에 두 번 지난다</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg viewBox="0 0 560 520" width="560" height="520" aria-label="북극 위에서 본 지구: 자전하며 두 부푼 곳을 지나는 한 지점">
+      <defs><radialGradient id="tw-e" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#a5d8ff"/><stop offset=".6" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d6e"/></radialGradient>
+        <marker id="tw-a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#161b28"/></marker></defs>
+      <ellipse cx="270" cy="260" rx="230" ry="160" fill="#74c0fc" opacity=".55"/>
+      <circle cx="270" cy="260" r="150" fill="url(#tw-e)"/>
+      <text x="540" y="268" font-size="22" font-weight="900" fill="#495057" text-anchor="end">→ 달</text>
+      <path d="M270 70 A190 190 0 0 0 90 330" fill="none" stroke="#161b28" stroke-width="5" marker-end="url(#tw-a)"/>
+      <text x="80" y="90" font-size="20" font-weight="900" fill="#161b28">자전</text>
+      <g data-step="1" font-size="22" font-weight="900">
+        <circle cx="490" cy="260" r="12" fill="#d9302c"/><text x="470" y="230" fill="#d9302c" text-anchor="end">만조</text>
+        <circle cx="270" cy="420" r="12" fill="#161b28"/><text x="290" y="470" fill="#161b28">간조</text>
+        <circle cx="50" cy="260" r="12" fill="#d9302c"/><text x="70" y="230" fill="#d9302c">만조</text>
+        <circle cx="270" cy="100" r="12" fill="#161b28"/><text x="290" y="60" fill="#161b28">간조</text>
+      </g>
+      <text x="550" y="510" font-size="16" fill="#5f6b80" text-anchor="end">⚠ 부푼 정도는 과장 · 북극 위에서 본 모습</text>
+    </svg>
+    <div class="lines">
+      <p data-step="1">지구가 한 바퀴 자전하는 동안 부푼 곳을 두 번 지난다<br>→ 밀물과 썰물이 하루에 <b class="blank" data-n="5" data-step="1">두</b> 번씩</p>
+      <p data-step="2">달도 같은 방향으로 공전 → 한 주기는 약 12시간 25분</p>
+      <p data-step="2" class="big">물때가 날마다 약 <b class="blank" data-n="6" data-step="2">50</b>분씩 늦어진다</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>북극 위에서 본 지구입니다. 바닷물이 달 쪽과 반대쪽으로 부풀어 있고, 지구는 그 안에서 돕니다.</p>
+    <p data-at="1">한 지점이 하루 동안 돌면 만조, 간조, 만조, 간조. 빈칸 5번, 하루에 두 번씩입니다.</p>
+    <p data-at="2">그런데 그사이 달도 같은 방향으로 조금 움직였으니 따라잡는 데 시간이 더 걸려요. 그래서 한 주기가 약 12시간 25분이고, 물때가 날마다 빈칸 6번, 약 50분씩 늦어집니다. 도입의 단서 하나가 풀렸습니다.</p>
+  </aside>
+</section>
+
+<!-- 7 사리와 조금 -->
+<section class="slide" id="s-spring" data-title="사리와 조금" data-part="② 밀물과 썰물">
+  <p class="kicker">② 밀물과 썰물 · 달과 태양의 배치</p>
+  <h2>한 줄이면 더하고, 직각이면 깎는다</h2>
+  <svg class="graph" viewBox="0 0 1400 340" width="1400" height="340" aria-label="태양·지구·달이 한 줄일 때 부푼 곳이 크고, 직각일 때 작다">
+    <defs><radialGradient id="sg-e" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#a5d8ff"/><stop offset=".6" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d6e"/></radialGradient>
+      <radialGradient id="sg-s" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff3bf"/><stop offset="1" stop-color="#f59f00"/></radialGradient></defs>
+    <rect x="0" y="0" width="680" height="320" rx="20" fill="#f2f5f9"/><rect x="720" y="0" width="680" height="320" rx="20" fill="#f2f5f9"/>
+    <circle cx="40" cy="160" r="60" fill="url(#sg-s)"/><text x="40" y="250" font-size="21" font-weight="900" fill="#e8590c" text-anchor="middle">태양</text>
+    <ellipse cx="360" cy="160" rx="135" ry="80" fill="#74c0fc" opacity=".6"/>
+    <circle cx="360" cy="160" r="80" fill="url(#sg-e)"/>
+    <circle cx="590" cy="160" r="26" fill="#adb5bd"/><text x="590" y="215" font-size="21" font-weight="900" fill="#495057" text-anchor="middle">달 (삭·망)</text>
+    <circle cx="760" cy="160" r="60" fill="url(#sg-s)"/><text x="760" y="250" font-size="21" font-weight="900" fill="#e8590c" text-anchor="middle">태양</text>
+    <ellipse cx="1080" cy="160" rx="98" ry="88" fill="#74c0fc" opacity=".6"/>
+    <circle cx="1080" cy="160" r="80" fill="url(#sg-e)"/>
+    <circle cx="1080" cy="40" r="22" fill="#adb5bd"/><text x="1120" y="46" font-size="21" font-weight="900" fill="#495057">달 (상현·하현)</text>
+    <text x="340" y="300" font-size="25" font-weight="900" fill="#161b28" text-anchor="middle" data-step="1">한 줄 → 기조력이 더해진다</text>
+    <text x="1080" y="300" font-size="25" font-weight="900" fill="#161b28" text-anchor="middle" data-step="2">직각 → 서로 깎인다</text>
+    <text x="1395" y="335" font-size="16" fill="#5f6b80" text-anchor="end">⚠ 크기·거리는 비율이 아님</text>
+  </svg>
+  <div class="cols" style="margin-top:14px">
+    <p data-step="1">삭·망 무렵, 조차가 가장 크다 → <b class="blank" data-n="7" data-step="1">사리</b>(대조)<br><span class="small">인천 조차 약 8 m</span></p>
+    <p data-step="2">상현·하현 무렵, 조차가 가장 작다 → <b class="blank" data-n="8" data-step="2">조금</b>(소조)<br><span class="small">사리 때 조차의 절반에도 못 미친다</span></p>
+  </div>
+  <aside class="script">
+    <p>달이 1이면 태양은 0.46. 두 힘이 어떻게 합쳐질까요?</p>
+    <p data-at="1">태양·지구·달이 한 줄로 서는 삭과 망 무렵에는 두 기조력이 더해져 조차가 가장 큽니다. 빈칸 7번, 사리. 대조라고도 해요.</p>
+    <p data-at="2">상현과 하현 무렵에는 직각이라 서로 깎입니다. 조차가 가장 작은 빈칸 8번, 조금, 소조. 사리는 대략 보름마다 돌아오니, 바닷길 축제는 사리 무렵에 잡아야 합니다.</p>
+  </aside>
+</section>
+
+<!-- 8 조위 곡선 -->
+<section class="slide" id="s-curve" data-title="조위 곡선 읽기" data-part="③ 조위 곡선">
+  <p class="kicker">③ 조위 곡선 · 사리 때 목포 (단순화한 모형)</p>
+  <h2>등성이가 물 밖으로 나오는 시간</h2>
+  <svg class="graph" id="tideSvg" viewBox="0 0 1400 400" width="1400" height="400" aria-label="사리 때 목포의 조위 곡선과 바닷길 등성이 높이 −1.7 m"></svg>
+  <div class="cols" style="margin-top:4px">
+    <p data-step="1">만조와 간조의 해수면 높이 차 → <b class="blank" data-n="9" data-step="1">조차</b> (사리 때 목포 약 4 m)</p>
+    <p data-step="2">해수면이 등성이(평균 해면 −1.7 m)보다 낮아지는 <b class="blank" data-n="10" data-step="2">간조</b> 앞뒤에만 길이 드러난다</p>
+  </div>
+  <aside class="script">
+    <p>가로축은 만조부터 지난 시간, 세로축은 평균 해면에서 잰 해수면 높이입니다. 사리 때 목포의 조위 곡선이에요. 진도와 가장 가까운 관측소입니다.</p>
+    <p data-at="1">가장 높은 만조와 가장 낮은 간조의 차이가 빈칸 9번, 조차입니다. 사리 때 목포는 약 4 m.</p>
+    <p data-at="2">빨간 점선이 바닷길의 가장 낮은 등성이, 평균 해면보다 1.7 m 낮은 곳입니다. 해수면이 그보다 낮아지는 빈칸 10번, 간조 앞뒤 짧은 시간에만 길이 열려요. 날마다 50분씩 늦어지니 정확한 시각은 그날 관측소 자료로 찾습니다. 단원 화면 미션이 바로 이것입니다.</p>
+  </aside>
+</section>
+
+<!-- 9 지역별 조차 -->
+<section class="slide soft" id="s-region" data-title="지역마다 다른 조차" data-part="③ 조위 곡선">
+  <p class="kicker">③ 조위 곡선 · 같은 사리, 다른 바다</p>
+  <h2>우리나라 주요 항구의 대조차</h2>
+  <svg class="graph" viewBox="0 0 1400 380" width="1400" height="380" aria-label="인천 약 8 m, 목포 약 4 m, 부산 약 1 m, 묵호 약 0.3 m의 대조차 막대그래프">
+    <defs><linearGradient id="rg-b" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4dabf7"/><stop offset="1" stop-color="#1864ab"/></linearGradient></defs>
+    <line x1="100" y1="320" x2="1350" y2="320" stroke="#161b28" stroke-width="4"/>
+    <g data-step="1"><rect x="180" y="40" width="160" height="280" rx="10" fill="url(#rg-b)"/><text x="260" y="30" font-size="26" font-weight="900" fill="#161b28" text-anchor="middle">약 8 m</text></g>
+    <rect x="480" y="180" width="160" height="140" rx="10" fill="url(#rg-b)"/><text x="560" y="170" font-size="26" font-weight="900" fill="#161b28" text-anchor="middle">약 4 m</text>
+    <g data-step="2"><rect x="780" y="285" width="160" height="35" rx="8" fill="url(#rg-b)"/><text x="860" y="275" font-size="26" font-weight="900" fill="#161b28" text-anchor="middle">약 1 m</text>
+    <rect x="1080" y="310" width="160" height="10" rx="4" fill="url(#rg-b)"/><text x="1160" y="298" font-size="26" font-weight="900" fill="#161b28" text-anchor="middle">약 0.3 m</text></g>
+    <g font-size="25" font-weight="900" fill="#161b28" text-anchor="middle"><text x="260" y="360">인천 (서해)</text><text x="560" y="360">목포 (남서해)</text><text x="860" y="360">부산 (남해)</text><text x="1160" y="360">묵호 (동해)</text></g>
+  </svg>
+  <div class="cols" style="margin-top:6px">
+    <p data-step="1">수심이 얕고 만이 좁아지는 <b class="blank" data-n="11" data-step="1">서해</b>안에서 조석파가 커진다</p>
+    <p data-step="2">깊고 열린 동해안 묵호는 약 <b class="blank" data-n="12" data-step="2">0.3</b> m에 그친다</p>
+  </div>
+  <aside class="script">
+    <p>같은 사리라도 바다마다 조차가 다릅니다. 목포가 약 4 m입니다.</p>
+    <p data-at="1">인천은 약 8 m. 빈칸 11번, 서해안은 수심이 얕고 만이 좁아지면서 조석파가 증폭되기 때문입니다.</p>
+    <p data-at="2">부산은 약 1 m, 동해의 묵호는 빈칸 12번, 약 0.3 m. 동해안에서는 바닷길 축제가 열릴 수 없는 까닭이에요.</p>
+  </aside>
+</section>
+
+<!-- 10 사건 해결 -->
+<section class="slide" id="s-solve" data-title="바닷길이 열리는 날과 시각" data-part="③ 조위 곡선">
+  <p class="kicker">사건 해결 · 축제 기획서</p>
+  <h2>바다가 갈라지는 날을 정하는 세 가지</h2>
+  <div class="three">
+    <div class="card" data-step="1"><div class="ic">🌕</div><b class="nm">날짜</b><p>삭·망 무렵의 사리<br>(태양·지구·달의 배치)</p></div>
+    <div class="card" data-step="2"><div class="ic">🕐</div><b class="nm">시각</b><p>그날의 간조 앞뒤<br>(날마다 약 50분씩 늦어진다)</p></div>
+    <div class="card" data-step="3"><div class="ic">🗺️</div><b class="nm">장소</b><p>조차가 큰 서·남해안<br>(그 지역의 바다 모양)</p></div>
+  </div>
+  <p class="big center mt2" data-step="4">바다를 가르는 것은 전설이 아니라 <span class="c-blue">달과 태양</span>이었다</p>
+  <aside class="script">
+    <p>처음 질문으로 돌아갑니다. 바다가 갈라지는 날은 누가 정할까요?</p>
+    <p data-at="1">날짜는 사리 무렵, 달과 태양의 배치가 정합니다.</p>
+    <p data-at="2">시각은 그날의 간조 앞뒤, 날마다 50분씩 밀립니다.</p>
+    <p data-at="3">그리고 그 바다가 조차가 큰 서·남해안이어야 하죠.</p>
+    <p data-at="4">첫 추리 ㉡, 태양·지구·달의 배치와 그 지역의 바다 모양이 정답이었습니다.</p>
+  </aside>
+</section>
+
+<!-- 11 확인 -->
+<section class="slide" id="s-check1" data-title="확인 · 사리와 조금" data-part="③ 조위 곡선">
+  <p class="kicker">확인</p>
+  <h2>조차가 가장 작은 조금이 나타나는 때는?</h2>
+  <div class="opts" style="max-width:1150px">
+    <div class="opt wrong" data-step="1">① 보름달(망)이 뜨는 무렵</div>
+    <div class="opt right" data-step="1">② 반달(상현·하현)이 뜨는 무렵</div>
+    <div class="opt wrong" data-step="1">③ 그믐(삭) 무렵</div>
+    <div class="opt wrong" data-step="1">④ 날마다 정오 무렵</div>
+  </div>
+  <p class="why mt" data-step="2">상현·하현 무렵에는 태양과 달이 지구에서 보아 직각 방향에 있어 두 기조력이 서로 깎입니다. 삭과 망은 한 줄이라 사리입니다.</p>
+  <aside class="script">
+    <p>짝과 30초 이야기하게 한 뒤 손가락으로 답을 들게 합니다.</p>
+    <p data-at="1">정답은 ②. 보름달 때 조차가 가장 작다고 생각한 학생에게는 망도 한 줄이라는 그림을 다시 보여 줍니다.</p>
+  </aside>
+</section>
+
+<!-- 12 정리 -->
+<section class="slide soft" id="s-sum" data-title="오늘의 정리" data-part="정리">
+  <p class="kicker">오늘의 정리</p>
+  <h2>바다를 가르는 것은 달과 태양이었다</h2>
+  <ul class="sumlist">
+    <li data-k="1" data-step="1">앞면과 뒷면에서 당기는 힘의 차이 = <b>기조력</b>. 질량에 비례, 거리의 세제곱에 반비례 → 태양은 달의 약 0.46배</li>
+    <li data-k="2" data-step="2">부푼 곳 두 곳을 자전하며 지나 밀물·썰물이 하루 두 번, 물때는 날마다 약 50분씩 늦어진다</li>
+    <li data-k="3" data-step="3">한 줄(삭·망)이면 <b>사리(대조)</b>, 직각(상현·하현)이면 <b>조금(소조)</b></li>
+    <li data-k="4" data-step="4">같은 사리라도 조차는 지역마다 다르다: 인천 약 8 m, 묵호 약 0.3 m</li>
+  </ul>
+  <aside class="script"><p>학습지를 덮고 한 줄씩 먼저 말로 떠올리게 한 다음 엽니다.</p></aside>
+</section>
+
+<!-- 13 문제 -->
+<section class="slide" id="s-quiz" data-title="문제로 확인하기" data-part="정리">
+  <p class="kicker">문제로 확인하기</p>
+  <h2>두 문제만 풀어 봅시다</h2>
+  <div class="cols">
+    <div class="card">
+      <p class="q">1. 오늘 만조가 오전 6시였다면 내일 같은 무렵의 만조는?</p>
+      <div class="opts">
+        <div class="opt wrong" data-step="1">㉠ 오전 6시 그대로</div>
+        <div class="opt right" data-step="1">㉡ 오전 6시 50분 무렵</div>
+        <div class="opt wrong" data-step="1">㉢ 오후 6시 무렵</div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="q">2. 태양이 달보다 훨씬 무거운데도 기조력이 더 작은 까닭은?</p>
+      <div class="opts">
+        <div class="opt wrong" data-step="2">㉠ 태양은 낮에만 당기기 때문</div>
+        <div class="opt right" data-step="2">㉡ 기조력이 거리의 세제곱에 반비례하기 때문</div>
+        <div class="opt wrong" data-step="2">㉢ 태양은 바닷물이 아니라 육지만 당기기 때문</div>
+      </div>
+    </div>
+  </div>
+  <aside class="script">
+    <p>1분 동안 풀게 하고 손가락으로 답을 들게 합니다.</p>
+    <p data-at="1">1번은 ㉡. 하루에 약 50분씩 늦어집니다.</p>
+    <p data-at="2">2번은 ㉡.</p>
+  </aside>
+</section>
+
+<!-- 14 활동·다음 -->
+<section class="slide dark" id="s-next" data-title="직접 해 보기 · 다음 시간" data-part="정리">
+  <p class="kicker">직접 해 보기</p>
+  <h2>이야기 ④ 「바다가 갈라지는 날」</h2>
+  <div class="cols">
+    <div class="card"><h3>달을 직접 돌려 보세요</h3><p>태양의 기조력이 달과 같아지는 거리, 사리와 조금 만들기, 목포 자료에서 등성이가 드러나는 시각 찾기 미션이 기다립니다.</p>
+      <p class="mt"><a href="index.html" style="color:#74b6ff;font-weight:900">단원 화면 열기 →</a></p></div>
+    <div class="card"><h3>다음 시간 · 수준별 문제와 응용 실험실</h3><p>네 이야기(해류·해파·해일·조석)를 문제와 처음 보는 상황에 적용해 봅니다.</p></div>
+  </div>
+  <aside class="script"><p>남은 시간에는 단원 화면의 이야기 ④를 열어 미션을 하게 합니다.</p></aside>
+</section>
+
+</div></div>
+<script src="../assets/board.js"></script>
+<script>
+  /* 조위 곡선(단순화: 반일주조 하나, 주기 12.42시간, 사리 때 목포 진폭 2 m). 가로 0~24시간 → 120~1340, 세로 +2.5~−2.5 m → 40~340 */
+  (function () {
+    var svg = document.getElementById("tideSvg"), X0 = 120, X1 = 1340, Y0 = 40, Y1 = 340;
+    function X(t) { return X0 + t / 24 * (X1 - X0); }
+    function Y(h) { return Y0 + (2.5 - h) / 5 * (Y1 - Y0); }
+    function h(t) { return 2 * Math.cos(2 * Math.PI * t / 12.42); }
+    var d = "", i, t, s = "";
+    for (i = 0; i <= 240; i++) { t = i / 10; d += (i ? " L" : "M") + X(t).toFixed(1) + " " + Y(h(t)).toFixed(1); }
+    s += "<g stroke='#e8edf4' stroke-width='2'>";
+    [-2, -1, 0, 1, 2].forEach(function (v) { s += "<line x1='" + X0 + "' y1='" + Y(v) + "' x2='" + X1 + "' y2='" + Y(v) + "'/>"; });
+    s += "</g>";
+    /* 등성이가 드러나는 구간 */
+    var dt = Math.acos(-1.7 / 2) * 12.42 / (2 * Math.PI);   /* 만조에서 해수면이 −1.7 m 가 되기까지 걸리는 시간 */
+    [6.21, 18.63].forEach(function (c) {
+      var half = 6.21 - dt;   /* 간조 앞뒤로 해수면이 −1.7 m 아래인 시간의 절반 */
+      s += "<rect data-step='2' x='" + X(c - half) + "' y='" + Y0 + "' width='" + (X(c + half) - X(c - half)) + "' height='" + (Y1 - Y0) + "' fill='rgba(232,89,12,.16)'/>";
+    });
+    s += "<path d='" + d + "' fill='none' stroke='#1462d8' stroke-width='6'/>";
+    s += "<line x1='" + X0 + "' y1='" + Y(0) + "' x2='" + X1 + "' y2='" + Y(0) + "' stroke='#161b28' stroke-width='3'/>";
+    s += "<g data-step='2'><line x1='" + X0 + "' y1='" + Y(-1.7) + "' x2='" + X1 + "' y2='" + Y(-1.7) + "' stroke='#d9302c' stroke-width='4' stroke-dasharray='12 8'/>";
+    s += "<text x='" + X(0.3) + "' y='" + (Y(-1.7) + 30) + "' font-size='22' font-weight='900' fill='#d9302c'>바닷길 등성이 −1.7 m</text>";
+    s += "<text x='" + X(6.21) + "' y='" + (Y0 + 28) + "' font-size='21' font-weight='900' fill='#c2410c' text-anchor='middle'>길이 드러난다</text></g>";
+    s += "<g data-step='1'><line x1='" + X(12.42) + "' y1='" + Y(2) + "' x2='" + X(12.42) + "' y2='" + Y(-2) + "' stroke='#161b28' stroke-width='4'/>";
+    s += "<text x='" + (X(12.42) + 12) + "' y='" + (Y(0) - 10) + "' font-size='22' font-weight='900' fill='#161b28'>조차 약 4 m</text></g>";
+    [-2, 0, 2].forEach(function (v) { s += "<text x='" + (X0 - 12) + "' y='" + (Y(v) + 8) + "' font-size='21' font-weight='800' fill='#161b28' text-anchor='end'>" + (v > 0 ? "+" : "") + v + " m</text>"; });
+    [0, 6, 12, 18, 24].forEach(function (v) { s += "<text x='" + X(v) + "' y='" + (Y1 + 30) + "' font-size='21' font-weight='800' fill='#161b28' text-anchor='middle'>" + v + "</text>"; });
+    s += "<text x='" + X1 + "' y='" + (Y1 + 56) + "' font-size='20' font-weight='800' fill='#5f6b80' text-anchor='end'>만조부터 지난 시간 (시간)</text>";
+    s += "<text x='" + X1 + "' y='" + (Y0 - 18) + "' font-size='18' fill='#5f6b80' text-anchor='end'>⚠ 주기 12시간 25분짜리 반일주조 하나만 넣은 모형</text>";
+    svg.innerHTML = s;
+  })();
+</script>
+</body>
+</html>

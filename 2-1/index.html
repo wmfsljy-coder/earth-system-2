@@ -30,6 +30,7 @@
     <button class="tab-btn" data-tab="6"><span class="num">06</span> 응용 실험실</button>
     <button class="tab-btn" data-tab="7"><span class="num">07</span> 정리하기</button>
     <button class="tab-btn" data-tab="8"><span class="num">08</span> 우리 반</button>
+    <button class="tab-btn" data-tab="9"><span class="num">09</span> 칠판모드</button>
   </nav>
 
   <main>
@@ -427,7 +428,7 @@
           <div class="stage-card" style="padding:6px 0 4px"><div id="wkD"></div></div>
         </section>
       </div>
-      <p class="teacher-note">교사용: 주소 끝에 <a href="?open=1">?open=1</a>을 붙이면 교사 미리 보기로 열립니다.</p>
+      <p class="teacher-note">교사용: 주소 끝에 <a href="?open=1">?open=1</a>을 붙이면 교사 미리 보기로 열립니다. · 전자칠판용 <a href="board-04.html">칠판 강의 화면</a> · 빈칸 번호가 같은 <a href="sheet-04.html">개념정리 학습지</a>(<a href="sheet-04.html?key=1">정답</a>) · <a href="form-04.html">형성평가</a>(<a href="form-04.html?key=1">정답</a>)</p>
     </section>
 
     <!-- ===================================================================== 05 수준별 문제 -->
@@ -468,6 +469,16 @@
         <p>내가 해결한 사건과 찾아낸 답을 우리 반에 올리고, 친구들은 어떤 값을 찾았는지 살펴보세요. <b>올리기 버튼을 눌렀을 때만</b> 공유됩니다. 실명 대신 별명을 쓰세요.</p>
       </div>
       <div class="stage-card"><div id="share"></div></div>
+    </section>
+
+    <!-- ===================================================================== 09 칠판모드 -->
+    <section class="tab-panel" data-panel="9" hidden>
+      <div class="stage-head">
+        <div class="eyebrow">09 · 전자칠판으로 정리하기</div>
+        <h2 class="display">칠판모드</h2>
+        <p>소단원마다 전자칠판용 <b>칠판 강의 화면</b>, 혼자 넘겨 보는 <b>혼자 복습하기</b>, 빈칸 번호가 같은 <b>개념정리 학습지</b>, 10분 동안 확인하는 <b>형성평가</b>를 모았습니다. 칠판에 열리는 빈칸 번호와 학습지 빈칸 번호가 같아, 수업하며 함께 채우거나 수업 끝에 학습지로 확인할 수 있습니다.</p>
+      </div>
+      <div class="info-card" id="board-wrap" style="margin:0 0 16px"><span class="tag">칠판 정리</span><b>04 조석</b> 소단원을 칠판 강의 화면과 개념정리 학습지로 정리하고, 형성평가로 확인합니다.<div class="btn-row" style="margin-top:10px"><a class="btn" href="board-04.html" target="_blank" rel="noopener" style="text-decoration:none">📺 칠판 강의 화면</a><a class="btn" href="board-04.html?s=1" target="_blank" rel="noopener" style="text-decoration:none">🔁 혼자 복습하기</a><a class="btn" href="sheet-04.html" target="_blank" rel="noopener" style="text-decoration:none">📝 개념정리 학습지</a><a class="btn" href="form-04.html" target="_blank" rel="noopener" style="text-decoration:none">✅ 형성평가</a></div></div>
     </section>
   </main>
 </div>

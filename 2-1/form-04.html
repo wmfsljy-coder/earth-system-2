@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>형성평가 · 조석 (지구시스템과학 Ⅱ-1 04)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+</head>
+<body>
+<script>
+/* 형성평가 — 지구시스템과학 Ⅱ-1 04 조석. 값은 단원 화면과 칠판 강의 화면(board-04.html)에 맞춘다. ref = 칠판 장면 번호 */
+(function () {
+  /* 태양·지구·달 배치 (가) 한 줄, (나) 직각 — 크기·거리는 비율이 아님 */
+  function sky(x, line) {
+    var s = "<rect x='" + x + "' y='30' width='310' height='190' rx='12' fill='#0f1424'/>";
+    s += "<circle cx='" + (x + 40) + "' cy='125' r='30' fill='#ffd43b'/><text x='" + (x + 40) + "' y='176' font-size='14' font-weight='800' fill='#ffe066' text-anchor='middle'>태양</text>";
+    s += "<circle cx='" + (x + 175) + "' cy='125' r='26' fill='#339af0'/><text x='" + (x + 175) + "' y='170' font-size='14' font-weight='800' fill='#a5d8ff' text-anchor='middle'>지구</text>";
+    if (line) s += "<circle cx='" + (x + 270) + "' cy='125' r='11' fill='#dee2e6'/><text x='" + (x + 270) + "' y='156' font-size='14' font-weight='800' fill='#dee2e6' text-anchor='middle'>달</text>";
+    else s += "<circle cx='" + (x + 175) + "' cy='56' r='11' fill='#dee2e6'/><text x='" + (x + 198) + "' y='61' font-size='14' font-weight='800' fill='#dee2e6'>달</text>";
+    s += "<line x1='" + (x + 72) + "' y1='125' x2='" + (x + 146) + "' y2='125' stroke='#ffe066' stroke-width='2' stroke-dasharray='5 4'/>";
+    s += "<text x='" + (x + 155) + "' y='20' font-size='18' font-weight='900' fill='#161b28' text-anchor='middle'>" + (line ? "(가)" : "(나)") + "</text>";
+    return s;
+  }
+  var FIG_SKY = "<svg viewBox='0 0 660 256' width='660' height='256' aria-label='(가) 태양, 지구, 달이 한 줄로 늘어선 배치. (나) 지구에서 보아 태양과 달이 직각을 이루는 배치'>" +
+    sky(0, true) + sky(350, false) + "<text x='660' y='253' font-size='12' fill='#8a94a6' text-anchor='end'>크기·거리는 실제 비율이 아님</text></svg>";
+
+  /* 조위 곡선: 진폭 2 m, 주기 12시간 25분(12.42시간) 단순 모형 */
+  var X0 = 60, X1 = 640, Y0 = 120, A = 40;
+  function X(t) { return X0 + t / 24 * (X1 - X0); }
+  var pts = []; for (var t = 0; t <= 24.001; t += 0.1) pts.push(X(t).toFixed(1) + " " + (Y0 - A * Math.cos(2 * Math.PI * t / 12.42)).toFixed(1));
+  var g = "<svg viewBox='0 0 660 220' width='660' height='220' aria-label='시간에 따른 해수면 높이 곡선. 높이는 +2 m와 −2 m 사이를 오르내린다'>";
+  [2, 0, -2].forEach(function (m) { var y = Y0 - m * A / 2; g += "<line x1='" + X0 + "' y1='" + y + "' x2='" + X1 + "' y2='" + y + "' stroke='" + (m ? "#e3e8ef" : "#161b28") + "' stroke-width='" + (m ? 1.5 : 2) + "'/><text x='" + (X0 - 8) + "' y='" + (y + 5) + "' font-size='13' font-weight='800' fill='#5f6b80' text-anchor='end'>" + (m > 0 ? "+" : m < 0 ? "−" : "") + Math.abs(m) + " m</text>"; });
+  [0, 6, 12, 18, 24].forEach(function (h) { g += "<line x1='" + X(h) + "' y1='" + (Y0 + 52) + "' x2='" + X(h) + "' y2='" + (Y0 + 58) + "' stroke='#161b28' stroke-width='2'/><text x='" + X(h) + "' y='" + (Y0 + 76) + "' font-size='13' font-weight='800' fill='#161b28' text-anchor='middle'>" + h + "</text>"; });
+  g += "<line x1='" + X0 + "' y1='" + (Y0 + 52) + "' x2='" + X1 + "' y2='" + (Y0 + 52) + "' stroke='#161b28' stroke-width='2'/>";
+  g += "<polyline points='" + pts.join(" ") + "' fill='none' stroke='#1462d8' stroke-width='3'/>";
+  g += "<text x='" + X1 + "' y='" + (Y0 + 96) + "' font-size='12' font-weight='800' fill='#5f6b80' text-anchor='end'>시간 (시)</text><text x='" + X0 + "' y='16' font-size='12' font-weight='800' fill='#5f6b80'>해수면 높이 (평균 해수면 = 0)</text></svg>";
+
+  window.FORMATIVE = {
+    subject: "지구시스템과학", unit: "Ⅱ-1 해수의 운동", part: "04 조석",
+    std: ["12지시02-04"], board: "board-04.html", sheet: "sheet-04.html", time: "10분",
+    items: [
+      { lv: "기본", type: "mc", ref: 4,
+        q: "기조력에 대한 설명으로 옳은 것은?",
+        opts: ["달이 지구 전체를 당기는 인력과 크기가 같은 힘", "지구 각 지점에서 달이 당기는 힘의 차이로 바닷물을 부풀리는 힘", "바람이 바닷물을 밀어 올리는 힘", "지구 자전 때문에 생기는 전향력"],
+        a: 1, why: "달이 당기는 힘은 달에 가까운 면이 크고 먼 면이 작습니다. 이 차이가 기조력이며, 달 쪽과 그 반대쪽 두 곳의 바닷물이 부풉니다." },
+      { lv: "기본", type: "short", ref: 8,
+        q: "만조와 간조 때의 해수면 높이 차이를 무엇이라고 할까요?",
+        a: ["조차"], why: "사리 때 목포의 조차는 약 4 m, 인천은 약 8 m입니다." },
+      { lv: "기본", type: "mc", ref: 7,
+        q: "조차가 가장 큰 사리(대조)가 나타나는 달의 위상끼리 짝지은 것은?",
+        opts: ["삭, 망", "상현, 하현", "삭, 상현", "망, 하현"],
+        a: 0, why: "삭·망 무렵에는 태양·지구·달이 한 줄로 늘어서 기조력이 더해집니다. 상현·하현 무렵에는 조차가 가장 작은 조금이 나타납니다." },
+      { lv: "기본", type: "short", ref: 6, unit: "분",
+        q: "만조 시각은 날마다 약 몇 분씩 늦어질까요?",
+        a: ["50"], why: "달이 지구 자전과 같은 방향으로 공전하므로, 지구가 달을 다시 마주 보기까지 하루보다 약 50분이 더 걸립니다." },
+      { lv: "발전", type: "mc", ref: 5,
+        q: "기조력은 천체의 질량에 비례하고 거리의 세제곱에 반비례합니다. 달이 지금보다 2배 먼 곳에 있다면 달의 기조력은 지금의 몇 배가 될까요?",
+        opts: ["2배", "1/2배", "1/4배", "1/8배"],
+        a: 3, why: "거리가 2배이면 2³ = 8이므로 기조력은 1/8배입니다. 거리의 제곱에 반비례하는 인력이었다면 1/4배였을 것입니다." },
+      { lv: "발전", type: "mc", ref: 7, fig: FIG_SKY,
+        q: "그림은 태양·지구·달의 배치 (가), (나)입니다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?",
+        box: "ㄱ. (가) 무렵에는 조차가 가장 큰 사리가 나타난다.<br>ㄴ. (나)일 때 달의 위상은 상현 또는 하현이다.<br>ㄷ. (나)일 때 태양과 달의 기조력이 서로 더해진다.",
+        opts: ["ㄱ", "ㄷ", "ㄱ, ㄴ", "ㄴ, ㄷ", "ㄱ, ㄴ, ㄷ"],
+        a: 2, why: "(가)처럼 한 줄이면 두 기조력이 더해져 사리, (나)처럼 직각이면 서로 깎여 조금이 됩니다. (나)의 달은 상현 또는 하현입니다." },
+      { lv: "발전", type: "mc", ref: 8, fig: g,
+        q: "그림은 어느 바닷가의 조위 곡선(단순화한 모형)입니다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?",
+        box: "ㄱ. 조차는 약 4 m이다.<br>ㄴ. 만조에서 바로 다음 간조까지 약 12시간이 걸린다.<br>ㄷ. 하루 동안 만조가 두 번 나타난다.",
+        opts: ["ㄱ", "ㄱ, ㄴ", "ㄴ, ㄷ", "ㄱ, ㄷ", "ㄱ, ㄴ, ㄷ"],
+        a: 3, why: "+2 m와 −2 m 사이를 오르내리므로 조차는 약 4 m입니다. 만조에서 다음 만조까지가 약 12시간 25분이므로, 바로 다음 간조까지는 그 절반인 약 6시간 12분입니다." },
+      { lv: "발전", type: "mc", ref: 9,
+        q: "사리 때 인천의 조차는 약 8 m, 동해안 묵호는 약 0.3 m입니다. 이 차이가 생기는 까닭으로 가장 알맞은 것은?",
+        opts: ["인천이 묵호보다 달에 훨씬 가깝기 때문", "서해는 수심이 얕고 만이 좁아져 조석파가 커지기 때문", "동해에는 기조력이 작용하지 않기 때문", "인천에는 바람이 강하게 불기 때문"],
+        a: 1, why: "기조력은 두 곳에 거의 똑같이 작용합니다. 수심이 얕고 만이 좁아지는 서해 안에서 조석파가 커지고, 깊고 열린 동해에서는 작게 나타납니다." },
+      { lv: "심화", type: "mc", ref: 5,
+        q: "태양의 질량은 달의 약 2,700만 배입니다. 태양이 달보다 몇 배 먼 곳에 있으면 태양의 기조력이 달과 같아질까요?",
+        opts: ["약 30배", "약 300배", "약 5,200배", "약 2,700만 배"],
+        a: 1, why: "기조력 ∝ 질량 ÷ 거리³이므로 거리³이 2,700만 배여야 합니다. ∛(2.7×10⁷) ≈ 300배입니다. 약 5,200배는 거리의 제곱(인력)으로 잘못 계산한 값입니다. 실제 태양은 달보다 약 390배 멀어서 기조력이 달의 약 0.46배입니다." },
+      { lv: "심화", type: "essay", ref: 10,
+        q: "진도의 바닷길 축제 날짜와 시각을 정하려고 합니다. 날짜와 시각을 정하는 기준을 ‘사리’, ‘간조’, ‘기조력’이라는 말을 넣어 설명하세요.",
+        model: "날짜는 태양·지구·달이 한 줄로 늘어서 두 기조력이 더해지는 삭·망 무렵의 사리 때로 정한다. 시각은 그날 해수면이 가장 낮아지는 간조 앞뒤로 정하는데, 간조 시각은 날마다 약 50분씩 늦어지므로 해마다 날짜와 시각이 달라진다.",
+        rubric: ["날짜: 삭·망 무렵의 사리를 들었다", "사리 때 태양과 달의 기조력이 더해진다고 설명했다", "시각: 간조 앞뒤이며 날마다 약 50분씩 늦어진다고 설명했다"] }
+    ]
+  };
+})();
+</script>
+<script src="../assets/formative.js"></script>
+</body>
+</html>
