@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개념정리 학습지 · 해파의 발생과 전파 (지구시스템과학 Ⅱ-1 02)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<style>
+  /* 개념정리 학습지 — 칠판 강의 화면(board-01.html)의 빈칸 번호와 1:1. 주소 끝 ?key=1 이면 교사용 정답이 보인다. */
+  @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&display=swap');
+  @page { size: A4; margin: 13mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9edf2; font-family: "Gothic A1", "Malgun Gothic", sans-serif; color: #161b28; }
+  .paper { width: 210mm; min-height: 297mm; margin: 18px auto; background: #fff; padding: 13mm 14mm; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  .tools { width: 210mm; margin: 18px auto 0; display: flex; gap: 10px; justify-content: flex-end; font-size: 14px; }
+  .tools a, .tools button { font: inherit; font-weight: 800; padding: 8px 14px; border-radius: 10px; border: 2px solid #c9d1dd; background: #fff; color: #161b28; text-decoration: none; cursor: pointer; }
+  .tools button.main { background: #1462d8; border-color: #1462d8; color: #fff; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #161b28; padding-bottom: 8px; margin-bottom: 12px; }
+  header .k { font-size: 11.5px; font-weight: 800; color: #5f6b80; }
+  header h1 { font-size: 22px; font-weight: 900; margin: 2px 0 0; letter-spacing: -.03em; }
+  header .who { display: flex; gap: 8px; font-size: 12px; font-weight: 800; }
+  header .who span { border: 1.5px solid #9aa4b5; border-radius: 6px; padding: 6px 10px; min-width: 92px; }
+  .key-mark { display: none; color: #d9302c; font-weight: 900; font-size: 12px; }
+  .key .key-mark { display: inline; }
+  .guide { font-size: 11.5px; color: #5f6b80; margin: 0 0 10px; }
+  h2 { font-size: 15.5px; font-weight: 900; margin: 11px 0 5px; padding: 4px 10px; background: #eef2f8; border-left: 5px solid #1462d8; border-radius: 4px; }
+  p, li { font-size: 13.5px; line-height: 1.88; margin: 0; }
+  ul { margin: 0; padding-left: 18px; }
+  .blank { position: relative; display: inline-block; min-width: 4.4em; padding: 0 1.1em 0 1.7em; margin: 0 2px; border-bottom: 1.6px solid #161b28; color: transparent; line-height: 1.5; text-align: center; font-weight: 800; }
+  .blank::before { content: attr(data-n); position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; background: #1462d8; color: #fff; font-size: 9.5px; font-weight: 900; line-height: 15px; text-align: center; }
+  .key .blank { color: #d9302c; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin: 4px 0 2px; }
+  td, th { border: 1px solid #c9d1dd; padding: 4px 8px; text-align: left; line-height: 1.6; }
+  th { background: #f4f6fa; font-weight: 800; }
+  .formula { font-weight: 800; background: #f8fafc; border: 1px dashed #c9d1dd; border-radius: 6px; padding: 2px 10px; display: inline-block; }
+  .q { margin-top: 6px; }
+  .q p { line-height: 1.7; }
+  .q .ans { display: none; color: #d9302c; font-weight: 900; }
+  .key .q .ans { display: inline; }
+  .write { border: 1.5px solid #9aa4b5; border-radius: 8px; height: 54px; margin-top: 4px; }
+  .foot { margin-top: 10px; font-size: 10.5px; color: #8a94a6; display: flex; justify-content: space-between; }
+  @media print {
+    body { background: #fff; }
+    .tools { display: none; }
+    .paper { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="tools">
+  <a href="board-02.html">칠판 강의 화면</a>
+  <a id="keyLink" href="?key=1" hidden>교사용 정답 보기</a>
+  <button class="main" onclick="window.print()">인쇄하기</button>
+</div>
+<div class="paper">
+  <header>
+    <div>
+      <div class="k">지구시스템과학 · Ⅱ-1 해수의 운동 · 02 &nbsp;<span class="key-mark">[교사용 정답]</span></div>
+      <h1>개념정리 학습지 · 해파의 발생과 전파</h1>
+    </div>
+    <div class="who"><span>학번</span><span>이름</span></div>
+  </header>  <p class="guide">칠판 화면에 번호가 열리면 같은 번호 빈칸에 받아 적으세요. (빈칸 1~15)</p>
+  <h2>① 파도의 발생</h2>
+  <ul>
+    <li>바람이 부는 해역에서 마루가 뾰족하고 불규칙한 파도: <b class="blank" data-n="1">풍랑</b></li>
+    <li>그 해역을 벗어나 혼자 달려가는, 마루가 둥글고 파장이 긴 파도: <b class="blank" data-n="2">너울</b></li>
+    <li>파고를 정하는 세 가지: <b class="blank" data-n="3">풍속</b>, 바람이 같은 방향으로 불어 간 거리인 <b class="blank" data-n="4">취송 거리</b>, 바람이 분 <b class="blank" data-n="5">지속 시간</b> → 하나만 모자라도 파도는 더 자라지 못한다.</li>
+  </ul>
+  <h2>② 너울의 여행 (심해파의 속도)</h2>
+  <ul>
+    <li>마루에서 다음 마루까지의 거리가 파장, 골에서 마루까지의 높이가 파고</li>
+    <li>심해파 속도 <span class="formula">c = √(g·L ÷ 2π)</span> : L은 <b class="blank" data-n="6">파장</b>. 수심과는 관계없고 파장이 길수록 빠르다.</li>
+    <li>3,600 km를 약 48시간에 건너는 너울의 파장: 약 <b class="blank" data-n="7">280</b> m (c ≈ 20.9 m/s, 주기 약 13.4초)</li>
+    <li>폭풍이 지난 뒤 해안에는 파장이 <b class="blank" data-n="8">긴</b> 너울부터 차례로 도착한다.</li>
+  </ul>
+  <h2>③ 해안에서 (천해파와 천수 효과)</h2>
+  <table>
+    <tr><th></th><th>기준</th><th>물 입자의 궤도</th><th>속도를 정하는 것</th></tr>
+    <tr><td>심해파</td><td>수심 &gt; 파장의 <b class="blank" data-n="9">1/2</b></td><td><b class="blank" data-n="10">원</b> 궤도 (깊을수록 작아짐)</td><td>파장 · c = √(gL/2π)</td></tr>
+    <tr><td>천해파</td><td>수심 &lt; 파장의 <b class="blank" data-n="11">1/20</b></td><td>납작한 <b class="blank" data-n="12">타원</b> 궤도</td><td><b class="blank" data-n="13">수심</b> · v = √(gh)</td></tr>
+  </table>
+  <ul>
+    <li>예: 수심 2.5 m에서 천해파의 속도 v = √(9.8 × 2.5) ≈ 4.9 m/s</li>
+    <li>해안에서 속도가 줄어 파장이 짧아지고 에너지가 몰려 파고가 커지는 현상: <b class="blank" data-n="14">천수 효과</b></li>
+    <li>파고가 수심의 약 <b class="blank" data-n="15">0.8</b>배가 되면 물마루가 앞으로 무너진다(쇄파).</li>
+  </ul>
+  <h2>문제로 확인하기</h2>
+  <div class="q">
+    <p>1. 취송 거리와 지속 시간은 넉넉한데 파도가 더 자라지 않는다. 무엇을 키워야 할까? &nbsp;㉠ 풍속 &nbsp;㉡ 수심 &nbsp;㉢ 파장 <span class="ans">→ ㉠</span></p>
+    <p>2. 파장 280 m 너울이 수심 200 m 해역을 지날 때 이 파도는? &nbsp;㉠ 심해파 &nbsp;㉡ 천해파 &nbsp;㉢ 전이대의 파 <span class="ans">→ ㉠</span></p>
+  </div>
+  <h2>한 문장 정리</h2>
+  <p>바람 한 점 없는 대회장에 높은 파도가 부서지는 까닭을 '너울'과 '천해파'라는 말을 넣어 한 문장으로 쓰세요.</p>
+  <div class="write"></div>
+  <div class="foot"><span>칠판 강의 화면: board-02.html · 이야기 ② 「사흘 뒤의 파도」</span><span>과학 수업 도구</span></div>
+</div>
+<script>
+  if (new URLSearchParams(location.search).get("key") === "1") {
+    document.body.classList.add("key");
+    var a = document.getElementById("keyLink"); a.textContent = "학생용으로 보기"; a.href = "?"; a.hidden = false;
+  }
+</script>
+</body>
+</html>

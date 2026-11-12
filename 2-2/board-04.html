@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>칠판 강의 · 지균풍·경도풍과 행성파 (지구시스템과학 Ⅱ-2 04)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/board.css">
+<style>
+  .graph { display: block; margin: 0 auto; }
+  .slide p, .slide li { word-break: keep-all; }
+  .lines p { margin-bottom: 16px; }
+  .lines.tight p { font-size: 28px; margin-bottom: 12px; }
+  .eq { font-size: 34px; font-weight: 800; letter-spacing: -.02em; line-height: 1.5; }
+  .obs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .obs .card { min-height: 200px; }
+  .obs .t { font-size: 44px; font-weight: 900; letter-spacing: -.03em; line-height: 1.2; margin: 8px 0 8px; }
+  .obs .w { font-size: 26px; color: var(--mute); font-weight: 800; }
+  .quote { font-size: 29px !important; line-height: 1.6; }
+  .sumlist { list-style: none; padding: 0; margin: 0; }
+  .sumlist li { position: relative; padding: 16px 24px 16px 84px; margin-bottom: 14px; background: #fff; border-radius: 20px; font-size: 28px; }
+  .sumlist li::before { content: attr(data-k); position: absolute; left: 24px; top: 16px; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 900; font-size: 24px; text-align: center; line-height: 44px; }
+  .q { font-size: 31px !important; font-weight: 800; margin-bottom: 14px !important; }
+  #s-quiz .opt { font-size: 26px; padding: 14px 22px; }
+  #s-check .opt { font-size: 29px; padding: 14px 24px; }
+  #geoPath { transition: stroke-dashoffset 1.4s ease; }
+</style>
+</head>
+<body>
+<div class="deck"><div class="stage">
+
+<!-- 1 표지 -->
+<section class="slide dark cover" id="s-cover" data-title="표지">
+  <div class="art">
+    <svg viewBox="0 0 1600 520" aria-label="북극 위에서 내려다본 북반구: 편서풍이 남북으로 굽이치며 찬 공기가 어느 한쪽으로 흘러내린다">
+      <defs>
+        <radialGradient id="cv-earth" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#2b5c8a"/><stop offset="1" stop-color="#0b2a4a"/></radialGradient>
+      </defs>
+      <circle cx="800" cy="260" r="250" fill="url(#cv-earth)"/>
+      <path id="cv-cold" fill="rgba(165,216,255,.35)"/>
+      <path id="cv-jet" fill="none" stroke="#ffd43b" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="800" cy="260" r="6" fill="#fff"/>
+      <circle id="cv-kr" r="10" fill="#ff6b6b"/>
+      <text id="cv-krt" fill="#ffc9c9" font-size="24" font-weight="900" text-anchor="middle">우리나라</text>
+      <text x="1110" y="140" fill="#ffe066" font-size="26" font-weight="900">상층 편서풍(제트 기류)</text>
+      <text x="1110" y="176" fill="#a5d8ff" font-size="24" font-weight="800">안쪽: 북극의 찬 공기</text>
+      <text x="1560" y="30" fill="#7b8598" font-size="18" text-anchor="end">⚠ 대륙은 생략했고 기류의 굵기와 굽이는 단순하게 그렸습니다</text>
+    </svg>
+  </div>
+  <div class="ttl">
+    <p class="kicker">지구시스템과학 · Ⅱ-2 강수 과정과 대기의 운동 · 04</p>
+    <h1>지균풍·경도풍과 행성파</h1>
+    <p class="sub" data-step="1">비슷한 위도인데, 왜 한쪽은 한파이고 다른 쪽은 포근했을까</p>
+  </div>
+  <aside class="script">
+    <p>오늘은 상공의 바람이 왜 등압선을 따라 부는지, 지표 가까이에서는 무엇이 달라지는지, 그리고 지구를 감아 도는 편서풍의 물결이 날씨를 어떻게 만드는지 봅니다. 학습지 빈칸 번호가 화면 번호와 같습니다.</p>
+    <p data-at="1">부제의 질문은 ③ 행성파에서 답합니다.</p>
+  </aside>
+</section>
+
+<!-- 2 도입 -->
+<section class="slide soft" id="s-hook" data-title="한파가 몰아친 날" data-part="도입">
+  <p class="kicker">도입 · 제트 기류를 읽는 사람</p>
+  <h2>2021년 1월 초, 한파가 몰아친 날</h2>
+  <div class="obs">
+    <div class="card"><span class="tag blue">우리나라</span><div class="t">강한 한파</div><p class="w">서울 아침 기온 영하 18 ℃ 아래</p></div>
+    <div class="card"><span class="tag red">비슷한 위도의 다른 곳</span><div class="t">평년보다 포근</div><p class="w">북반구가 고르게 추운 것이 아니었다</p></div>
+    <div class="card"><span class="tag">그날의 상층 일기도</span><div class="t">크게 굽이친 편서풍</div><p class="w">우리나라 상공에 깊은 기압골</p></div>
+  </div>
+  <p class="quote mt">🧑‍✈️ 세영 “한파가 온 곳과 포근했던 곳이 왜 갈렸을까요? 답은 상층 일기도에 있습니다. 먼저 상공의 바람이 왜 등압선을 따라 옆으로 부는지부터 익힙시다.”</p>
+  <p class="big center" data-step="1">무엇이 같은 위도의 날씨를 갈라놓았을까?</p>
+  <aside class="script">
+    <p>2021년 1월 초 우리나라에 강한 한파가 닥쳐 서울의 아침 기온이 영하 18 ℃ 아래까지 떨어졌습니다. 그런데 같은 날 비슷한 위도인데도 평년보다 포근한 곳이 있었어요.</p>
+    <p data-at="1">까닭을 짝과 한 문장으로 말하게 하고 답은 주지 않습니다. '태양 활동', '지구 온난화' 같은 답도 그대로 적어 둡니다.</p>
+  </aside>
+</section>
+
+<!-- 3 키워드 -->
+<section class="slide" id="s-kw" data-title="오늘의 키워드" data-part="도입">
+  <p class="kicker">오늘의 키워드</p>
+  <h2>이 다섯 낱말로 오늘을 정리합니다</h2>
+  <div class="kw">
+    <div class="card"><b>기압 경도력</b><span>기압이 높은 곳에서 낮은 곳으로 미는 힘</span></div>
+    <div class="card"><b>전향력</b><span>움직이는 공기를 북반구에서 오른쪽으로 휘게 한다</span></div>
+    <div class="card"><b>지균풍<br>경도풍</b><span>상공에서 등압선을 따라 부는 바람</span></div>
+    <div class="card"><b>지상풍</b><span>마찰 때문에 등압선을 가로질러 부는 바람</span></div>
+    <div class="card"><b>행성파</b><span>남북으로 굽이치는 편서풍의 물결</span></div>
+  </div>
+  <div class="card blue mt2 row" style="gap:30px"><span class="blank on" style="font-size:34px;font-weight:900;flex:none"><i class="bn">1</i>빈칸</span>
+    <p style="margin:0">화면에 번호가 열리면 <b>학습지의 같은 번호</b>에 받아 적으세요. 오늘 빈칸은 <b>1~15번</b>입니다.</p></div>
+  <aside class="script"><p>키워드 다섯 개를 읽어 주기만 합니다. 정리 장면에서 모두 다시 나옵니다.</p></aside>
+</section>
+
+<!-- 4 두 힘 -->
+<section class="slide" id="s-force" data-title="기압 경도력과 전향력" data-part="① 지균풍">
+  <p class="kicker">① 지균풍 · 마찰이 거의 없는 상공에서</p>
+  <h2>상공의 바람을 움직이는 두 힘</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg viewBox="0 0 640 520" width="640" height="520" aria-label="등압선에 수직으로 기압이 낮은 쪽을 향하는 기압 경도력과, 움직이는 공기의 오른쪽으로 작용하는 전향력">
+      <defs>
+        <marker id="fo-mb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+        <marker id="fo-mr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+        <marker id="fo-mg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#868e96"/></marker>
+      </defs>
+      <rect x="0" y="0" width="640" height="520" rx="18" fill="#f4f8ff"/>
+      <g stroke="#495057" stroke-width="3"><line x1="20" y1="80" x2="520" y2="80"/><line x1="20" y1="200" x2="520" y2="200"/><line x1="20" y1="320" x2="520" y2="320"/><line x1="20" y1="440" x2="520" y2="440"/></g>
+      <g font-size="20" font-weight="800" fill="#495057"><text x="530" y="87">992</text><text x="530" y="207">996</text><text x="530" y="327">1000</text><text x="530" y="447">1004 hPa</text></g>
+      <text x="20" y="40" font-size="22" font-weight="900" fill="#1462d8">기압 낮음 (북)</text>
+      <text x="20" y="500" font-size="22" font-weight="900" fill="#d9302c">기압 높음 (남)</text>
+      <circle cx="240" cy="260" r="14" fill="#161b28"/>
+      <g data-step="1">
+        <line x1="240" y1="246" x2="240" y2="120" stroke="#1462d8" stroke-width="9" marker-end="url(#fo-mb)"/>
+        <text x="256" y="150" font-size="22" font-weight="900" fill="#1462d8">등압선에 수직, 낮은 쪽으로</text>
+      </g>
+      <g data-step="2">
+        <line x1="256" y1="260" x2="430" y2="260" stroke="#868e96" stroke-width="8" stroke-dasharray="14 8" marker-end="url(#fo-mg)"/>
+        <text x="300" y="238" font-size="22" font-weight="900" fill="#5f6b80">움직이는 방향</text>
+        <line x1="240" y1="276" x2="240" y2="390" stroke="#d9302c" stroke-width="9" marker-end="url(#fo-mr)"/>
+        <text x="256" y="380" font-size="22" font-weight="900" fill="#d9302c">진행 방향의 오른쪽</text>
+      </g>
+    </svg>
+    <div class="lines">
+      <p data-step="1">기압이 높은 곳에서 낮은 곳으로 등압선에 수직으로 미는 힘 → <b class="blank" data-n="1" data-step="1">기압 경도력</b></p>
+      <p data-step="2">움직이는 공기를 휘게 하는 겉보기 힘 → <b class="blank" data-n="2" data-step="2">전향력</b>: 북반구에서는 진행 방향의 <b class="blank" data-n="3" data-step="2">오른쪽</b>으로 작용</p>
+      <p data-step="3" class="small">전향력은 방향만 바꾸고 속력은 바꾸지 않는다. 위도가 높을수록, 바람이 빠를수록 크다.</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>상공 약 5 km의 일기도라고 생각합시다. 등압선은 4 hPa 간격, 위쪽 북쪽이 기압이 낮습니다. 상공은 마찰이 거의 없어 힘이 둘뿐이에요.</p>
+    <p data-at="1">첫째, 빈칸 1번, 기압 경도력. 기압이 높은 쪽에서 낮은 쪽으로, 등압선에 수직으로 밉니다. 등압선이 촘촘할수록 큽니다.</p>
+    <p data-at="2">둘째, 빈칸 2번, 전향력. 지구가 돌기 때문에 움직이는 공기가 휘어 보이는 겉보기 힘이고, 북반구에서는 빈칸 3번, 진행 방향의 오른쪽으로 작용합니다. 회전원판 위에서 굴린 공이 오른쪽으로 휘어 보이는 것과 같아요.</p>
+    <p data-at="3">전향력은 늘 진행 방향에 수직이라 방향만 바꾸고 속력은 바꾸지 않습니다. 적도에서는 0이고 극으로 갈수록 커집니다.</p>
+  </aside>
+</section>
+
+<!-- 5 지균풍이 되기까지 -->
+<section class="slide" id="s-geo" data-title="지균풍이 되기까지" data-part="① 지균풍">
+  <p class="kicker">① 지균풍 · 가만히 있던 공기를 놓아 보면</p>
+  <h2>두 힘이 맞서면 바람은 등압선과 나란히</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg viewBox="0 0 700 520" width="700" height="520" aria-label="정지한 공기가 기압이 낮은 쪽으로 움직이기 시작해 점점 오른쪽으로 휘어 결국 등압선과 나란히 분다">
+      <defs>
+        <marker id="ge-mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#161b28"/></marker>
+        <marker id="ge-mb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+        <marker id="ge-mr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+      </defs>
+      <rect x="0" y="0" width="700" height="520" rx="18" fill="#f4f8ff"/>
+      <g stroke="#495057" stroke-width="3"><line x1="20" y1="60" x2="600" y2="60"/><line x1="20" y1="180" x2="600" y2="180"/><line x1="20" y1="300" x2="600" y2="300"/><line x1="20" y1="420" x2="600" y2="420"/></g>
+      <g font-size="20" font-weight="800" fill="#495057"><text x="610" y="67">992</text><text x="610" y="187">996</text><text x="610" y="307">1000</text><text x="610" y="427">1004</text></g>
+      <text x="20" y="500" font-size="21" font-weight="800" fill="#5f6b80">위쪽(북)이 기압이 낮다</text>
+      <circle cx="100" cy="460" r="12" fill="#161b28"/>
+      <path id="geoPath" d="M100 460 C100 330, 170 200, 330 140 S 520 120, 590 120" pathLength="1" fill="none" stroke="#161b28" stroke-width="7" stroke-dasharray="1 1" stroke-dashoffset="1"/>
+      <polygon points="600,120 576,108 576,132" fill="#161b28" data-step="3"/>
+      <g data-step="1"><text x="116" y="390" font-size="22" font-weight="900" fill="#161b28">① 낮은 쪽으로 출발</text></g>
+      <g data-step="2"><text x="200" y="330" font-size="22" font-weight="900" fill="#161b28">② 빨라질수록 오른쪽으로 휜다</text></g>
+      <g data-step="3">
+        <line x1="470" y1="120" x2="470" y2="30" stroke="#1462d8" stroke-width="8" marker-end="url(#ge-mb)"/>
+        <line x1="470" y1="120" x2="470" y2="210" stroke="#d9302c" stroke-width="8" marker-end="url(#ge-mr)"/>
+        <text x="482" y="46" font-size="20" font-weight="900" fill="#1462d8">기압 경도력</text>
+        <text x="482" y="236" font-size="20" font-weight="900" fill="#d9302c">전향력</text>
+      </g>
+      <text x="690" y="514" font-size="18" fill="#5f6b80" text-anchor="end">⚠ 경로는 단순화</text>
+    </svg>
+    <div class="lines">
+      <p data-step="1">정지한 공기는 기압 경도력을 받아 낮은 쪽으로 움직이기 시작한다</p>
+      <p data-step="2">빨라질수록 전향력이 커져 오른쪽으로 휜다</p>
+      <p data-step="3">기압 경도력 = 전향력 (크기 같고 방향 반대) → 등압선과 나란히 부는 바람 → <b class="blank" data-n="4" data-step="3">지균풍</b></p>
+      <p data-step="4" class="small">북반구에서 바람을 등지고 서면 저기압은 왼쪽, 고기압은 오른쪽</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>가만히 있던 공기를 놓아 봅니다. 처음에는 전향력이 없어요. 움직이지 않으니까요.</p>
+    <p data-at="1">기압 경도력을 받아 기압이 낮은 북쪽으로 출발합니다.</p>
+    <p data-at="2">빨라질수록 전향력도 커져서 오른쪽, 곧 동쪽으로 점점 휩니다.</p>
+    <p data-at="3">결국 기압 경도력과 전향력이 크기가 같고 방향이 반대가 되면 더 이상 휘지 않고 등압선을 따라 나란히 붑니다. 빈칸 4번, 지균풍. 상공의 바람이 등압선을 가로지르지 않는 까닭입니다.</p>
+    <p data-at="4">북반구에서는 바람을 등지고 서면 저기압이 왼쪽에 있습니다.</p>
+  </aside>
+</section>
+
+<!-- 6 지균풍의 세기 -->
+<section class="slide" id="s-vg" data-title="지균풍의 세기" data-part="① 지균풍">
+  <p class="kicker">① 지균풍 · 이웃한 등압선의 기압 차 4 hPa, 공기 밀도 1.2 kg/m³</p>
+  <h2>무엇이 지균풍을 빠르게 할까</h2>
+  <p class="formula center" data-step="1" style="font-size:38px;margin-bottom:8px">지균풍 V = <span class="c-blue">(1 ÷ ρf)</span> × <span class="c-blue">(Δp ÷ Δn)</span> &nbsp;<span class="small">f = 2Ω sin φ (Ω = 7.292×10⁻⁵ rad/s)</span></p>
+  <svg class="graph" viewBox="0 0 1400 300" width="1400" height="300" aria-label="세 경우의 등압선 간격과 지균풍 화살표 길이 비교" data-step="1">
+    <defs><marker id="vg-mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker></defs>
+    <g>
+      <rect x="0" y="0" width="440" height="300" rx="16" fill="#f4f8ff"/>
+      <text x="220" y="38" font-size="24" font-weight="900" fill="#161b28" text-anchor="middle">간격 500 km · 위도 45°</text>
+      <line x1="40" y1="100" x2="400" y2="100" stroke="#495057" stroke-width="3"/><line x1="40" y1="200" x2="400" y2="200" stroke="#495057" stroke-width="3"/>
+      <line x1="160" y1="150" x2="212" y2="150" stroke="#1462d8" stroke-width="10" marker-end="url(#vg-mk)"/>
+      <text x="220" y="260" font-size="28" font-weight="900" fill="#1462d8" text-anchor="middle">약 6.5 m/s</text>
+    </g>
+    <g>
+      <rect x="480" y="0" width="440" height="300" rx="16" fill="#e7f3ff"/>
+      <text x="700" y="38" font-size="24" font-weight="900" fill="#161b28" text-anchor="middle">간격 100 km · 위도 45°</text>
+      <line x1="520" y1="140" x2="880" y2="140" stroke="#495057" stroke-width="3"/><line x1="520" y1="160" x2="880" y2="160" stroke="#495057" stroke-width="3"/>
+      <line x1="560" y1="100" x2="830" y2="100" stroke="#1462d8" stroke-width="10" marker-end="url(#vg-mk)"/>
+      <text x="700" y="230" font-size="28" font-weight="900" fill="#1462d8" text-anchor="middle">약 32 m/s</text>
+      <text x="700" y="268" font-size="21" font-weight="800" fill="#5f6b80" text-anchor="middle">제트 기류 수준</text>
+    </g>
+    <g>
+      <rect x="960" y="0" width="440" height="300" rx="16" fill="#f4f8ff"/>
+      <text x="1180" y="38" font-size="24" font-weight="900" fill="#161b28" text-anchor="middle">간격 700 km · 위도 60°</text>
+      <line x1="1000" y1="80" x2="1360" y2="80" stroke="#495057" stroke-width="3"/><line x1="1000" y1="220" x2="1360" y2="220" stroke="#495057" stroke-width="3"/>
+      <line x1="1160" y1="150" x2="1195" y2="150" stroke="#1462d8" stroke-width="10" marker-end="url(#vg-mk)"/>
+      <text x="1180" y="270" font-size="28" font-weight="900" fill="#1462d8" text-anchor="middle">약 3.8 m/s</text>
+    </g>
+  </svg>
+  <div class="cols mt" style="margin-top:20px">
+    <p data-step="2">등압선 간격이 <b class="blank" data-n="5" data-step="2">좁을수록</b> 기압 경도력이 커서 빠르다</p>
+    <p data-step="3">위도가 <b class="blank" data-n="6" data-step="3">낮을수록</b> 전향력(f)이 작아 빠르다</p>
+  </div>
+  <p class="small" data-step="4">예) 500 km · 45°: f ≈ 1.03×10⁻⁴ /s → V = 400 ÷ (1.2 × 1.03×10⁻⁴ × 500,000) ≈ 6.5 m/s · 적도 부근은 f가 거의 0이라 지균풍이 성립하지 않는다</p>
+  <aside class="script">
+    <p>지균풍은 기압 경도력과 전향력이 같다는 식에서 나옵니다. ρ는 공기 밀도, f는 전향 인자, Δp ÷ Δn은 등압선 사이의 기압 차를 거리로 나눈 값이에요. 화살표 길이는 풍속에 비례하게 그렸습니다.</p>
+    <p data-at="1">같은 4 hPa 차이인데, 간격 500 km면 약 6.5 m/s, 100 km면 약 32 m/s로 제트 기류 수준, 700 km에 위도 60°면 4 m/s도 안 됩니다.</p>
+    <p data-at="2">빈칸 5번, 간격이 좁을수록 빠릅니다. 일기도에서 등압선이 촘촘한 곳이 바람이 센 곳이에요.</p>
+    <p data-at="3">빈칸 6번, 위도가 낮을수록 빠릅니다. 같은 기압 경도력을 맞서려면 전향력이 같아야 하는데, 저위도는 f가 작으니 바람이 더 빨라야 하죠.</p>
+    <p data-at="4">계산 예시를 보여 줍니다. 상공은 실제로 밀도가 1.2보다 훨씬 작아 같은 기압 차에도 바람이 더 빠르다는 점도 덧붙입니다.</p>
+  </aside>
+</section>
+
+<!-- 7 원심력 -->
+<section class="slide" id="s-grad" data-title="휘어진 등압선과 원심력" data-part="② 경도풍·지상풍">
+  <p class="kicker">② 경도풍 · 등압선이 원을 그리면</p>
+  <h2>원을 따라 돌면 원심력이 더해진다</h2>
+  <svg class="graph" viewBox="0 0 1400 440" width="1400" height="440" aria-label="북반구 저기압과 고기압 주위를 도는 공기에 작용하는 기압 경도력, 전향력, 원심력">
+    <defs>
+      <marker id="gr-mb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+      <marker id="gr-mr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+      <marker id="gr-mg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2f9e44"/></marker>
+      <marker id="gr-mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#495057"/></marker>
+    </defs>
+    <g data-step="1">
+      <rect x="0" y="0" width="680" height="440" rx="18" fill="#f4f8ff"/>
+      <text x="24" y="40" font-size="26" font-weight="900" fill="#1462d8">저기압 주위 (반시계 방향)</text>
+      <circle cx="260" cy="290" r="130" fill="none" stroke="#495057" stroke-width="3"/>
+      <text x="260" y="302" font-size="34" font-weight="900" fill="#1462d8" text-anchor="middle">L</text>
+      <path d="M340 188 A130 130 0 0 0 180 188" fill="none" stroke="#495057" stroke-width="6" marker-end="url(#gr-mk)"/>
+      <circle cx="260" cy="160" r="11" fill="#161b28"/>
+      <line x1="260" y1="172" x2="260" y2="262" stroke="#1462d8" stroke-width="8" marker-end="url(#gr-mb)"/>
+      <line x1="248" y1="150" x2="248" y2="90" stroke="#d9302c" stroke-width="8" marker-end="url(#gr-mr)"/>
+      <line x1="272" y1="150" x2="272" y2="120" stroke="#2f9e44" stroke-width="8" marker-end="url(#gr-mg)"/>
+      <g font-size="21" font-weight="900"><text x="420" y="150" fill="#1462d8">기압 경도력 (안쪽)</text><text x="420" y="185" fill="#d9302c">전향력 (바깥쪽)</text><text x="420" y="220" fill="#2f9e44">원심력 (바깥쪽)</text></g>
+      <text x="420" y="290" font-size="22" font-weight="900" fill="#161b28">기압 경도력</text>
+      <text x="420" y="320" font-size="22" font-weight="900" fill="#161b28">= 전향력 + 원심력</text>
+      <text x="420" y="370" font-size="24" font-weight="900" fill="#1462d8">→ 지균풍보다 느리다</text>
+    </g>
+    <g data-step="2">
+      <rect x="720" y="0" width="680" height="440" rx="18" fill="#fff5f5"/>
+      <text x="744" y="40" font-size="26" font-weight="900" fill="#d9302c">고기압 주위 (시계 방향)</text>
+      <circle cx="960" cy="290" r="130" fill="none" stroke="#495057" stroke-width="3"/>
+      <text x="960" y="302" font-size="34" font-weight="900" fill="#d9302c" text-anchor="middle">H</text>
+      <path d="M880 188 A130 130 0 0 1 1040 188" fill="none" stroke="#495057" stroke-width="6" marker-end="url(#gr-mk)"/>
+      <circle cx="960" cy="160" r="11" fill="#161b28"/>
+      <line x1="960" y1="172" x2="960" y2="262" stroke="#d9302c" stroke-width="8" marker-end="url(#gr-mr)"/>
+      <line x1="948" y1="150" x2="948" y2="90" stroke="#1462d8" stroke-width="8" marker-end="url(#gr-mb)"/>
+      <line x1="972" y1="150" x2="972" y2="120" stroke="#2f9e44" stroke-width="8" marker-end="url(#gr-mg)"/>
+      <g font-size="21" font-weight="900"><text x="1110" y="150" fill="#d9302c">전향력 (안쪽)</text><text x="1110" y="185" fill="#1462d8">기압 경도력 (바깥쪽)</text><text x="1110" y="220" fill="#2f9e44">원심력 (바깥쪽)</text></g>
+      <text x="1110" y="290" font-size="22" font-weight="900" fill="#161b28">전향력</text>
+      <text x="1110" y="320" font-size="22" font-weight="900" fill="#161b28">= 기압 경도력 + 원심력</text>
+      <text x="1110" y="370" font-size="24" font-weight="900" fill="#d9302c">→ 지균풍보다 빠르다</text>
+    </g>
+  </svg>
+  <p class="center mt" data-step="1" style="margin-top:18px">원을 따라 도는 공기에는 바깥쪽으로 <b class="blank" data-n="7" data-step="1">원심력</b>이 더해진다 &nbsp;<span class="small">(화살표 길이는 힘의 크기 비율을 나타낸 모식)</span></p>
+  <aside class="script">
+    <p>실제 일기도의 등압선은 둥글게 휘어 있습니다. 원을 따라 도는 공기에는 힘이 하나 더 붙어요.</p>
+    <p data-at="1">빈칸 7번, 원심력. 늘 바깥쪽입니다. 북반구 저기압 주위는 반시계 방향으로 도니, 오른쪽인 전향력이 바깥쪽을 향합니다. 안쪽으로 당기는 기압 경도력 하나를 전향력과 원심력 둘이 나눠 맞서니, 전향력이 지균풍 때보다 작아도 됩니다. 바람이 지균풍보다 느려요.</p>
+    <p data-at="2">고기압 주위는 시계 방향이라 전향력이 안쪽입니다. 바깥으로 미는 기압 경도력과 원심력 둘을 전향력 혼자 맞서야 하니 전향력이 더 커야 하고, 바람이 지균풍보다 빨라집니다.</p>
+  </aside>
+</section>
+
+<!-- 8 경도풍 값 -->
+<section class="slide soft" id="s-gradv" data-title="경도풍 · 고기압 쪽이 빠르다" data-part="② 경도풍·지상풍">
+  <p class="kicker">② 경도풍 · 위도 45°, 등압선 간격 400 km(4 hPa), 곡률 반지름 1,000 km</p>
+  <h2>같은 기압 경도력이라도 풍속이 다르다</h2>
+  <svg class="graph" viewBox="0 0 1400 280" width="1400" height="280" aria-label="곡률 반지름 1,000 km에서 저기압 주위 약 7.5 m/s, 지균풍 약 8.1 m/s, 고기압 주위 약 8.8 m/s">
+    <g font-size="26" font-weight="900" text-anchor="end"><text x="300" y="58" fill="#1462d8">저기압 주위</text><text x="300" y="148" fill="#495057">지균풍 (곧은 등압선)</text><text x="300" y="238" fill="#d9302c">고기압 주위</text></g>
+    <g data-step="1"><rect x="320" y="24" width="600" height="50" rx="10" fill="#4dabf7"/><text x="985" y="58" font-size="28" font-weight="900" fill="#1462d8">약 7.5 m/s</text></g>
+    <rect x="320" y="114" width="648" height="50" rx="10" fill="#adb5bd"/><text x="983" y="148" font-size="28" font-weight="900" fill="#495057">약 8.1 m/s</text>
+    <g data-step="1"><rect x="320" y="204" width="704" height="50" rx="10" fill="#ff8787"/><text x="1039" y="238" font-size="28" font-weight="900" fill="#d9302c">약 8.8 m/s</text></g>
+    <line x1="968" y1="10" x2="968" y2="270" stroke="#495057" stroke-width="3" stroke-dasharray="8 6"/>
+  </svg>
+  <p class="big center" data-step="2">등압선을 따라 원을 그리며 부는 바람 → <b class="blank" data-n="8" data-step="2">경도풍</b></p>
+  <p class="center" data-step="3">고기압 주위는 곡률 반지름이 약 313 km보다 작으면 평형이 성립하지 않는다 → 좁고 강한 고기압은 없다</p>
+  <aside class="script">
+    <p>단원 화면의 모형값입니다. 기압 경도력은 셋 모두 같고, 곧은 등압선이면 지균풍 약 8.1 m/s입니다.</p>
+    <p data-at="1">반지름 1,000 km로 휘면 저기압 주위는 약 7.5 m/s로 느려지고, 고기압 주위는 약 8.8 m/s로 빨라집니다.</p>
+    <p data-at="2">기압 경도력, 전향력, 원심력이 평형을 이루며 원을 따라 부는 바람이 빈칸 8번, 경도풍입니다.</p>
+    <p data-at="3">고기압 쪽은 반지름이 너무 작으면 아예 균형을 맞출 수가 없어요. 그래서 일기도의 고기압은 넓고 완만하고, 강한 바람은 저기압 쪽에 몰립니다.</p>
+  </aside>
+</section>
+
+<!-- 9 지상풍 -->
+<section class="slide" id="s-sfc" data-title="마찰력과 지상풍" data-part="② 경도풍·지상풍">
+  <p class="kicker">② 지상풍 · 지표 가까이 내려오면</p>
+  <h2>마찰이 바람을 저기압 쪽으로 기울인다</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg viewBox="0 0 700 520" width="700" height="520" aria-label="지상풍: 기압 경도력, 전향력, 마찰력이 평형을 이루어 바람이 등압선을 비스듬히 가로질러 저기압 쪽으로 분다">
+      <defs>
+        <marker id="sf-mb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+        <marker id="sf-mr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+        <marker id="sf-mo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e8590c"/></marker>
+        <marker id="sf-mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#161b28"/></marker>
+        <marker id="sf-mg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#adb5bd"/></marker>
+      </defs>
+      <rect x="0" y="0" width="700" height="520" rx="18" fill="#f6f1e7"/>
+      <g stroke="#495057" stroke-width="3"><line x1="20" y1="110" x2="680" y2="110"/><line x1="20" y1="420" x2="680" y2="420"/></g>
+      <text x="24" y="90" font-size="22" font-weight="900" fill="#1462d8">기압 낮음 (북)</text>
+      <text x="24" y="460" font-size="22" font-weight="900" fill="#d9302c">기압 높음 (남)</text>
+      <line x1="300" y1="270" x2="520" y2="270" stroke="#adb5bd" stroke-width="7" stroke-dasharray="14 8" marker-end="url(#sf-mg)"/>
+      <text x="530" y="300" font-size="20" font-weight="800" fill="#868e96">마찰이 없을 때</text>
+      <circle cx="300" cy="270" r="12" fill="#161b28"/>
+      <line x1="300" y1="258" x2="300" y2="128" stroke="#1462d8" stroke-width="8" marker-end="url(#sf-mb)"/>
+      <text x="312" y="150" font-size="21" font-weight="900" fill="#1462d8">기압 경도력</text>
+      <g data-step="1">
+        <line x1="300" y1="270" x2="248" y2="295" stroke="#e8590c" stroke-width="8" marker-end="url(#sf-mo)"/>
+        <text x="236" y="330" font-size="21" font-weight="900" fill="#e8590c" text-anchor="end">마찰력</text>
+      </g>
+      <g data-step="2">
+        <line x1="300" y1="270" x2="352" y2="383" stroke="#d9302c" stroke-width="8" marker-end="url(#sf-mr)"/>
+        <text x="362" y="392" font-size="21" font-weight="900" fill="#d9302c">전향력 (바람의 오른쪽)</text>
+      </g>
+      <g data-step="3">
+        <line x1="300" y1="270" x2="470" y2="191" stroke="#161b28" stroke-width="10" marker-end="url(#sf-mk)"/>
+        <text x="480" y="186" font-size="22" font-weight="900" fill="#161b28">지상풍</text>
+      </g>
+    </svg>
+    <div class="lines tight">
+      <p data-step="1">지표의 거칠기가 바람을 느리게 한다 → <b class="blank" data-n="9" data-step="1">마찰력</b> (바람과 반대 방향)</p>
+      <p data-step="2">느려지면 전향력도 작아진다 → 남은 기압 경도력이 바람을 저기압 쪽으로 끌어당긴다</p>
+      <p data-step="3">등압선을 비스듬히 가로질러 저기압 쪽으로 부는 바람 → <b class="blank" data-n="10" data-step="3">지상풍</b></p>
+      <p data-step="4" class="small">마찰이 클수록(바다 위 &lt; 평지 &lt; 도시·산지) 바람이 느려지고 등압선과 이루는 각이 커진다</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>이제 지표 가까이로 내려옵니다. 회색 점선은 마찰이 없을 때의 지균풍, 등압선과 나란한 바람입니다.</p>
+    <p data-at="1">지표의 나무, 건물, 물결이 바람을 붙잡습니다. 빈칸 9번, 마찰력. 바람의 반대 방향으로 작용해요.</p>
+    <p data-at="2">바람이 느려지면 속력에 비례하는 전향력도 작아집니다. 그러면 기압 경도력이 이겨서 바람이 저기압 쪽으로 기웁니다. 전향력은 늘 바람의 오른쪽 직각 방향이에요.</p>
+    <p data-at="3">세 힘이 평형을 이루면 바람은 등압선을 비스듬히 가로질러 저기압 쪽으로 붑니다. 빈칸 10번, 지상풍.</p>
+    <p data-at="4">바다 위처럼 매끄러우면 각이 작고, 도시나 산지처럼 거칠면 각이 커집니다.</p>
+  </aside>
+</section>
+
+<!-- 10 지상 저기압과 고기압 -->
+<section class="slide" id="s-lowhigh" data-title="지상의 저기압과 고기압" data-part="② 경도풍·지상풍">
+  <p class="kicker">② 지상풍 · 위에서 내려다본 북반구</p>
+  <h2>저기압에는 모여들고, 고기압에서는 퍼져 나간다</h2>
+  <svg class="graph" viewBox="0 0 1400 420" width="1400" height="420" aria-label="북반구 지상 저기압은 바람이 반시계 방향으로 불어 들어가고, 고기압은 시계 방향으로 불어 나간다">
+    <defs>
+      <marker id="lh-mb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+      <marker id="lh-mr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+    </defs>
+    <g data-step="1">
+      <rect x="0" y="0" width="680" height="420" rx="18" fill="#f4f8ff"/>
+      <circle cx="300" cy="210" r="90" fill="none" stroke="#adb5bd" stroke-width="3"/><circle cx="300" cy="210" r="170" fill="none" stroke="#adb5bd" stroke-width="3"/>
+      <text x="300" y="224" font-size="40" font-weight="900" fill="#1462d8" text-anchor="middle">L</text>
+      <g id="lhLow" fill="none" stroke="#1462d8" stroke-width="7"></g>
+      <text x="500" y="70" font-size="24" font-weight="900" fill="#1462d8">반시계 방향</text>
+      <text x="500" y="104" font-size="24" font-weight="900" fill="#1462d8">안쪽으로</text>
+      <text x="500" y="330" font-size="24" font-weight="900" fill="#161b28">→ 상승 기류</text>
+      <text x="500" y="364" font-size="24" font-weight="900" fill="#161b28">→ 구름·비</text>
+    </g>
+    <g data-step="2">
+      <rect x="720" y="0" width="680" height="420" rx="18" fill="#fff5f5"/>
+      <circle cx="1020" cy="210" r="90" fill="none" stroke="#adb5bd" stroke-width="3"/><circle cx="1020" cy="210" r="170" fill="none" stroke="#adb5bd" stroke-width="3"/>
+      <text x="1020" y="224" font-size="40" font-weight="900" fill="#d9302c" text-anchor="middle">H</text>
+      <g id="lhHigh" fill="none" stroke="#d9302c" stroke-width="7"></g>
+      <text x="1220" y="70" font-size="24" font-weight="900" fill="#d9302c">시계 방향</text>
+      <text x="1220" y="104" font-size="24" font-weight="900" fill="#d9302c">바깥쪽으로</text>
+      <text x="1220" y="330" font-size="24" font-weight="900" fill="#161b28">→ 하강 기류</text>
+      <text x="1220" y="364" font-size="24" font-weight="900" fill="#161b28">→ 맑음</text>
+    </g>
+  </svg>
+  <div class="cols" style="margin-top:16px">
+    <p data-step="1">저기압: 바람이 모여든다 → <b class="blank" data-n="11" data-step="1">수렴</b> → 상승 기류</p>
+    <p data-step="2">고기압: 바람이 퍼져 나간다 → 발산 → 하강 기류</p>
+  </div>
+  <aside class="script">
+    <p>지상풍이 등압선을 가로질러 저기압 쪽으로 분다는 것을 일기도 전체에 적용하면 이런 모습입니다.</p>
+    <p data-at="1">저기압 주위는 반시계 방향으로 돌며 안쪽으로 모여듭니다. 빈칸 11번, 수렴. 모여든 공기는 갈 곳이 위뿐이라 상승 기류가 되고, 지난 시간처럼 구름과 비가 생깁니다.</p>
+    <p data-at="2">고기압 주위는 시계 방향으로 돌며 바깥으로 퍼져 나갑니다. 빠져나간 만큼 위에서 공기가 내려와 하강 기류, 맑은 날씨가 됩니다.</p>
+  </aside>
+</section>
+
+<!-- 11 행성파 -->
+<section class="slide" id="s-wave" data-title="편서풍 파동 · 행성파" data-part="③ 행성파">
+  <p class="kicker">③ 행성파 · 북극 위에서 내려다보면</p>
+  <h2>중위도 상공의 편서풍은 남북으로 굽이친다</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg viewBox="0 0 640 540" width="640" height="540" aria-label="북극 위에서 내려다본 북반구: 위도 45° 부근을 도는 편서풍이 네 번 굽이친다">
+      <rect x="0" y="0" width="640" height="540" rx="18" fill="#0f1a2e"/>
+      <circle cx="320" cy="270" r="260" fill="#1b3a5c"/>
+      <g fill="none" stroke="#3d5a80" stroke-width="2"><circle cx="320" cy="270" r="240"/><circle cx="320" cy="270" r="180"/><circle cx="320" cy="270" r="120"/></g>
+      <g font-size="18" font-weight="800" fill="#a5b4c8"><text x="326" y="34">30°N</text><text x="326" y="94">45°N</text><text x="326" y="154">60°N</text></g>
+      <circle cx="320" cy="270" r="180" fill="none" stroke="#ffd43b" stroke-width="6" stroke-dasharray="14 10" data-hide="2"/>
+      <g data-step="2">
+        <path id="wvCold" fill="rgba(165,216,255,.28)"/>
+        <path id="wvJet" fill="none" stroke="#ffd43b" stroke-width="8" stroke-linecap="round"/>
+      </g>
+      <circle cx="320" cy="270" r="5" fill="#fff"/><text x="332" y="276" font-size="18" font-weight="800" fill="#fff">북극</text>
+      <circle id="wvKr" r="9" fill="#ff6b6b"/><text id="wvKrt" font-size="20" font-weight="900" fill="#ffc9c9" text-anchor="middle">우리나라</text>
+      <text x="630" y="530" font-size="18" fill="#a5b4c8" text-anchor="end">⚠ 파수 4, 진폭 12°로 단순화</text>
+    </svg>
+    <div class="lines tight">
+      <p data-step="1">편서풍이 곧게 돌면 찬 공기는 북극 쪽에 갇힌다</p>
+      <p data-step="2">실제로는 남북으로 크게 굽이치는 지구 규모의 물결 → <b class="blank" data-n="12" data-step="2">행성파</b> (로스비파)</p>
+      <p data-step="3">전향력이 위도에 따라 달라지기 때문에 생긴다</p>
+      <p data-step="4">위도 45° 둘레 약 28,000 km ÷ 파수 4 → 파장 약 7,000 km</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>북극 위에서 내려다본 북반구입니다. 노란 점선은 위도 45°를 곧게 도는 편서풍이에요.</p>
+    <p data-at="1">이렇게 곧게 돌면 안쪽의 찬 공기는 북극 쪽에 갇혀 있습니다.</p>
+    <p data-at="2">실제 편서풍은 남북으로 크게 굽이칩니다. 지구 둘레만큼 큰 물결, 빈칸 12번, 행성파. 로스비파라고도 합니다.</p>
+    <p data-at="3">공기가 남북으로 움직이면 위도가 바뀌고, 위도에 따라 전향력이 달라지니 다시 되돌아가려는 성질이 생깁니다. 그래서 물결을 이룹니다.</p>
+    <p data-at="4">위도 45°의 둘레는 약 28,000 km, 물결이 네 번이면 파장은 약 7,000 km입니다.</p>
+  </aside>
+</section>
+
+<!-- 12 기압골과 기압 마루 -->
+<section class="slide" id="s-trough" data-title="기압골과 기압 마루" data-part="③ 행성파">
+  <p class="kicker">③ 행성파 · 같은 위도인데 날씨가 갈리는 까닭</p>
+  <h2>기압골 아래는 한파, 기압 마루 아래는 포근</h2>
+  <svg class="graph" viewBox="0 0 1400 340" width="1400" height="340" aria-label="편서풍 물결을 펼쳐 본 그림: 남쪽으로 처진 기압골 아래로 찬 공기가 내려오고, 북쪽으로 솟은 기압 마루 아래로 따뜻한 공기가 올라온다">
+    <defs>
+      <marker id="tr-mb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+      <marker id="tr-mr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e8590c"/></marker>
+      <marker id="tr-my" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#b8860b"/></marker>
+    </defs>
+    <rect x="100" y="10" width="1200" height="290" fill="#fff4e6"/>
+    <path id="trCold" fill="#d0ebff"/>
+    <path id="trJet" fill="none" stroke="#b8860b" stroke-width="8" marker-end="url(#tr-my)"/>
+    <g font-size="19" font-weight="800" fill="#5f6b80" text-anchor="end"><text x="92" y="27">60°N</text><text x="92" y="147">45°N</text><text x="92" y="267">30°N</text></g>
+    <g stroke="#adb5bd" stroke-width="1.5" stroke-dasharray="6 6"><line x1="100" y1="140" x2="1300" y2="140"/><line x1="100" y1="260" x2="1300" y2="260"/></g>
+    <text x="120" y="44" font-size="22" font-weight="900" fill="#1462d8">북극의 찬 공기</text>
+    <text x="120" y="290" font-size="22" font-weight="900" fill="#e8590c">남쪽의 따뜻한 공기</text>
+    <circle cx="700" cy="200" r="10" fill="#d9302c"/><text x="716" y="208" font-size="22" font-weight="900" fill="#d9302c">우리나라</text>
+    <g data-step="1"><line x1="660" y1="110" x2="660" y2="230" stroke="#1462d8" stroke-width="9" marker-end="url(#tr-mb)"/><text x="645" y="250" font-size="24" font-weight="900" fill="#1462d8" text-anchor="end">한파</text></g>
+    <g data-step="2"><line x1="400" y1="230" x2="400" y2="110" stroke="#e8590c" stroke-width="9" marker-end="url(#tr-mr)"/><line x1="1000" y1="230" x2="1000" y2="110" stroke="#e8590c" stroke-width="9" marker-end="url(#tr-mr)"/><text x="415" y="215" font-size="24" font-weight="900" fill="#e8590c">포근</text><text x="1015" y="215" font-size="24" font-weight="900" fill="#e8590c">포근</text></g>
+    <text x="1300" y="330" font-size="18" fill="#5f6b80" text-anchor="end">⚠ 위도·경도 눈금은 단순화 · 서 → 동으로 부는 편서풍</text>
+  </svg>
+  <div class="cols mt" style="margin-top:14px">
+    <p data-step="1">남쪽으로 처진 곳: <b class="blank" data-n="13" data-step="1">기압골</b> → 북극의 찬 공기가 흘러내린다 → 한파</p>
+    <p data-step="2">북쪽으로 솟은 곳: <b class="blank" data-n="14" data-step="2">기압 마루</b> → 따뜻한 공기가 올라온다 → 포근</p>
+  </div>
+  <p class="small center" data-step="3">진폭이 커질수록 찬 공기가 더 남쪽까지 내려온다(진폭 15° 이상이면 북위 30°까지). 물결이 머물면 한파도 오래간다.</p>
+  <aside class="script">
+    <p>지구를 감아 도는 물결을 펼쳐 봅니다. 위쪽이 북쪽, 바람은 서쪽에서 동쪽으로 붑니다.</p>
+    <p data-at="1">물결이 남쪽으로 깊게 처진 곳이 빈칸 13번, 기압골. 그 골을 따라 북극의 찬 공기가 흘러내려 한파가 됩니다. 2021년 1월 초 우리나라 상공에 바로 이 깊은 기압골이 자리 잡았어요.</p>
+    <p data-at="2">북쪽으로 솟은 곳이 빈칸 14번, 기압 마루. 그 아래로는 남쪽의 따뜻한 공기가 올라와 같은 위도라도 포근합니다. 첫 추리 질문의 답이 여기 있습니다.</p>
+    <p data-at="3">물결의 진폭이 커지면 찬 공기가 더 남쪽까지 내려오고, 물결이 한자리에 머물면 한파가 며칠씩 이어집니다.</p>
+  </aside>
+</section>
+
+<!-- 13 기압골 동쪽 발산 -->
+<section class="slide" id="s-div" data-title="기압골 동쪽에서 저기압이 자란다" data-part="③ 행성파">
+  <p class="kicker">③ 행성파 · 상층의 물결이 지상의 날씨를 만든다</p>
+  <h2>기압골 동쪽에서 지상 저기압이 자란다</h2>
+  <svg class="graph" viewBox="0 0 1400 420" width="1260" height="378" aria-label="서쪽에서 동쪽으로 자른 단면: 상층 기압골의 서쪽에서는 상층 수렴과 하강 기류, 지상 고기압이 생기고, 동쪽에서는 상층 발산과 상승 기류, 지상 저기압이 생긴다">
+    <defs>
+      <marker id="dv-mb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+      <marker id="dv-mr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+      <marker id="dv-mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#161b28"/></marker>
+    </defs>
+    <rect x="0" y="0" width="1400" height="370" rx="18" fill="#f4f8ff"/>
+    <rect x="0" y="370" width="1400" height="50" rx="10" fill="#8d6e4c"/>
+    <text x="20" y="40" font-size="22" font-weight="900" fill="#5f6b80">상층</text>
+    <text x="20" y="400" font-size="22" font-weight="900" fill="#fff">지상</text>
+    <text x="1380" y="400" font-size="22" font-weight="900" fill="#fff" text-anchor="end">서 → 동</text>
+    <rect x="620" y="20" width="160" height="56" rx="12" fill="#d0ebff" stroke="#1462d8" stroke-width="3"/>
+    <text x="700" y="57" font-size="26" font-weight="900" fill="#1462d8" text-anchor="middle">기압골</text>
+    <g data-step="1">
+      <line x1="1000" y1="70" x2="880" y2="70" stroke="#d9302c" stroke-width="8" marker-end="url(#dv-mr)"/><line x1="1080" y1="70" x2="1200" y2="70" stroke="#d9302c" stroke-width="8" marker-end="url(#dv-mr)"/>
+      <text x="1040" y="120" font-size="26" font-weight="900" fill="#d9302c" text-anchor="middle">상층 발산</text>
+    </g>
+    <g data-step="2">
+      <line x1="1040" y1="300" x2="1040" y2="150" stroke="#161b28" stroke-width="10" marker-end="url(#dv-mk)"/>
+      <text x="1020" y="230" font-size="22" font-weight="900" fill="#161b28" text-anchor="end">공기가 빠져나간다</text>
+      <text x="1040" y="350" font-size="34" font-weight="900" fill="#d9302c" text-anchor="middle">L</text>
+      <text x="1090" y="350" font-size="22" font-weight="900" fill="#d9302c">지상 저기압 발달</text>
+    </g>
+    <g data-step="3">
+      <line x1="900" y1="340" x2="1000" y2="340" stroke="#d9302c" stroke-width="6" marker-end="url(#dv-mr)"/>
+      <g fill="#fff" stroke="#ced4da" stroke-width="2"><ellipse cx="1200" cy="230" rx="90" ry="34"/><ellipse cx="1260" cy="210" rx="60" ry="28"/></g>
+      <text x="1220" y="238" font-size="22" font-weight="900" fill="#495057" text-anchor="middle">구름·비</text>
+    </g>
+    <g data-step="4">
+      <line x1="230" y1="70" x2="330" y2="70" stroke="#1462d8" stroke-width="8" marker-end="url(#dv-mb)"/><line x1="490" y1="70" x2="390" y2="70" stroke="#1462d8" stroke-width="8" marker-end="url(#dv-mb)"/>
+      <text x="360" y="120" font-size="26" font-weight="900" fill="#1462d8" text-anchor="middle">상층 수렴</text>
+      <line x1="360" y1="150" x2="360" y2="300" stroke="#1462d8" stroke-width="10" marker-end="url(#dv-mb)"/>
+      <text x="380" y="230" font-size="22" font-weight="900" fill="#1462d8">가라앉는다</text>
+      <text x="360" y="350" font-size="34" font-weight="900" fill="#1462d8" text-anchor="middle">H</text>
+      <text x="410" y="350" font-size="22" font-weight="900" fill="#1462d8">지상 고기압</text>
+    </g>
+  </svg>
+  <div class="lines tight" style="margin-top:12px">
+    <p data-step="1">기압골 동쪽에서 상층 바람이 퍼져 나간다 → 상층 <b class="blank" data-n="15" data-step="1">발산</b></p>
+    <p data-step="2">위에서 공기가 빠져나가 지상 기압이 낮아진다 → 지상 저기압 발달 → 수렴·상승 → 구름과 비</p>
+    <p data-step="4">기압골 서쪽(기압 마루 동쪽): 상층 수렴 → 하강 기류 → 지상 고기압</p>
+  </div>
+  <aside class="script">
+    <p>서쪽에서 동쪽으로 대기를 세로로 잘라 봅니다. 가운데 위가 상층의 기압골이에요.</p>
+    <p data-at="1">기압골의 동쪽에서는 상층 바람이 퍼져 나갑니다. 빈칸 15번, 발산.</p>
+    <p data-at="2">위에서 공기가 빠져나가면 그 아래 기둥 속 공기가 줄어듭니다. 기압은 공기 기둥의 무게였죠. 그래서 지상 기압이 낮아지고 지상 저기압이 발달합니다.</p>
+    <p data-at="3">지상 저기압에는 지상풍이 모여들어 상승 기류가 생기고, 단열 팽창으로 구름과 비가 생깁니다. 오늘까지 네 차시가 한 줄로 이어집니다.</p>
+    <p data-at="4">반대로 기압골 서쪽에서는 상층이 수렴해 공기가 가라앉고 지상에 고기압이 발달합니다. 그래서 상층 물결이 지나갈 때마다 지상의 고기압과 저기압이 번갈아 옵니다.</p>
+  </aside>
+</section>
+
+<!-- 14 확인 -->
+<section class="slide" id="s-check" data-title="확인 · 지균풍" data-part="정리">
+  <p class="kicker">확인</p>
+  <h2>상공의 바람이 등압선과 나란히 부는 까닭은?</h2>
+  <div class="opts" style="max-width:1300px">
+    <div class="opt wrong" data-step="1">① 상공에서는 기압 경도력이 0이기 때문</div>
+    <div class="opt right" data-step="1">② 기압 경도력과 전향력이 크기가 같고 방향이 반대이기 때문</div>
+    <div class="opt wrong" data-step="1">③ 전향력이 바람의 속력을 계속 키우기 때문</div>
+    <div class="opt wrong" data-step="1">④ 마찰력이 바람을 등압선 쪽으로 밀기 때문</div>
+  </div>
+  <p class="why mt" data-step="2">기압 경도력은 그대로 있다. 전향력은 방향만 바꾸고 속력은 바꾸지 않는다. 상공은 마찰이 거의 없다.</p>
+  <aside class="script">
+    <p>짝과 30초 이야기하게 한 뒤 손가락으로 답을 들게 합니다.</p>
+    <p data-at="1">정답은 ②. ③을 고른 학생에게는 전향력이 늘 진행 방향에 수직이라 속력을 바꾸지 못한다는 점을 다시 짚습니다.</p>
+    <p data-at="2">마찰은 지상풍에서 등압선을 가로지르게 만드는 힘이었습니다.</p>
+  </aside>
+</section>
+
+<!-- 15 정리 -->
+<section class="slide soft" id="s-sum" data-title="오늘의 정리" data-part="정리">
+  <p class="kicker">오늘의 정리</p>
+  <h2>상공의 물결 한 굽이가 지상의 날씨를 만든다</h2>
+  <ul class="sumlist">
+    <li data-k="1" data-step="1">상공: 기압 경도력 = 전향력 → <b>지균풍</b>. 등압선 간격이 좁을수록, 위도가 낮을수록 빠르다</li>
+    <li data-k="2" data-step="2">휘어진 등압선: 원심력이 더해진 <b>경도풍</b>. 저기압 주위는 느리고 고기압 주위는 빠르다</li>
+    <li data-k="3" data-step="3">지표 부근: 마찰력 → <b>지상풍</b>은 등압선을 가로질러 저기압으로 (저기압 수렴·상승, 고기압 발산·하강)</li>
+    <li data-k="4" data-step="4"><b>행성파</b>: 기압골 아래 한파, 마루 아래 포근 · 기압골 동쪽 상층 발산 → 지상 저기압 발달</li>
+  </ul>
+  <aside class="script"><p>학습지를 덮고 한 줄씩 먼저 말로 떠올리게 한 다음 엽니다.</p></aside>
+</section>
+
+<!-- 16 문제 -->
+<section class="slide" id="s-quiz" data-title="문제로 확인하기" data-part="정리">
+  <p class="kicker">문제로 확인하기</p>
+  <h2>두 문제만 풀어 봅시다</h2>
+  <div class="cols">
+    <div class="card">
+      <p class="q">1. 이웃한 등압선의 기압 차가 같을 때, 지균풍이 가장 빠른 곳은?</p>
+      <div class="opts">
+        <div class="opt wrong" data-step="1">㉠ 간격 500 km, 위도 60°</div>
+        <div class="opt right" data-step="1">㉡ 간격 250 km, 위도 30°</div>
+        <div class="opt wrong" data-step="1">㉢ 간격 500 km, 위도 30°</div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="q">2. 상층 기압골의 동쪽에서 일어나는 일로 옳은 것은?</p>
+      <div class="opts">
+        <div class="opt wrong" data-step="2">㉠ 상층 수렴 → 지상 고기압</div>
+        <div class="opt right" data-step="2">㉡ 상층 발산 → 지상 저기압 발달</div>
+        <div class="opt wrong" data-step="2">㉢ 바람이 멈추고 날씨가 변하지 않는다</div>
+      </div>
+    </div>
+  </div>
+  <aside class="script">
+    <p>1분 동안 풀게 하고 손가락으로 답을 들게 합니다.</p>
+    <p data-at="1">1번은 ㉡. 간격이 좁고 위도가 낮을수록 빠릅니다. 모형으로 계산하면 ㉠ 약 5.3, ㉡ 약 18, ㉢ 약 9.1 m/s입니다.</p>
+    <p data-at="2">2번은 ㉡.</p>
+  </aside>
+</section>
+
+<!-- 17 활동·다음 -->
+<section class="slide dark" id="s-next" data-title="직접 해 보기 · 단원 마무리" data-part="정리">
+  <p class="kicker">직접 해 보기</p>
+  <h2>이야기 ④ 「제트 기류를 읽는 사람」</h2>
+  <div class="cols">
+    <div class="card"><h3>바람을 직접 불게 해 보세요</h3><p>지균풍 30 m/s 만들기, 경도풍이 생길 수 없는 고기압 찾기, 마찰로 바람 기울이기, 북위 30°까지 내려오는 한파 만들기, 저기압 발달 순서 맞추기 미션이 기다립니다.</p>
+      <p class="mt"><a href="index.html" style="color:#74b6ff;font-weight:900">단원 화면 열기 →</a></p></div>
+    <div class="card"><h3>단원 마무리</h3><p>네 이야기를 ‘에너지’와 ‘균형’으로 꿰어 봅니다. 단원 화면의 정리하기 탭과 수준별 문제, 응용 실험실로 이어 가세요.</p></div>
+  </div>
+  <aside class="script"><p>남은 시간에는 단원 화면의 이야기 ④를 열어 미션을 하게 합니다. 마지막 미션인 저기압 발달 순서 맞추기는 오늘 13번 장면을 그대로 확인하는 활동입니다.</p></aside>
+</section>
+
+</div></div>
+<script src="../assets/board.js"></script>
+<script>
+(function () {
+  "use strict";
+  var D = Math.PI / 180;
+  function $(id) { return document.getElementById(id); }
+  /* 북극 위에서 내려다본 편서풍 굽이: 위도 = 45 − A·cos(k(경도 − 127.5)), 우리나라(동경 127.5°)가 아래쪽.
+     화면 각 a = 90° − (경도 − 127.5) (동쪽이 시계 반대 방향), 반지름 = (90 − 위도) × s */
+  function polar(cx, cy, s, lat, lon) { var a = (90 - (lon - 127.5)) * D, r = (90 - lat) * s; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
+  function jet(cx, cy, s, A, k) {
+    var d = "", lon, p;
+    for (lon = 0; lon <= 360; lon += 3) { p = polar(cx, cy, s, 45 - A * Math.cos(k * (lon - 127.5) * D), lon); d += (lon ? " L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }
+    return d + " Z";
+  }
+  function place(dot, txt, cx, cy, s, dy) {
+    var p = polar(cx, cy, s, 37.5, 127.5);
+    if ($(dot)) { $(dot).setAttribute("cx", p[0].toFixed(1)); $(dot).setAttribute("cy", p[1].toFixed(1)); }
+    if ($(txt)) { $(txt).setAttribute("x", p[0].toFixed(1)); $(txt).setAttribute("y", (p[1] + dy).toFixed(1)); }
+  }
+  /* 표지(반지름 250 = 위도 0°까지) */
+  $("cv-jet").setAttribute("d", jet(800, 260, 250 / 90, 13, 4));
+  $("cv-cold").setAttribute("d", jet(800, 260, 250 / 90, 13, 4));
+  place("cv-kr", "cv-krt", 800, 260, 250 / 90, 34);
+  /* 장면 11 (반지름 180 = 위도 45°, s = 4) */
+  $("wvJet").setAttribute("d", jet(320, 270, 4, 12, 4));
+  $("wvCold").setAttribute("d", jet(320, 270, 4, 12, 4));
+  place("wvKr", "wvKrt", 320, 270, 4, 30);
+
+  /* 장면 10: 지상 저기압(반시계, 안쪽)·고기압(시계, 바깥쪽) 바람 화살표 */
+  var NS = "http://www.w3.org/2000/svg";
+  function spiral(gid, cx, cy, r0, r1, turn, mk) {
+    var g = $(gid); if (!g) return;
+    [20, 110, 200, 290].forEach(function (t0) {
+      var a0 = t0 * D, a1 = (t0 + turn) * D, am = (t0 + turn * 0.55) * D, rm = (r0 + r1) / 2 + (r0 > r1 ? 10 : -10);
+      function P(r, a) { return (cx + r * Math.cos(a)).toFixed(1) + " " + (cy - r * Math.sin(a)).toFixed(1); }
+      var path = document.createElementNS(NS, "path");
+      path.setAttribute("d", "M" + P(r0, a0) + " Q" + P(rm, am) + " " + P(r1, a1));
+      path.setAttribute("marker-end", "url(#" + mk + ")");
+      g.appendChild(path);
+    });
+  }
+  spiral("lhLow", 300, 210, 190, 105, 55, "lh-mb");       /* 바깥 → 안, 시계 반대(각이 커짐) */
+  spiral("lhHigh", 1020, 210, 100, 185, -55, "lh-mr");   /* 안 → 바깥, 시계 방향(각이 작아짐) */
+
+  /* 장면 12: 편서풍 물결을 펼친 그림 (경도 37.5°~217.5°, 우리나라 127.5°가 가운데) */
+  (function () {
+    function X(lon) { return 100 + (lon - 37.5) / 180 * 1200; }
+    function Y(lat) { return 140 - (lat - 45) * 8; }
+    var d = "", lon, lat;
+    for (lon = 37.5; lon <= 217.51; lon += 2) { lat = 45 - 12 * Math.cos(4 * (lon - 127.5) * D); d += (d ? " L" : "M") + X(lon).toFixed(1) + " " + Y(lat).toFixed(1); }
+    $("trJet").setAttribute("d", d);
+    $("trCold").setAttribute("d", d + " L1300 10 L100 10 Z");
+  })();
+
+  /* 장면 5: 공기가 지나간 길을 단계마다 한 번 그린다 */
+  Board.on("s-geo", function (step) {
+    var p = $("geoPath"); if (p) p.style.strokeDashoffset = step === 0 ? "1" : (step === 1 ? "0.62" : (step === 2 ? "0.3" : "0"));
+  });
+})();
+</script>
+</body>
+</html>

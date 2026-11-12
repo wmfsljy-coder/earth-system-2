@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개념정리 학습지 · 에크만 수송과 지형류 (지구시스템과학 Ⅱ-1 01)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<style>
+  /* 개념정리 학습지 — 칠판 강의 화면(board-01.html)의 빈칸 번호와 1:1. 주소 끝 ?key=1 이면 교사용 정답이 보인다. */
+  @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&display=swap');
+  @page { size: A4; margin: 13mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9edf2; font-family: "Gothic A1", "Malgun Gothic", sans-serif; color: #161b28; }
+  .paper { width: 210mm; min-height: 297mm; margin: 18px auto; background: #fff; padding: 13mm 14mm; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  .tools { width: 210mm; margin: 18px auto 0; display: flex; gap: 10px; justify-content: flex-end; font-size: 14px; }
+  .tools a, .tools button { font: inherit; font-weight: 800; padding: 8px 14px; border-radius: 10px; border: 2px solid #c9d1dd; background: #fff; color: #161b28; text-decoration: none; cursor: pointer; }
+  .tools button.main { background: #1462d8; border-color: #1462d8; color: #fff; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #161b28; padding-bottom: 8px; margin-bottom: 12px; }
+  header .k { font-size: 11.5px; font-weight: 800; color: #5f6b80; }
+  header h1 { font-size: 22px; font-weight: 900; margin: 2px 0 0; letter-spacing: -.03em; }
+  header .who { display: flex; gap: 8px; font-size: 12px; font-weight: 800; }
+  header .who span { border: 1.5px solid #9aa4b5; border-radius: 6px; padding: 6px 10px; min-width: 92px; }
+  .key-mark { display: none; color: #d9302c; font-weight: 900; font-size: 12px; }
+  .key .key-mark { display: inline; }
+  .guide { font-size: 11.5px; color: #5f6b80; margin: 0 0 10px; }
+  h2 { font-size: 15.5px; font-weight: 900; margin: 11px 0 5px; padding: 4px 10px; background: #eef2f8; border-left: 5px solid #1462d8; border-radius: 4px; }
+  p, li { font-size: 13.5px; line-height: 1.88; margin: 0; }
+  ul { margin: 0; padding-left: 18px; }
+  .blank { position: relative; display: inline-block; min-width: 4.4em; padding: 0 1.1em 0 1.7em; margin: 0 2px; border-bottom: 1.6px solid #161b28; color: transparent; line-height: 1.5; text-align: center; font-weight: 800; }
+  .blank::before { content: attr(data-n); position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; background: #1462d8; color: #fff; font-size: 9.5px; font-weight: 900; line-height: 15px; text-align: center; }
+  .key .blank { color: #d9302c; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin: 4px 0 2px; }
+  td, th { border: 1px solid #c9d1dd; padding: 4px 8px; text-align: left; line-height: 1.6; }
+  th { background: #f4f6fa; font-weight: 800; }
+  .formula { font-weight: 800; background: #f8fafc; border: 1px dashed #c9d1dd; border-radius: 6px; padding: 2px 10px; display: inline-block; }
+  .q { margin-top: 6px; }
+  .q p { line-height: 1.7; }
+  .q .ans { display: none; color: #d9302c; font-weight: 900; }
+  .key .q .ans { display: inline; }
+  .write { border: 1.5px solid #9aa4b5; border-radius: 8px; height: 54px; margin-top: 4px; }
+  .foot { margin-top: 10px; font-size: 10.5px; color: #8a94a6; display: flex; justify-content: space-between; }
+  @media print {
+    body { background: #fff; }
+    .tools { display: none; }
+    .paper { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: 0; }
+  }
+  p, li { line-height: 1.62; }
+  h2 { margin: 8px 0 4px; }
+  .write { height: 46px; }
+  td, th { padding: 3px 8px; }
+</style>
+</head>
+<body>
+<div class="tools">
+  <a href="board-01.html">칠판 강의 화면</a>
+  <a id="keyLink" href="?key=1" hidden>교사용 정답 보기</a>
+  <button class="main" onclick="window.print()">인쇄하기</button>
+</div>
+<div class="paper">
+  <header>
+    <div>
+      <div class="k">지구시스템과학 · Ⅱ-1 해수의 운동 · 01 &nbsp;<span class="key-mark">[교사용 정답]</span></div>
+      <h1>개념정리 학습지 · 에크만 수송과 지형류</h1>
+    </div>
+    <div class="who"><span>학번</span><span>이름</span></div>
+  </header>  <p class="guide">칠판 화면에 번호가 열리면 같은 번호 빈칸에 받아 적으세요. (빈칸 1~15)</p>
+  <h2>① 에크만 수송</h2>
+  <ul>
+    <li>바람이 표층 해수를 끌면, 표층 해수는 바람 방향에서 북반구는 오른쪽으로 <b class="blank" data-n="1">45</b>° 비껴 흐른다.</li>
+    <li>깊어질수록 오른쪽으로 더 돌고 약해지는 나선 모양: <b class="blank" data-n="2">에크만 나선</b></li>
+    <li>층 전체를 합한 물의 이동: <b class="blank" data-n="3">에크만 수송</b> → 북반구는 바람의 오른쪽 <b class="blank" data-n="4">90</b>°, 남반구는 바람의 <b class="blank" data-n="5">왼쪽</b> 90°</li>
+    <li>편서풍(동쪽으로)의 수송은 남쪽, 무역풍(서쪽으로)의 수송은 북쪽 → 아열대 한가운데의 해수면이 약 <b class="blank" data-n="6">1</b> m 높아진다.</li>
+  </ul>
+  <h2>② 수압 경도력과 지형류</h2>
+  <ul>
+    <li>멈춘 해수에서 위에 있는 물의 무게가 그대로 수압이 되는 상태: <b class="blank" data-n="7">정역학 평형</b> (수심 10 m마다 약 1기압 → 수심 200 m는 <b class="blank" data-n="8">21</b>기압)</li>
+    <li>같은 깊이에서 수압이 높은 쪽(환류 중심)에서 낮은 쪽으로 미는 힘: <b class="blank" data-n="9">수압 경도력</b></li>
+  </ul>
+  <table>
+    <tr><th>단계</th><th>일어나는 일</th></tr>
+    <tr><td>출발</td><td>수압 경도력을 받아 해수면이 낮은 쪽으로 움직이기 시작한다.</td></tr>
+    <tr><td>휘어짐</td><td>지구 자전 때문에 북반구에서 오른쪽으로 휜다: <b class="blank" data-n="10">전향력</b></td></tr>
+    <tr><td>평형</td><td>두 힘이 평형을 이루어 등수압선과 나란히 흐른다: <b class="blank" data-n="11">지형류</b></td></tr>
+  </table>
+  <ul>
+    <li>북반구 지형류는 높은 쪽을 오른쪽에 두고 흐른다 → 북태평양 아열대 환류는 <b class="blank" data-n="12">시계</b> 방향</li>
+    <li><span class="formula">v = g·Δh ÷ (f·L)</span> = 9.8 × 1 ÷ (7.3×10⁻⁵ × 2.0×10⁶) ≈ 0.067 m/s (약 6.7 cm/s)</li>
+  </ul>
+  <h2>③ 서안 경계류와 동안 경계류</h2>
+  <table>
+    <tr><th></th><th>폭 · 유속 · 깊이</th><th>나르는 물</th><th>예</th></tr>
+    <tr><td><b class="blank" data-n="13">서안 경계류</b></td><td>좁다 · 빠르다 · 깊다</td><td>따뜻한 물을 고위도로</td><td>쿠로시오, 멕시코만류</td></tr>
+    <tr><td>동안 경계류</td><td>넓다 · 느리다 · 얕다</td><td>찬 물을 저위도로</td><td>캘리포니아, 카나리아</td></tr>
+  </table>
+  <ul>
+    <li>수송량 = 폭 × 깊이 × 유속 (1 Sv = 100만 m³/s). 서안: 100 km × 800 m × 0.5 m/s = 40 Sv</li>
+    <li>동안(깊이 500 m, 유속 0.05 m/s)이 같은 40 Sv를 나르려면 폭 <b class="blank" data-n="14">1,600</b> km → 서쪽에 흐름이 몰리는 <b class="blank" data-n="15">서안 강화</b></li>
+  </ul>
+  <h2>문제로 확인하기</h2>
+  <div class="q">
+    <p>1. 남반구 아열대 환류의 중심도 해수면이 높다. 이곳의 지형류는? &nbsp;㉠ 시계 방향 &nbsp;㉡ 반시계 방향 &nbsp;㉢ 중심에서 사방으로 곧장 퍼진다 <span class="ans">→ ㉡</span></p>
+    <p>2. 쿠로시오 해류에 대한 설명으로 옳은 것은? <span class="ans">→ ㉡</span><br>
+      ㉠ 넓고 느리게 찬 물을 저위도로 나른다 &nbsp; ㉡ 좁고 빠르게 따뜻한 물을 고위도로 나른다 &nbsp; ㉢ 바람이 직접 미는 방향으로만 흐른다</p>
+  </div>
+  <h2>한 문장 정리</h2>
+  <p>오리 떼가 바람 방향이 아니라 큰 원을 그리며 흘러간 까닭을 '에크만 수송'과 '지형류'라는 말을 넣어 한 문장으로 쓰세요.</p>
+  <div class="write"></div>
+  <div class="foot"><span>칠판 강의 화면: board-01.html · 이야기 ① 「고무 오리 2만 8천 개」</span><span>과학 수업 도구</span></div>
+</div>
+<script>
+  if (new URLSearchParams(location.search).get("key") === "1") {
+    document.body.classList.add("key");
+    var a = document.getElementById("keyLink"); a.textContent = "학생용으로 보기"; a.href = "?"; a.hidden = false;
+  }
+</script>
+</body>
+</html>

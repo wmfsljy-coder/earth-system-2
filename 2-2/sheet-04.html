@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개념정리 학습지 · 지균풍·경도풍과 행성파 (지구시스템과학 Ⅱ-2 04)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<style>
+  /* 개념정리 학습지 — 칠판 강의 화면(board-04.html)의 빈칸 번호와 1:1. 주소 끝 ?key=1 이면 교사용 정답이 보인다. */
+  @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&display=swap');
+  @page { size: A4; margin: 13mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9edf2; font-family: "Gothic A1", "Malgun Gothic", sans-serif; color: #161b28; }
+  .paper { width: 210mm; min-height: 297mm; margin: 18px auto; background: #fff; padding: 13mm 14mm; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  .tools { width: 210mm; margin: 18px auto 0; display: flex; gap: 10px; justify-content: flex-end; font-size: 14px; }
+  .tools a, .tools button { font: inherit; font-weight: 800; padding: 8px 14px; border-radius: 10px; border: 2px solid #c9d1dd; background: #fff; color: #161b28; text-decoration: none; cursor: pointer; }
+  .tools button.main { background: #1462d8; border-color: #1462d8; color: #fff; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #161b28; padding-bottom: 8px; margin-bottom: 12px; }
+  header .k { font-size: 11.5px; font-weight: 800; color: #5f6b80; }
+  header h1 { font-size: 22px; font-weight: 900; margin: 2px 0 0; letter-spacing: -.03em; }
+  header .who { display: flex; gap: 8px; font-size: 12px; font-weight: 800; }
+  header .who span { border: 1.5px solid #9aa4b5; border-radius: 6px; padding: 6px 10px; min-width: 92px; }
+  .key-mark { display: none; color: #d9302c; font-weight: 900; font-size: 12px; }
+  .key .key-mark { display: inline; }
+  .guide { font-size: 11.5px; color: #5f6b80; margin: 0 0 10px; }
+  h2 { font-size: 15.5px; font-weight: 900; margin: 11px 0 5px; padding: 4px 10px; background: #eef2f8; border-left: 5px solid #1462d8; border-radius: 4px; }
+  p, li { font-size: 13.5px; line-height: 1.88; margin: 0; }
+  ul { margin: 0; padding-left: 18px; }
+  .blank { position: relative; display: inline-block; min-width: 4.4em; padding: 0 1.1em 0 1.7em; margin: 0 2px; border-bottom: 1.6px solid #161b28; color: transparent; line-height: 1.5; text-align: center; font-weight: 800; }
+  .blank::before { content: attr(data-n); position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; background: #1462d8; color: #fff; font-size: 9.5px; font-weight: 900; line-height: 15px; text-align: center; }
+  .key .blank { color: #d9302c; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin: 4px 0 2px; }
+  td, th { border: 1px solid #c9d1dd; padding: 4px 8px; text-align: left; line-height: 1.6; }
+  th { background: #f4f6fa; font-weight: 800; }
+  .formula { font-weight: 800; background: #f8fafc; border: 1px dashed #c9d1dd; border-radius: 6px; padding: 2px 10px; display: inline-block; }
+  .q { margin-top: 6px; }
+  .q p { line-height: 1.7; }
+  .q .ans { display: none; color: #d9302c; font-weight: 900; }
+  .key .q .ans { display: inline; }
+  .write { border: 1.5px solid #9aa4b5; border-radius: 8px; height: 54px; margin-top: 4px; }
+  .foot { margin-top: 10px; font-size: 10.5px; color: #8a94a6; display: flex; justify-content: space-between; }
+  /* 한 쪽(A4)에 들어가도록 줄 간격만 조금 좁힘 */
+  p, li { line-height: 1.8; }
+  h2 { margin: 9px 0 4px; }
+  @media print {
+    body { background: #fff; }
+    .tools { display: none; }
+    .paper { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="tools">
+  <a href="board-04.html">칠판 강의 화면</a>
+  <a id="keyLink" href="?key=1" hidden>교사용 정답 보기</a>
+  <button class="main" onclick="window.print()">인쇄하기</button>
+</div>
+<div class="paper">
+  <header>
+    <div>
+      <div class="k">지구시스템과학 · Ⅱ-2 강수 과정과 대기의 운동 · 04 &nbsp;<span class="key-mark">[교사용 정답]</span></div>
+      <h1>개념정리 학습지 · 지균풍·경도풍과 행성파</h1>
+    </div>
+    <div class="who"><span>학번</span><span>이름</span></div>
+  </header>
+  <p class="guide">칠판 화면에 번호가 열리면 같은 번호 빈칸에 받아 적으세요. (빈칸 1~15)</p>
+
+  <h2>① 지균풍 (마찰이 거의 없는 상공)</h2>
+  <ul>
+    <li>기압이 높은 곳에서 낮은 곳으로 등압선에 수직으로 미는 힘: <b class="blank" data-n="1">기압 경도력</b></li>
+    <li>움직이는 공기를 휘게 하는 겉보기 힘: <b class="blank" data-n="2">전향력</b> → 북반구에서 진행 방향의 <b class="blank" data-n="3">오른쪽</b> (방향만 바꾸고 속력은 그대로, 위도가 높을수록 크다)</li>
+    <li>기압 경도력 = 전향력 (크기 같고 방향 반대) → 등압선과 나란히 부는 바람: <b class="blank" data-n="4">지균풍</b> (바람을 등지면 저기압이 왼쪽)</li>
+    <li><span class="formula">V = (1 ÷ ρf) × (Δp ÷ Δn), f = 2Ω sin φ</span> → 등압선 간격이 <b class="blank" data-n="5">좁을수록</b>, 위도가 <b class="blank" data-n="6">낮을수록</b> 빠르다</li>
+  </ul>
+
+  <h2>② 경도풍과 지상풍</h2>
+  <ul>
+    <li>원을 따라 도는 공기에는 바깥쪽으로 <b class="blank" data-n="7">원심력</b>이 더해진다</li>
+  </ul>
+  <table>
+    <tr><th style="width:22%"></th><th>안쪽으로</th><th>바깥쪽으로</th><th style="width:30%">풍속 (45°, 400 km, 반지름 1,000 km)</th></tr>
+    <tr><td>저기압 주위 (반시계)</td><td>기압 경도력</td><td>전향력 + 원심력</td><td>약 7.5 m/s · 지균풍(약 8.1)보다 느리다</td></tr>
+    <tr><td>고기압 주위 (시계)</td><td>전향력</td><td>기압 경도력 + 원심력</td><td>약 8.8 m/s · 지균풍보다 빠르다</td></tr>
+  </table>
+  <ul>
+    <li>세 힘이 평형을 이루며 원을 따라 부는 바람: <b class="blank" data-n="8">경도풍</b></li>
+    <li>지표의 거칠기가 바람을 느리게 함: <b class="blank" data-n="9">마찰력</b> → 전향력도 작아져 저기압 쪽으로 기운다</li>
+    <li>등압선을 비스듬히 가로질러 저기압 쪽으로 부는 바람: <b class="blank" data-n="10">지상풍</b> (마찰이 클수록 각이 크다)</li>
+    <li>지상 저기압: 반시계 방향 <b class="blank" data-n="11">수렴</b> → 상승 · 고기압: 시계 방향 발산 → 하강</li>
+  </ul>
+
+  <h2>③ 행성파와 지상의 날씨</h2>
+  <ul>
+    <li>편서풍이 남북으로 굽이치는 지구 규모의 물결: <b class="blank" data-n="12">행성파</b> (로스비파, 전향력이 위도에 따라 달라서)</li>
+    <li>남쪽으로 처진 <b class="blank" data-n="13">기압골</b> 아래 → 찬 공기가 내려와 한파 / 북쪽으로 솟은 <b class="blank" data-n="14">기압 마루</b> 아래 → 포근</li>
+    <li>기압골 동쪽: 상층 <b class="blank" data-n="15">발산</b> → 지상 저기압 발달 → 구름과 비 (서쪽: 상층 수렴 → 지상 고기압)</li>
+  </ul>
+
+  <h2>문제로 확인하기</h2>
+  <div class="q">
+    <p>1. 이웃한 등압선의 기압 차가 같을 때 지균풍이 가장 빠른 곳은? &nbsp;㉠ 간격 500 km, 위도 60° &nbsp;㉡ 간격 250 km, 위도 30° &nbsp;㉢ 간격 500 km, 위도 30° <span class="ans">→ ㉡</span></p>
+    <p>2. 상층 기압골의 동쪽에서 일어나는 일은? &nbsp;㉠ 상층 수렴 → 지상 고기압 &nbsp;㉡ 상층 발산 → 지상 저기압 발달 &nbsp;㉢ 바람이 멈춘다 <span class="ans">→ ㉡</span></p>
+  </div>
+  <h2>한 문장 정리</h2>
+  <p>비슷한 위도인데 한쪽만 한파가 온 까닭을 '기압골'이라는 말을 넣어 한 문장으로 쓰세요.</p>
+  <div class="write"></div>
+  <div class="foot"><span>칠판 강의 화면: board-04.html · 이야기 ④ 「제트 기류를 읽는 사람」</span><span>과학 수업 도구</span></div>
+</div><script>
+  if (new URLSearchParams(location.search).get("key") === "1") {
+    document.body.classList.add("key");
+    var a = document.getElementById("keyLink"); a.textContent = "학생용으로 보기"; a.href = "?"; a.hidden = false;
+  }
+</script>
+</body>
+</html>

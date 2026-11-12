@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개념정리 학습지 · 해일 (지구시스템과학 Ⅱ-1 03)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<style>
+  /* 개념정리 학습지 — 칠판 강의 화면(board-01.html)의 빈칸 번호와 1:1. 주소 끝 ?key=1 이면 교사용 정답이 보인다. */
+  @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&display=swap');
+  @page { size: A4; margin: 13mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9edf2; font-family: "Gothic A1", "Malgun Gothic", sans-serif; color: #161b28; }
+  .paper { width: 210mm; min-height: 297mm; margin: 18px auto; background: #fff; padding: 13mm 14mm; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  .tools { width: 210mm; margin: 18px auto 0; display: flex; gap: 10px; justify-content: flex-end; font-size: 14px; }
+  .tools a, .tools button { font: inherit; font-weight: 800; padding: 8px 14px; border-radius: 10px; border: 2px solid #c9d1dd; background: #fff; color: #161b28; text-decoration: none; cursor: pointer; }
+  .tools button.main { background: #1462d8; border-color: #1462d8; color: #fff; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #161b28; padding-bottom: 8px; margin-bottom: 12px; }
+  header .k { font-size: 11.5px; font-weight: 800; color: #5f6b80; }
+  header h1 { font-size: 22px; font-weight: 900; margin: 2px 0 0; letter-spacing: -.03em; }
+  header .who { display: flex; gap: 8px; font-size: 12px; font-weight: 800; }
+  header .who span { border: 1.5px solid #9aa4b5; border-radius: 6px; padding: 6px 10px; min-width: 92px; }
+  .key-mark { display: none; color: #d9302c; font-weight: 900; font-size: 12px; }
+  .key .key-mark { display: inline; }
+  .guide { font-size: 11.5px; color: #5f6b80; margin: 0 0 10px; }
+  h2 { font-size: 15.5px; font-weight: 900; margin: 11px 0 5px; padding: 4px 10px; background: #eef2f8; border-left: 5px solid #1462d8; border-radius: 4px; }
+  p, li { font-size: 13.5px; line-height: 1.88; margin: 0; }
+  ul { margin: 0; padding-left: 18px; }
+  .blank { position: relative; display: inline-block; min-width: 4.4em; padding: 0 1.1em 0 1.7em; margin: 0 2px; border-bottom: 1.6px solid #161b28; color: transparent; line-height: 1.5; text-align: center; font-weight: 800; }
+  .blank::before { content: attr(data-n); position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; background: #1462d8; color: #fff; font-size: 9.5px; font-weight: 900; line-height: 15px; text-align: center; }
+  .key .blank { color: #d9302c; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin: 4px 0 2px; }
+  td, th { border: 1px solid #c9d1dd; padding: 4px 8px; text-align: left; line-height: 1.6; }
+  th { background: #f4f6fa; font-weight: 800; }
+  .formula { font-weight: 800; background: #f8fafc; border: 1px dashed #c9d1dd; border-radius: 6px; padding: 2px 10px; display: inline-block; }
+  .q { margin-top: 6px; }
+  .q p { line-height: 1.7; }
+  .q .ans { display: none; color: #d9302c; font-weight: 900; }
+  .key .q .ans { display: inline; }
+  .write { border: 1.5px solid #9aa4b5; border-radius: 8px; height: 54px; margin-top: 4px; }
+  .foot { margin-top: 10px; font-size: 10.5px; color: #8a94a6; display: flex; justify-content: space-between; }
+  @media print {
+    body { background: #fff; }
+    .tools { display: none; }
+    .paper { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: 0; }
+  }
+  p, li { line-height: 1.62; }
+  h2 { margin: 8px 0 4px; }
+  .write { height: 46px; }
+  td, th { padding: 3px 8px; }
+</style>
+</head>
+<body>
+<div class="tools">
+  <a href="board-03.html">칠판 강의 화면</a>
+  <a id="keyLink" href="?key=1" hidden>교사용 정답 보기</a>
+  <button class="main" onclick="window.print()">인쇄하기</button>
+</div>
+<div class="paper">
+  <header>
+    <div>
+      <div class="k">지구시스템과학 · Ⅱ-1 해수의 운동 · 03 &nbsp;<span class="key-mark">[교사용 정답]</span></div>
+      <h1>개념정리 학습지 · 해일</h1>
+    </div>
+    <div class="who"><span>학번</span><span>이름</span></div>
+  </header>  <p class="guide">칠판 화면에 번호가 열리면 같은 번호 빈칸에 받아 적으세요. (빈칸 1~14)</p>
+  <h2>① 지진 해일</h2>
+  <ul>
+    <li>해저 지진·화산 폭발·해저 산사태로 바닥이 갑자기 움직여 생기는 해일: <b class="blank" data-n="1">지진 해일</b></li>
+    <li>바람 파도는 수면 근처만 움직이지만, 지진 해일은 바닥부터 수면까지 <b class="blank" data-n="2">바닷물 전체</b>가 움직인다.</li>
+    <li>파장이 100 km 이상이라 수심 4,000 m 바다도 파장의 1/20(5 km)보다 얕다 → 어디서나 <b class="blank" data-n="3">천해파</b></li>
+    <li>속도 <span class="formula">v = √(g·h)</span> 는 오직 <b class="blank" data-n="4">수심</b>이 정한다.</li>
+    <li>수심 5,000 m: √(9.8 × 5,000) ≈ <b class="blank" data-n="5">221</b> m/s (시속 약 800 km) · 수심 50 m: 약 22 m/s → 시속 약 <b class="blank" data-n="6">80</b> km</li>
+  </ul>
+  <h2>② 도달 시각과 해안에서의 해일</h2>
+  <table>
+    <tr><th>구간</th><th>거리</th><th>평균 수심</th><th>속도</th><th>걸린 시간</th></tr>
+    <tr><td>A 심해</td><td>150 km</td><td>5,000 m</td><td>221 m/s</td><td>678초</td></tr>
+    <tr><td>B 대륙 사면</td><td>50 km</td><td>1,000 m</td><td>99 m/s</td><td>505초</td></tr>
+    <tr><td>C 대륙붕</td><td>12 km</td><td>100 m</td><td>31 m/s</td><td>383초</td></tr>
+    <tr><th>합계</th><th>212 km</th><th></th><th></th><th>1,566초 ≈ <b class="blank" data-n="7">26</b>분</th></tr>
+  </table>
+  <ul>
+    <li>해안에서 수심이 얕아지면 속도가 줄고 그 에너지가 위로 쌓여 <b class="blank" data-n="8">파고</b>가 급격히 커진다. (먼바다에서는 1 m 안팎)</li>
+    <li>해일은 한 번이 아니라 <b class="blank" data-n="9">여러</b> 번 밀려온다. 바닷물이 갑자기 빠지는 것도 위험 신호다.</li>
+  </ul>
+  <h2>③ 폭풍 해일과 대처</h2>
+  <ul>
+    <li>태풍·발달한 저기압의 낮은 기압과 강한 바람이 해수면을 높이는 해일: <b class="blank" data-n="10">폭풍 해일</b></li>
+    <li>기압이 1 hPa 낮아질 때 해수면은 약 <b class="blank" data-n="11">1</b> cm 상승 · 기압만으로는 900 hPa에서도 1.13 m (단원 화면 모형)</li>
+    <li>2003년 태풍 매미: 마산항 해일고 약 2.3 m → 최고 해수면 약 432 cm. 태풍이 <b class="blank" data-n="12">만조</b> 무렵의 조석과 겹쳤다.</li>
+  </ul>
+  <table>
+    <tr><th></th><th>미리 알 수 있는 시간</th><th>대처</th></tr>
+    <tr><td>지진 해일</td><td>수십 분</td><td>흔들림을 느끼면 방송을 기다리지 말고 곧장 <b class="blank" data-n="13">높은 곳</b>으로 · 경보 · 관측 부이</td></tr>
+    <tr><td>폭풍 해일</td><td>태풍을 <b class="blank" data-n="14">며칠</b> 전부터 예보</td><td>만조와 겹치는지 확인해 미리 대피 · 어선과 양식 시설 옮기기</td></tr>
+    <tr><td>둘 다</td><td></td><td>대피 표지판과 대피 건물 · 방조제와 해안림</td></tr>
+  </table>
+  <h2>문제로 확인하기</h2>
+  <div class="q">
+    <p>1. 태풍 매미가 간조 무렵에 상륙했다면 마산만의 최고 해수면은? &nbsp;㉠ 더 높았을 것 &nbsp;㉡ 더 낮았을 것 &nbsp;㉢ 같았을 것 <span class="ans">→ ㉡</span></p>
+    <p>2. 해안에서 강한 흔들림을 느꼈다. 가장 먼저 할 일은? <span class="ans">→ ㉢</span><br>
+      ㉠ 바닷가로 가서 물이 오는지 본다 &nbsp; ㉡ 대피 방송이 나올 때까지 기다린다 &nbsp; ㉢ 곧장 높은 곳으로 대피한다</p>
+  </div>
+  <h2>한 문장 정리</h2>
+  <p>지진 해일과 폭풍 해일의 대처가 다른 까닭을 '미리 알 수 있는 시간'이라는 말을 넣어 한 문장으로 쓰세요.</p>
+  <div class="write"></div>
+  <div class="foot"><span>칠판 강의 화면: board-03.html · 이야기 ③ 「26분」</span><span>과학 수업 도구</span></div>
+</div>
+<script>
+  if (new URLSearchParams(location.search).get("key") === "1") {
+    document.body.classList.add("key");
+    var a = document.getElementById("keyLink"); a.textContent = "학생용으로 보기"; a.href = "?"; a.hidden = false;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>칠판 강의 · 해파의 발생과 전파 (지구시스템과학 Ⅱ-1 02)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/board.css">
+<style>
+  .graph { display: block; margin: 0 auto; }
+  .sumlist { list-style: none; padding: 0; margin: 0; }
+  .sumlist li { position: relative; padding: 16px 24px 16px 84px; margin-bottom: 14px; background: #fff; border-radius: 20px; font-size: 29px; }
+  .sumlist li::before { content: attr(data-k); position: absolute; left: 24px; top: 16px; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 900; font-size: 24px; text-align: center; line-height: 44px; }
+  .q { font-size: 31px !important; font-weight: 800; margin-bottom: 14px !important; }
+  #s-quiz .opt { font-size: 26px; padding: 14px 22px; }
+  .lines p { margin-bottom: 12px; }
+  .eq { font-size: 34px; font-weight: 800; letter-spacing: -.02em; line-height: 1.6; margin-bottom: 6px; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .three .card { text-align: center; min-height: 240px; }
+  .three .ic { font-size: 56px; }
+  .three b.nm { display: block; font-size: 34px; margin: 8px 0; }
+  .three p { font-size: 25px; color: var(--mute); }
+</style>
+</head>
+<body>
+<div class="deck"><div class="stage">
+
+<!-- 1 표지 -->
+<section class="slide dark cover" id="s-cover" data-title="표지">
+  <div class="art">
+    <svg viewBox="0 0 1600 520" aria-label="먼 바다의 폭풍이 만든 파도가 긴 너울이 되어 잔잔한 해변으로 건너온다">
+      <defs>
+        <linearGradient id="cv2-sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1c4f86"/><stop offset="1" stop-color="#0b1f3a"/></linearGradient>
+        <marker id="cv2-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#dee2e6"/></marker>
+      </defs>
+      <rect x="0" y="300" width="1600" height="220" fill="url(#cv2-sea)"/>
+      <g fill="#495057"><circle cx="160" cy="120" r="70"/><circle cx="250" cy="100" r="85"/><circle cx="350" cy="130" r="65"/><rect x="120" y="120" width="290" height="70" rx="30"/></g>
+      <g stroke="#dee2e6" stroke-width="5" marker-end="url(#cv2-a)"><line x1="120" y1="230" x2="260" y2="230"/><line x1="200" y1="265" x2="340" y2="265"/></g>
+      <path id="cv2-chop" d="" fill="none" stroke="#a5d8ff" stroke-width="6"/>
+      <path id="cv2-swell" d="" fill="none" stroke="#74c0fc" stroke-width="7"/>
+      <path d="M1380 300 L1600 260 L1600 520 L1380 520 Z" fill="#e9d8a6"/>
+      <text x="200" y="400" fill="#ffe066" font-size="26" font-weight="900" text-anchor="middle">폭풍 해역</text>
+      <text x="880" y="250" fill="#a5d8ff" font-size="26" font-weight="900" text-anchor="middle">← 3,600 km →</text>
+      <text x="1490" y="240" fill="#e9d8a6" font-size="24" font-weight="900" text-anchor="middle">대회장</text>
+      <text x="1560" y="24" fill="#7b8598" font-size="17" text-anchor="end">⚠ 파도의 높이와 거리는 비율이 아닙니다</text>
+    </svg>
+  </div>
+  <div class="ttl">
+    <p class="kicker">지구시스템과학 · Ⅱ-1 해수의 운동 · 02</p>
+    <h1>해파의 발생과 전파</h1>
+    <p class="sub" data-step="1">바람 한 점 없는 바다에 사흘 뒤 파도가 온다</p>
+  </div>
+  <aside class="script">
+    <p>오늘은 파도가 어떻게 생기고, 얼마나 빨리 바다를 건너오며, 해안에서 왜 높아져 부서지는지 봅니다. 학습지 빈칸 번호가 화면 번호와 같습니다.</p>
+    <p data-at="1">부제의 수수께끼는 마지막에 예보문 세 줄로 풉니다.</p>
+  </aside>
+</section>
+
+<!-- 2 도입 -->
+<section class="slide soft" id="s-hook" data-title="파도가 없는 대회장" data-part="도입">
+  <p class="kicker">도입 · 서핑 대회 운영 본부</p>
+  <h2>바람이 없는데 파도는 어디서 올까</h2>
+  <div class="cols w64">
+    <div class="card">
+      <p>1944년 노르망디 상륙작전 때 스베르드루프와 멍크가 만든 <b>파도 예보법</b>이 오늘날 서핑 예보의 출발점입니다.</p>
+      <table class="ledger mt">
+        <tr><td>대회장</td><td class="v">풍속 1 m/s · 파고 0.2 m</td></tr>
+        <tr><td>3,600 km 떨어진 바다</td><td class="v">저기압, 강풍 지속 중</td></tr>
+        <tr><td>대회 규정 파고</td><td class="v">2.0~2.5 m</td></tr>
+      </table>
+    </div>
+    <div class="card yel">
+      <h3>사흘 뒤 파도는 어디서 온 것일까?</h3>
+      <div class="opts">
+        <div class="opt">㉠ 그날 아침 대회장에 부는 바람이 만든다</div>
+        <div class="opt">㉡ 며칠 전 아주 먼 바다에서 강풍이 만든 파도가 건너온다</div>
+        <div class="opt">㉢ 밀물과 썰물이 파도를 만들어 준다</div>
+      </div>
+      <p class="small mt" data-step="1">손을 들어 골라 보고, 까닭을 한 문장으로 말해 보세요.</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>대회장 앞바다는 거울처럼 잔잔합니다. 주최 측은 오늘 안에 대회를 미룰지 정해야 해요.</p>
+    <p data-at="1">손을 들게 하고 까닭을 묻습니다. 답은 주지 않습니다.</p>
+  </aside>
+</section>
+
+<!-- 3 키워드 -->
+<section class="slide" id="s-kw" data-title="오늘의 키워드" data-part="도입">
+  <p class="kicker">오늘의 키워드</p>
+  <h2>이 다섯 낱말로 오늘을 정리합니다</h2>
+  <div class="kw">
+    <div class="card"><b>풍랑과 너울</b><span>바람이 부는 곳의 파도와 그곳을 벗어난 파도</span></div>
+    <div class="card"><b>풍속·취송 거리·지속 시간</b><span>파고를 정하는 세 가지</span></div>
+    <div class="card"><b>심해파</b><span>수심이 깊은 곳의 파도, 파장이 속도를 정한다</span></div>
+    <div class="card"><b>천해파</b><span>수심이 얕은 곳의 파도, 수심이 속도를 정한다</span></div>
+    <div class="card"><b>천수 효과</b><span>얕은 곳에서 파고가 높아지는 현상</span></div>
+  </div>
+  <div class="card blue mt2 row" style="gap:30px"><span class="blank on" style="font-size:34px;font-weight:900;flex:none"><i class="bn">1</i>빈칸</span>
+    <p style="margin:0">화면에 번호가 열리면 <b>학습지의 같은 번호</b>에 받아 적으세요. 오늘 빈칸은 <b>1~15번</b>입니다.</p></div>
+  <aside class="script"><p>키워드 다섯 개를 읽어 주기만 합니다. 만들고, 건너오고, 부서지는 순서로 갑니다.</p></aside>
+</section>
+
+<!-- 4 풍랑과 너울 -->
+<section class="slide" id="s-gen" data-title="풍랑과 너울" data-part="① 파도의 발생">
+  <p class="kicker">① 파도의 발생 · 바람이 해수면을 끌고 누르면</p>
+  <h2>바람이 부는 곳의 파도와 벗어난 파도는 모양이 다르다</h2>
+  <svg class="graph" id="seaSvg" viewBox="0 0 1400 380" width="1400" height="380" aria-label="왼쪽 바람이 부는 해역에는 뾰족하고 불규칙한 풍랑, 오른쪽 그 해역을 벗어난 곳에는 둥글고 파장이 긴 너울"></svg>
+  <div class="cols" style="margin-top:6px">
+    <p data-step="1">바람이 부는 해역: 마루가 뾰족하고 불규칙한 <b class="blank" data-n="1" data-step="1">풍랑</b></p>
+    <p data-step="2">그 해역을 벗어나 혼자 달려가는 둥글고 긴 파도: <b class="blank" data-n="2" data-step="2">너울</b></p>
+  </div>
+  <aside class="script">
+    <p>해파는 바람이 해수면을 끌고 누르면서 생깁니다.</p>
+    <p data-at="1">바람이 부는 해역 안에서는 마루가 뾰족하고 높이도 제각각입니다. 빈칸 1번, 풍랑이에요.</p>
+    <p data-at="2">그 해역을 벗어난 파도는 바람 없이 혼자 달려갑니다. 마루가 둥글어지고 파장이 길어져요. 빈칸 2번, 너울입니다. 서퍼들이 기다리는 파도가 바로 이것입니다.</p>
+  </aside>
+</section>
+
+<!-- 5 세 가지 조건 -->
+<section class="slide soft" id="s-three" data-title="파고를 정하는 세 가지" data-part="① 파도의 발생">
+  <p class="kicker">① 파도의 발생 · 파도 공장</p>
+  <h2>파고는 세 가지가 함께 정한다</h2>
+  <svg class="graph" viewBox="0 0 1400 230" width="1400" height="230" aria-label="바람의 세기, 바람이 같은 방향으로 불어 간 거리, 바람이 분 시간이 파고를 정한다">
+    <defs><marker id="th-y" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e0a800"/></marker>
+      <marker id="th-k" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#161b28"/></marker>
+      <linearGradient id="th-sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#74c0fc"/><stop offset="1" stop-color="#1864ab"/></linearGradient></defs>
+    <path d="M40 130 Q80 118 120 130 T200 128 T280 124 T360 120 T440 116 T520 110 T600 104 T680 98 T760 92 T840 88 T920 84 T1000 82 T1080 82 L1080 200 L40 200 Z" fill="url(#th-sea)"/>
+    <g data-step="1" stroke="#e0a800" stroke-width="10" marker-end="url(#th-y)"><line x1="80" y1="50" x2="300" y2="50"/><line x1="420" y1="50" x2="640" y2="50"/><line x1="760" y1="50" x2="980" y2="50"/></g>
+    <g data-step="2"><line x1="40" y1="222" x2="1080" y2="222" stroke="#161b28" stroke-width="4" marker-end="url(#th-k)"/><line x1="40" y1="210" x2="40" y2="230" stroke="#161b28" stroke-width="4"/></g>
+    <g data-step="3"><circle cx="1240" cy="110" r="80" fill="#fff" stroke="#161b28" stroke-width="6"/>
+      <line x1="1240" y1="110" x2="1240" y2="50" stroke="#161b28" stroke-width="7"/><line x1="1240" y1="110" x2="1290" y2="130" stroke="#d9302c" stroke-width="7"/></g>
+    <text x="1395" y="226" font-size="17" fill="#5f6b80" text-anchor="end">⚠ 모식도</text>
+  </svg>
+  <div class="three mt">
+    <div class="card" data-step="1"><div class="ic">💨</div><b class="nm"><b class="blank" data-n="3" data-step="1">풍속</b></b><p>바람이 셀수록</p></div>
+    <div class="card" data-step="2"><div class="ic">📏</div><b class="nm"><b class="blank" data-n="4" data-step="2">취송 거리</b></b><p>바람이 같은 방향으로 불어 간 거리가 길수록</p></div>
+    <div class="card" data-step="3"><div class="ic">⏱️</div><b class="nm"><b class="blank" data-n="5" data-step="3">지속 시간</b></b><p>바람이 오래 불수록</p></div>
+  </div>
+  <p class="center mt" data-step="4"><b>하나만 모자라도 파도는 더 자라지 못한다</b> · 풍속이 같으면 어느 크기에서 멈춘다(완전히 발달한 바다)</p>
+  <aside class="script">
+    <p>단원 화면의 파도 공장입니다. 파도를 키우는 조건은 딱 세 가지예요.</p>
+    <p data-at="1">첫째, 빈칸 3번, 풍속.</p>
+    <p data-at="2">둘째, 바람이 같은 방향으로 불어 간 거리, 빈칸 4번, 취송 거리. 바람이 해역을 길게 훑을수록 파도가 자랄 시간이 생깁니다.</p>
+    <p data-at="3">셋째, 빈칸 5번, 지속 시간. 바람이 짧게 불면 먼 곳까지 바람을 받지 못합니다.</p>
+    <p data-at="4">셋 중 가장 모자란 하나가 파고를 묶어 둡니다. 풍속이 같다면 거리와 시간을 아무리 늘려도 어느 크기에서 멈춰요.</p>
+  </aside>
+</section>
+
+<!-- 6 심해파의 속도 -->
+<section class="slide" id="s-deep" data-title="심해파의 속도" data-part="② 너울의 여행">
+  <p class="kicker">② 너울의 여행 · 깊은 바다에서</p>
+  <h2>깊은 바다에서는 파장이 속도를 정한다</h2>
+  <svg class="graph" id="anatSvg" viewBox="0 0 1400 300" width="1400" height="300" aria-label="파도의 마루, 골, 파장, 파고"></svg>
+  <p class="formula center" data-step="2">심해파 속도 c = √(g·L ÷ 2π)</p>
+  <p class="center" data-step="2">L = <b class="blank" data-n="6" data-step="2">파장</b> · 수심과는 관계없다 → 파장이 길수록 빠르다</p>
+  <aside class="script">
+    <p>먼저 파도의 이름부터 짚습니다. 가장 높은 곳이 마루, 가장 낮은 곳이 골입니다.</p>
+    <p data-at="1">마루에서 다음 마루까지의 거리가 파장, 골에서 마루까지의 높이가 파고예요.</p>
+    <p data-at="2">깊은 바다를 달리는 심해파의 속도는 이 식으로 구합니다. 식 안에 수심이 없죠? 오직 빈칸 6번, 파장이 정합니다. 파장이 긴 파도일수록 빠릅니다.</p>
+  </aside>
+</section>
+
+<!-- 7 도착 시각 -->
+<section class="slide soft" id="s-arrive" data-title="48시간 뒤에 닿는 너울" data-part="② 너울의 여행">
+  <p class="kicker">② 너울의 여행 · 대회 시작은 48시간 뒤</p>
+  <h2>3,600 km를 48시간에 건너는 파장은?</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg id="arrSvg" viewBox="0 0 600 470" width="600" height="470" aria-label="파장이 길수록 3,600 km를 건너는 시간이 짧아진다. 파장 약 280 m일 때 약 48시간"></svg>
+    <div>
+      <p class="eq" data-step="1">L = 280 m → c = √(9.8 × 280 ÷ 2π) ≈ 20.9 m/s</p>
+      <p class="eq" data-step="1">3,600,000 m ÷ 20.9 m/s ≈ 172,000 s ≈ 48시간</p>
+      <p data-step="1">48시간에 맞춰 닿는 파장: 약 <b class="blank" data-n="7" data-step="1">280</b> m (주기 약 13.4초)</p>
+      <p data-step="2" class="mt">폭풍이 지난 뒤 해안에는 파장이 <b class="blank" data-n="8" data-step="2">긴</b> 너울부터 차례로 도착한다</p>
+      <p class="small" data-step="3">과학자의 눈: 너울 무리의 에너지는 이 속도의 절반(군속도)으로 나아가, 실제 예보는 더 늦게 잡는다</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>단원 화면 미션입니다. 3,600 km를 건너 47~49시간 사이에 도착하는 파장을 찾았죠.</p>
+    <p data-at="1">파장 280 m를 넣으면 속도는 초속 약 20.9 m, 시속 약 75 km. 3,600 km를 나누면 약 48시간입니다. 빈칸 7번, 280 m예요.</p>
+    <p data-at="2">그래프를 보면 파장이 길수록 빨리 옵니다. 그래서 폭풍이 지나간 뒤에는 빈칸 8번, 긴 너울이 먼저 들어오고 짧은 너울이 뒤따릅니다.</p>
+    <p data-at="3">한 가지 덧붙입니다. 실제로 너울 무리의 에너지는 이 파속의 절반인 군속도로 나아가서, 실제 예보는 이 계산보다 늦게 잡습니다. 화면 계산은 단순화한 모형이에요.</p>
+  </aside>
+</section>
+
+<!-- 8 심해파와 천해파 -->
+<section class="slide" id="s-orbit" data-title="물 입자의 궤도" data-part="③ 해안에서">
+  <p class="kicker">③ 해안에서 · 수심과 파장을 견주면</p>
+  <h2>물 입자의 궤도가 달라진다</h2>
+  <svg class="graph" viewBox="0 0 1400 400" width="1400" height="400" aria-label="깊은 바다에서는 물 입자가 원을 그리며 깊을수록 작아지고, 얕은 바다에서는 해저에 눌린 납작한 타원을 그린다">
+    <defs><linearGradient id="ob-sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#d0ebff"/><stop offset="1" stop-color="#74c0fc"/></linearGradient></defs>
+    <rect x="20" y="40" width="640" height="320" rx="16" fill="url(#ob-sea)"/>
+    <path d="M20 70 Q100 40 180 70 T340 70 T500 70 T660 70" fill="none" stroke="#1864ab" stroke-width="5"/>
+    <text x="340" y="30" font-size="25" font-weight="900" fill="#161b28" text-anchor="middle">심해파</text>
+    <g data-step="1" fill="none" stroke="#1462d8" stroke-width="4">
+      <circle cx="200" cy="110" r="34"/><circle cx="200" cy="190" r="18"/><circle cx="200" cy="250" r="8"/><circle cx="200" cy="295" r="3"/>
+      <circle cx="470" cy="110" r="34"/><circle cx="470" cy="190" r="18"/><circle cx="470" cy="250" r="8"/><circle cx="470" cy="295" r="3"/>
+    </g>
+    <text x="340" y="345" font-size="21" font-weight="800" fill="#1864ab" text-anchor="middle" data-step="1">해저는 이보다 깊다 (영향이 닿지 않는다)</text>
+    <rect x="740" y="40" width="640" height="210" rx="16" fill="url(#ob-sea)"/>
+    <rect x="740" y="250" width="640" height="30" fill="#c9b48a"/>
+    <path d="M740 70 Q820 40 900 70 T1060 70 T1220 70 T1380 70" fill="none" stroke="#1864ab" stroke-width="5"/>
+    <text x="1060" y="30" font-size="25" font-weight="900" fill="#161b28" text-anchor="middle">천해파</text>
+    <g data-step="2" fill="none" stroke="#1462d8" stroke-width="4">
+      <ellipse cx="920" cy="110" rx="56" ry="30"/><ellipse cx="920" cy="175" rx="54" ry="15"/><line x1="868" y1="240" x2="972" y2="240"/>
+      <ellipse cx="1200" cy="110" rx="56" ry="30"/><ellipse cx="1200" cy="175" rx="54" ry="15"/><line x1="1148" y1="240" x2="1252" y2="240"/>
+    </g>
+    <text x="1060" y="310" font-size="21" font-weight="800" fill="#5c4a2c" text-anchor="middle" data-step="2">해저 바로 위는 앞뒤로만 움직인다</text>
+    <text x="1395" y="392" font-size="17" fill="#5f6b80" text-anchor="end">⚠ 궤도의 크기와 수심은 과장한 모식도</text>
+  </svg>
+  <div class="cols" style="margin-top:6px">
+    <p data-step="1">수심 &gt; 파장의 <b class="blank" data-n="9" data-step="1">1/2</b> → 심해파, 물 입자는 <b class="blank" data-n="10" data-step="1">원</b> 궤도 (깊을수록 작아진다)</p>
+    <p data-step="2">수심 &lt; 파장의 <b class="blank" data-n="11" data-step="2">1/20</b> → 천해파, 물 입자는 납작한 <b class="blank" data-n="12" data-step="2">타원</b> 궤도</p>
+  </div>
+  <p class="small center" data-step="3">그 사이(파장의 1/20~1/2)는 전이대 · 파장과 수심이 모두 속도에 영향을 준다</p>
+  <aside class="script">
+    <p>같은 파도라도 수심과 파장을 견주어 이름이 바뀝니다. 기준은 수심 나누기 파장이에요.</p>
+    <p data-at="1">수심이 파장의 빈칸 9번, 2분의 1보다 깊으면 심해파. 물 입자는 빈칸 10번, 원을 그리고, 깊어질수록 원이 작아져 해저까지 닿지 않습니다. 파장 280 m 너울이라면 수심 140 m보다 깊은 곳이죠.</p>
+    <p data-at="2">수심이 파장의 빈칸 11번, 20분의 1보다 얕으면 천해파. 해저가 물을 붙잡아 궤도가 빈칸 12번, 납작한 타원이 되고, 해저 바로 위에서는 앞뒤로만 움직입니다.</p>
+    <p data-at="3">그 사이는 전이대입니다. 단원 화면에서 수심을 바꿔 가며 세 구간을 모두 만들어 보세요.</p>
+  </aside>
+</section>
+
+<!-- 9 천해파의 속도 -->
+<section class="slide soft" id="s-shallow" data-title="천해파의 속도" data-part="③ 해안에서">
+  <p class="kicker">③ 해안에서 · 해저가 파도를 붙잡으면</p>
+  <h2>얕은 바다에서는 수심이 속도를 정한다</h2>
+  <p class="formula center" data-step="1">천해파 속도 v = √(g·h)</p>
+  <p class="center" data-step="1">h = <b class="blank" data-n="13" data-step="1">수심</b> · 파장과는 관계없다 → 얕을수록 느리다</p>
+  <svg class="graph mt" viewBox="0 0 1400 200" width="1400" height="200" data-step="2" aria-label="깊은 바다의 파장 280 m 너울은 초속 약 20.9 m, 수심 2.5 m 해안의 천해파는 초속 약 4.9 m">
+    <text x="0" y="50" font-size="25" font-weight="900" fill="#1864ab">깊은 바다 너울 (L 280 m)</text>
+    <rect x="420" y="20" width="760" height="44" rx="10" fill="#1c7ed6"/><text x="1195" y="52" font-size="25" font-weight="900" fill="#161b28">20.9 m/s</text>
+    <text x="0" y="140" font-size="25" font-weight="900" fill="#e8590c">수심 2.5 m 해안</text>
+    <rect x="420" y="110" width="178" height="44" rx="10" fill="#f59f00"/><text x="612" y="142" font-size="25" font-weight="900" fill="#161b28">√(9.8 × 2.5) ≈ 4.9 m/s</text>
+    <text x="1395" y="194" font-size="17" fill="#5f6b80" text-anchor="end">막대 길이는 속도에 비례</text>
+  </svg>
+  <aside class="script">
+    <p>해안으로 다가와 천해파가 되면 속도 식이 바뀝니다.</p>
+    <p data-at="1">v는 루트 g h. 여기서 h는 빈칸 13번, 수심입니다. 이번에는 파장이 식에 없어요. 얕을수록 느려집니다.</p>
+    <p data-at="2">깊은 바다에서 초속 약 20.9 m로 달려온 너울이, 수심 2.5 m 해안에서는 초속 약 4.9 m까지 느려집니다. 네 배 넘게 느려진 거예요. 이 느려짐이 다음 장면의 원인입니다.</p>
+  </aside>
+</section>
+
+<!-- 10 천수 효과 -->
+<section class="slide" id="s-shoal" data-title="천수 효과와 쇄파" data-part="③ 해안에서">
+  <p class="kicker">③ 해안에서 · 느려진 만큼</p>
+  <h2>파장은 짧아지고 파고는 솟아오르다 부서진다</h2>
+  <svg class="graph" id="shoalSvg" viewBox="0 0 1400 380" width="1400" height="380" aria-label="해안으로 갈수록 수심이 얕아지며 파장이 짧아지고 파고가 커지다가 물마루가 앞으로 무너진다"></svg>
+  <div class="cols" style="margin-top:6px">
+    <p data-step="2">속도가 줄어 파장이 짧아지고 에너지가 몰려 파고가 커진다 → <b class="blank" data-n="14" data-step="2">천수 효과</b></p>
+    <p data-step="3">파고가 수심의 약 <b class="blank" data-n="15" data-step="3">0.8</b>배가 되면 물마루가 앞으로 무너진다(쇄파)</p>
+  </div>
+  <aside class="script">
+    <p>너울이 해안으로 들어오는 모습입니다. 오른쪽으로 갈수록 바닥이 얕아집니다.</p>
+    <p data-at="1">앞쪽 파도가 먼저 느려지니 뒤의 파도가 따라붙어 파장이 짧아집니다.</p>
+    <p data-at="2">같은 에너지가 좁은 공간에 몰리면서 파고가 솟아오릅니다. 빈칸 14번, 천수 효과예요.</p>
+    <p data-at="3">파고가 수심의 빈칸 15번, 약 0.8배에 이르면 물마루가 앞으로 무너집니다. 이게 서퍼가 타는 부서지는 파도입니다.</p>
+  </aside>
+</section>
+
+<!-- 11 사건 해결 -->
+<section class="slide" id="s-solve" data-title="대회 본부에 보내는 예보문" data-part="③ 해안에서">
+  <p class="kicker">사건 해결 · 예보문 세 줄</p>
+  <h2>사흘 뒤, 파도는 예보대로 들어왔다</h2>
+  <div class="three">
+    <div class="card" data-step="1"><div class="ic">🌀</div><b class="nm">어디서</b><p>3,600 km 떨어진 저기압의 강풍<br>(풍속·취송 거리·지속 시간)</p></div>
+    <div class="card" data-step="2"><div class="ic">🕑</div><b class="nm">언제</b><p>파장 약 280 m 너울이<br>약 48시간 뒤 도착</p></div>
+    <div class="card" data-step="3"><div class="ic">🏄</div><b class="nm">어떻게</b><p>천해파가 되어 느려지고<br>파고가 솟다가 부서진다</p></div>
+  </div>
+  <p class="big center mt2" data-step="4">대회장의 파도는 <span class="c-blue">먼 바다에서 온 너울</span>이었다</p>
+  <aside class="script">
+    <p>예보관이 되어 대회 본부에 보낼 예보문을 세 줄로 정리합니다.</p>
+    <p data-at="1">파도는 3,600 km 떨어진 저기압 해역에서 만들어졌습니다.</p>
+    <p data-at="2">파장 약 280 m 너울이 약 48시간 뒤 대회장에 닿습니다.</p>
+    <p data-at="3">해안에서 천해파가 되어 느려지고, 파장이 짧아지며 파고가 솟다가 부서집니다.</p>
+    <p data-at="4">첫 추리 ㉡이 정답이었습니다. 대회장의 바람이 아니라 먼 바다에서 온 너울이었죠.</p>
+  </aside>
+</section>
+
+<!-- 12 확인 -->
+<section class="slide" id="s-check1" data-title="확인 · 속도를 정하는 것" data-part="③ 해안에서">
+  <p class="kicker">확인</p>
+  <h2>수심 2 m 해안의 파장 60 m 파도, 속도를 정하는 것은?</h2>
+  <div class="opts" style="max-width:1150px">
+    <div class="opt wrong" data-step="1">① 파장</div>
+    <div class="opt right" data-step="1">② 수심</div>
+    <div class="opt wrong" data-step="1">③ 파고</div>
+    <div class="opt wrong" data-step="1">④ 그곳에 부는 바람의 세기</div>
+  </div>
+  <p class="why mt" data-step="2">수심 2 m는 파장 60 m의 1/30로 1/20보다 얕아 천해파입니다. 천해파의 속도는 √(gh), 수심만이 정합니다. 먼저 심해파인지 천해파인지 가려야 합니다.</p>
+  <aside class="script">
+    <p>짝과 30초 이야기하게 한 뒤 손가락으로 답을 들게 합니다. 먼저 수심과 파장을 견주게 합니다.</p>
+    <p data-at="1">정답은 ②. ①을 고른 학생에게는 심해파와 천해파의 기준부터 다시 짚어 줍니다.</p>
+  </aside>
+</section>
+
+<!-- 13 정리 -->
+<section class="slide soft" id="s-sum" data-title="오늘의 정리" data-part="정리">
+  <p class="kicker">오늘의 정리</p>
+  <h2>만들고, 건너오고, 부서진다</h2>
+  <ul class="sumlist">
+    <li data-k="1" data-step="1">바람이 부는 곳의 <b>풍랑</b>, 벗어난 <b>너울</b>. 파고는 풍속·취송 거리·지속 시간이 함께 정한다</li>
+    <li data-k="2" data-step="2"><b>심해파</b>(수심 &gt; 파장의 1/2): 속도 √(gL/2π), 파장이 길수록 빠르다 · 원 궤도</li>
+    <li data-k="3" data-step="3"><b>천해파</b>(수심 &lt; 파장의 1/20): 속도 √(gh), 수심만이 정한다 · 납작한 타원 궤도</li>
+    <li data-k="4" data-step="4">얕아지면 느려지고 파장이 짧아지며 파고가 커진다(<b>천수 효과</b>) → 파고가 수심의 약 0.8배면 부서진다</li>
+  </ul>
+  <aside class="script"><p>학습지를 덮고 한 줄씩 먼저 말로 떠올리게 한 다음 엽니다.</p></aside>
+</section>
+
+<!-- 14 문제 -->
+<section class="slide" id="s-quiz" data-title="문제로 확인하기" data-part="정리">
+  <p class="kicker">문제로 확인하기</p>
+  <h2>두 문제만 풀어 봅시다</h2>
+  <div class="cols">
+    <div class="card">
+      <p class="q">1. 취송 거리와 지속 시간은 넉넉한데 파도가 더 자라지 않는다. 무엇을 키워야 할까?</p>
+      <div class="opts">
+        <div class="opt right" data-step="1">㉠ 풍속</div>
+        <div class="opt wrong" data-step="1">㉡ 수심</div>
+        <div class="opt wrong" data-step="1">㉢ 파장</div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="q">2. 파장 280 m 너울이 수심 200 m 해역을 지날 때 이 파도는?</p>
+      <div class="opts">
+        <div class="opt right" data-step="2">㉠ 심해파</div>
+        <div class="opt wrong" data-step="2">㉡ 천해파</div>
+        <div class="opt wrong" data-step="2">㉢ 전이대의 파</div>
+      </div>
+    </div>
+  </div>
+  <aside class="script">
+    <p>1분 동안 풀게 하고 손가락으로 답을 들게 합니다.</p>
+    <p data-at="1">1번은 ㉠. 세 조건 중 모자란 하나가 파고를 묶어 둡니다. 거리와 시간이 넉넉하면 남은 것은 풍속이에요.</p>
+    <p data-at="2">2번은 ㉠. 200 m는 280 m의 절반인 140 m보다 깊으니 심해파입니다.</p>
+  </aside>
+</section>
+
+<!-- 15 활동·다음 -->
+<section class="slide dark" id="s-next" data-title="직접 해 보기 · 다음 시간" data-part="정리">
+  <p class="kicker">직접 해 보기</p>
+  <h2>이야기 ② 「사흘 뒤의 파도」</h2>
+  <div class="cols">
+    <div class="card"><h3>예보관이 되어 보세요</h3><p>파고 2.0~2.5 m 만들기, 47~49시간에 닿는 파장 찾기, 수심을 바꿔 심해파와 천해파 만들기 미션이 기다립니다.</p>
+      <p class="mt"><a href="index.html" style="color:#74b6ff;font-weight:900">단원 화면 열기 →</a></p></div>
+    <div class="card"><h3>다음 시간 · 해일</h3><p>파장이 100 km가 넘는 파도가 있습니다. 이 파도에게는 태평양 한복판도 ‘얕은 바다’입니다.</p></div>
+  </div>
+  <aside class="script"><p>남은 시간에는 단원 화면의 이야기 ②를 열어 미션을 하게 합니다.</p></aside>
+</section>
+
+</div></div>
+<script src="../assets/board.js"></script>
+<script>
+  (function () {
+    /* 표지: 왼쪽 뾰족한 풍랑 → 오른쪽 긴 너울 */
+    var d1 = "M60 330", d2 = "M440 320", x;
+    for (x = 60; x <= 440; x += 20) d1 += " L" + (x + 10) + " " + (318 - (x % 40 ? 18 : 30)) + " L" + (x + 20) + " 330";
+    for (x = 440; x <= 1380; x += 4) d2 += " L" + x + " " + (320 - 16 * Math.sin((x - 440) / 150 * 2 * Math.PI)).toFixed(1);
+    document.getElementById("cv2-chop").setAttribute("d", d1);
+    document.getElementById("cv2-swell").setAttribute("d", d2);
+
+    /* 장면 4: 풍랑과 너울 */
+    var s = "<defs><marker id='sg-y' viewBox='0 0 10 10' refX='6' refY='5' markerWidth='3.4' markerHeight='3.4' orient='auto'><path d='M0 0 L10 5 L0 10 Z' fill='#e0a800'/></marker>" +
+      "<linearGradient id='sg-sea' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='#74c0fc'/><stop offset='1' stop-color='#1864ab'/></linearGradient></defs>";
+    s += "<rect x='0' y='60' width='520' height='300' rx='16' fill='#fff6cc'/>";
+    s += "<text x='260' y='96' font-size='23' font-weight='900' fill='#a07800' text-anchor='middle'>바람이 부는 해역</text>";
+    s += "<g stroke='#e0a800' stroke-width='9' marker-end='url(#sg-y)'><line x1='60' y1='140' x2='220' y2='140'/><line x1='290' y1='140' x2='450' y2='140'/></g>";
+    var chop = "M0 260", sw = "M520 255", hs = [26, 40, 18, 34, 22, 44, 28, 16, 38, 24, 30, 20, 36];
+    for (x = 0; x < 520; x += 40) { var hh = hs[(x / 40) % hs.length]; chop += " Q" + (x + 14) + " " + (260 - hh * 0.4) + " " + (x + 20) + " " + (260 - hh) + " Q" + (x + 26) + " " + (260 - hh * 0.4) + " " + (x + 40) + " 260"; }
+    for (x = 520; x <= 1400; x += 4) sw += " L" + x + " " + (255 - 22 * Math.sin((x - 520) / 220 * 2 * Math.PI)).toFixed(1);
+    s += "<path d='" + chop + " L520 260 L520 360 L0 360 Z' fill='url(#sg-sea)'/>";
+    s += "<path d='" + sw + " L1400 360 L520 360 Z' fill='url(#sg-sea)'/>";
+    s += "<g data-step='1'><text x='260' y='200' font-size='24' font-weight='900' fill='#161b28' text-anchor='middle'>뾰족하고 불규칙</text></g>";
+    s += "<g data-step='2'><text x='960' y='190' font-size='24' font-weight='900' fill='#161b28' text-anchor='middle'>둥글고 파장이 길다 → 혼자 달려간다</text>";
+    s += "<line x1='740' y1='215' x2='960' y2='215' stroke='#161b28' stroke-width='3'/><line x1='740' y1='205' x2='740' y2='225' stroke='#161b28' stroke-width='3'/><line x1='960' y1='205' x2='960' y2='225' stroke='#161b28' stroke-width='3'/></g>";
+    s += "<text x='1395' y='376' font-size='17' fill='#5f6b80' text-anchor='end'>⚠ 파도 모양과 크기는 단순화</text>";
+    document.getElementById("seaSvg").innerHTML = s;
+
+    /* 장면 6: 파도의 구조 */
+    var a = "<defs><marker id='an-k' viewBox='0 0 10 10' refX='6' refY='5' markerWidth='4' markerHeight='4' orient='auto-start-reverse'><path d='M0 0 L10 5 L0 10 Z' fill='#161b28'/></marker></defs>";
+    var w = "";
+    for (x = 60; x <= 1340; x += 4) w += (x === 60 ? "M" : " L") + x + " " + (150 - 70 * Math.cos((x - 260) / 480 * 2 * Math.PI)).toFixed(1);
+    a += "<path d='" + w + " L1340 290 L60 290 Z' fill='#d0ebff'/><path d='" + w + "' fill='none' stroke='#1462d8' stroke-width='6'/>";
+    a += "<line x1='60' y1='150' x2='1340' y2='150' stroke='#5f6b80' stroke-width='2' stroke-dasharray='8 6'/>";
+    a += "<text x='260' y='64' font-size='23' font-weight='900' fill='#161b28' text-anchor='middle'>마루</text><text x='500' y='252' font-size='23' font-weight='900' fill='#161b28' text-anchor='middle'>골</text>";
+    a += "<g data-step='1'><line x1='260' y1='34' x2='740' y2='34' stroke='#161b28' stroke-width='4' marker-start='url(#an-k)' marker-end='url(#an-k)'/>";
+    a += "<text x='500' y='26' font-size='23' font-weight='900' fill='#161b28' text-anchor='middle'>파장 (마루 ~ 마루)</text>";
+    a += "<line x1='1000' y1='222' x2='1000' y2='86' stroke='#d9302c' stroke-width='4' marker-start='url(#an-k)' marker-end='url(#an-k)'/>";
+    a += "<text x='1000' y='272' font-size='23' font-weight='900' fill='#d9302c' text-anchor='middle'>파고 (골 ~ 마루)</text></g>";
+    document.getElementById("anatSvg").innerHTML = a;
+
+    /* 장면 7: 파장에 따른 도착 시간 t = 3,600 km ÷ √(gL/2π) */
+    var X0 = 90, X1 = 570, Y0 = 30, Y1 = 400;
+    function X(L) { return X0 + (L - 100) / 400 * (X1 - X0); }
+    function Y(t) { return Y1 - (t - 30) / 60 * (Y1 - Y0); }
+    function T(L) { return 3.6e6 / Math.sqrt(9.8 * L / (2 * Math.PI)) / 3600; }
+    var g = "", c = "", L;
+    [30, 45, 60, 75, 90].forEach(function (t) { g += "<line x1='" + X0 + "' y1='" + Y(t) + "' x2='" + X1 + "' y2='" + Y(t) + "' stroke='#dee2e6' stroke-width='2'/><text x='" + (X0 - 10) + "' y='" + (Y(t) + 7) + "' font-size='19' font-weight='800' fill='#161b28' text-anchor='end'>" + t + "</text>"; });
+    [100, 200, 300, 400, 500].forEach(function (v) { g += "<text x='" + X(v) + "' y='" + (Y1 + 28) + "' font-size='19' font-weight='800' fill='#161b28' text-anchor='middle'>" + v + "</text>"; });
+    for (L = 100; L <= 500; L += 5) c += (L === 100 ? "M" : " L") + X(L).toFixed(1) + " " + Y(T(L)).toFixed(1);
+    g += "<line x1='" + X0 + "' y1='" + Y1 + "' x2='" + X1 + "' y2='" + Y1 + "' stroke='#161b28' stroke-width='3'/><line x1='" + X0 + "' y1='" + Y0 + "' x2='" + X0 + "' y2='" + Y1 + "' stroke='#161b28' stroke-width='3'/>";
+    g += "<path d='" + c + "' fill='none' stroke='#1462d8' stroke-width='6'/>";
+    g += "<g data-step='1'><line x1='" + X0 + "' y1='" + Y(48) + "' x2='" + X1 + "' y2='" + Y(48) + "' stroke='#e8590c' stroke-width='3' stroke-dasharray='10 7'/>";
+    g += "<line x1='" + X(280) + "' y1='" + Y(48) + "' x2='" + X(280) + "' y2='" + Y1 + "' stroke='#e8590c' stroke-width='3' stroke-dasharray='10 7'/>";
+    g += "<circle cx='" + X(280) + "' cy='" + Y(T(280)) + "' r='11' fill='#e8590c'/><text x='" + (X(280) + 16) + "' y='" + (Y(48) - 14) + "' font-size='21' font-weight='900' fill='#e8590c'>280 m · 48시간</text></g>";
+    g += "<text x='" + X0 + "' y='18' font-size='19' font-weight='800' fill='#5f6b80'>도착까지 걸리는 시간 (시간)</text>";
+    g += "<text x='" + X1 + "' y='" + (Y1 + 58) + "' font-size='19' font-weight='800' fill='#5f6b80' text-anchor='end'>파장 (m)</text>";
+    document.getElementById("arrSvg").innerHTML = g;
+
+    /* 장면 10: 해안으로 들어오는 파도 — 바닥이 얕아지며 파장 ↓, 파고 ↑, 끝에서 부서진다 */
+    var z = "<defs><linearGradient id='sh-sea' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='#74c0fc'/><stop offset='1' stop-color='#1864ab'/></linearGradient></defs>";
+    var surf = "M0 200", ph = 0, px = 0, pts = [];
+    for (x = 0; x <= 1060; x += 4) {
+      var f = x / 1060, Lw = 260 - 170 * f, A = 12 + 48 * f * f;
+      ph += 4 / Lw * 2 * Math.PI;
+      var sn = Math.sin(ph); pts.push([x, 200 - A * (sn > 0 ? sn : 0.4 * sn)]);
+    }
+    pts.forEach(function (p, i) { surf += (i ? " L" : "M") + p[0] + " " + p[1].toFixed(1); });
+    var last = pts[pts.length - 1];
+    /* 끝의 무너지는 물마루 */
+    surf += " Q1100 120 1140 150 Q1150 175 1120 178 Q1150 200 1240 205 L1400 210";
+    z += "<path d='" + surf + " L1400 380 L0 380 Z' fill='url(#sh-sea)'/>";
+    z += "<path d='M0 360 L700 340 L1100 270 L1400 205 L1400 380 L0 380 Z' fill='#c9b48a'/>";
+    z += "<path d='" + surf + "' fill='none' stroke='#0b4a8f' stroke-width='4'/>";
+    z += "<g data-step='1'><text x='150' y='120' font-size='22' font-weight='900' fill='#161b28' text-anchor='middle'>파장이 길다</text><text x='800' y='90' font-size='22' font-weight='900' fill='#161b28' text-anchor='middle'>파장이 짧아진다</text></g>";
+    z += "<g data-step='2'><text x='960' y='60' font-size='22' font-weight='900' fill='#d9302c' text-anchor='middle'>파고가 솟는다</text></g>";
+    z += "<g data-step='3'><text x='1180' y='100' font-size='22' font-weight='900' fill='#d9302c' text-anchor='middle'>부서진다</text></g>";
+    z += "<text x='60' y='330' font-size='21' font-weight='900' fill='#5c4a2c'>깊다</text><text x='1300' y='250' font-size='21' font-weight='900' fill='#5c4a2c' text-anchor='end'>얕다</text>";
+    z += "<text x='1395' y='374' font-size='17' fill='#3b2f1d' text-anchor='end'>⚠ 파고와 수심은 크게 과장</text>";
+    document.getElementById("shoalSvg").innerHTML = z;
+  })();
+</script>
+</body>
+</html>

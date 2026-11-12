@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개념정리 학습지 · 기압의 연직 분포와 정역학적 균형 (지구시스템과학 Ⅱ-2 03)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<style>
+  /* 개념정리 학습지 — 칠판 강의 화면(board-03.html)의 빈칸 번호와 1:1. 주소 끝 ?key=1 이면 교사용 정답이 보인다. */
+  @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&display=swap');
+  @page { size: A4; margin: 13mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9edf2; font-family: "Gothic A1", "Malgun Gothic", sans-serif; color: #161b28; }
+  .paper { width: 210mm; min-height: 297mm; margin: 18px auto; background: #fff; padding: 13mm 14mm; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  .tools { width: 210mm; margin: 18px auto 0; display: flex; gap: 10px; justify-content: flex-end; font-size: 14px; }
+  .tools a, .tools button { font: inherit; font-weight: 800; padding: 8px 14px; border-radius: 10px; border: 2px solid #c9d1dd; background: #fff; color: #161b28; text-decoration: none; cursor: pointer; }
+  .tools button.main { background: #1462d8; border-color: #1462d8; color: #fff; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #161b28; padding-bottom: 8px; margin-bottom: 12px; }
+  header .k { font-size: 11.5px; font-weight: 800; color: #5f6b80; }
+  header h1 { font-size: 22px; font-weight: 900; margin: 2px 0 0; letter-spacing: -.03em; }
+  header .who { display: flex; gap: 8px; font-size: 12px; font-weight: 800; }
+  header .who span { border: 1.5px solid #9aa4b5; border-radius: 6px; padding: 6px 10px; min-width: 92px; }
+  .key-mark { display: none; color: #d9302c; font-weight: 900; font-size: 12px; }
+  .key .key-mark { display: inline; }
+  .guide { font-size: 11.5px; color: #5f6b80; margin: 0 0 10px; }
+  h2 { font-size: 15.5px; font-weight: 900; margin: 11px 0 5px; padding: 4px 10px; background: #eef2f8; border-left: 5px solid #1462d8; border-radius: 4px; }
+  p, li { font-size: 13.5px; line-height: 1.88; margin: 0; }
+  ul { margin: 0; padding-left: 18px; }
+  .blank { position: relative; display: inline-block; min-width: 4.4em; padding: 0 1.1em 0 1.7em; margin: 0 2px; border-bottom: 1.6px solid #161b28; color: transparent; line-height: 1.5; text-align: center; font-weight: 800; }
+  .blank::before { content: attr(data-n); position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; background: #1462d8; color: #fff; font-size: 9.5px; font-weight: 900; line-height: 15px; text-align: center; }
+  .key .blank { color: #d9302c; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin: 4px 0 2px; }
+  td, th { border: 1px solid #c9d1dd; padding: 4px 8px; text-align: left; line-height: 1.6; }
+  th { background: #f4f6fa; font-weight: 800; }
+  .formula { font-weight: 800; background: #f8fafc; border: 1px dashed #c9d1dd; border-radius: 6px; padding: 2px 10px; display: inline-block; }
+  .q { margin-top: 6px; }
+  .q p { line-height: 1.7; }
+  .q .ans { display: none; color: #d9302c; font-weight: 900; }
+  .key .q .ans { display: inline; }
+  .write { border: 1.5px solid #9aa4b5; border-radius: 8px; height: 54px; margin-top: 4px; }
+  .foot { margin-top: 10px; font-size: 10.5px; color: #8a94a6; display: flex; justify-content: space-between; }
+  /* 한 쪽(A4)에 들어가도록 줄 간격만 조금 좁힘 */
+  p, li { line-height: 1.8; }
+  h2 { margin: 9px 0 4px; }
+  header h1 { font-size: 19.5px; }
+  header .who span { min-width: 78px; }
+  @media print {
+    body { background: #fff; }
+    .tools { display: none; }
+    .paper { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="tools">
+  <a href="board-03.html">칠판 강의 화면</a>
+  <a id="keyLink" href="?key=1" hidden>교사용 정답 보기</a>
+  <button class="main" onclick="window.print()">인쇄하기</button>
+</div>
+<div class="paper">
+  <header>
+    <div>
+      <div class="k">지구시스템과학 · Ⅱ-2 강수 과정과 대기의 운동 · 03 &nbsp;<span class="key-mark">[교사용 정답]</span></div>
+      <h1>개념정리 학습지 · 기압의 연직 분포와 정역학적 균형</h1>
+    </div>
+    <div class="who"><span>학번</span><span>이름</span></div>
+  </header>
+  <p class="guide">칠판 화면에 번호가 열리면 같은 번호 빈칸에 받아 적으세요. (빈칸 1~15)</p>
+
+  <h2>① 기압의 연직 분포</h2>
+  <ul>
+    <li>어떤 높이의 기압 = 그 위에 쌓인 공기 기둥의 <b class="blank" data-n="1">무게</b> (밑면 1 m²마다)</li>
+    <li>지표 기압 약 <b class="blank" data-n="2">1,013</b> hPa → 1 m²마다 약 10만 N</li>
+    <li>기압이 지표의 절반 → 높이 약 <b class="blank" data-n="3">5.5</b> km · 지표의 1/10 → 높이 약 <b class="blank" data-n="4">16</b> km</li>
+    <li>5.5 km 오를 때마다 대략 절반씩, 일정한 배율로 줄어드는 <b class="blank" data-n="5">지수 함수</b> 모양 (직선이 아니다)</li>
+  </ul>
+  <table>
+    <tr><th style="width:30%">1 km 올라갈 때</th><td>0 → 1 km 약 114 hPa · 5 → 6 km 약 68 hPa · 10 → 11 km 약 38 hPa</td></tr>
+  </table>
+  <p>→ 아래쪽 공기는 위의 공기에 눌려 촘촘하다 = <b class="blank" data-n="6">밀도</b>가 크다 → 같은 두께라도 무거워 기압이 더 많이 떨어진다</p>
+
+  <h2>② 정역학적 균형 (두께 100 m, 밑면 1 m²인 공기 층)</h2>
+  <ul>
+    <li>아래 면의 기압 &gt; 위 면의 기압 → 차이만큼 위로 미는 힘: <b class="blank" data-n="7">연직 기압 경도력</b> (방향: 위쪽)</li>
+    <li>위로 미는 힘 = 공기의 무게(중력) → 위아래로 움직이지 않는 상태: <b class="blank" data-n="8">정역학적 균형</b></li>
+    <li>무게 = 밀도 × 중력 가속도 × 두께 = 1.2 × 9.8 × 100 ≈ 1,180 N/m² → 지표 부근에서 100 m 오르면 기압이 약 <b class="blank" data-n="9">12</b> hPa 떨어진다 <span class="formula">Δp = −ρgΔz</span></li>
+    <li>층마다 위로 미는 힘이 무게를 떠받친다 → 대기는 지표로 쏟아지지 않는다</li>
+  </ul>
+
+  <h2>③ 연직 운동</h2>
+  <ul>
+    <li>위로 미는 힘 &gt; 무게 → <b class="blank" data-n="10">상승 기류</b> → 단열 팽창으로 식어 구름이 생긴다</li>
+    <li>위로 미는 힘 &lt; 무게 → <b class="blank" data-n="11">하강 기류</b> → 단열 압축으로 데워져 맑다 (고기압)</li>
+  </ul>
+  <table>
+    <tr><th style="width:24%">원인</th><th>어떻게 올라가나</th><th style="width:30%">상승 속도 (단원 화면 모형)</th></tr>
+    <tr><td><b class="blank" data-n="12">지표 가열</b></td><td>데워진 공기가 가벼워져 떠오른다</td><td>약 5 m/s · 소나기구름</td></tr>
+    <tr><td><b class="blank" data-n="13">지형</b></td><td>바람이 산비탈을 타고 억지로 오른다</td><td>약 0.5 m/s (10 m/s × 경사 1/20)</td></tr>
+    <tr><td><b class="blank" data-n="14">전선</b></td><td>따뜻한 공기가 찬 공기 위로 타고 오른다</td><td>약 0.3 m/s (15 m/s × 경사 1/50)</td></tr>
+    <tr><td><b class="blank" data-n="15">수렴</b></td><td>저기압으로 모여든 공기가 위로 빠져나간다</td><td>약 0.05 m/s · 넓은 구름대</td></tr>
+  </table>
+
+  <h2>문제로 확인하기</h2>
+  <div class="q">
+    <p>1. 지표 기압이 약 1,013 hPa일 때, 높이 약 5.5 km의 기압은? &nbsp;㉠ 약 900 hPa &nbsp;㉡ 약 500 hPa &nbsp;㉢ 약 100 hPa <span class="ans">→ ㉡</span></p>
+    <p>2. 공기 밀도가 1.2 kg/m³인 지표 부근에서 200 m 올라가면 기압은 약 얼마나 낮아질까? &nbsp;㉠ 약 2.4 hPa &nbsp;㉡ 약 24 hPa &nbsp;㉢ 약 240 hPa <span class="ans">→ ㉡</span></p>
+  </div>
+  <h2>한 문장 정리</h2>
+  <p>무게가 있는 대기가 지표로 쏟아지지 않는 까닭을 '연직 기압 경도력'과 '중력'이라는 말을 넣어 한 문장으로 쓰세요.</p>
+  <div class="write"></div>
+  <div class="foot"><span>칠판 강의 화면: board-03.html · 이야기 ③ 「하늘에 멈춰 선 기구」</span><span>과학 수업 도구</span></div>
+</div><script>
+  if (new URLSearchParams(location.search).get("key") === "1") {
+    document.body.classList.add("key");
+    var a = document.getElementById("keyLink"); a.textContent = "학생용으로 보기"; a.href = "?"; a.hidden = false;
+  }
+</script>
+</body>
+</html>

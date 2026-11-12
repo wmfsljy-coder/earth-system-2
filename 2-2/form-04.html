@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>형성평가 · 지균풍·경도풍과 행성파 (지구시스템과학 Ⅱ-2 04)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+</head>
+<body>
+<script>
+/* 형성평가 — 지구시스템과학 Ⅱ-2 04 지균풍·경도풍과 행성파. 값은 단원 화면과 칠판 강의 화면(board-04.html)에 맞춘다. ref = 칠판 장면 번호
+   지균풍 V = Δp ÷ (ρ f Δn), f = 2Ω sin φ, Ω = 7.292×10⁻⁵ rad/s, ρ = 1.2 kg/m³, Δp = 4 hPa */
+(function () {
+  /* 지상풍과 세 힘 (바람이 등압선과 약 25° 각을 이룸 — 크기 비율은 모식) */
+  var F1 = "<svg viewBox='0 0 460 260' width='460' height='260' aria-label='북반구 지표 부근의 바람과 세 힘 A, B, C'>" +
+    "<defs><marker id='f4a' viewBox='0 0 10 10' refX='8' refY='5' markerWidth='5' markerHeight='5' orient='auto'><path d='M0 0 L10 5 L0 10 Z' fill='#161b28'/></marker>" +
+    "<marker id='f4b' viewBox='0 0 10 10' refX='8' refY='5' markerWidth='5' markerHeight='5' orient='auto'><path d='M0 0 L10 5 L0 10 Z' fill='#5f6b80'/></marker></defs>" +
+    "<line x1='20' y1='40' x2='440' y2='40' stroke='#495057' stroke-width='2'/><line x1='20' y1='236' x2='440' y2='236' stroke='#495057' stroke-width='2'/>" +
+    "<text x='440' y='30' font-size='14' font-weight='800' fill='#1462d8' text-anchor='end'>996 hPa (기압 낮음, 북)</text><text x='440' y='256' font-size='14' font-weight='800' fill='#d9302c' text-anchor='end'>1000 hPa (기압 높음, 남)</text>" +
+    "<line x1='200' y1='140' x2='330' y2='80' stroke='#161b28' stroke-width='5' marker-end='url(#f4a)'/><text x='336' y='78' font-size='15' font-weight='900' fill='#161b28'>바람</text>" +
+    "<line x1='200' y1='140' x2='200' y2='62' stroke='#5f6b80' stroke-width='3.5' marker-end='url(#f4b)'/><text x='208' y='72' font-size='16' font-weight='900' fill='#161b28'>A</text>" +
+    "<line x1='200' y1='140' x2='169' y2='154' stroke='#5f6b80' stroke-width='3.5' marker-end='url(#f4b)'/><text x='150' y='160' font-size='16' font-weight='900' fill='#161b28'>B</text>" +
+    "<line x1='200' y1='140' x2='230' y2='205' stroke='#5f6b80' stroke-width='3.5' marker-end='url(#f4b)'/><text x='238' y='212' font-size='16' font-weight='900' fill='#161b28'>C</text>" +
+    "<circle cx='200' cy='140' r='6' fill='#161b28'/></svg>";
+
+  /* 편서풍 파동을 펼친 모습: 위도 = 45 − 12 cos(4(경도 − 127.5)), A·B·C는 모두 북위 40° */
+  var X = function (lon) { return 20 + (lon - 37.5) / 180 * 580; }, Y = function (lat) { return 115 - (lat - 45) * 6; };
+  var d = ""; for (var lon = 37.5; lon <= 217.51; lon += 2) d += (d ? " L" : "M") + X(lon).toFixed(1) + " " + Y(45 - 12 * Math.cos(4 * (lon - 127.5) * Math.PI / 180)).toFixed(1);
+  var F2 = "<svg viewBox='0 0 620 230' width='620' height='230' aria-label='남북으로 굽이치는 편서풍과 같은 위도에 있는 세 지점 A, B, C'>" +
+    "<rect x='20' y='10' width='580' height='200' fill='#fff4e6'/><path d='" + d + " L600 10 L20 10 Z' fill='#d0ebff'/>" +
+    "<path d='" + d + "' fill='none' stroke='#b8860b' stroke-width='3.5'/>" +
+    "<line x1='20' y1='" + Y(40) + "' x2='600' y2='" + Y(40) + "' stroke='#868e96' stroke-width='1.5' stroke-dasharray='5 5'/><text x='16' y='" + (Y(40) + 5) + "' font-size='12' font-weight='800' fill='#5f6b80' text-anchor='end'>40°N</text>" +
+    [["A", 82.5], ["B", 127.5], ["C", 150]].map(function (q) { return "<circle cx='" + X(q[1]) + "' cy='" + Y(40) + "' r='6' fill='#d9302c'/><text x='" + (X(q[1]) + 9) + "' y='" + (Y(40) - 8) + "' font-size='16' font-weight='900' fill='#161b28'>" + q[0] + "</text>"; }).join("") +
+    "<text x='30' y='28' font-size='13' font-weight='800' fill='#1462d8'>북쪽 (찬 공기)</text><text x='30' y='204' font-size='13' font-weight='800' fill='#e8590c'>남쪽 (따뜻한 공기)</text>" +
+    "<text x='600' y='226' font-size='12' font-weight='800' fill='#5f6b80' text-anchor='end'>서 → 동 (편서풍)</text></svg>";
+
+  window.FORMATIVE = {
+    subject: "지구시스템과학", unit: "Ⅱ-2 강수 과정과 대기의 운동", part: "04 지균풍·경도풍과 행성파",
+    std: ["12지시03-05", "12지시03-06"], board: "board-04.html", sheet: "sheet-04.html", time: "10분",
+    items: [
+      { lv: "기본", type: "mc", ref: 4,
+        q: "북반구에서 움직이는 공기에 작용하는 전향력에 대한 설명으로 옳은 것은?",
+        opts: ["진행 방향의 오른쪽 직각으로 작용하며, 방향만 바꾸고 속력은 바꾸지 않는다", "바람의 진행 방향으로 작용해 바람을 점점 빠르게 한다", "적도에서 가장 크고 극으로 갈수록 작아진다", "움직이지 않는 공기에도 똑같이 작용한다"],
+        a: 0, why: "전향력은 늘 진행 방향에 수직이라 속력을 바꾸지 못합니다. 위도가 높을수록, 바람이 빠를수록 크고, 적도와 정지한 공기에서는 0입니다." },
+      { lv: "기본", type: "short", ref: 5,
+        q: "마찰이 거의 없는 상공에서 기압 경도력과 전향력이 평형을 이루어 등압선과 나란히 부는 바람을 무엇이라고 할까요?",
+        a: ["지균풍"], why: "기압 경도력과 전향력이 크기가 같고 방향이 반대일 때의 바람이 지균풍입니다." },
+      { lv: "기본", type: "mc", ref: 10,
+        q: "북반구 지상 저기압 주변의 바람을 위에서 내려다본 모습으로 옳은 것은?",
+        opts: ["반시계 방향으로 돌며 중심으로 불어 들어간다", "시계 방향으로 돌며 중심으로 불어 들어간다", "반시계 방향으로 돌며 바깥으로 불어 나간다", "등압선과 나란히 돌 뿐 중심으로 들어가지 않는다"],
+        a: 0, why: "전향력 때문에 반시계 방향으로 돌고, 마찰 때문에 등압선을 가로질러 중심으로 모여듭니다(수렴). 모여든 공기는 상승 기류가 됩니다." },
+      { lv: "발전", type: "short", ref: 6, unit: "m/s",
+        q: "위도 30°의 상공에서 이웃한 등압선의 기압 차가 4 hPa, 간격이 200 km입니다. 공기 밀도 1.2 kg/m³, Ω = 7.3×10⁻⁵ rad/s로 할 때 지균풍은 약 몇 m/s일까요? (sin 30° = 0.5)",
+        a: ["23", "22.8", "22.9"], why: "f = 2 × 7.3×10⁻⁵ × 0.5 = 7.3×10⁻⁵ /s. V = 400 ÷ (1.2 × 7.3×10⁻⁵ × 200,000) ≈ 22.8 m/s, 약 23 m/s입니다." },
+      { lv: "발전", type: "mc", ref: 7,
+        q: "북반구에서 기압 경도력의 크기가 같은 조건일 때, 경도풍에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?",
+        box: "ㄱ. 저기압 주위의 경도풍은 지균풍보다 느리다.<br>ㄴ. 고기압 주위에서는 전향력이 바깥쪽으로 작용한다.<br>ㄷ. 원심력은 저기압과 고기압 주위 모두에서 바깥쪽으로 작용한다.",
+        opts: ["ㄱ", "ㄴ", "ㄱ, ㄷ", "ㄴ, ㄷ", "ㄱ, ㄴ, ㄷ"],
+        a: 2, why: "고기압 주위는 시계 방향이라 전향력이 안쪽으로 작용합니다. 원심력은 늘 바깥쪽이므로 저기압 주위는 지균풍보다 느리고 고기압 주위는 빠릅니다." },
+      { lv: "발전", type: "mc", ref: 9, fig: F1,
+        q: "그림은 북반구 지표 부근에서 부는 바람과, 이 바람에 작용하는 세 힘 A, B, C를 나타낸 것입니다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?",
+        box: "ㄱ. A는 기압 경도력이다.<br>ㄴ. C는 전향력으로, 바람의 오른쪽 직각 방향으로 작용한다.<br>ㄷ. 지표가 거칠수록 바람과 등압선이 이루는 각은 작아진다.",
+        opts: ["ㄱ", "ㄷ", "ㄱ, ㄴ", "ㄴ, ㄷ", "ㄱ, ㄴ, ㄷ"],
+        a: 2, why: "A는 기압이 낮은 쪽을 향하는 기압 경도력, B는 바람과 반대인 마찰력, C는 바람의 오른쪽 직각인 전향력입니다. 마찰이 클수록 바람이 느려지고 전향력이 작아져 각이 커집니다." },
+      { lv: "심화", type: "mc", ref: 12, fig: F2,
+        q: "그림은 상층 편서풍 파동을 펼친 모습과 같은 위도(북위 40°)의 세 지점 A, B, C입니다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?",
+        box: "ㄱ. B 지역에는 북쪽의 찬 공기가 내려와 기온이 낮다.<br>ㄴ. C 지역은 상층 발산이 일어나 지상 저기압이 발달하기 쉽다.<br>ㄷ. A와 B는 위도가 같으므로 기온도 비슷하다.",
+        opts: ["ㄱ", "ㄷ", "ㄱ, ㄴ", "ㄴ, ㄷ", "ㄱ, ㄴ, ㄷ"],
+        a: 2, why: "B는 기압골 아래라 찬 공기가 흘러내리고, A는 기압 마루 아래라 따뜻한 공기가 올라옵니다. 위도가 같아도 파동의 위치에 따라 기온이 크게 다릅니다. C는 기압골 동쪽이라 상층 발산이 일어납니다." },
+      { lv: "심화", type: "essay", ref: 9,
+        q: "북반구 지상 저기압 주변에서는 바람이 등압선과 나란히 돌지 않고, 반시계 방향으로 돌면서 중심 쪽으로 불어 들어갑니다. 그 까닭을 ‘기압 경도력’, ‘전향력’, ‘마찰력’이라는 말을 넣어 설명하세요.",
+        model: "기압 경도력은 등압선에 수직으로 저기압 중심을 향하고, 전향력은 북반구에서 바람의 오른쪽으로 작용하므로 바람은 저기압 주위를 반시계 방향으로 돈다. 지표 가까이에서는 마찰력이 바람을 느리게 하고, 느려진 만큼 전향력도 작아진다. 그래서 기압 경도력이 남아 바람이 등압선을 비스듬히 가로질러 중심 쪽으로 불어 들어간다.",
+        rubric: ["기압 경도력이 저기압 중심을 향한다고 썼다", "전향력이 오른쪽으로 작용해 반시계 방향으로 돈다고 썼다", "마찰력이 바람을 느리게 해 전향력이 작아지고 중심 쪽으로 기운다고 설명했다"] }
+    ]
+  };
+})();
+</script>
+<script src="../assets/formative.js"></script>
+</body>
+</html>

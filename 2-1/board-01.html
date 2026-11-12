@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>칠판 강의 · 에크만 수송과 지형류 (지구시스템과학 Ⅱ-1 01)</title>
+<link rel="icon" href="https://wmfsljy-coder.github.io/science-teacher-hub-qtrqwc/assets/hub-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/board.css">
+<style>
+  .graph { display: block; margin: 0 auto; }
+  .sumlist { list-style: none; padding: 0; margin: 0; }
+  .sumlist li { position: relative; padding: 16px 24px 16px 84px; margin-bottom: 14px; background: #fff; border-radius: 20px; font-size: 29px; }
+  .sumlist li::before { content: attr(data-k); position: absolute; left: 24px; top: 16px; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 900; font-size: 24px; text-align: center; line-height: 44px; }
+  .q { font-size: 31px !important; font-weight: 800; margin-bottom: 14px !important; }
+  #s-quiz .opt { font-size: 26px; padding: 14px 22px; }
+  .lines p { margin-bottom: 12px; }
+  .eq { font-size: 34px; font-weight: 800; letter-spacing: -.02em; line-height: 1.6; margin-bottom: 6px; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .three .card { text-align: center; min-height: 250px; }
+  .three .ic { font-size: 60px; }
+  .three b.nm { display: block; font-size: 34px; margin: 8px 0; }
+  .three p { font-size: 25px; color: var(--mute); }
+  .draw1 { stroke-dasharray: 1400; stroke-dashoffset: 1400; transition: stroke-dashoffset 1.8s ease; }
+  .draw1.on { stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: reduce) { .draw1 { transition: none; } }
+</style>
+</head>
+<body>
+<div class="deck"><div class="stage">
+
+<!-- 1 표지 -->
+<section class="slide dark cover" id="s-cover" data-title="표지">
+  <div class="art">
+    <svg viewBox="0 0 1600 520" aria-label="북태평양을 시계 방향으로 도는 큰 해류 고리 위에 떠 있는 노란 오리들">
+      <defs>
+        <marker id="cv1-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#74c0fc"/></marker>
+        <radialGradient id="cv1-sea" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#1c4f86"/><stop offset="1" stop-color="#0b1f3a"/></radialGradient>
+      </defs>
+      <ellipse cx="800" cy="270" rx="560" ry="230" fill="url(#cv1-sea)"/>
+      <g fill="none" stroke="#74c0fc" stroke-width="10" stroke-linecap="round">
+        <path d="M400 255 A400 170 0 0 1 760 101" marker-end="url(#cv1-a)"/>
+        <path d="M840 101 A400 170 0 0 1 1200 255" marker-end="url(#cv1-a)"/>
+        <path d="M1200 285 A400 170 0 0 1 840 439" marker-end="url(#cv1-a)"/>
+        <path d="M760 439 A400 170 0 0 1 400 285" marker-end="url(#cv1-a)"/>
+      </g>
+     <use href="#cv1-duck" x="560" y="140"/><use href="#cv1-duck" x="980" y="120"/><use href="#cv1-duck" x="1180" y="330"/>
+      <use href="#cv1-duck" x="700" y="420"/><use href="#cv1-duck" x="440" y="330"/><use href="#cv1-duck" x="1010" y="390"/>
+      <text x="800" y="290" fill="#a5d8ff" font-size="26" font-weight="900" text-anchor="middle">물이 쌓인 환류 중심</text>
+      <text x="1560" y="24" fill="#7b8598" font-size="17" text-anchor="end">⚠ 오리의 크기는 크게 과장했습니다 · 위에서 내려다본 모습(위쪽이 북쪽)</text>
+    </svg>
+  </div>
+  <div class="ttl">
+    <p class="kicker">지구시스템과학 · Ⅱ-1 해수의 운동 · 01</p>
+    <h1>에크만 수송과 지형류</h1>
+    <p class="sub" data-step="1">바다에 쏟아진 오리 2만 8천 개는 어디로 갔을까</p>
+  </div>
+  <aside class="script">
+    <p>오늘은 바람이 바다를 어떻게 움직이는지, 그리고 바다가 바람 없이도 스스로 흐르게 되는 까닭을 봅니다. 학습지 빈칸 번호가 화면 번호와 같습니다.</p>
+    <p data-at="1">부제의 질문은 마지막에 오리의 실제 여정으로 답합니다.</p>
+  </aside>
+</section>
+
+<!-- 2 도입 -->
+<section class="slide soft" id="s-hook" data-title="바다에 빠진 화물" data-part="도입">
+  <p class="kicker">도입 · 1992년 북태평양</p>
+  <h2>바다에 쏟아진 오리 28,800개는 어디로 갔을까</h2>
+  <div class="cols w64">
+    <div class="card">
+      <p>홍콩을 떠나 미국으로 가던 화물선이 폭풍을 만나 컨테이너 하나가 부서졌습니다.</p>
+      <table class="ledger mt">
+        <tr><td>날짜</td><td class="v">1992년 1월 10일</td></tr>
+        <tr><td>장소</td><td class="v">북위 약 45°, 동경 약 178°</td></tr>
+        <tr><td>쏟아진 목욕 장난감</td><td class="v">28,800개</td></tr>
+        <tr><td>첫 발견</td><td class="v">약 10개월 뒤 알래스카 남동 해안</td></tr>
+      </table>
+    </div>
+    <div class="card yel">
+      <h3>오리들은 어떻게 움직였을까?</h3>
+      <div class="opts">
+        <div class="opt">㉠ 바람이 부는 쪽으로 똑바로 밀려간다</div>
+        <div class="opt">㉡ 바람 방향에서 옆으로 비껴 간 뒤, 큰 원을 그리는 해류를 탄다</div>
+        <div class="opt">㉢ 무거워서 곧 가라앉아 거의 움직이지 않는다</div>
+      </div>
+      <p class="small mt" data-step="1">손을 들어 골라 보고, 까닭을 한 문장으로 말해 보세요.</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>언제, 어디서, 몇 개가 빠졌는지 정확히 아는 표류물입니다. 해류를 재는 거대한 실험이 저절로 시작된 셈이에요.</p>
+    <p data-at="1">손을 들게 하고 까닭을 묻습니다. 답은 주지 않습니다. 마지막 장면에서 다시 봅니다.</p>
+  </aside>
+</section>
+
+<!-- 3 키워드 -->
+<section class="slide" id="s-kw" data-title="오늘의 키워드" data-part="도입">
+  <p class="kicker">오늘의 키워드</p>
+  <h2>이 다섯 낱말로 오늘을 정리합니다</h2>
+  <div class="kw">
+    <div class="card"><b>에크만 수송</b><span>바람이 옮긴 표층 해수 전체의 이동</span></div>
+    <div class="card"><b>수압 경도력</b><span>수압이 높은 쪽에서 낮은 쪽으로 미는 힘</span></div>
+    <div class="card"><b>전향력</b><span>지구 자전 때문에 움직이는 물체가 휘는 효과</span></div>
+    <div class="card"><b>지형류</b><span>두 힘이 평형을 이룰 때의 흐름</span></div>
+    <div class="card"><b>서안 경계류</b><span>대양 서쪽의 좁고 빠른 해류</span></div>
+  </div>
+  <div class="card blue mt2 row" style="gap:30px"><span class="blank on" style="font-size:34px;font-weight:900;flex:none"><i class="bn">1</i>빈칸</span>
+    <p style="margin:0">화면에 번호가 열리면 <b>학습지의 같은 번호</b>에 받아 적으세요. 오늘 빈칸은 <b>1~15번</b>입니다.</p></div>
+  <aside class="script"><p>키워드 다섯 개를 읽어 주기만 합니다. 바람 → 쌓인 물 → 두 힘 → 흐름, 이 순서로 갑니다.</p></aside>
+</section>
+
+<!-- 4 에크만 나선 -->
+<section class="slide" id="s-spiral" data-title="에크만 나선" data-part="① 에크만 수송">
+  <p class="kicker">① 에크만 수송 · 바람이 표층 해수를 끌면</p>
+  <h2>깊어질수록 방향이 돌아가고 약해진다</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg id="spiralSvg" viewBox="0 0 600 560" width="600" height="560" aria-label="북반구 바다를 비스듬히 내려다본 층별 흐름. 바람은 북쪽으로 불고, 표층 해수는 오른쪽 45도로, 깊은 층일수록 더 오른쪽으로 돌고 짧아진다"></svg>
+    <div class="lines">
+      <p data-step="1">표층 해수는 바람 방향에서 북반구는 오른쪽으로 <b class="blank" data-n="1" data-step="1">45</b>° 비껴 흐른다</p>
+      <p data-step="2">그 층이 아래층을 끌고, 아래층은 또 조금 더 돈다 → 깊어질수록 <b>오른쪽으로 돌고 느려진다</b></p>
+      <p data-step="3">나선 계단처럼 돌아가는 이 모양 → <b class="blank" data-n="2" data-step="3">에크만 나선</b></p>
+      <p class="small" data-step="2">바람이 직접 끄는 것은 표층뿐, 깊은 층은 위층에 끌려 움직인다</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>북반구 바다를 비스듬히 내려다본 그림입니다. 노란 화살표가 바람, 북쪽으로 붑니다.</p>
+    <p data-at="1">표층 해수는 바람을 그대로 따라가지 않아요. 전향력 때문에 북반구에서는 오른쪽으로 빈칸 1번, 45도 비껴 흐릅니다.</p>
+    <p data-at="2">표층이 아래층을 끌고, 아래층이 또 그 아래층을 끕니다. 끌릴 때마다 조금씩 더 오른쪽으로 돌고, 힘은 점점 약해져요.</p>
+    <p data-at="3">깊이에 따라 나선 계단처럼 돌아가는 이 모양이 빈칸 2번, 에크만 나선입니다.</p>
+  </aside>
+</section>
+
+<!-- 5 에크만 수송 -->
+<section class="slide" id="s-trans" data-title="층 전체를 합하면 직각" data-part="① 에크만 수송">
+  <p class="kicker">① 에크만 수송 · 층 전체를 합하면</p>
+  <h2>물은 바람의 직각 방향으로 옮겨 간다</h2>
+  <svg class="graph" viewBox="0 0 1400 400" width="1400" height="400" aria-label="북반구에서 동쪽으로 부는 바람과 남반구에서 서쪽으로 부는 바람은 모두 에크만 수송을 남쪽으로 만든다">
+    <defs>
+      <marker id="tr-y" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.6" markerHeight="3.6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e0a800"/></marker>
+      <marker id="tr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.6" markerHeight="3.6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1c7ed6"/></marker>
+      <marker id="tr-o" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3" markerHeight="3" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e8590c"/></marker>
+    </defs>
+    <rect x="20" y="10" width="640" height="380" rx="22" fill="#f2f5f9"/><rect x="740" y="10" width="640" height="380" rx="22" fill="#f2f5f9"/>
+    <text x="340" y="52" font-size="27" font-weight="900" fill="#161b28" text-anchor="middle">북반구 · 전향력은 오른쪽</text>
+    <text x="1060" y="52" font-size="27" font-weight="900" fill="#161b28" text-anchor="middle">남반구 · 전향력은 왼쪽</text>
+    <g font-size="21" font-weight="800" fill="#5f6b80" text-anchor="middle">
+      <text x="340" y="92">북</text><text x="340" y="386">남</text><text x="1060" y="92">북</text><text x="1060" y="386">남</text>
+    </g>
+    <circle cx="340" cy="210" r="8" fill="#161b28"/><circle cx="1060" cy="210" r="8" fill="#161b28"/>
+    <!-- 북반구: 바람 동쪽 -->
+    <line x1="340" y1="210" x2="560" y2="210" stroke="#e0a800" stroke-width="10" marker-end="url(#tr-y)"/>
+    <text x="560" y="190" font-size="22" font-weight="900" fill="#a07800" text-anchor="end">바람(동쪽으로)</text>
+    <g data-step="1"><line x1="340" y1="210" x2="470" y2="300" stroke="#1c7ed6" stroke-width="8" marker-end="url(#tr-b)"/>
+      <text x="480" y="335" font-size="21" font-weight="900" fill="#1c7ed6">표층 45°</text></g>
+    <g data-step="2"><line x1="340" y1="210" x2="340" y2="330" stroke="#e8590c" stroke-width="16" marker-end="url(#tr-o)"/>
+      <text x="320" y="290" font-size="22" font-weight="900" fill="#e8590c" text-anchor="end">수송 → 남쪽</text>
+      <text x="320" y="318" font-size="20" font-weight="900" fill="#e8590c" text-anchor="end">(바람의 오른쪽 90°)</text></g>
+    <!-- 남반구: 바람 서쪽 -->
+    <g data-step="3">
+      <line x1="1060" y1="210" x2="840" y2="210" stroke="#e0a800" stroke-width="10" marker-end="url(#tr-y)"/>
+      <text x="840" y="190" font-size="22" font-weight="900" fill="#a07800">바람(서쪽으로)</text>
+      <line x1="1060" y1="210" x2="930" y2="300" stroke="#1c7ed6" stroke-width="8" marker-end="url(#tr-b)"/>
+      <line x1="1060" y1="210" x2="1060" y2="330" stroke="#e8590c" stroke-width="16" marker-end="url(#tr-o)"/>
+      <text x="1080" y="290" font-size="22" font-weight="900" fill="#e8590c">수송 → 남쪽</text>
+      <text x="1080" y="318" font-size="20" font-weight="900" fill="#e8590c">(바람의 왼쪽 90°)</text>
+    </g>
+  </svg>
+  <div class="cols" style="margin-top:8px">
+    <p data-step="2">층 전체를 합한 물의 이동 = <b class="blank" data-n="3" data-step="2">에크만 수송</b>, 북반구는 바람의 오른쪽 <b class="blank" data-n="4" data-step="2">90</b>°</p>
+    <p data-step="3">남반구는 전향력이 반대 → 바람의 <b class="blank" data-n="5" data-step="3">왼쪽</b> 90°</p>
+  </div>
+  <aside class="script">
+    <p>단원 화면 미션을 칠판으로 옮겼습니다. 오리 떼를 남쪽 환류 중심으로 몰고 싶습니다. 북반구에서는 바람이 동쪽으로 불어야 해요.</p>
+    <p data-at="1">표층 해수는 오른쪽 45도, 남동쪽으로 흐릅니다.</p>
+    <p data-at="2">나선의 모든 층을 합하면 물은 바람의 오른쪽 직각, 정남쪽으로 옮겨 갑니다. 이 층 전체의 이동이 빈칸 3번, 에크만 수송. 각도는 빈칸 4번, 90도입니다.</p>
+    <p data-at="3">남반구는 전향력이 왼쪽이라, 같은 남쪽 수송을 만들려면 바람이 서쪽으로 불어야 합니다. 빈칸 5번, 바람의 왼쪽 90도예요.</p>
+  </aside>
+</section>
+
+<!-- 6 쌓인 물 -->
+<section class="slide soft" id="s-pile" data-title="바람이 물을 쌓는다" data-part="① 에크만 수송">
+  <p class="kicker">① 에크만 수송 · 북태평양에 적용하면</p>
+  <h2>편서풍과 무역풍이 물을 가운데로 모은다</h2>
+  <svg class="graph" viewBox="0 0 1400 440" width="1400" height="440" aria-label="북반구 아열대 바다를 위에서 본 모식도. 북쪽 편서풍의 에크만 수송은 남쪽으로, 남쪽 무역풍의 에크만 수송은 북쪽으로 향해 가운데에 물이 쌓인다">
+    <defs>
+      <marker id="pl-y" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.6" markerHeight="3.6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e0a800"/></marker>
+      <marker id="pl-o" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e8590c"/></marker>
+      <linearGradient id="pl-sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#cfe6fb"/><stop offset=".5" stop-color="#9ccaf3"/><stop offset="1" stop-color="#cfe6fb"/></linearGradient>
+    </defs>
+    <rect x="60" y="20" width="900" height="400" rx="20" fill="url(#pl-sea)"/>
+    <g font-size="22" font-weight="900" fill="#161b28">
+      <text x="80" y="58">편서풍대 (북쪽)</text><text x="80" y="408">무역풍대 (남쪽)</text>
+    </g>
+    <g stroke="#e0a800" stroke-width="9" marker-end="url(#pl-y)">
+      <line x1="300" y1="75" x2="470" y2="75"/><line x1="560" y1="75" x2="730" y2="75"/>
+      <line x1="730" y1="365" x2="560" y2="365"/><line x1="470" y1="365" x2="300" y2="365"/>
+    </g>
+    <g data-step="1" stroke="#e8590c" stroke-width="13" marker-end="url(#pl-o)">
+      <line x1="385" y1="100" x2="385" y2="175"/><line x1="645" y1="100" x2="645" y2="175"/>
+    </g>
+    <g data-step="2" stroke="#e8590c" stroke-width="13" marker-end="url(#pl-o)">
+      <line x1="385" y1="340" x2="385" y2="265"/><line x1="645" y1="340" x2="645" y2="265"/>
+    </g>
+    <g data-step="3"><ellipse cx="515" cy="220" rx="300" ry="38" fill="#1864ab" opacity=".85"/>
+      <text x="515" y="229" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">물이 쌓인다</text></g>
+    <!-- 단면 -->
+    <g data-step="3">
+      <text x="1180" y="60" font-size="23" font-weight="900" fill="#161b28" text-anchor="middle">남북 단면</text>
+      <rect x="1000" y="190" width="360" height="200" fill="#4dabf7" opacity=".55"/>
+      <path d="M1000 190 Q1180 120 1360 190 Z" fill="#1c7ed6"/>
+      <line x1="1000" y1="190" x2="1360" y2="190" stroke="#161b28" stroke-width="3" stroke-dasharray="8 6"/>
+      <text x="1180" y="128" font-size="22" font-weight="900" fill="#1864ab" text-anchor="middle">약 1 m 높다</text>
+      <text x="1010" y="420" font-size="20" font-weight="800" fill="#5f6b80">남</text><text x="1350" y="420" font-size="20" font-weight="800" fill="#5f6b80" text-anchor="end">북</text>
+      <text x="1180" y="90" font-size="18" fill="#5f6b80" text-anchor="middle">⚠ 높이는 크게 과장</text>
+    </g>
+  </svg>
+  <div class="lines" style="margin-top:6px">
+    <p data-step="1">편서풍(동쪽으로) → 오른쪽 직각 = 남쪽으로 수송 · <span data-step="2">무역풍(서쪽으로) → 북쪽으로 수송</span></p>
+    <p data-step="3">아열대 한가운데의 해수면이 가장자리보다 약 <b class="blank" data-n="6" data-step="3">1</b> m 높아진다</p>
+  </div>
+  <aside class="script">
+    <p>북태평양 아열대 바다를 위에서 봅니다. 위쪽 편서풍은 동쪽으로, 아래쪽 무역풍은 서쪽으로 붑니다.</p>
+    <p data-at="1">편서풍의 에크만 수송은 바람의 오른쪽 직각, 남쪽입니다.</p>
+    <p data-at="2">무역풍은 서쪽으로 부니까 오른쪽 직각은 북쪽이죠.</p>
+    <p data-at="3">양쪽에서 물이 가운데로 모입니다. 그래서 아열대 환류의 중심은 가장자리보다 빈칸 6번, 약 1 m 높아요. 이 쌓인 물이 다음 장면의 주인공입니다.</p>
+  </aside>
+</section>
+
+<!-- 7 정역학 평형과 수압 경도력 -->
+<section class="slide" id="s-press" data-title="쌓인 물이 수압을 바꾼다" data-part="② 지형류">
+  <p class="kicker">② 지형류 · 물이 쌓이면 수압이 달라진다</p>
+  <h2>같은 깊이라도 물이 쌓인 쪽 수압이 크다</h2>
+  <svg class="graph" viewBox="0 0 1400 380" width="1400" height="380" aria-label="환류 중심의 해수면이 높아 같은 깊이에서 중심 쪽 수압이 크고, 수압 경도력이 중심에서 가장자리로 향한다">
+    <defs>
+      <marker id="pr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+      <linearGradient id="pr-sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#74c0fc"/><stop offset="1" stop-color="#1864ab"/></linearGradient>
+    </defs>
+    <path d="M60 110 Q700 10 1340 110 L1340 360 L60 360 Z" fill="url(#pr-sea)"/>
+    <line x1="60" y1="110" x2="1340" y2="110" stroke="#161b28" stroke-width="3" stroke-dasharray="10 7"/>
+    <text x="700" y="44" font-size="23" font-weight="900" fill="#161b28" text-anchor="middle">환류 중심 (해수면이 높다)</text>
+    <text x="70" y="96" font-size="22" font-weight="900" fill="#161b28">가장자리</text>
+    <g data-step="1">
+      <line x1="60" y1="250" x2="1340" y2="250" stroke="#fff" stroke-width="2" stroke-dasharray="6 6"/>
+      <text x="1330" y="240" font-size="21" font-weight="900" fill="#fff" text-anchor="end">수심 200 m</text>
+      <circle cx="200" cy="250" r="13" fill="#fff"/><text x="200" y="300" font-size="22" font-weight="900" fill="#fff" text-anchor="middle">21기압</text>
+    </g>
+    <g data-step="2">
+      <circle cx="700" cy="250" r="17" fill="#ffd43b"/><text x="700" y="300" font-size="22" font-weight="900" fill="#ffe066" text-anchor="middle">21.1기압 (1 m 더 쌓임)</text>
+    </g>
+    <g data-step="3" stroke="#d9302c" stroke-width="12" marker-end="url(#pr-r)">
+      <line x1="760" y1="210" x2="1000" y2="210"/><line x1="640" y1="210" x2="400" y2="210"/>
+      <text x="1010" y="190" font-size="22" font-weight="900" fill="#fff" stroke="none">수압 경도력</text>
+    </g>
+    <text x="1395" y="376" font-size="17" fill="#5f6b80" text-anchor="end">⚠ 해수면 높이 차는 크게 과장 · 실제 약 1 m</text>
+  </svg>
+  <div class="cols" style="margin-top:6px">
+    <p data-step="1">위에 있는 물의 무게가 그대로 수압 → <b class="blank" data-n="7" data-step="1">정역학 평형</b><br><span class="small">수심 10 m마다 약 1기압: 수심 200 m는 1 + 20 = <b class="blank" data-n="8" data-step="1">21</b>기압</span></p>
+    <p data-step="3">같은 깊이에서 수압이 높은 쪽 → 낮은 쪽으로 미는 힘 = <b class="blank" data-n="9" data-step="3">수압 경도력</b></p>
+  </div>
+  <aside class="script">
+    <p>쌓인 물을 옆에서 자른 단면입니다. 가운데가 높습니다. 실제로는 1 m쯤이지만 크게 과장했어요.</p>
+    <p data-at="1">멈춰 있는 바닷물에서는 중력과 위아래 압력 차가 맞서서, 위에 있는 물의 무게가 그대로 수압이 됩니다. 이것이 빈칸 7번, 정역학 평형이에요. 수면의 대기압 1기압에 수심 10 m마다 약 1기압씩 더해지니, 수심 200 m는 빈칸 8번, 21기압입니다. 단원 화면 미션 값이에요.</p>
+    <p data-at="2">그런데 환류 중심 아래는 물이 1 m 더 쌓여 있으니, 같은 200 m라도 약 0.1기압 더 큽니다.</p>
+    <p data-at="3">같은 깊이에서 수압이 높은 쪽에서 낮은 쪽으로 미는 힘, 빈칸 9번, 수압 경도력입니다. 중심에서 가장자리로 향해요. 그럼 물은 바깥으로 곧장 흘러 나갈까요?</p>
+  </aside>
+</section>
+
+<!-- 8 두 힘의 평형 -->
+<section class="slide" id="s-geo" data-title="두 힘이 맞서면 지형류" data-part="② 지형류">
+  <p class="kicker">② 지형류 · 북반구, 위에서 내려다보면</p>
+  <h2>밀려 나가던 물이 휘어 등수압선을 따라 흐른다</h2>
+  <svg class="graph" viewBox="0 0 1400 420" width="1400" height="420" aria-label="수압 경도력으로 낮은 쪽으로 움직이기 시작한 물이 전향력으로 오른쪽으로 휘어, 결국 두 힘이 평형을 이루며 등수압선과 나란히 흐른다">
+    <defs>
+      <marker id="gf-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+      <marker id="gf-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+      <marker id="gf-k" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#161b28"/></marker>
+      <linearGradient id="gf-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e7f5ff"/><stop offset="1" stop-color="#74c0fc"/></linearGradient>
+    </defs>
+    <rect x="60" y="20" width="1280" height="380" rx="18" fill="url(#gf-bg)"/>
+    <g stroke="#1864ab" stroke-width="2.5" stroke-dasharray="10 8" opacity=".7">
+      <line x1="60" y1="110" x2="1340" y2="110"/><line x1="60" y1="210" x2="1340" y2="210"/><line x1="60" y1="310" x2="1340" y2="310"/>
+    </g>
+    <text x="80" y="58" font-size="23" font-weight="900" fill="#161b28">해수면이 낮다 (가장자리 쪽)</text>
+    <text x="80" y="388" font-size="23" font-weight="900" fill="#fff">해수면이 높다 (환류 중심 쪽)</text>
+    <text x="1320" y="102" font-size="19" font-weight="800" fill="#1864ab" text-anchor="end">등수압선</text>
+    <g data-step="1"><line x1="560" y1="360" x2="560" y2="270" stroke="#d9302c" stroke-width="10" marker-end="url(#gf-r)"/>
+      <circle cx="560" cy="360" r="12" fill="#161b28"/><text x="580" y="292" font-size="21" font-weight="900" fill="#d9302c">수압 경도력 → 낮은 쪽으로 출발</text></g>
+    <path class="draw1" data-step="2" d="M560 360 C 560 230, 630 160, 820 150 L 1180 150" fill="none" stroke="#161b28" stroke-width="7"/>
+    <g data-step="2"><text x="640" y="250" font-size="21" font-weight="900" fill="#161b28">전향력에 오른쪽으로 휜다</text></g>
+    <g data-step="3">
+      <circle cx="1000" cy="150" r="13" fill="#161b28"/>
+      <line x1="1015" y1="150" x2="1150" y2="150" stroke="#161b28" stroke-width="7" marker-end="url(#gf-k)"/>
+      <line x1="1000" y1="138" x2="1000" y2="60" stroke="#d9302c" stroke-width="10" marker-end="url(#gf-r)"/>
+      <line x1="1000" y1="162" x2="1000" y2="240" stroke="#1462d8" stroke-width="10" marker-end="url(#gf-b)"/>
+      <text x="1020" y="78" font-size="21" font-weight="900" fill="#d9302c">수압 경도력</text>
+      <text x="1020" y="238" font-size="21" font-weight="900" fill="#1462d8">전향력 (흐름의 오른쪽)</text>
+      <text x="1170" y="138" font-size="24" font-weight="900" fill="#161b28">흐름</text>
+    </g>
+  </svg>
+  <div class="cols" style="margin-top:6px">
+    <p data-step="2">움직이는 물은 북반구에서 오른쪽으로 휜다 → <b class="blank" data-n="10" data-step="2">전향력</b></p>
+    <p data-step="3">두 힘이 평형 → 등수압선과 나란한 흐름 = <b class="blank" data-n="11" data-step="3">지형류</b></p>
+  </div>
+  <aside class="script">
+    <p>이번에는 위에서 내려다봅니다. 아래쪽이 물이 쌓인 환류 중심 쪽, 위쪽이 가장자리 쪽입니다. 점선은 수압이 같은 등수압선이에요.</p>
+    <p data-at="1">물은 수압 경도력을 받아 처음에는 낮은 쪽, 위로 움직이기 시작합니다.</p>
+    <p data-at="2">그런데 움직이는 순간 지구 자전 때문에 북반구에서는 오른쪽으로 휘어요. 빈칸 10번, 전향력입니다.</p>
+    <p data-at="3">휘다가 결국 수압 경도력과 전향력이 정확히 맞서는 방향, 등수압선과 나란한 방향으로 흐르게 됩니다. 이것이 빈칸 11번, 지형류예요. 물이 높은 곳에서 낮은 곳으로 곧장 흐르지 않는다는 점이 핵심입니다.</p>
+  </aside>
+</section>
+
+<!-- 9 환류 방향과 유속 -->
+<section class="slide soft" id="s-gyre" data-title="시계 방향 환류와 유속" data-part="② 지형류">
+  <p class="kicker">② 지형류 · 높은 쪽을 오른쪽에 두고</p>
+  <h2>북태평양 아열대 환류는 시계 방향으로 돈다</h2>
+  <div class="cols w46" style="align-items:center">
+    <svg viewBox="0 0 560 460" width="560" height="460" aria-label="해수면이 높은 환류 중심을 오른쪽에 두고 시계 방향으로 도는 지형류">
+      <defs><marker id="gy-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.6" markerHeight="3.6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#161b28"/></marker>
+        <radialGradient id="gy-h" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#1864ab"/><stop offset="1" stop-color="#d0ebff"/></radialGradient></defs>
+      <ellipse cx="280" cy="230" rx="250" ry="190" fill="url(#gy-h)"/>
+      <ellipse cx="280" cy="230" rx="170" ry="125" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="8 6"/>
+      <ellipse cx="280" cy="230" rx="85" ry="62" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="8 6"/>
+      <text x="280" y="238" font-size="24" font-weight="900" fill="#fff" text-anchor="middle">높음</text>
+      <g data-step="1" fill="none" stroke="#161b28" stroke-width="7">
+        <path d="M80 220 A210 165 0 0 1 270 66" marker-end="url(#gy-a)"/>
+        <path d="M300 66 A210 165 0 0 1 490 220" marker-end="url(#gy-a)"/>
+        <path d="M490 245 A210 165 0 0 1 300 395" marker-end="url(#gy-a)"/>
+        <path d="M265 395 A210 165 0 0 1 80 245" marker-end="url(#gy-a)"/>
+      </g>
+      <text x="280" y="30" font-size="21" font-weight="800" fill="#5f6b80" text-anchor="middle">북</text>
+      <text x="550" y="452" font-size="17" fill="#5f6b80" text-anchor="end">⚠ 모식도 · 위에서 본 모습</text>
+    </svg>
+    <div>
+      <p data-step="1" class="big">높은 중심을 오른쪽에 두고 → <b class="blank" data-n="12" data-step="1">시계</b> 방향</p>
+      <p class="eq mt" data-step="2">v = g·Δh ÷ (f·L)</p>
+      <p class="eq" data-step="2" style="font-size:30px">= 9.8 × 1 ÷ (7.3×10⁻⁵ × 2.0×10⁶) ≈ 0.067 m/s</p>
+      <p class="small" data-step="2">Δh 해수면 높이차 1 m · L 중심~가장자리 2,000 km · f 위도 30°의 전향 인자</p>
+      <p data-step="3" class="mt">해수면이 겨우 1 m 기울어도 바다 전체가 약 <b>6.7 cm/s</b>로 흐른다</p>
+    </div>
+  </div>
+  <aside class="script">
+    <p>지형류를 환류 전체에 그려 봅니다. 가운데가 해수면이 높은 곳입니다.</p>
+    <p data-at="1">북반구 지형류는 높은 쪽을 오른쪽에 두고 흐릅니다. 그러면 빈칸 12번, 시계 방향이 되죠. 그래서 북태평양 아열대 환류는 시계 방향입니다.</p>
+    <p data-at="2">빠르기는 이 식으로 구합니다. 높이차 1 m, 거리 2,000 km, 위도 30도로 계산하면 약 0.067 m/s.</p>
+    <p data-at="3">초속 6.7 cm. 느려 보이지만 대양 전체가 움직이는 겁니다. 단원 화면 미션의 6.5~7.0 cm/s가 바로 이 값이에요.</p>
+  </aside>
+</section>
+
+<!-- 10 서안 경계류와 동안 경계류 -->
+<section class="slide" id="s-bnd" data-title="서쪽은 좁고 빠르다" data-part="③ 경계류">
+  <p class="kicker">③ 경계류 · 환류의 서쪽과 동쪽</p>
+  <h2>같은 환류인데 서쪽과 동쪽 가장자리가 다르다</h2>
+  <svg class="graph" viewBox="0 0 1400 420" width="1400" height="420" aria-label="대양 서쪽 가장자리에는 좁고 빠른 해류가 북쪽으로, 동쪽 가장자리에는 넓고 느린 해류가 남쪽으로 흐른다">
+    <defs>
+      <marker id="bd-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d9302c"/></marker>
+      <marker id="bd-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+      <marker id="bd-k" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#495057"/></marker>
+    </defs>
+    <rect x="0" y="20" width="150" height="380" rx="12" fill="#c9b48a"/><text x="75" y="215" font-size="24" font-weight="900" fill="#5c4a2c" text-anchor="middle">아시아</text>
+    <rect x="1250" y="20" width="150" height="380" rx="12" fill="#c9b48a"/><text x="1325" y="215" font-size="24" font-weight="900" fill="#5c4a2c" text-anchor="middle">북아메리카</text>
+    <rect x="150" y="20" width="1100" height="380" fill="#d0ebff"/>
+    <line x1="260" y1="60" x2="1150" y2="60" stroke="#495057" stroke-width="6" marker-end="url(#bd-k)"/>
+    <line x1="1140" y1="370" x2="260" y2="370" stroke="#495057" stroke-width="6" marker-end="url(#bd-k)"/>
+    <g data-step="1"><rect x="160" y="70" width="70" height="290" rx="10" fill="#ffc9c9"/>
+      <line x1="195" y1="350" x2="195" y2="90" stroke="#d9302c" stroke-width="16" marker-end="url(#bd-r)"/>
+      <text x="250" y="190" font-size="23" font-weight="900" fill="#c92a2a">서안 경계류</text>
+      <text x="250" y="222" font-size="20" font-weight="800" fill="#c92a2a">쿠로시오 · 멕시코만류</text>
+      <text x="250" y="252" font-size="20" font-weight="800" fill="#c92a2a">좁다 · 빠르다 · 깊다</text></g>
+    <g data-step="2"><rect x="730" y="80" width="510" height="270" rx="16" fill="#a5d8ff" opacity=".7"/>
+      <g stroke="#1462d8" stroke-width="5" marker-end="url(#bd-b)">
+        <line x1="800" y1="120" x2="800" y2="190"/><line x1="920" y1="120" x2="920" y2="190"/><line x1="1040" y1="120" x2="1040" y2="190"/><line x1="1160" y1="120" x2="1160" y2="190"/>
+        <line x1="860" y1="240" x2="860" y2="310"/><line x1="980" y1="240" x2="980" y2="310"/><line x1="1100" y1="240" x2="1100" y2="310"/>
+      </g>
+      <text x="985" y="225" font-size="23" font-weight="900" fill="#0b4a8f" text-anchor="middle">동안 경계류 · 캘리포니아 · 카나리아</text>
+      <text x="985" y="342" font-size="20" font-weight="800" fill="#0b4a8f" text-anchor="middle">넓다 · 느리다 · 얕다</text></g>
+    <text x="1245" y="414" font-size="17" fill="#5f6b80" text-anchor="end">⚠ 단순화한 모식도 · 위쪽이 북쪽</text>
+  </svg>
+  <div class="cols" style="margin-top:6px">
+    <p data-step="1">서쪽: 따뜻한 물을 고위도로, 경계가 뚜렷 → <b class="blank" data-n="13" data-step="1">서안 경계류</b></p>
+    <p data-step="2">동쪽: 찬 물을 저위도로, 경계가 흐릿 → 동안 경계류</p>
+  </div>
+  <aside class="script">
+    <p>환류를 위에서 봅니다. 위는 동쪽으로, 아래는 서쪽으로 흐릅니다.</p>
+    <p data-at="1">서쪽 가장자리에는 폭이 좁고 빠르고 깊은 해류가 저위도의 따뜻한 물을 고위도로 나릅니다. 쿠로시오, 멕시코만류. 빈칸 13번, 서안 경계류입니다.</p>
+    <p data-at="2">동쪽 가장자리는 넓고 느리고 얕은 해류가 찬 물을 저위도로 나릅니다. 캘리포니아 해류, 카나리아 해류. 그런데 한 바퀴를 도는 물의 양은 같아야 합니다. 어떻게 맞출까요?</p>
+  </aside>
+</section>
+
+<!-- 11 수송량 -->
+<section class="slide" id="s-sv" data-title="같은 양을 나르려면" data-part="③ 경계류">
+  <p class="kicker">③ 경계류 · 수송량 = 폭 × 깊이 × 유속</p>
+  <h2>좁은 서쪽 한 줄기가 넓은 동쪽과 맞먹는다</h2>
+  <svg class="graph" viewBox="0 0 1400 250" width="1400" height="250" aria-label="서안 경계류 단면은 폭 100 km, 깊이 800 m로 좁고 깊고, 동안 경계류 단면은 폭 1,600 km, 깊이 500 m로 넓고 얕다">
+    <text x="20" y="34" font-size="22" font-weight="900" fill="#c92a2a">서안</text>
+    <rect x="20" y="50" width="50" height="160" fill="#ff8787"/>
+    <text x="45" y="238" font-size="19" font-weight="800" fill="#161b28" text-anchor="middle">100 km</text>
+    <text x="80" y="140" font-size="19" font-weight="800" fill="#161b28">800 m</text>
+    <g data-step="2"><text x="300" y="34" font-size="22" font-weight="900" fill="#1462d8">동안</text>
+      <rect x="300" y="50" width="800" height="100" fill="#74c0fc"/>
+      <text x="700" y="178" font-size="19" font-weight="800" fill="#161b28" text-anchor="middle">1,600 km</text>
+      <text x="1110" y="108" font-size="19" font-weight="800" fill="#161b28">500 m</text></g>
+    <text x="1395" y="244" font-size="17" fill="#5f6b80" text-anchor="end">⚠ 폭과 깊이의 비율은 서로 다르게 늘렸음 · 단원 화면의 단순화한 값</text>
+  </svg>
+  <p class="eq" data-step="1">서안: 100 km × 800 m × 0.5 m/s = 4×10⁷ m³/s = <b>40 Sv</b></p>
+  <p class="eq" data-step="2">동안: <b class="blank" data-n="14" data-step="2">1,600</b> km × 500 m × 0.05 m/s = 40 Sv</p>
+  <p class="small" data-step="1">1 Sv(스베드럽) = 100만 m³/s</p>
+  <p data-step="3" class="mt">환류의 서쪽 가장자리에 흐름이 좁고 빠르게 몰리는 현상 → <b class="blank" data-n="15" data-step="3">서안 강화</b></p>
+  <aside class="script">
+    <p>나르는 물의 양, 수송량은 폭 곱하기 깊이 곱하기 유속입니다. 단원 화면의 단순화한 값으로 계산해요.</p>
+    <p data-at="1">서안 경계류는 폭 100 km, 깊이 800 m, 초속 50 cm. 곱하면 초당 4천만 세제곱미터, 40 스베드럽입니다.</p>
+    <p data-at="2">동안 경계류는 깊이 500 m, 초속 5 cm라서 같은 40 Sv를 나르려면 폭이 빈칸 14번, 1,600 km가 되어야 합니다. 미션에서 맞춘 폭이에요.</p>
+    <p data-at="3">이렇게 서쪽 가장자리에 흐름이 몰리는 현상이 빈칸 15번, 서안 강화입니다. 다만 실제 캘리포니아 해류가 나르는 물은 몇 Sv 정도이고, 나머지는 대양 동쪽과 안쪽 전체의 넓고 느린 흐름으로 돌아온다는 점도 덧붙여 주세요.</p>
+  </aside>
+</section>
+
+<!-- 12 사건 해결 -->
+<section class="slide" id="s-solve" data-title="오리가 그린 지도" data-part="③ 경계류">
+  <p class="kicker">사건 해결 · 오리가 그린 지도</p>
+  <h2>오리 떼는 바람이 아니라 ‘쌓인 물’을 따라갔다</h2>
+  <svg class="graph" viewBox="0 0 1400 400" width="1400" height="400" aria-label="북태평양 모식도. 오리들은 동경 178도 부근에서 북태평양 해류를 타고 동쪽으로 흘러 알래스카에 닿았고, 일부는 환류를 따라 남쪽과 서쪽으로 돌았다">
+    <defs>
+      <marker id="sv-k" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e8590c"/></marker>
+      <marker id="sv-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1462d8"/></marker>
+    </defs>
+    <rect x="0" y="0" width="1400" height="400" rx="20" fill="#d0ebff"/>
+    <path d="M0 0 L170 0 L210 120 L150 260 L180 400 L0 400 Z" fill="#c9b48a"/><text x="70" y="200" font-size="22" font-weight="900" fill="#5c4a2c">아시아</text>
+    <path d="M1400 0 L960 0 L1080 60 L1240 150 L1300 280 L1340 400 L1400 400 Z" fill="#c9b48a"/><text x="1330" y="250" font-size="22" font-weight="900" fill="#5c4a2c" text-anchor="end">북아메리카</text>
+    <text x="1060" y="40" font-size="22" font-weight="900" fill="#5c4a2c">알래스카</text>
+    <g fill="none" stroke="#1462d8" stroke-width="6" stroke-dasharray="12 8" data-step="2">
+      <path d="M1150 220 Q1180 330 1000 350" marker-end="url(#sv-g)"/>
+      <path d="M960 352 L320 330" marker-end="url(#sv-g)"/>
+      <path d="M280 320 Q220 220 330 160" marker-end="url(#sv-g)"/>
+    </g>
+    <g data-step="2" font-size="21" font-weight="900" fill="#1462d8"><text x="560" y="380">북적도 해류 → 하와이·일본 쪽</text><text x="1170" y="330">캘리포니아 해류</text><text x="232" y="270" text-anchor="end">쿠로시오</text></g>
+    <g data-step="1">
+      <path d="M440 150 Q750 120 1030 150" fill="none" stroke="#e8590c" stroke-width="9" marker-end="url(#sv-k)"/>
+      <path d="M1050 150 Q1100 120 1110 90" fill="none" stroke="#e8590c" stroke-width="7" marker-end="url(#sv-k)"/>
+      <text x="420" y="160" font-size="34" font-weight="900" fill="#d9302c" text-anchor="end">✕</text>
+      <text x="400" y="120" font-size="20" font-weight="900" fill="#d9302c" text-anchor="end">1992년 1월 유실</text>
+      <text x="740" y="112" font-size="22" font-weight="900" fill="#c2410c" text-anchor="middle">북태평양 해류 · 약 10개월</text>
+    </g>
+    <text x="1395" y="394" font-size="17" fill="#495057" text-anchor="end">⚠ 위치와 해류 경로를 단순하게 그린 모식도</text>
+  </svg>
+  <div class="cols" style="margin-top:8px">
+    <p data-step="1">편서풍대의 북태평양 해류를 타고 동쪽으로 → 10개월 만에 알래스카 해안</p>
+    <p data-step="2">남은 오리들은 몇 년에 걸쳐 시계 방향 환류를 따라 돌았다</p>
+  </div>
+  <p class="big center" data-step="3" style="font-size:38px">첫 추리 ㉡ — 바람과 비껴 간 뒤 큰 원을 그리는 해류를 탔다</p>
+  <aside class="script">
+    <p>처음 질문으로 돌아갑니다. 오리들은 어디로 갔을까요?</p>
+    <p data-at="1">빠진 곳은 편서풍대였습니다. 오리들은 북태평양 해류를 타고 동쪽으로 흘러 약 10개월 만에 알래스카 남동 해안에 닿았어요. 일부는 알래스카 해류를 따라 북쪽으로 들어갔습니다.</p>
+    <p data-at="2">남은 오리들은 몇 년에 걸쳐 환류를 따라 돌며 하와이와 일본 쪽 바다에서도 발견되었습니다. 해양학자들은 이 기록으로 해류 계산을 검증했어요.</p>
+    <p data-at="3">첫 추리 ㉡이 정답이었습니다. 바람 → 에크만 수송 → 쌓인 물 → 수압 경도력과 전향력 → 지형류. 실제 표류물은 바람과 파도에도 직접 밀린다는 점도 과학자의 눈으로 짚어 줍니다.</p>
+  </aside>
+</section>
+
+<!-- 13 확인 -->
+<section class="slide" id="s-check1" data-title="확인 · 에크만 수송 방향" data-part="③ 경계류">
+  <p class="kicker">확인</p>
+  <h2>북반구에서 바람이 남쪽으로 불면 에크만 수송은?</h2>
+  <div class="opts" style="max-width:1150px">
+    <div class="opt wrong" data-step="1">① 남쪽 (바람과 같은 방향)</div>
+    <div class="opt right" data-step="1">② 서쪽</div>
+    <div class="opt wrong" data-step="1">③ 동쪽</div>
+    <div class="opt wrong" data-step="1">④ 북쪽</div>
+  </div>
+  <p class="why mt" data-step="2">북반구의 에크만 수송은 바람의 오른쪽 90°입니다. 남쪽을 보고 서면 오른손이 가리키는 쪽, 서쪽입니다. 바람과 같은 방향으로 가는 것은 아닙니다.</p>
+  <aside class="script">
+    <p>짝과 30초 이야기하게 한 뒤 손가락으로 답을 들게 합니다. 직접 남쪽을 보고 서서 오른팔을 뻗어 보게 해도 좋습니다.</p>
+    <p data-at="1">정답은 ②. ①을 고른 학생에게는 에크만 나선 그림을 다시 보여 줍니다.</p>
+  </aside>
+</section>
+
+<!-- 14 정리 -->
+<section class="slide soft" id="s-sum" data-title="오늘의 정리" data-part="정리">
+  <p class="kicker">오늘의 정리</p>
+  <h2>바람 → 쌓인 물 → 두 힘의 평형 → 흐름</h2>
+  <ul class="sumlist">
+    <li data-k="1" data-step="1">바람이 끈 해수는 깊어질수록 돌아간다(<b>에크만 나선</b>). 층 전체의 <b>에크만 수송</b>은 북반구 바람의 오른쪽 90°, 남반구 왼쪽 90°</li>
+    <li data-k="2" data-step="2">편서풍과 무역풍의 수송이 아열대 가운데로 모여 해수면이 약 1 m 높아지고, <b>수압 경도력</b>이 생긴다</li>
+    <li data-k="3" data-step="3">수압 경도력과 <b>전향력</b>이 평형 → 등수압선을 따라 흐르는 <b>지형류</b>, 북반구 아열대는 시계 방향 환류</li>
+    <li data-k="4" data-step="4">서쪽은 좁고 빠르고 깊은 <b>서안 경계류</b>, 동쪽은 넓고 느리고 얕은 동안 경계류(서안 강화)</li>
+  </ul>
+  <aside class="script"><p>학습지를 덮고 한 줄씩 먼저 말로 떠올리게 한 다음 엽니다.</p></aside>
+</section>
+
+<!-- 15 문제 -->
+<section class="slide" id="s-quiz" data-title="문제로 확인하기" data-part="정리">
+  <p class="kicker">문제로 확인하기</p>
+  <h2>두 문제만 풀어 봅시다</h2>
+  <div class="cols">
+    <div class="card">
+      <p class="q">1. 남반구 아열대 환류의 중심도 해수면이 높다. 이곳의 지형류는?</p>
+      <div class="opts">
+        <div class="opt wrong" data-step="1">㉠ 시계 방향으로 돈다</div>
+        <div class="opt right" data-step="1">㉡ 반시계 방향으로 돈다</div>
+        <div class="opt wrong" data-step="1">㉢ 중심에서 사방으로 곧장 퍼진다</div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="q">2. 쿠로시오 해류에 대한 설명으로 옳은 것은?</p>
+      <div class="opts">
+        <div class="opt wrong" data-step="2">㉠ 넓고 느리게 찬 물을 저위도로 나른다</div>
+        <div class="opt right" data-step="2">㉡ 좁고 빠르게 따뜻한 물을 고위도로 나른다</div>
+        <div class="opt wrong" data-step="2">㉢ 바람이 직접 미는 방향으로만 흐른다</div>
+      </div>
+    </div>
+  </div>
+  <aside class="script">
+    <p>1분 동안 풀게 하고 손가락으로 답을 들게 합니다.</p>
+    <p data-at="1">1번은 ㉡. 남반구는 전향력이 왼쪽이라 높은 쪽을 왼쪽에 두고 흐릅니다.</p>
+    <p data-at="2">2번은 ㉡. 쿠로시오는 북태평양 환류의 서안 경계류입니다.</p>
+  </aside>
+</section>
+
+<!-- 16 활동·다음 -->
+<section class="slide dark" id="s-next" data-title="직접 해 보기 · 다음 시간" data-part="정리">
+  <p class="kicker">직접 해 보기</p>
+  <h2>이야기 ① 「고무 오리 2만 8천 개」</h2>
+  <div class="cols">
+    <div class="card"><h3>바람과 수심을 직접 바꿔 보세요</h3><p>수송을 정남쪽으로 만드는 바람, 21기압이 되는 수심, 유속 6.5~7.0 cm/s가 되는 높이차, 동안 경계류의 폭 맞추기 미션이 기다립니다.</p>
+      <p class="mt"><a href="index.html" style="color:#74b6ff;font-weight:900">단원 화면 열기 →</a></p></div>
+    <div class="card"><h3>다음 시간 · 해파의 발생과 전파</h3><p>바람 한 점 없는 해변에 사흘 뒤 파도가 온다면, 그 파도는 어디서 왔을까요?</p></div>
+  </div>
+  <aside class="script"><p>남은 시간에는 단원 화면의 이야기 ①을 열어 미션을 하게 합니다.</p></aside>
+</section>
+
+</div></div>
+<script src="../assets/board.js"></script>
+<script>
+  /* 에크만 나선: 북반구, 바람은 북쪽(0°)으로. 층 k의 방향 45° + 30°k(시계 방향), 길이는 층마다 0.72배. 비스듬히 내려다본 층 원판 위에 그린다 */
+  (function () {
+    var svg = document.getElementById("spiralSvg"), CX = 250, Y0 = 150, DY = 62, s = "";
+    s += "<defs>";
+    ["y:#e0a800", "b0:#4dabf7", "b1:#339af0", "b2:#228be6", "b3:#1c7ed6", "b4:#1971c2", "b5:#1864ab"].forEach(function (p) {
+      var a = p.split(":");
+      s += "<marker id='sp-" + a[0] + "' viewBox='0 0 10 10' refX='6' refY='5' markerWidth='3.4' markerHeight='3.4' orient='auto'><path d='M0 0 L10 5 L0 10 Z' fill='" + a[1] + "'/></marker>";
+    });
+    s += "</defs>";
+    var cols = ["#4dabf7", "#339af0", "#228be6", "#1c7ed6", "#1971c2", "#1864ab"];
+    var tips = [];
+    for (var k = 5; k >= 0; k--) {
+      var y = Y0 + k * DY, a = (45 + 30 * k) * Math.PI / 180, len = 170 * Math.pow(0.72, k);
+      var x2 = CX + Math.sin(a) * len, y2 = y - Math.cos(a) * len * 0.42;
+      tips[k] = [x2, y2];
+      var st = k === 0 ? 1 : 2;
+      s += "<g data-step='" + st + "'><ellipse cx='" + CX + "' cy='" + y + "' rx='200' ry='60' fill='rgba(116,192,252," + (0.22 + k * 0.05) + ")' stroke='#a5d8ff' stroke-width='1.5'/>";
+      s += "<line x1='" + CX + "' y1='" + y + "' x2='" + x2.toFixed(1) + "' y2='" + y2.toFixed(1) + "' stroke='" + cols[k] + "' stroke-width='" + (9 - k) + "' marker-end='url(#sp-b" + k + ")'/>";
+      s += "<circle cx='" + CX + "' cy='" + y + "' r='5' fill='#161b28'/></g>";
+    }
+    /* 바람(수면 위) */
+    s += "<line x1='" + CX + "' y1='" + (Y0 - 10) + "' x2='" + CX + "' y2='" + (Y0 - 125) + "' stroke='#e0a800' stroke-width='10' marker-end='url(#sp-y)'/>";
+    s += "<text x='" + (CX - 22) + "' y='" + (Y0 - 100) + "' font-size='22' font-weight='900' fill='#a07800' text-anchor='end'>바람 (북쪽으로)</text>";
+    s += "<text x='" + (tips[0][0] + 8) + "' y='" + (tips[0][1] - 6) + "' font-size='21' font-weight='900' fill='#1c7ed6' data-step='1'>표층 45°</text>";
+    s += "<g data-step='2'><text x='470' y='" + (Y0 + 5 * DY + 8) + "' font-size='21' font-weight='900' fill='#1864ab'>깊은 층</text>";
+    s += "<text x='470' y='" + (Y0 + 2 * DY + 8) + "' font-size='20' font-weight='800' fill='#5f6b80'>↓ 깊어질수록</text></g>";
+    s += "<text x='595' y='552' font-size='17' fill='#5f6b80' text-anchor='end'>⚠ 층 간격과 화살표 길이는 단순화</text>";
+    svg.innerHTML = s;
+  })();
+</script>
+</body>
+</html>
