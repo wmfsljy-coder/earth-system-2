@@ -95,10 +95,10 @@ svg text { font-family: "Gothic A1", "Malgun Gothic", sans-serif; }
 .slide .chip[data-hide].off { opacity: .28 !important; filter: grayscale(1); text-decoration: line-through; pointer-events: none; }
 
 /* 빈칸 — 번호는 개념정리 학습지 빈칸 번호와 같다 */
-.blank { position: relative; display: inline-block; min-width: 2.2em; padding: 0 .3em; margin: 0 .16em 0 .3em; line-height: 1.25;
+.blank { position: relative; display: inline-block; min-width: 2.2em; padding: 0 .3em 0 1em; margin: 0 .16em 0 .36em; line-height: 1.25;
   color: transparent; border-bottom: 4px solid var(--blue); background: rgba(20,98,216,.08); border-radius: 8px 8px 2px 2px;
   transition: color .35s, background .35s, border-color .35s; }
-.blank > .bn { position: absolute; top: -15px; left: -17px; width: 30px; height: 30px; border-radius: 50%; background: var(--blue); color: #fff;
+.blank > .bn { position: absolute; top: -15px; left: -8px; width: 30px; height: 30px; border-radius: 50%; background: var(--blue); color: #fff;
   font-size: 18px; font-weight: 900; line-height: 30px; text-align: center; letter-spacing: 0; box-shadow: 0 0 0 3px #fff; }
 .blank.on { color: var(--ink); background: var(--hl); border-bottom-color: #f08c00; }
 .blank.on > .bn { background: #f08c00; }
